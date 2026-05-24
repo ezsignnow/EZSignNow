@@ -21,6 +21,8 @@ import {
   RefreshCw
 } from "lucide-react";
 
+import { BrandLogo } from "@/components/layout/BrandLogo";
+
 interface AuthFormProps {
   mode: "login" | "signup";
 }
@@ -194,7 +196,7 @@ export function AuthForm({ mode }: AuthFormProps) {
     {
       name: "Robert Waltko",
       role: "Director of Talent Acquisition, eNGINE",
-      quote: "ezsignnow has completely modernized our contracting. Capturing signed timestamps alongside real-time IP audit trail metadata makes compliance review effortless.",
+      quote: "EZSignNow has completely modernized our contracting. Capturing signed timestamps alongside real-time IP audit trail metadata makes compliance review effortless.",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80"
     },
     {
@@ -221,13 +223,8 @@ export function AuthForm({ mode }: AuthFormProps) {
         
         {/* Logo and Nav links */}
         <div className="flex items-center justify-between border-b border-border/30 pb-4 mb-6">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shadow-md shadow-primary/10">
-              <FileSignature className="h-4.5 w-4.5 text-primary-foreground" />
-            </div>
-            <span className="text-md font-bold tracking-tight text-foreground">
-              ezsignnow
-            </span>
+          <Link to="/">
+            <BrandLogo />
           </Link>
           <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs text-muted-foreground" asChild>
             <Link to="/">
@@ -421,7 +418,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
         {/* Footer info inside left pane */}
         <div className="text-center text-[10px] text-muted-foreground/60 mt-8">
-          © {new Date().getFullYear()} ezsignnow | <a href="#" className="hover:underline">Terms and Conditions</a>
+          © {new Date().getFullYear()} EZSignNow | <a href="#" className="hover:underline">Terms and Conditions</a>
         </div>
 
       </div>
@@ -435,7 +432,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         {/* Top Header */}
         <div className="z-10 flex justify-end">
           <Link to="/" className="text-xs font-semibold text-white/80 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-            ezsignnow.com
+            EZSignNow.com
           </Link>
         </div>
 

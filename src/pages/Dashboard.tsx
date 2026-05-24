@@ -89,7 +89,7 @@ export default function Dashboard() {
   const [teamMembers, setTeamMembers] = useState([
     { email: "meets@example.com", role: "Admin", status: "Active" },
     { email: "sarah.jenkins@corp.com", role: "Member", status: "Active" },
-    { email: "m.chen@ezsignnow.com", role: "Member", status: "Pending" }
+    { email: "m.chen@EZSignNow.com", role: "Member", status: "Pending" }
   ]);
   const [inviteEmail, setInviteEmail] = useState("");
   

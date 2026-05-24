@@ -151,12 +151,12 @@ export default function Index() {
 
   const faqs = [
     {
-      q: "Are electronic signatures legally binding on ezsignnow?",
-      a: "Yes, absolutely. ezsignnow meets all conditions specified by the US Electronic Signatures in Global and National Commerce (ESIGN) Act, the Uniform Electronic Transactions Act (UETA), and European eIDAS regulations. Every transaction produces a legally binding document."
+      q: "Are electronic signatures legally binding on EZSignNow?",
+      a: "Yes, absolutely. EZSignNow meets all conditions specified by the US Electronic Signatures in Global and National Commerce (ESIGN) Act, the Uniform Electronic Transactions Act (UETA), and European eIDAS regulations. Every transaction produces a legally binding document."
     },
     {
       q: "How does the digital audit certificate work?",
-      a: "When a signatory places a signature, ezsignnow queries global geolocation APIs to capture their public IP address and physical city/country location. This data, alongside precise millisecond timestamps, is embedded directly inside the PDF in an elegant, certified certificate block underneath the signature."
+      a: "When a signatory places a signature, EZSignNow queries global geolocation APIs to capture their public IP address and physical city/country location. This data, alongside precise millisecond timestamps, is embedded directly inside the PDF in an elegant, certified certificate block underneath the signature."
     },
     {
       q: "Is my uploaded document secure?",
@@ -266,7 +266,7 @@ export default function Index() {
               <div className="relative bg-white dark:bg-card border border-border shadow-2xl rounded-2xl p-6 w-[88%] mx-auto transform -translate-y-4 hover:translate-y-[-20px] transition-transform duration-500 select-none">
                 <div className="flex items-center gap-2 border-b border-border pb-3 mb-4">
                   <FileSignature className="h-4.5 w-4.5 text-primary" />
-                  <span className="text-xs font-bold text-foreground">ezsignnow-agreement.pdf</span>
+                  <span className="text-xs font-bold text-foreground">EZSignNow-agreement.pdf</span>
                 </div>
                 
                 <div className="space-y-2 mb-6">
@@ -300,7 +300,7 @@ export default function Index() {
               Product Walkthrough
             </span>
             <h2 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">
-              See ezsignnow in Action
+              See EZSignNow in Action
             </h2>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
               Watch a quick 2-minute overview of contract setup, template building, signatory routing, and digital audit trail certificate generation.
@@ -314,7 +314,7 @@ export default function Index() {
                 className="absolute inset-0 w-full h-full border-0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                title="ezsignnow Complete App Walkthrough Video"
+                title="EZSignNow Complete App Walkthrough Video"
               />
             </div>
           </div>
@@ -698,11 +698,11 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Ditch paper, go ezsignnow Metrics Grid */}
+      {/* Ditch paper, go EZSignNow Metrics Grid */}
       <section className="py-16 bg-white dark:bg-card border-b border-border/40">
         <div className="container mx-auto px-4 max-w-7xl text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground leading-tight tracking-tight mb-12">
-            Ditch paper, go <span className="text-primary font-bold">ezsignnow</span>
+            Ditch paper, go <span className="text-primary font-bold">EZSignNow</span>
           </h2>
           
           <div className="grid gap-6 grid-cols-2 md:grid-cols-5 max-w-5xl mx-auto">
@@ -806,7 +806,7 @@ export default function Index() {
                 name: "Robert Waltko",
                 role: "Director of Talent Acquisition",
                 company: "eNGINE",
-                text: "ezsignnow has completely modernized our contracting. Capturing signed timestamps alongside real-time IP audit trail metadata makes compliance review effortless.",
+                text: "EZSignNow has completely modernized our contracting. Capturing signed timestamps alongside real-time IP audit trail metadata makes compliance review effortless.",
                 stars: 5,
                 badge: "Leader Spring 2026",
                 avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face"
@@ -1104,7 +1104,7 @@ export default function Index() {
               Frequently Asked Questions
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Everything you need to know about ezsignnow compliance and usage.
+              Everything you need to know about EZSignNow compliance and usage.
             </p>
           </div>
 

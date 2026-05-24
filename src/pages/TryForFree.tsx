@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 import { 
   FileSignature, 
   Loader2, 
@@ -301,7 +302,7 @@ export default function TryForFree() {
       name: "Sarah Jenkins",
       role: "Operations Lead, Apex Digital",
       badge: "Leader Spring 2026",
-      quote: "ezsignnow is a game-changer! Its signature templates and playground saved our team 20+ hours a week.",
+      quote: "EZSignNow is a game-changer! Its signature templates and playground saved our team 20+ hours a week.",
       stars: 5,
     },
     {
@@ -366,7 +367,7 @@ export default function TryForFree() {
               Loved by teams that value <span className="text-primary font-bold">speed</span> and <span className="text-emerald-400 font-bold">simplicity</span>.
             </h1>
             <p className="text-sm text-slate-400 leading-relaxed">
-              See why operations, legal, and engineering teams switch to ezsignnow to sign and audit secure PDF agreements in seconds.
+              See why operations, legal, and engineering teams switch to EZSignNow to sign and audit secure PDF agreements in seconds.
             </p>
           </div>
 
@@ -454,13 +455,8 @@ export default function TryForFree() {
         
         {/* Top Header - App Brand */}
         <div className="flex items-center justify-between border-b border-border/30 pb-4 mb-6">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary shadow-md shadow-primary/10">
-              <FileSignature className="h-4.5 w-4.5 text-primary-foreground" />
-            </div>
-            <span className="text-md font-bold tracking-tight text-foreground">
-              ezsignnow
-            </span>
+          <Link to="/">
+            <BrandLogo />
           </Link>
           <div className="flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider select-none">
             <Sparkles className="h-3 w-3 animate-spin" />
@@ -780,7 +776,7 @@ export default function TryForFree() {
 
         {/* Footer info inside right pane */}
         <div className="text-center text-[10px] text-muted-foreground/60 mt-8 border-t border-border/20 pt-4">
-          © {new Date().getFullYear()} ezsignnow | bank-grade SSL data encryption | certified e-signatures
+          © {new Date().getFullYear()} EZSignNow | bank-grade SSL data encryption | certified e-signatures
         </div>
 
       </div>

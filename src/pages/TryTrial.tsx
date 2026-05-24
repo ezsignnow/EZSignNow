@@ -139,7 +139,7 @@ export default function TryTrial() {
       localStorage.setItem("is_premium", "true");
       toast({
         title: "Stripe Subscription Activated!",
-        description: "Welcome to ezsignnow Pro. Unlimited signature requests active!",
+        description: "Welcome to EZSignNow Pro. Unlimited signature requests active!",
       });
       navigate("/dashboard");
     }, 1800);
@@ -599,7 +599,7 @@ export default function TryTrial() {
 
       {/* Footer bar */}
       <footer className="border-t border-slate-100 bg-white py-6 text-center text-[10px] font-bold text-slate-400 tracking-wider shrink-0 select-none">
-        <span>© 2026 ezsignnow | Terms and Conditions</span>
+        <span>© 2026 EZSignNow | Terms and Conditions</span>
       </footer>
     </div>
   );

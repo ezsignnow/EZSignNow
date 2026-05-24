@@ -115,7 +115,7 @@ export function DocumentUpload() {
         setCsvRecipients([
           { name: "Alice Vance", email: "alice.vance@corp.com" },
           { name: "Bob Vance", email: "bob.vance@corp.com" },
-          { name: "Charles Vance", email: "charles.vance@ezsignnow.com" }
+          { name: "Charles Vance", email: "charles.vance@EZSignNow.com" }
         ]);
         toast({
           title: "CSV File Loaded",
@@ -138,7 +138,7 @@ export function DocumentUpload() {
       setCsvRecipients([
         { name: "Alice Vance", email: "alice.vance@corp.com" },
         { name: "Bob Vance", email: "bob.vance@corp.com" },
-        { name: "Charles Vance", email: "charles.vance@ezsignnow.com" }
+        { name: "Charles Vance", email: "charles.vance@EZSignNow.com" }
       ]);
       toast({
         title: "CSV File Loaded",
@@ -148,13 +148,13 @@ export function DocumentUpload() {
   };
 
   const handleAutofillCsv = () => {
-    const blob = new Blob(["Name,Email\nAlice Vance,alice.vance@corp.com\nBob Vance,bob.vance@corp.com\nCharles Vance,charles.vance@ezsignnow.com"], { type: "text/csv" });
+    const blob = new Blob(["Name,Email\nAlice Vance,alice.vance@corp.com\nBob Vance,bob.vance@corp.com\nCharles Vance,charles.vance@EZSignNow.com"], { type: "text/csv" });
     const mockFile = new File([blob], "recipients_list.csv", { type: "text/csv" });
     setCsvFile(mockFile);
     setCsvRecipients([
       { name: "Alice Vance", email: "alice.vance@corp.com" },
       { name: "Bob Vance", email: "bob.vance@corp.com" },
-      { name: "Charles Vance", email: "charles.vance@ezsignnow.com" }
+      { name: "Charles Vance", email: "charles.vance@EZSignNow.com" }
     ]);
     if (!bulkTitle) {
       setBulkTitle("Non-Disclosure Agreement (NDA)");
@@ -257,7 +257,7 @@ export function DocumentUpload() {
       { progress: 10, step: "Reading CSV recipient contacts list..." },
       { progress: 33, step: "Sending custom signature copy to Alice Vance (alice.vance@corp.com)..." },
       { progress: 66, step: "Sending custom signature copy to Bob Vance (bob.vance@corp.com)..." },
-      { progress: 90, step: "Sending custom signature copy to Charles Vance (charles.vance@ezsignnow.com)..." },
+      { progress: 90, step: "Sending custom signature copy to Charles Vance (charles.vance@EZSignNow.com)..." },
       { progress: 100, step: "Bulk Dispatch complete! Updating pipeline..." }
     ];
 
