@@ -206,7 +206,7 @@ export default function PrepareDocument() {
               ? loadedSignatories.findIndex((s) => s.id === f.signatory_id)
               : -1;
 
-            if (signatoryIndex === -1 && loadedSignatories.length === 1) {
+            if (signatoryIndex === -1) {
               signatoryIndex = 0;
             }
 

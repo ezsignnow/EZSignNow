@@ -205,11 +205,16 @@ export default function ViewDocument() {
           .eq("document_id", id);
       }
 
-      // Check if all signed
+      // Check if all signed and fetch updated signatories to refresh UI locally
       const { data: updatedSigs } = await supabase
         .from("signatories")
         .select("*")
-        .eq("document_id", id);
+        .eq("document_id", id)
+        .order("order_num");
+
+      if (updatedSigs) {
+        setSignatories(updatedSigs);
+      }
 
       const allSigned = updatedSigs?.every((s) => s.status === "signed");
 
@@ -218,6 +223,8 @@ export default function ViewDocument() {
           .from("documents")
           .update({ status: "completed" })
           .eq("id", id);
+          
+        setDocument((prev: any) => prev ? { ...prev, status: "completed" } : null);
       }
 
       toast({
@@ -413,7 +420,8 @@ export default function ViewDocument() {
                       ? signatories.findIndex((s: any) => s.id === f.signatory_id)
                       : -1;
 
-                    if (signatoryIndex === -1 && signatories.length === 1) {
+                    // Fallback to first signatory if only one exists or if index is invalid
+                    if (signatoryIndex === -1) {
                       signatoryIndex = 0;
                     }
 
@@ -448,6 +456,7 @@ export default function ViewDocument() {
                   selectedSignatory={null}
                   readOnly={true}
                   fileUrl={pdfUrl}
+                  onFieldClick={() => document.status === "pending" && setSignDialogOpen(true)}
                 />
                 {document.status === "pending" && (
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 shadow-lg">

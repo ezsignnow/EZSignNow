@@ -45,6 +45,7 @@ interface DocumentCanvasProps {
   selectedSignatory: number | null;
   readOnly?: boolean;
   fileUrl?: string;
+  onFieldClick?: (fieldId: string) => void;
 }
 
 const fieldIcons: Record<string, typeof PenLine> = {
@@ -62,6 +63,7 @@ export function DocumentCanvas({
   selectedSignatory,
   readOnly = false,
   fileUrl,
+  onFieldClick,
 }: DocumentCanvasProps) {
   const [dragging, setDragging] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -226,6 +228,7 @@ export function DocumentCanvas({
                   }}
                   onMouseDown={(e) => handleMouseDown(e, field.id)}
                   onDoubleClick={() => !readOnly && setEditingField(field.id)}
+                  onClick={() => readOnly && onFieldClick && onFieldClick(field.id)}
                 >
                   {!isSigned && (
                     <div
