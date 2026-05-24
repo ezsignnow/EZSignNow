@@ -274,7 +274,7 @@ export function DocumentCanvas({
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <div className="flex items-center gap-1 cursor-pointer">
-                            <span className="text-xs font-bold text-slate-700 dark:text-slate-200 truncate">
+                            <span className="text-[13.5px] font-bold text-slate-700 dark:text-slate-200 truncate">
                               {field.label || field.type}
                             </span>
                             {field.tooltip && (
@@ -283,14 +283,14 @@ export function DocumentCanvas({
                           </div>
                         </TooltipTrigger>
                         {field.tooltip && (
-                          <TooltipContent className="bg-slate-800 text-white border-0 text-[11px] rounded-lg p-2 max-w-xs shadow-md">
+                          <TooltipContent className="bg-slate-800 text-white border-0 text-xs rounded-lg p-2 max-w-xs shadow-md">
                             <p className="font-semibold">{field.tooltip}</p>
                           </TooltipContent>
                         )}
                       </Tooltip>
                     )}
                     {signatory && !isSigned && (
-                      <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate font-semibold leading-none mt-0.5">
+                      <p className="text-[11.5px] text-slate-400 dark:text-slate-500 truncate font-semibold leading-none mt-1">
                         {signatory.name}
                       </p>
                     )}

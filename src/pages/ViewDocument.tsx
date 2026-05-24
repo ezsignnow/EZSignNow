@@ -331,10 +331,10 @@ export default function ViewDocument() {
 
         page.drawText(auditText, {
           x,
-          y: y - 45 * scaleY,
-          size: 5.5 * scaleX,
-          lineHeight: 6.5 * scaleY,
-          color: rgb(0.1, 0.2, 0.5),
+          y: y - 55 * scaleY,
+          size: 8 * scaleX,
+          lineHeight: 9.5 * scaleY,
+          color: rgb(0.08, 0.18, 0.45),
         });
       }
 
