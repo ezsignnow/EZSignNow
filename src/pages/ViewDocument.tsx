@@ -83,9 +83,10 @@ export default function ViewDocument() {
   };
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      navigate("/login");
-    }
+    // Only redirect to login for authenticated-only views (like /dashboard).
+    // ViewDocument is intentionally public so external signatories can sign
+    // documents without needing an EZSignNow account.
+    // No redirect here — allow unauthenticated access.
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
@@ -120,27 +121,30 @@ export default function ViewDocument() {
 
   useEffect(() => {
     const fetchDocument = async () => {
-      if (!id || !user) return;
+      if (!id) return;
 
+      // Fetch document by ID only — no owner_id filter so signatories
+      // (who are NOT the document owner) can access pending documents.
       const { data, error } = await supabase
         .from("documents")
         .select("*")
         .eq("id", id)
-        .eq("owner_id", user.id)
         .single();
 
       if (error || !data) {
         toast({
           title: "Document not found",
+          description: "This signing link may be invalid or the document has been removed.",
           variant: "destructive",
         });
-        navigate("/dashboard");
+        // Navigate to home for unauthenticated users, dashboard for logged-in owners
+        navigate(user ? "/dashboard" : "/");
         return;
       }
 
       setDocument(data);
 
-      // Download the PDF from Supabase storage and create a local blob URL
+      // Download the PDF — try authenticated first, fall back to public path
       try {
         const path = data.file_url.split("/documents/")[1];
         if (path) {
