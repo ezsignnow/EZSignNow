@@ -20,7 +20,9 @@ import {
   Building2,
   HelpCircle,
   Check,
-  Play
+  Play,
+  Calendar,
+  CheckSquare
 } from "lucide-react";
 import heroImage from "@/assets/hero-esign.jpg";
 
@@ -512,6 +514,183 @@ export default function Index() {
                   </div>
                 );
               })}
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Why choose YalTech EZSignNow Section */}
+      <section className="py-24 bg-[#f8fafc] dark:bg-slate-950 border-b border-border/40 overflow-hidden transition-colors duration-250">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            
+            {/* Left Column Copywriting */}
+            <div className="space-y-7 text-left max-w-xl">
+              <span className="text-xs font-bold text-[#258ffb] uppercase tracking-widest leading-none block">
+                BE READY TO GET MORE
+              </span>
+              
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white leading-[1.1] tracking-tight">
+                Why choose <span className="text-slate-800 dark:text-white">YalTech</span> <span className="text-[#258ffb]">EZSignNow</span>
+              </h2>
+              
+              <div className="space-y-6 pt-2">
+                {/* Point 1 */}
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#258ffb] transition-colors">
+                    <Clock className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                      Free 7-day trial. <span className="text-slate-500 dark:text-slate-400 font-semibold leading-relaxed block mt-1">Choose the plan you need and try it risk-free.</span>
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Point 2 */}
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#258ffb] transition-colors">
+                    <FileText className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                      Honest pricing for full-featured plans. <span className="text-slate-500 dark:text-slate-400 font-semibold leading-relaxed block mt-1">YalTech EZSignNow offers subscription plans with no overages or hidden fees at renewal.</span>
+                    </h3>
+                  </div>
+                </div>
+
+                {/* Point 3 */}
+                <div className="flex gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#258ffb] transition-colors">
+                    <Shield className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                      Enterprise-grade security. <span className="text-slate-500 dark:text-slate-400 font-semibold leading-relaxed block mt-1">YalTech EZSignNow helps you comply with global security standards.</span>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-4">
+                <Button 
+                  onClick={() => navigate("/try-trial")}
+                  size="lg"
+                  className="rounded-full bg-[#258ffb] hover:bg-[#1d7ee6] text-white font-bold text-sm px-8 h-12 shadow-md shadow-[#258ffb]/20"
+                >
+                  Start free trial
+                </Button>
+              </div>
+            </div>
+
+            {/* Right Column - Premium E-Signature Interactive Simulation Panel */}
+            <div className="relative w-full max-w-lg mx-auto bg-slate-100/50 dark:bg-slate-900/40 p-5 rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-inner flex gap-4 overflow-hidden h-[420px] select-none scale-[1.02] transition-colors">
+              
+              {/* Document Sheet */}
+              <div className="flex-1 bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-lg border border-slate-100 dark:border-slate-850 flex flex-col justify-between transition-colors">
+                <div className="space-y-4">
+                  <h4 className="text-xs font-black text-slate-800 dark:text-slate-100 border-b border-slate-100 dark:border-slate-800 pb-2">
+                    Construction Contract
+                  </h4>
+                  
+                  <div className="space-y-2">
+                    <p className="text-[9px] text-slate-400 dark:text-slate-500 leading-relaxed font-semibold">
+                      This Construction Contract is being entered into between [Client Name] ("Owner") and [Company Name] ("Contractor") (collectively, the "Parties").
+                    </p>
+                    <p className="text-[9px] text-slate-400 dark:text-slate-500 leading-relaxed font-semibold">
+                      The effective date of this Construction Contract will be the last date of signature below.
+                    </p>
+                    <p className="text-[9px] text-slate-400 dark:text-slate-500 leading-relaxed font-semibold">
+                      This Construction Contract, along with incorporated documents, sets forth terms and conditions agreed between the Parties.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-3 border-t border-slate-100 dark:border-slate-850 pt-4 transition-colors">
+                  {/* Owner field block */}
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase w-12 text-left">Owner</span>
+                    <div className="flex-1 h-9 rounded-lg border border-[#258ffb] bg-[#258ffb]/[0.02] flex items-center justify-center p-2 relative">
+                      {/* Animated cursive signature representation */}
+                      <span className="text-xs italic text-[#258ffb] font-serif font-bold animate-pulse select-none">
+                        Sridharan Udayakumar
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Company field block */}
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase w-12 text-left">Company</span>
+                    {/* Pulsing Drag Target Field */}
+                    <div className="flex-1 h-9 rounded-lg border border-dashed border-[#635bff] bg-[#635bff]/5 flex items-center justify-center relative select-none animate-pulse">
+                      <span className="text-[9px] font-extrabold text-[#635bff] uppercase tracking-wider flex items-center gap-1 select-none">
+                        <FileSignature className="h-3 w-3" />
+                        Signature Field
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Drag Palette Sidebar */}
+              <div className="w-[165px] bg-white dark:bg-slate-900 rounded-2xl p-3.5 border border-slate-100 dark:border-slate-850 shadow-md flex flex-col justify-between overflow-hidden shrink-0 transition-colors">
+                <div className="space-y-3.5">
+                  {/* Select signatory header */}
+                  <div className="space-y-1">
+                    <div className="h-7 w-full rounded-lg bg-[#258ffb] text-white flex items-center gap-2 px-2.5 shadow-sm text-[9px] font-bold">
+                      <div className="h-4.5 w-4.5 rounded-full bg-white/20 flex items-center justify-center text-[8px] font-black">
+                        O
+                      </div>
+                      Owner
+                    </div>
+                    <div className="h-7 w-full rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-850 text-slate-500 dark:text-slate-400 flex items-center gap-2 px-2.5 text-[9px] font-bold transition-colors">
+                      <div className="h-4.5 w-4.5 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-[8px] font-black">
+                        C
+                      </div>
+                      Company
+                    </div>
+                  </div>
+
+                  {/* Edit signers control */}
+                  <div className="h-7 w-full rounded bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-850 flex items-center justify-center text-[9px] font-bold text-slate-500 dark:text-slate-400 transition-colors">
+                    Edit Signers
+                  </div>
+
+                  {/* Tools List */}
+                  <div className="space-y-1.5 overflow-hidden text-left">
+                    <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tools</p>
+                    {[
+                      { icon: FileSignature, label: "Signature Field" },
+                      { icon: FileText, label: "Text Field" },
+                      { icon: Calendar, label: "Date/Time Field" },
+                      { icon: CheckSquare, label: "Checkbox Field" },
+                      { icon: UserCheck, label: "Initials Field" },
+                    ].map((tool, idx) => {
+                      const Icon = tool.icon;
+                      const isDraggingMock = tool.label === "Signature Field";
+                      return (
+                        <div 
+                          key={idx}
+                          className={`h-7 rounded border flex items-center gap-2 px-2 text-[9px] font-semibold transition-all ${
+                            isDraggingMock 
+                              ? "border-[#635bff] bg-[#635bff]/5 text-[#635bff] shadow-sm translate-x-[-2px] animate-pulse" 
+                              : "border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400"
+                          }`}
+                        >
+                          <Icon className={`h-3 w-3 shrink-0 ${isDraggingMock ? 'text-[#635bff]' : 'text-slate-400'}`} />
+                          <span className="truncate">{tool.label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                
+                <div className="text-[7.5px] text-slate-350 dark:text-slate-650 font-bold tracking-widest text-center mt-2 uppercase select-none">
+                  EZSIGNNOW SECURE
+                </div>
+              </div>
 
             </div>
 
