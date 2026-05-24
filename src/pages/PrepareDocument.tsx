@@ -48,15 +48,15 @@ export default function PrepareDocument() {
   const [stats, setStats] = useState({ total: 0, pending: 0, completed: 0 });
   const [statsLoading, setStatsLoading] = useState(true);
   
-  const [isDark, setIsDark] = useState(document.documentElement.classList.contains("dark"));
+  const [isDark, setIsDark] = useState(() => window.document.documentElement.classList.contains("dark"));
 
   const toggleDarkMode = () => {
     const nextDark = !isDark;
     if (nextDark) {
-      document.documentElement.classList.add("dark");
+      window.document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      window.document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
     setIsDark(nextDark);
@@ -71,9 +71,9 @@ export default function PrepareDocument() {
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const shouldBeDark = savedTheme === "dark" || (!savedTheme && systemPrefersDark);
     if (shouldBeDark) {
-      document.documentElement.classList.add("dark");
+      window.document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      window.document.documentElement.classList.remove("dark");
     }
     setIsDark(shouldBeDark);
   }, []);
