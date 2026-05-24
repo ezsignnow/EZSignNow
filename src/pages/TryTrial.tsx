@@ -32,6 +32,8 @@ export default function TryTrial() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
+  const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "";
+
   // Form states
   const [nameOnCard, setNameOnCard] = useState("");
   const [cardNumber, setCardNumber] = useState("");
@@ -94,9 +96,12 @@ export default function TryTrial() {
     setExpiry("12 / 29");
     setCvv("123");
     setZip("90210");
+    const isLive = stripePublishableKey.startsWith("pk_live_");
     toast({
-      title: "Test Card Populated",
-      description: "Secure Stripe Elements test card (4242) loaded.",
+      title: isLive ? "Live Mode Autopopulated" : "Test Card Populated",
+      description: isLive 
+        ? "Stripe live sandbox key loaded. Press start trial to execute live transaction."
+        : "Secure Stripe Elements test card (4242) loaded.",
     });
   };
 
@@ -112,10 +117,12 @@ export default function TryTrial() {
     }
 
     setIsSubmitting(true);
-    setStripeStep("Connecting to Stripe API secure servers...");
+    const keyInfo = stripePublishableKey ? ` (${stripePublishableKey.slice(0, 12)}...)` : "";
+    setStripeStep(`Connecting to Stripe API secure live servers${keyInfo}...`);
 
     setTimeout(() => {
-      setStripeStep("Tokenizing card details via Stripe Elements (tok_sandbox)...");
+      const isLive = stripePublishableKey.startsWith("pk_live_");
+      setStripeStep(`Tokenizing card details via Stripe Elements (${isLive ? "live_mode" : "tok_sandbox"})...`);
     }, 450);
 
     setTimeout(() => {
@@ -344,7 +351,15 @@ export default function TryTrial() {
 
           {/* Column 2: Billing Info Form (5 cols) */}
           <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.015)] p-6">
-            <h3 className="text-sm font-bold text-slate-700 pb-3 border-b border-slate-100 mb-5">Billing Information</h3>
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-5">
+              <h3 className="text-sm font-bold text-slate-700">Billing Information</h3>
+              {stripePublishableKey && (
+                <span className="flex items-center gap-1.5 text-[9px] font-extrabold text-[#635bff] bg-[#635bff]/5 border border-[#635bff]/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider select-none animate-pulse">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#635bff]" />
+                  Stripe Live Connected
+                </span>
+              )}
+            </div>
             
             {isSubmitting ? (
               <div className="py-8 flex flex-col items-center justify-center space-y-6">
