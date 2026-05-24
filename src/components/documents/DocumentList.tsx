@@ -17,7 +17,8 @@ import {
   MoreHorizontal, 
   Loader2,
   Calendar,
-  Filter
+  Filter,
+  RefreshCw
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -62,6 +63,7 @@ export function DocumentList() {
   
   const [selectedDocs, setSelectedDocs] = useState<string[]>([]);
   const [docToDelete, setDocToDelete] = useState<string | null>(null);
+  const [resendingId, setResendingId] = useState<string | null>(null);
 
   // Sync statusFilter state with URL parameter changes
   useEffect(() => {
@@ -130,6 +132,59 @@ export function DocumentList() {
         description: err.message,
         variant: "destructive",
       });
+    }
+  };
+
+  const handleResendEmails = async (doc: Document) => {
+    setResendingId(doc.id);
+    try {
+      // Fetch all signatories for this document
+      const { data: signatories, error: sigError } = await supabase
+        .from("signatories")
+        .select("*")
+        .eq("document_id", doc.id)
+        .order("order_num");
+
+      if (sigError) throw sigError;
+
+      if (!signatories || signatories.length === 0) {
+        toast({
+          title: "No signatories found",
+          description: "This document has no signatories to resend to.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Dispatch resend via SMTP relay
+      const response = await fetch("/api/send-signing-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          signatories,
+          documentId: doc.id,
+          documentTitle: doc.title,
+          ownerEmail: user?.email || "support@ezsignnow.com",
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to resend emails");
+      }
+
+      toast({
+        title: "Invitations resent!",
+        description: `Signing invitations re-dispatched to ${signatories.length} signatory(ies) via Zoho Mail.`,
+      });
+    } catch (err: any) {
+      toast({
+        title: "Resend failed",
+        description: err.message || "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    } finally {
+      setResendingId(null);
     }
   };
 
@@ -388,7 +443,7 @@ export function DocumentList() {
                               <ChevronDown className="h-3 w-3 text-slate-400" />
                             </button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="bg-popover w-44 p-1 border border-slate-100 shadow-md">
+                          <DropdownMenuContent align="end" className="bg-popover w-48 p-1 border border-slate-100 shadow-md">
                             
                             {doc.status !== "draft" ? (
                               <DropdownMenuItem 
@@ -405,6 +460,22 @@ export function DocumentList() {
                               >
                                 <Edit3 className="mr-2 h-4 w-4" />
                                 Prepare Document
+                              </DropdownMenuItem>
+                            )}
+
+                            {/* Resend option — only visible for pending documents */}
+                            {doc.status === "pending" && (
+                              <DropdownMenuItem
+                                onClick={() => handleResendEmails(doc)}
+                                disabled={resendingId === doc.id}
+                                className="text-xs font-semibold text-amber-600 cursor-pointer mt-0.5 focus:text-amber-700 focus:bg-amber-50"
+                              >
+                                {resendingId === doc.id ? (
+                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                ) : (
+                                  <RefreshCw className="mr-2 h-4 w-4" />
+                                )}
+                                {resendingId === doc.id ? "Resending..." : "Resend Invitations"}
                               </DropdownMenuItem>
                             )}
 
