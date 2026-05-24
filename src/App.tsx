@@ -7,6 +7,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import TryForFree from "./pages/TryForFree";
+import TryTrial from "./pages/TryTrial";
 import Dashboard from "./pages/Dashboard";
 import Upload from "./pages/Upload";
 import PrepareDocument from "./pages/PrepareDocument";
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/try-for-free" element={<TryForFree />} />
+            <Route path="/try-trial" element={<TryTrial />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/document/:id/prepare" element={<PrepareDocument />} />
