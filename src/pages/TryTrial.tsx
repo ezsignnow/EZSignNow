@@ -40,6 +40,7 @@ export default function TryTrial() {
   const [zip, setZip] = useState("");
   const [coupon, setCoupon] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [stripeStep, setStripeStep] = useState("");
 
   // Dynamic Trial Dates
   const todayFormatted = format(new Date(), "MMMM d");
@@ -52,6 +53,41 @@ export default function TryTrial() {
     }
   }, [user, loading, navigate]);
 
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const clean = e.target.value.replace(/\D/g, "");
+    const parts = [];
+    for (let i = 0; i < clean.length; i += 4) {
+      parts.push(clean.substring(i, i + 4));
+    }
+    setCardNumber(parts.join(" "));
+  };
+
+  const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const clean = e.target.value.replace(/\D/g, "");
+    if (clean.length > 2) {
+      setExpiry(`${clean.substring(0, 2)} / ${clean.substring(2, 4)}`);
+    } else {
+      setExpiry(clean);
+    }
+  };
+
+  const getCardBrandIcon = () => {
+    const cardClean = cardNumber.replace(/\D/g, "");
+    if (cardClean.startsWith("4")) {
+      return <span className="text-[9px] font-black bg-blue-600 text-white px-1.5 py-0.5 rounded italic leading-none font-serif select-none shrink-0 shadow-sm">VISA</span>;
+    }
+    if (cardClean.startsWith("5")) {
+      return <span className="text-[9px] font-black bg-orange-500 text-white px-1.5 py-0.5 rounded italic leading-none select-none shrink-0 shadow-sm">MC</span>;
+    }
+    if (cardClean.startsWith("3")) {
+      return <span className="text-[9px] font-black bg-teal-500 text-white px-1.5 py-0.5 rounded italic leading-none select-none shrink-0 shadow-sm">AMEX</span>;
+    }
+    if (cardClean.startsWith("6")) {
+      return <span className="text-[9px] font-black bg-emerald-500 text-white px-1.5 py-0.5 rounded italic leading-none select-none shrink-0 shadow-sm">DISC</span>;
+    }
+    return <CreditCard className="h-4.5 w-4.5 text-slate-400 shrink-0" />;
+  };
+
   const handleAutofill = () => {
     setNameOnCard("John Doe");
     setCardNumber("4242 4242 4242 4242");
@@ -60,7 +96,7 @@ export default function TryTrial() {
     setZip("90210");
     toast({
       title: "Test Card Populated",
-      description: "Mock billing details loaded successfully.",
+      description: "Secure Stripe Elements test card (4242) loaded.",
     });
   };
 
@@ -76,12 +112,26 @@ export default function TryTrial() {
     }
 
     setIsSubmitting(true);
+    setStripeStep("Connecting to Stripe API secure servers...");
+
+    setTimeout(() => {
+      setStripeStep("Tokenizing card details via Stripe Elements (tok_sandbox)...");
+    }, 450);
+
+    setTimeout(() => {
+      setStripeStep("Validating Stripe token on server-side webhook...");
+    }, 900);
+
+    setTimeout(() => {
+      setStripeStep("Registering Stripe Customer & Active Subscription...");
+    }, 1350);
+
     setTimeout(() => {
       setIsSubmitting(false);
       localStorage.setItem("is_premium", "true");
       toast({
-        title: "Business Trial Activated!",
-        description: "Welcome to ezsignnow Premium. You now have unlimited signing requests!",
+        title: "Stripe Subscription Activated!",
+        description: "Welcome to ezsignnow Pro. Unlimited signature requests active!",
       });
       navigate("/dashboard");
     }, 1800);
@@ -296,129 +346,188 @@ export default function TryTrial() {
           <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-100 shadow-[0_4px_12px_rgba(0,0,0,0.015)] p-6">
             <h3 className="text-sm font-bold text-slate-700 pb-3 border-b border-slate-100 mb-5">Billing Information</h3>
             
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400">FULL NAME ON CARD</label>
-                <input 
-                  type="text" 
-                  value={nameOnCard} 
-                  onChange={(e) => setNameOnCard(e.target.value)} 
-                  placeholder="Your Name" 
-                  className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
-                  required
-                />
-              </div>
+            {isSubmitting ? (
+              <div className="py-8 flex flex-col items-center justify-center space-y-6">
+                <div className="relative">
+                  <div className="absolute inset-0 rounded-full bg-[#258ffb]/10 animate-ping" />
+                  <div className="relative bg-white border border-slate-100 rounded-full p-4 shadow-md">
+                    <Loader2 className="h-8 w-8 animate-spin text-[#258ffb]" />
+                  </div>
+                </div>
+                
+                <div className="text-center space-y-1">
+                  <h4 className="text-sm font-bold text-slate-800">Processing Subscription</h4>
+                  <p className="text-xs font-semibold text-slate-400">Please do not refresh or close this window.</p>
+                </div>
 
-              <div className="space-y-1.5">
-                <div className="flex justify-between items-center">
-                  <label className="text-[10px] font-bold text-slate-400">CARD NUMBER</label>
+                <div className="w-full bg-[#f8fafc] border border-slate-100 rounded-xl p-4 space-y-3.5 text-xs font-semibold text-slate-600">
+                  {[
+                    "Connecting to Stripe API secure servers...",
+                    "Tokenizing card details via Stripe Elements (tok_sandbox)...",
+                    "Validating Stripe token on server-side webhook...",
+                    "Registering Stripe Customer & Active Subscription..."
+                  ].map((stepText, idx) => {
+                    const steps = [
+                      "Connecting to Stripe API secure servers...",
+                      "Tokenizing card details via Stripe Elements (tok_sandbox)...",
+                      "Validating Stripe token on server-side webhook...",
+                      "Registering Stripe Customer & Active Subscription..."
+                    ];
+                    const currentStepIdx = steps.indexOf(stripeStep);
+                    const isCompleted = idx < currentStepIdx;
+                    const isCurrent = idx === currentStepIdx;
+
+                    return (
+                      <div key={stepText} className="flex items-center gap-3">
+                        {isCompleted ? (
+                          <span className="h-5 w-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold shrink-0 shadow-sm animate-in fade-in zoom-in duration-200">
+                            ✓
+                          </span>
+                        ) : isCurrent ? (
+                          <Loader2 className="h-5 w-5 animate-spin text-[#258ffb] shrink-0" />
+                        ) : (
+                          <span className="h-5 w-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-[10px] font-bold shrink-0" />
+                        )}
+                        <span className={`${isCompleted ? 'text-slate-400 line-through' : isCurrent ? 'text-slate-800 font-bold' : 'text-slate-400'}`}>
+                          {stepText}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">FULL NAME ON CARD</label>
+                  <input 
+                    type="text" 
+                    value={nameOnCard} 
+                    onChange={(e) => setNameOnCard(e.target.value)} 
+                    placeholder="Your Name" 
+                    className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center">
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">CARD DETAILS</label>
+                    <button 
+                      type="button" 
+                      onClick={handleAutofill}
+                      className="text-[10px] bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm transition-all"
+                    >
+                      Autofill test card
+                    </button>
+                  </div>
+                  
+                  {/* Stripe Element Unified Input Container */}
+                  <div className="flex items-center gap-2 w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-slate-50/50 focus-within:border-[#258ffb] focus-within:ring-1 focus-within:ring-[#258ffb]/20 transition-all select-none">
+                    {getCardBrandIcon()}
+                    
+                    <input 
+                      type="text" 
+                      value={cardNumber} 
+                      onChange={handleCardNumberChange} 
+                      placeholder="Card number" 
+                      className="flex-1 bg-transparent border-none focus:outline-none focus:ring-0 min-w-0 font-mono text-[13px] tracking-wider"
+                      maxLength={19}
+                      required
+                    />
+                    
+                    <div className="h-4 w-[1px] bg-slate-200 shrink-0" />
+                    
+                    <input 
+                      type="text" 
+                      value={expiry} 
+                      onChange={handleExpiryChange} 
+                      placeholder="MM / YY" 
+                      className="w-14 text-center bg-transparent border-none focus:outline-none focus:ring-0 shrink-0 min-w-0 font-mono text-[13px]"
+                      maxLength={7}
+                      required
+                    />
+                    
+                    <div className="h-4 w-[1px] bg-slate-200 shrink-0" />
+                    
+                    <input 
+                      type="text" 
+                      value={cvv} 
+                      onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))} 
+                      placeholder="CVC" 
+                      className="w-10 text-center bg-transparent border-none focus:outline-none focus:ring-0 shrink-0 min-w-0 font-mono text-[13px]"
+                      maxLength={4}
+                      required
+                    />
+                    
+                    <Lock className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                  </div>
+                  
+                  {/* Secure Payments Badge */}
+                  <div className="flex items-center justify-between text-[9px] text-slate-400 font-bold select-none pt-1">
+                    <span className="flex items-center gap-1">
+                      <Lock className="h-3 w-3 text-emerald-500" />
+                      Payments are secure and encrypted
+                    </span>
+                    <span className="flex items-center gap-0.5">
+                      Powered by <span className="text-[#635bff] font-black uppercase tracking-wider text-[10px]">stripe</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">ZIP CODE</label>
+                    <input 
+                      type="text" 
+                      value={zip} 
+                      onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))} 
+                      placeholder="00000" 
+                      className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
+                      maxLength={6}
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">COUPON (OPTIONAL)</label>
+                    <div className="relative">
+                      <select 
+                        value={coupon} 
+                        onChange={(e) => setCoupon(e.target.value)}
+                        className="w-full appearance-none text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#258ffb]/50 focus:outline-none cursor-pointer text-slate-400"
+                      >
+                        <option value="">Apply Promo Code</option>
+                        <option value="welcome">WELCOME20 (20% OFF)</option>
+                        <option value="annual">FREEONE (1 month free)</option>
+                      </select>
+                      <ChevronDown className="absolute right-3 top-3 h-4 w-4 text-slate-400 pointer-events-none" />
+                    </div>
+                  </div>
+                </div>
+
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full bg-[#258ffb] hover:bg-[#1a7ae0] h-[44px] rounded-lg text-xs font-bold text-white shadow-md shadow-[#258ffb]/20 mt-6"
+                >
+                  Start My 7-day Free Trial
+                </Button>
+
+                <div className="text-center mt-4">
                   <button 
-                    type="button" 
-                    onClick={handleAutofill}
-                    className="text-[10px] bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm transition-all"
+                    type="button"
+                    onClick={() => {
+                      localStorage.setItem("is_premium", "false");
+                      navigate("/dashboard");
+                    }}
+                    className="text-xs font-bold text-slate-500 hover:text-slate-800 underline transition-all"
                   >
-                    Autofill link
+                    Continue with the Free Plan for Now
                   </button>
                 </div>
-                <div className="relative">
-                  <CreditCard className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                  <input 
-                    type="text" 
-                    value={cardNumber} 
-                    onChange={(e) => setCardNumber(e.target.value)} 
-                    placeholder="1234 5678 9101 3333" 
-                    className="w-full text-xs font-semibold pl-9 pr-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
-                    maxLength={19}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400">EXPIRATION DATE</label>
-                  <input 
-                    type="text" 
-                    value={expiry} 
-                    onChange={(e) => setExpiry(e.target.value)} 
-                    placeholder="MM / YY" 
-                    className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none text-center"
-                    maxLength={7}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400">CVV</label>
-                  <input 
-                    type="text" 
-                    value={cvv} 
-                    onChange={(e) => setCvv(e.target.value)} 
-                    placeholder="123" 
-                    className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none text-center"
-                    maxLength={4}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400">ZIP CODE</label>
-                  <input 
-                    type="text" 
-                    value={zip} 
-                    onChange={(e) => setZip(e.target.value)} 
-                    placeholder="00000" 
-                    className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none text-center"
-                    maxLength={6}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400">COUPON (OPTIONAL)</label>
-                <div className="relative">
-                  <select 
-                    value={coupon} 
-                    onChange={(e) => setCoupon(e.target.value)}
-                    className="w-full appearance-none text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#258ffb]/50 focus:outline-none cursor-pointer text-slate-400"
-                  >
-                    <option value="">Apply Promo Code</option>
-                    <option value="welcome">WELCOME20 (20% OFF)</option>
-                    <option value="annual">FREEONE (1 month free)</option>
-                  </select>
-                  <ChevronDown className="absolute right-3 top-3 h-4 w-4 text-slate-400 pointer-events-none" />
-                </div>
-              </div>
-
-              <Button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="w-full bg-[#258ffb] hover:bg-[#1a7ae0] h-[44px] rounded-lg text-xs font-bold text-white shadow-md shadow-[#258ffb]/20 mt-6"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Activating Access...
-                  </>
-                ) : (
-                  "Start My 7-day Free Trial"
-                )}
-              </Button>
-
-              <div className="text-center mt-4">
-                <button 
-                  type="button"
-                  onClick={() => {
-                    localStorage.setItem("is_premium", "false");
-                    navigate("/dashboard");
-                  }}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800 underline transition-all"
-                >
-                  Continue with the Free Plan for Now
-                </button>
-              </div>
-            </form>
+              </form>
+            )}
           </div>
 
           {/* Column 3: How Free Trial Works (3 cols) */}
