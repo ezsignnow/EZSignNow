@@ -40,6 +40,7 @@ export default function PrepareDocument() {
   const [fields, setFields] = useState<Field[]>([]);
   const [selectedSignatory, setSelectedSignatory] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
+  const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState<string>("");
   const [sentDialogOpen, setSentDialogOpen] = useState(false);
@@ -353,28 +354,51 @@ export default function PrepareDocument() {
       return;
     }
 
-    await handleSave();
+    setSending(true);
+    try {
+      await handleSave();
 
-    // Update document status
-    const { error } = await supabase
-      .from("documents")
-      .update({ status: "pending" })
-      .eq("id", id);
+      // Update document status
+      const { error: updateError } = await supabase
+        .from("documents")
+        .update({ status: "pending" })
+        .eq("id", id);
 
-    if (error) {
+      if (updateError) throw updateError;
+
+      // Dispatch real email via our local dev server SMTP relay
+      const response = await fetch("/api/send-signing-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          signatories,
+          documentId: id,
+          documentTitle: document.title,
+          ownerEmail: user?.email || "support@ezsignnow.com",
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to dispatch signing emails");
+      }
+
       toast({
-        title: "Error",
-        description: error.message,
+        title: "Document sent!",
+        description: `Invitations successfully routed through Zoho Mail to ${signatories.length} signatory(ies).`,
+      });
+      setSentDialogOpen(true);
+    } catch (err: any) {
+      toast({
+        title: "Failed to dispatch emails",
+        description: err.message || "An unexpected error occurred during email transmission.",
         variant: "destructive",
       });
-      return;
+    } finally {
+      setSending(false);
     }
-
-    toast({
-      title: "Document sent!",
-      description: "Direct signing links generated.",
-    });
-    setSentDialogOpen(true);
   };
 
   if (loading || authLoading) {
@@ -598,10 +622,15 @@ export default function PrepareDocument() {
             </Button>
             <Button 
               onClick={handleSend}
+              disabled={saving || sending}
               className="rounded-full bg-[#258ffb] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-[#258ffb]/20"
             >
-              <Send className="mr-2 h-3.5 w-3.5" />
-              Send for Signing
+              {sending ? (
+                <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <Send className="mr-2 h-3.5 w-3.5" />
+              )}
+              {sending ? "Sending..." : "Send for Signing"}
             </Button>
           </div>
         </div>
