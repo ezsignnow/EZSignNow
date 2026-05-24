@@ -132,6 +132,22 @@ export function DocumentCanvas({
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!dragging || !canvasRef.current) return;
 
+    // Auto-scroll parent Card container if mouse is near the top or bottom of its scroll area
+    const scrollContainer = canvasRef.current.parentElement;
+    if (scrollContainer) {
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const relativeY = e.clientY - containerRect.top;
+      
+      const scrollSpeed = 16;
+      const threshold = 60; // pixels from boundary to trigger scroll
+      
+      if (relativeY < threshold) {
+        scrollContainer.scrollTop -= scrollSpeed;
+      } else if (containerRect.height - relativeY < threshold) {
+        scrollContainer.scrollTop += scrollSpeed;
+      }
+    }
+
     const rect = canvasRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - dragOffset.x;
     const y = e.clientY - rect.top - dragOffset.y;
@@ -205,6 +221,7 @@ export function DocumentCanvas({
               const signatory = field.signatoryIndex !== null ? signatories[field.signatoryIndex] : null;
               const borderColor = signatory?.color || "hsl(var(--border))";
               const isSigned = field.type === "signature" && signatory?.signature_data;
+              const isDateSigned = field.type === "date" && signatory?.signed_at;
 
               return (
                 <div
@@ -275,7 +292,9 @@ export function DocumentCanvas({
                         <TooltipTrigger asChild>
                           <div className="flex items-center gap-1 cursor-pointer">
                             <span className="text-[13.5px] font-bold text-slate-700 dark:text-slate-200 truncate">
-                              {field.label || field.type}
+                              {isDateSigned 
+                                ? new Date(signatory.signed_at!).toLocaleDateString("en-US", { year: 'numeric', month: '2-digit', day: '2-digit' })
+                                : (field.label || field.type)}
                             </span>
                             {field.tooltip && (
                               <Info className="h-3 w-3 text-slate-400 dark:text-slate-550 flex-shrink-0" />

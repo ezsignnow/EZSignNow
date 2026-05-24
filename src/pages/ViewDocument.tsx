@@ -267,75 +267,132 @@ export default function ViewDocument() {
       const pdfDoc = await PDFDocument.load(pdfBytes);
       const pages = pdfDoc.getPages();
 
-      // 3. Draw signature and certificate for each field
+      // 3. Draw signature, date, and text fields for each field
       for (const field of fields) {
-        if (field.field_type !== "signature") continue;
+        if (field.field_type === "signature") {
+          const sig = signatories.find((s) => s.id === field.signatory_id) || (signatories.length === 1 ? signatories[0] : null);
+          if (!sig || !sig.signature_data) continue;
 
-        const sig = signatories.find((s) => s.id === field.signatory_id) || (signatories.length === 1 ? signatories[0] : null);
-        if (!sig || !sig.signature_data) continue;
+          const base64Data = sig.signature_data.split(",")[1];
+          if (!base64Data) continue;
 
-        const base64Data = sig.signature_data.split(",")[1];
-        if (!base64Data) continue;
-
-        let sigImage;
-        try {
-          sigImage = await pdfDoc.embedPng(base64Data);
-        } catch {
+          let sigImage;
           try {
-            sigImage = await pdfDoc.embedJpg(base64Data);
-          } catch (e) {
-            console.error("Failed to embed signature image:", e);
-            continue;
+            sigImage = await pdfDoc.embedPng(base64Data);
+          } catch {
+            try {
+              sigImage = await pdfDoc.embedJpg(base64Data);
+            } catch (e) {
+              console.error("Failed to embed signature image:", e);
+              continue;
+            }
           }
+
+          const htmlX = Number(field.x_position);
+          const htmlY = Number(field.y_position);
+          const htmlW = Number(field.width);
+          const htmlH = Number(field.height);
+
+          // Account for vertical stacking with 16px page gaps (780px page height + 16px gap)
+          const pageHeightWithGap = 780 + 16;
+          const pageIndex = Math.floor(htmlY / pageHeightWithGap);
+          const pageNumber = Math.min(Math.max(1, pageIndex + 1), pages.length);
+          const page = pages[pageNumber - 1];
+          const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+          const scaleX = pdfWidth / 600;
+          const scaleY = pdfHeight / 780;
+
+          // Obtain coordinates relative to the specific target page
+          const pageRelativeHtmlY = htmlY % pageHeightWithGap;
+
+          const x = htmlX * scaleX;
+          const y = (780 - pageRelativeHtmlY - htmlH) * scaleY;
+          const width = htmlW * scaleX;
+          const height = htmlH * scaleY;
+
+          // Draw signature image
+          page.drawImage(sigImage, {
+            x,
+            y,
+            width,
+            height,
+          });
+
+          // Draw E-Signature Digital Audit Certificate Block
+          const auditText = [
+            `Digitally Signed by: ${sig.name}`,
+            `Email: ${sig.email}`,
+            `IP: ${sig.ip_address || "127.0.0.1"} | Location: ${sig.location || "Local Sandbox"}`,
+            `Date: ${format(new Date(sig.signed_at || new Date()), "yyyy-MM-dd HH:mm:ss x")}`,
+            `Audit ID: ${sig.id.substring(0, 8)}-${document.id.substring(0, 8)}`,
+          ].join("\n");
+
+          page.drawText(auditText, {
+            x,
+            y: y - 55 * scaleY,
+            size: 8 * scaleX,
+            lineHeight: 9.5 * scaleY,
+            color: rgb(0.08, 0.18, 0.45),
+          });
+        } else if (field.field_type === "date") {
+          const sig = signatories.find((s) => s.id === field.signatory_id) || (signatories.length === 1 ? signatories[0] : null);
+          const dateStr = sig && sig.signed_at 
+            ? format(new Date(sig.signed_at), "MM/dd/yyyy")
+            : format(new Date(), "MM/dd/yyyy");
+
+          const htmlX = Number(field.x_position);
+          const htmlY = Number(field.y_position);
+          const htmlH = Number(field.height);
+
+          const pageHeightWithGap = 780 + 16;
+          const pageIndex = Math.floor(htmlY / pageHeightWithGap);
+          const pageNumber = Math.min(Math.max(1, pageIndex + 1), pages.length);
+          const page = pages[pageNumber - 1];
+          const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+          const scaleX = pdfWidth / 600;
+          const scaleY = pdfHeight / 780;
+          const pageRelativeHtmlY = htmlY % pageHeightWithGap;
+
+          const x = htmlX * scaleX;
+          const y = (780 - pageRelativeHtmlY - htmlH) * scaleY;
+
+          // Render formatted date text
+          page.drawText(dateStr, {
+            x: x + 6 * scaleX,
+            y: y + (htmlH / 2 - 4) * scaleY,
+            size: 10 * scaleX,
+            color: rgb(0.1, 0.1, 0.1),
+          });
+        } else if (field.field_type === "text" || field.field_type === "label" || field.field_type === "checkbox") {
+          const valStr = field.value || field.label || (field.field_type === "checkbox" ? "[✓]" : field.field_type);
+
+          const htmlX = Number(field.x_position);
+          const htmlY = Number(field.y_position);
+          const htmlH = Number(field.height);
+
+          const pageHeightWithGap = 780 + 16;
+          const pageIndex = Math.floor(htmlY / pageHeightWithGap);
+          const pageNumber = Math.min(Math.max(1, pageIndex + 1), pages.length);
+          const page = pages[pageNumber - 1];
+          const { width: pdfWidth, height: pdfHeight } = page.getSize();
+
+          const scaleX = pdfWidth / 600;
+          const scaleY = pdfHeight / 780;
+          const pageRelativeHtmlY = htmlY % pageHeightWithGap;
+
+          const x = htmlX * scaleX;
+          const y = (780 - pageRelativeHtmlY - htmlH) * scaleY;
+
+          // Render value or label text
+          page.drawText(valStr, {
+            x: x + 6 * scaleX,
+            y: y + (htmlH / 2 - 4) * scaleY,
+            size: 10 * scaleX,
+            color: rgb(0.1, 0.1, 0.1),
+          });
         }
-
-        const htmlX = Number(field.x_position);
-        const htmlY = Number(field.y_position);
-        const htmlW = Number(field.width);
-        const htmlH = Number(field.height);
-
-        // Account for vertical stacking with 16px page gaps (780px page height + 16px gap)
-        const pageHeightWithGap = 780 + 16;
-        const pageIndex = Math.floor(htmlY / pageHeightWithGap);
-        const pageNumber = Math.min(Math.max(1, pageIndex + 1), pages.length);
-        const page = pages[pageNumber - 1];
-        const { width: pdfWidth, height: pdfHeight } = page.getSize();
-
-        const scaleX = pdfWidth / 600;
-        const scaleY = pdfHeight / 780;
-
-        // Obtain coordinates relative to the specific target page
-        const pageRelativeHtmlY = htmlY % pageHeightWithGap;
-
-        const x = htmlX * scaleX;
-        const y = (780 - pageRelativeHtmlY - htmlH) * scaleY;
-        const width = htmlW * scaleX;
-        const height = htmlH * scaleY;
-
-        // Draw signature image
-        page.drawImage(sigImage, {
-          x,
-          y,
-          width,
-          height,
-        });
-
-        // Draw E-Signature Digital Audit Certificate Block
-        const auditText = [
-          `Digitally Signed by: ${sig.name}`,
-          `Email: ${sig.email}`,
-          `IP: ${sig.ip_address || "127.0.0.1"} | Location: ${sig.location || "Local Sandbox"}`,
-          `Date: ${format(new Date(sig.signed_at || new Date()), "yyyy-MM-dd HH:mm:ss x")}`,
-          `Audit ID: ${sig.id.substring(0, 8)}-${document.id.substring(0, 8)}`,
-        ].join("\n");
-
-        page.drawText(auditText, {
-          x,
-          y: y - 55 * scaleY,
-          size: 8 * scaleX,
-          lineHeight: 9.5 * scaleY,
-          color: rgb(0.08, 0.18, 0.45),
-        });
       }
 
       const modifiedPdfBytes = await pdfDoc.save();
