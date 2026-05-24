@@ -51,6 +51,37 @@ export default function ViewDocument() {
     };
   }, [pdfUrl]);
 
+  const scrollToSignatureField = () => {
+    const firstUnsigned = signatories.find((s: any) => s.status !== "signed");
+    const sigField = fields.find(
+      (f: any) => f.field_type === "signature" && (f.signatory_id === firstUnsigned?.id || signatories.length === 1)
+    );
+
+    if (sigField) {
+      const scrollContainer = window.document.getElementById("document-scroll-container");
+      if (scrollContainer) {
+        scrollContainer.scrollTo({
+          top: Math.max(0, Number(sigField.y_position) - 150),
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!loading && fields.length > 0) {
+      const timer = setTimeout(() => {
+        scrollToSignatureField();
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [loading, fields]);
+
+  const handleOpenSignDialog = () => {
+    scrollToSignatureField();
+    setSignDialogOpen(true);
+  };
+
   useEffect(() => {
     if (!authLoading && !user) {
       navigate("/login");
@@ -517,7 +548,7 @@ export default function ViewDocument() {
                 />
                 {document.status === "pending" && (
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 shadow-lg">
-                    <Button onClick={() => setSignDialogOpen(true)}>
+                    <Button onClick={handleOpenSignDialog}>
                       <PenLine className="mr-2 h-4 w-4" />
                       Sign Document
                     </Button>
@@ -535,7 +566,7 @@ export default function ViewDocument() {
                     Document preview would appear here
                   </p>
                   {document.status === "pending" && (
-                    <Button className="mt-6" onClick={() => setSignDialogOpen(true)}>
+                    <Button className="mt-6" onClick={handleOpenSignDialog}>
                       <PenLine className="mr-2 h-4 w-4" />
                       Sign Document
                     </Button>

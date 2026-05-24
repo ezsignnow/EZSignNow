@@ -245,7 +245,7 @@ export default function PrepareDocument() {
     }
   };
 
-  const handleAddField = (type: string) => {
+  const handleAddField = (type: string, x?: number, y?: number) => {
     let width = 140;
     let height = 36;
     
@@ -260,8 +260,8 @@ export default function PrepareDocument() {
     const newField: Field = {
       id: `field-${Date.now()}`,
       type,
-      x: 100 + Math.random() * 200,
-      y: 100 + Math.random() * 200,
+      x: x !== undefined ? x : 100 + Math.random() * 200,
+      y: y !== undefined ? y : 100 + Math.random() * 200,
       width,
       height,
       required: true,
@@ -620,6 +620,7 @@ export default function PrepareDocument() {
             signatories={signatories}
             selectedSignatory={selectedSignatory}
             fileUrl={pdfUrl}
+            onDropField={handleAddField}
           />
 
           {/* Right Sidebar - Signatories */}

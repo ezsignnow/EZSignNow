@@ -46,6 +46,7 @@ interface DocumentCanvasProps {
   readOnly?: boolean;
   fileUrl?: string;
   onFieldClick?: (fieldId: string) => void;
+  onDropField?: (type: string, x: number, y: number) => void;
 }
 
 const fieldIcons: Record<string, typeof PenLine> = {
@@ -64,10 +65,12 @@ export function DocumentCanvas({
   readOnly = false,
   fileUrl,
   onFieldClick,
+  onDropField,
 }: DocumentCanvasProps) {
   const [dragging, setDragging] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [editingField, setEditingField] = useState<string | null>(null);
+  const [isDragOver, setIsDragOver] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
   
   const [pageImages, setPageImages] = useState<string[]>([]);
@@ -165,6 +168,49 @@ export function DocumentCanvas({
     setDragging(null);
   };
 
+  const handleDragOver = (e: React.DragEvent) => {
+    if (readOnly) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    if (readOnly || !canvasRef.current || !onDropField) return;
+    e.preventDefault();
+    setIsDragOver(false);
+
+    const type = e.dataTransfer.getData("text/plain");
+    if (!type) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    
+    // Position relative to canvasRef container
+    const dropX = e.clientX - rect.left;
+    const dropY = e.clientY - rect.top;
+
+    // Default sizes for placement calculations
+    let width = 140;
+    let height = 36;
+    if (type === "checkbox") {
+      width = 24;
+      height = 24;
+    } else if (type === "date" || type === "label") {
+      width = 120;
+      height = 36;
+    }
+
+    // Center the field relative to the drop coordinate
+    const x = Math.max(0, Math.min(dropX - width / 2, rect.width - width));
+    const y = Math.max(0, Math.min(dropY - height / 2, rect.height - height));
+
+    onDropField(type, x, y);
+  };
+
   const handleDelete = (fieldId: string) => {
     onFieldsChange(fields.filter((f) => f.id !== fieldId));
     setEditingField(null);
@@ -188,10 +234,18 @@ export function DocumentCanvas({
 
   return (
     <Card
-      className="relative h-[800px] bg-[#f8fafc] dark:bg-slate-950 overflow-y-auto border border-slate-100 dark:border-slate-800 rounded-2xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-850 scrollbar-track-transparent transition-colors duration-250"
+      id="document-scroll-container"
+      className={`relative h-[800px] bg-[#f8fafc] dark:bg-slate-950 overflow-y-auto border rounded-2xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-850 scrollbar-track-transparent transition-all duration-250 ${
+        isDragOver 
+          ? "border-[#258ffb] bg-blue-50/20 dark:bg-blue-950/15 ring-2 ring-[#258ffb]/20" 
+          : "border-slate-100 dark:border-slate-800"
+      }`}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
     >
       {/* Document placeholder / PDF preview */}
       <div className="flex justify-center p-6 min-h-full">

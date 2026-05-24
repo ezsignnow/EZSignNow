@@ -78,8 +78,13 @@ export function FieldPalette({ onAddField }: FieldPaletteProps) {
           <Tooltip key={type}>
             <TooltipTrigger asChild>
               <button
-                className="flex items-center gap-3.5 w-full text-left p-3 border border-slate-100/80 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 hover:bg-slate-50/20 dark:hover:bg-slate-800/20 rounded-xl transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.01)] group focus:outline-none focus:ring-1 focus:ring-slate-200 dark:focus:ring-slate-800 bg-white dark:bg-slate-900"
+                className="flex items-center gap-3.5 w-full text-left p-3 border border-slate-100/80 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 hover:bg-slate-50/20 dark:hover:bg-slate-800/20 rounded-xl transition-all duration-200 shadow-[0_1px_2px_rgba(0,0,0,0.01)] group focus:outline-none focus:ring-1 focus:ring-slate-200 dark:focus:ring-slate-800 bg-white dark:bg-slate-900 cursor-grab active:cursor-grabbing select-none"
                 onClick={() => onAddField(type)}
+                draggable={true}
+                onDragStart={(e) => {
+                  e.dataTransfer.setData("text/plain", type);
+                  e.dataTransfer.effectAllowed = "copy";
+                }}
               >
                 <div className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200 shrink-0 ${colorClass}`}>
                   <Icon className="h-4.5 w-4.5 group-hover:scale-115 transition-transform duration-200" />
