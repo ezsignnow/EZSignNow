@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -27,6 +27,33 @@ export function DocumentUpload() {
   const [isBulkSending, setIsBulkSending] = useState(false);
   const [bulkProgress, setBulkProgress] = useState(0);
   const [bulkSendStep, setBulkSendStep] = useState("");
+
+  // Plan limitation states
+  const [docCount, setDocCount] = useState<number>(0);
+  const [checkingLimit, setCheckingLimit] = useState(true);
+  const isPremium = localStorage.getItem("is_premium") === "true";
+
+  useEffect(() => {
+    const fetchDocCount = async () => {
+      if (!user) return;
+      try {
+        const { count, error } = await supabase
+          .from("documents")
+          .select("*", { count: "exact", head: true })
+          .eq("owner_id", user.id);
+
+        if (error) throw error;
+        setDocCount(count || 0);
+      } catch (err) {
+        console.error("Error fetching document count:", err);
+      } finally {
+        setCheckingLimit(false);
+      }
+    };
+    fetchDocCount();
+  }, [user]);
+
+  const isLimitExceeded = !isPremium && docCount >= 3;
 
   // Handler for local file drag
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -306,6 +333,83 @@ export function DocumentUpload() {
       <path fill="#0061D5" d="M165.7 131.5c15.6-1.5 25.1-12.7 25.1-27.4 0-18.7-13.6-30.2-34.8-30.2H103v108.6h55c23.6 0 38.6-11.9 38.6-31 0-13.7-8.1-25.1-22.9-28.5L185 163h-25.6l-10-31.5h-10zm-42.9-42h11c11.1 0 16.5 5 16.5 14.8 0 9.7-5.4 14.6-16.5 14.6h-11v-29.4zm0 43.8h13.2c12.2 0 18.2 5.5 18.2 16.2 0 10.7-6 16.2-18.2 16.2h-13.2V133.3z"/>
     </svg>
   );
+
+  if (checkingLimit) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center gap-2.5 text-slate-400 dark:text-slate-500 py-20 min-h-[300px]">
+        <Loader2 className="h-8 w-8 animate-spin text-[#258ffb]" />
+        <p className="text-xs font-bold uppercase tracking-wider">Evaluating usage limits...</p>
+      </div>
+    );
+  }
+
+  if (isLimitExceeded) {
+    return (
+      <div className="w-full max-w-[650px] mx-auto font-sans bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-8 text-center shadow-lg dark:shadow-slate-950/40 my-6 animate-in zoom-in-95 duration-300 transition-colors">
+        <div className="mx-auto h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-950/30 flex items-center justify-center text-[#258ffb] shadow-[0_4px_12px_rgba(37,143,251,0.12)] mb-6">
+          <Sparkles className="h-6 w-6 text-[#258ffb]" />
+        </div>
+        
+        <div className="space-y-2 mb-6">
+          <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 tracking-tight">
+            Monthly Request Limit Reached
+          </h2>
+          <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 max-w-[420px] mx-auto leading-relaxed">
+            Your Free Sandbox account is limited to <strong className="text-slate-700 dark:text-slate-300">3 signature requests</strong>. You have already created <strong className="text-[#258ffb]">{docCount} documents</strong> this month.
+          </p>
+        </div>
+
+        {/* Feature List */}
+        <div className="bg-slate-50/50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800/80 rounded-2xl p-5 text-left space-y-3.5 max-w-[480px] mx-auto mb-8 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)]">
+          <p className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+            Unlock Pro Features:
+          </p>
+          <div className="grid grid-cols-2 gap-3 text-xs font-semibold text-slate-600 dark:text-slate-300">
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+              <span>Unlimited Requests</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+              <span>Bulk Send Dispatch</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+              <span>Reusable Templates</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+              <span>Custom Branding logo</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+              <span>Team Workspaces</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+              <span>Priority Support 24/7</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+          <Button 
+            onClick={() => navigate("/try-trial")}
+            className="w-full sm:w-auto rounded-full bg-[#258ffb] hover:bg-[#1a7ae0] text-white font-bold text-xs h-10 px-8 shadow-md shadow-[#258ffb]/20 focus:outline-none focus:ring-2 focus:ring-[#258ffb]/20 animate-pulse"
+          >
+            Start 7-Day Business Trial
+          </Button>
+          <Button 
+            variant="outline"
+            onClick={() => navigate("/dashboard?tab=documents")}
+            className="w-full sm:w-auto rounded-full border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-xs h-10 px-8 shadow-sm transition-all focus:outline-none"
+          >
+            Manage Documents
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-[850px] mx-auto font-sans bg-transparent py-4 relative">
