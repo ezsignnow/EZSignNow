@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { FileSignature, LogOut, User } from "lucide-react";
+import { LogOut, User } from "lucide-react";
+import { BrandLogo } from "./BrandLogo";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,9 +22,8 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2">
-          <FileSignature className="h-8 w-8 text-primary" />
-          <span className="text-xl font-bold text-foreground">ezsignnow</span>
+        <Link to="/">
+          <BrandLogo />
         </Link>
 
         <div className="flex items-center gap-4">

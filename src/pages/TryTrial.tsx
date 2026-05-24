@@ -26,6 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 export default function TryTrial() {
   const { user, loading, signOut } = useAuth();
@@ -163,12 +164,7 @@ export default function TryTrial() {
     <div className="min-h-screen flex flex-col bg-[#fbfcfd] antialiased">
       {/* Header matching Signaturely */}
       <header className="border-b border-slate-100 bg-white px-6 py-4 flex items-center justify-between shadow-[0_1px_2px_rgba(0,0,0,0.015)] shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="bg-[#258ffb]/10 p-1.5 rounded-lg">
-            <FileSignature className="h-6 w-6 text-[#258ffb]" />
-          </div>
-          <span className="text-xl font-bold text-slate-800 tracking-tight">ezsignnow</span>
-        </div>
+        <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
 
         <div className="flex items-center gap-6">
           <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 font-semibold select-none">

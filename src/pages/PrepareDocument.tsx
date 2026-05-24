@@ -26,6 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 export default function PrepareDocument() {
   const { id } = useParams<{ id: string }>();
@@ -412,12 +413,7 @@ export default function PrepareDocument() {
 
       {/* Header bar matching Signaturely */}
       <header className="border-b border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-900 px-6 py-4 flex items-center justify-between shadow-[0_1px_2px_rgba(0,0,0,0.02)] shrink-0 transition-colors">
-        <div className="flex items-center gap-2.5">
-          <div className="bg-[#258ffb]/10 dark:bg-[#258ffb]/20 p-1.5 rounded-lg cursor-pointer" onClick={() => navigate("/dashboard")}>
-            <FileSignature className="h-6 w-6 text-[#258ffb] dark:text-[#258ffb]" />
-          </div>
-          <span className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight cursor-pointer" onClick={() => navigate("/dashboard")}>ezsignnow</span>
-        </div>
+        <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
 
         <div className="flex items-center gap-6">
           {/* Monthly usage */}
