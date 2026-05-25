@@ -165,6 +165,126 @@ export function DocumentUpload() {
     });
   };
 
+  const loadGooglePicker = (accessToken: string) => {
+    const gapi = (window as any).gapi;
+    if (!gapi) {
+      toast({
+        title: "Google API not loaded",
+        description: "Google client API script is still loading. Please try again in a moment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    gapi.load('picker', {
+      callback: () => {
+        try {
+          const apiKey = import.meta.env.VITE_GOOGLE_API_KEY || "AIzaSyCd-DZDnadJeMgm7qjtWoff73fs49NtXoE";
+          
+          // Configure picker view restricted to PDFs
+          const view = new (window as any).google.picker.DocsView((window as any).google.picker.ViewId.PDFS);
+          view.setMimeTypes("application/pdf");
+
+          const picker = new (window as any).google.picker.PickerBuilder()
+            .addView(view)
+            .setOAuthToken(accessToken)
+            .setDeveloperKey(apiKey)
+            .setCallback(async (data: any) => {
+              if (data.action === (window as any).google.picker.Action.PICKED) {
+                const doc = data.docs[0];
+                const fileId = doc.id;
+                const fileName = doc.name;
+                
+                toast({
+                  title: "Importing file...",
+                  description: `Fetching "${fileName}" from Google Drive...`,
+                });
+                setUploading(true);
+
+                try {
+                  const response = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`,
+                    },
+                  });
+
+                  if (!response.ok) {
+                    throw new Error("Failed to download file from Google Drive");
+                  }
+
+                  const blob = await response.blob();
+                  const importedFile = new File([blob], fileName, { type: "application/pdf" });
+                  
+                  setFile(importedFile);
+                  toast({
+                    title: "Import Successful",
+                    description: `Successfully imported "${fileName}" from Google Drive.`,
+                  });
+                } catch (err: any) {
+                  toast({
+                    title: "Import failed",
+                    description: err.message || "Failed to retrieve the file from Google Drive.",
+                    variant: "destructive",
+                  });
+                } finally {
+                  setUploading(false);
+                }
+              }
+            })
+            .build();
+          picker.setVisible(true);
+        } catch (pickerErr: any) {
+          console.error("Error creating Google Picker:", pickerErr);
+          toast({
+            title: "Picker Error",
+            description: "Failed to initialize the Google file picker UI.",
+            variant: "destructive",
+          });
+        }
+      }
+    });
+  };
+
+  const handleGoogleDriveImport = async () => {
+    try {
+      setUploading(true);
+      const { data: { session } } = await supabase.auth.getSession();
+      const providerToken = session?.provider_token;
+
+      if (!providerToken) {
+        toast({
+          title: "Connecting Google Drive",
+          description: "Authorizing your Google account with Drive access...",
+        });
+        
+        // Trigger Supabase OAuth signin with Google Drive readonly scope!
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: window.location.href,
+            scopes: "https://www.googleapis.com/auth/drive.readonly",
+            queryParams: {
+              access_type: "offline",
+              prompt: "consent",
+            }
+          }
+        });
+        if (error) throw error;
+        return;
+      }
+
+      loadGooglePicker(providerToken);
+    } catch (err: any) {
+      toast({
+        title: "Connection error",
+        description: err.message || "Failed to connect to Google Drive.",
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   // Simulating Cloud Uploads
   const simulateCloudImport = (provider: string) => {
     toast({
@@ -540,7 +660,7 @@ export function DocumentUpload() {
               
               <div className="grid grid-cols-2 gap-3 min-h-[200px]">
                 <button 
-                  onClick={() => simulateCloudImport("Google Drive")}
+                  onClick={handleGoogleDriveImport}
                   disabled={uploading}
                   className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#258ffb]/40 hover:shadow-sm transition-all"
                 >
