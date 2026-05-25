@@ -290,37 +290,75 @@ export default function Index() {
 
           </div>
         </div>
-      </section>
-
-      {/* Embedded Product Walkthrough Video Section */}
-      <section className="py-16 bg-card border-b border-border/40" id="walkthrough">
-        <div className="container mx-auto px-4 max-w-7xl text-center">
-          <div className="max-w-2xl mx-auto mb-10 text-center">
+      </section>      {/* Integrations Grid Section */}
+      <section className="py-20 bg-slate-50 dark:bg-accent/5 border-b border-border/40" id="integrations">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="text-center mb-16">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary uppercase tracking-wider">
-              Product Walkthrough
+              Connected Ecosystem
             </span>
             <h2 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">
-              See EZSignNow in Action
+              Powering Your Business Workflows
             </h2>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-              Watch a quick 2-minute overview of contract setup, template building, signatory routing, and digital audit trail certificate generation.
+            <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
+              EZSignNow connects directly with your favorite tools to automate contract preparation, secure payments, and instant notifications.
             </p>
           </div>
-          
-          <div className="relative max-w-4xl mx-auto rounded-3xl border border-border bg-background p-4 shadow-xl">
-            <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-inner">
-              <iframe
-                src="https://www.truepeer.ai/embed/esign-walkthrough-demo"
-                className="absolute inset-0 w-full h-full border-0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                title="EZSignNow Complete App Walkthrough Video"
-              />
+
+          <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
+            {/* Integration 1: Google Drive */}
+            <div className="group rounded-2xl border border-border bg-white dark:bg-card p-8 shadow-sm hover:border-[#258ffb]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#258ffb]/10 text-[#258ffb] transition-colors group-hover:bg-[#258ffb] group-hover:text-white">
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2L2 22h20L12 2z" />
+                  <path d="M12 2l5 8.5" />
+                  <path d="M22 22l-10-17.3" />
+                </svg>
+              </div>
+              <span className="text-[10px] font-extrabold text-[#258ffb] bg-[#258ffb]/10 px-2.5 py-1 rounded-full uppercase tracking-wider mb-3.5 inline-block">
+                Google Drive
+              </span>
+              <h3 className="mb-2 font-bold text-foreground text-xl">Interactive File Picker</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Connect your account securely to search, select, and import PDF files directly from Google Drive in one click using the secure Google Picker API.
+              </p>
+            </div>
+
+            {/* Integration 2: Stripe */}
+            <div className="group rounded-2xl border border-border bg-white dark:bg-card p-8 shadow-sm hover:border-[#635bff]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#635bff]/10 text-[#635bff] transition-colors group-hover:bg-[#635bff] group-hover:text-white">
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+                  <line x1="1" y1="10" x2="23" y2="10" />
+                </svg>
+              </div>
+              <span className="text-[10px] font-extrabold text-[#635bff] bg-[#635bff]/10 px-2.5 py-1 rounded-full uppercase tracking-wider mb-3.5 inline-block">
+                Stripe Payments
+              </span>
+              <h3 className="mb-2 font-bold text-foreground text-xl">Instant Account Upgrades</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Unlock unlimited signature requests instantly using Stripe's secure, bank-grade global payment processing network directly inside your billing settings.
+              </p>
+            </div>
+
+            {/* Integration 3: Zoho Mail */}
+            <div className="group rounded-2xl border border-border bg-white dark:bg-card p-8 shadow-sm hover:border-[#e21a22]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e21a22]/10 text-[#e21a22] transition-colors group-hover:bg-[#e21a22] group-hover:text-white">
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                </svg>
+              </div>
+              <span className="text-[10px] font-extrabold text-[#e21a22] bg-[#e21a22]/10 px-2.5 py-1 rounded-full uppercase tracking-wider mb-3.5 inline-block">
+                Zoho SMTP Relay
+              </span>
+              <h3 className="mb-2 font-bold text-foreground text-xl">Verified Notifications</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Ensure maximum email deliverability. All signatory invitations and verification codes route seamlessly through custom Zoho Mail SMTP dispatch servers.
+              </p>
             </div>
           </div>
         </div>
       </section>
-
       {/* Features Grid */}
       <section className="py-20 bg-background" id="features">
         <div className="container mx-auto px-4 max-w-7xl">
