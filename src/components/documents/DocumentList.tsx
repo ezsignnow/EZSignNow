@@ -156,27 +156,45 @@ export function DocumentList() {
         return;
       }
 
-      // Dispatch resend via SMTP relay
-      const response = await fetch("/api/send-signing-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          signatories,
-          documentId: doc.id,
-          documentTitle: doc.title,
-          ownerEmail: user?.email || "support@ezsignnow.com",
-        }),
-      });
+      let emailDispatched = true;
+      try {
+        const response = await fetch("/api/send-signing-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            signatories,
+            documentId: doc.id,
+            documentTitle: doc.title,
+            ownerEmail: user?.email || "support@ezsignnow.com",
+          }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to resend emails");
+        if (!response.ok) {
+          let errorText = "Failed to resend emails";
+          try {
+            const errorData = await response.json();
+            errorText = errorData.error || errorText;
+          } catch (e) {
+            // Ignore parse errors on non-ok response
+          }
+          throw new Error(errorText);
+        }
+      } catch (emailErr: any) {
+        console.warn("SMTP relay not available in this environment. Falling back to manual link sharing:", emailErr);
+        emailDispatched = false;
       }
 
-      toast({
-        title: "Invitations resent!",
-        description: `Signing invitations re-dispatched to ${signatories.length} signatory(ies) via Zoho Mail.`,
-      });
+      if (emailDispatched) {
+        toast({
+          title: "Invitations resent!",
+          description: `Signing invitations re-dispatched to ${signatories.length} signatory(ies) via Zoho Mail.`,
+        });
+      } else {
+        toast({
+          title: "Action required!",
+          description: "Since this site is hosted statically, automated emails are simulated. Please click Options -> Copy Direct Sign Link to share manually.",
+        });
+      }
     } catch (err: any) {
       toast({
         title: "Resend failed",

@@ -368,33 +368,52 @@ export default function PrepareDocument() {
       if (updateError) throw updateError;
 
       // Dispatch real email via our local dev server SMTP relay
-      const response = await fetch("/api/send-signing-email", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          signatories,
-          documentId: id,
-          documentTitle: document.title,
-          ownerEmail: user?.email || "support@ezsignnow.com",
-        }),
-      });
+      let emailDispatched = true;
+      try {
+        const response = await fetch("/api/send-signing-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            signatories,
+            documentId: id,
+            documentTitle: document.title,
+            ownerEmail: user?.email || "support@ezsignnow.com",
+          }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to dispatch signing emails");
+        if (!response.ok) {
+          let errorText = "Failed to dispatch signing emails";
+          try {
+            const errorData = await response.json();
+            errorText = errorData.error || errorText;
+          } catch (e) {
+            // Ignore parse errors on non-ok response
+          }
+          throw new Error(errorText);
+        }
+      } catch (emailErr: any) {
+        console.warn("SMTP relay endpoint not available in this environment. Falling back to direct link sharing:", emailErr);
+        emailDispatched = false;
       }
 
-      toast({
-        title: "Document sent!",
-        description: `Invitations successfully routed through Zoho Mail to ${signatories.length} signatory(ies).`,
-      });
+      if (emailDispatched) {
+        toast({
+          title: "Document sent!",
+          description: `Invitations successfully routed through Zoho Mail to ${signatories.length} signatory(ies).`,
+        });
+      } else {
+        toast({
+          title: "Document prepared!",
+          description: "Document successfully saved. Copy the direct sign link to invite signatories.",
+        });
+      }
       setSentDialogOpen(true);
     } catch (err: any) {
       toast({
-        title: "Failed to dispatch emails",
-        description: err.message || "An unexpected error occurred during email transmission.",
+        title: "Failed to prepare document",
+        description: err.message || "An unexpected error occurred.",
         variant: "destructive",
       });
     } finally {
