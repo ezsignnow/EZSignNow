@@ -63,7 +63,8 @@ export default defineConfig(({ mode }) => {
 
                   // Dispatch email to each signatory
                   const emailPromises = signatories.map(async (sig: any) => {
-                    const signUrl = `${req.headers.origin || 'http://localhost:8085'}/document/${documentId}/view`;
+                    const origin = req.headers.origin || req.headers.referer?.replace(/\/$/, '') || 'https://ezsignnow.github.io/EZSignNow';
+                    const signUrl = `${origin}/document/${documentId}/view`;
                     
                     const htmlContent = `
                       <!DOCTYPE html>
