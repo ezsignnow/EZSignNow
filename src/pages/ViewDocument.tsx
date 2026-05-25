@@ -42,6 +42,7 @@ export default function ViewDocument() {
   const [signDialogOpen, setSignDialogOpen] = useState(false);
   const [signing, setSigning] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string>("");
+  const [signSuccess, setSignSuccess] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -91,24 +92,33 @@ export default function ViewDocument() {
 
   useEffect(() => {
     if (id) {
-      // Subscribe to changes on signatories to update signatures in real time
+      // Subscribe to signatory changes for real-time status updates
       const channel = supabase
-        .channel("signatories-view-realtime")
+        .channel(`signatories-view-${id}`)
         .on(
           "postgres_changes",
           {
-            event: "*",
+            event: "UPDATE",
             schema: "public",
             table: "signatories",
             filter: `document_id=eq.${id}`,
           },
           async () => {
+            // Refresh signatories
             const { data: sigData } = await supabase
               .from("signatories")
               .select("*")
               .eq("document_id", id)
               .order("order_num");
-            setSignatories(sigData || []);
+            if (sigData) setSignatories(sigData);
+
+            // Refresh document status
+            const { data: docData } = await supabase
+              .from("documents")
+              .select("*")
+              .eq("id", id)
+              .single();
+            if (docData) setDocument(docData);
           }
         )
         .subscribe();
@@ -196,8 +206,8 @@ export default function ViewDocument() {
     const signatureData = signaturePadRef.current.getSignature();
 
     // Capture Geolocation & IP Address
-    let ipAddress = "192.168.1.1"; // Default fallback
-    let location = "New York, USA"; // Default fallback
+    let ipAddress = "192.168.1.1";
+    let location = "New York, USA";
     try {
       const ipRes = await fetch("https://api.ipify.org?format=json");
       const ipData = await ipRes.json();
@@ -214,60 +224,82 @@ export default function ViewDocument() {
 
     try {
       const firstUnsigned = signatories.find(s => s.status !== "signed");
-      
-      if (firstUnsigned) {
-        await supabase
-          .from("signatories")
-          .update({ 
-            status: "signed", 
-            signed_at: new Date().toISOString(),
-            signature_data: signatureData,
-            ip_address: ipAddress,
-            location: location
-          })
-          .eq("id", firstUnsigned.id);
-      } else {
-        // Fallback for edge cases
-        await supabase
-          .from("signatories")
-          .update({ 
-            status: "signed", 
-            signed_at: new Date().toISOString(),
-            signature_data: signatureData,
-            ip_address: ipAddress,
-            location: location
-          })
-          .eq("document_id", id);
+
+      if (!firstUnsigned) {
+        toast({ title: "All signatories have already signed.", variant: "destructive" });
+        setSigning(false);
+        return;
       }
 
-      // Check if all signed and fetch updated signatories to refresh UI locally
-      const { data: updatedSigs } = await supabase
+      // Update the signatory record
+      const { error: updateError } = await supabase
+        .from("signatories")
+        .update({
+          status: "signed",
+          signed_at: new Date().toISOString(),
+          signature_data: signatureData,
+          ip_address: ipAddress,
+          location: location,
+        })
+        .eq("id", firstUnsigned.id);
+
+      if (updateError) {
+        console.error("Signatory update error:", updateError);
+        throw new Error(updateError.message);
+      }
+
+      // Re-fetch signatories to get fresh data
+      const { data: updatedSigs, error: fetchSigsError } = await supabase
         .from("signatories")
         .select("*")
         .eq("document_id", id)
         .order("order_num");
 
-      if (updatedSigs) {
-        setSignatories(updatedSigs);
+      if (fetchSigsError) {
+        console.error("Refetch signatories error:", fetchSigsError);
       }
 
-      const allSigned = updatedSigs?.every((s) => s.status === "signed");
+      const freshSigs = updatedSigs || signatories.map(s =>
+        s.id === firstUnsigned.id ? { ...s, status: "signed", signed_at: new Date().toISOString(), signature_data: signatureData } : s
+      );
+
+      setSignatories(freshSigs);
+
+      const allSigned = freshSigs.every((s) => s.status === "signed");
 
       if (allSigned) {
-        await supabase
+        const { error: docUpdateError } = await supabase
           .from("documents")
           .update({ status: "completed" })
           .eq("id", id);
-          
-        setDocument((prev: any) => prev ? { ...prev, status: "completed" } : null);
+
+        if (docUpdateError) {
+          console.error("Document status update error:", docUpdateError);
+        }
+
+        // Re-fetch document to confirm status change
+        const { data: freshDoc } = await supabase
+          .from("documents")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        if (freshDoc) {
+          setDocument(freshDoc);
+        } else {
+          setDocument((prev: any) => prev ? { ...prev, status: "completed" } : null);
+        }
       }
 
-      toast({
-        title: "Document signed!",
-        description: "Your signature and digital audit trail have been recorded. The preview has been updated.",
-      });
-      
+      setSignSuccess(true);
       setSignDialogOpen(false);
+
+      toast({
+        title: allSigned ? "🎉 Document fully signed!" : "✅ Signature recorded!",
+        description: allSigned
+          ? "All parties have signed. You can now download the certified PDF."
+          : "Your signature has been recorded. Waiting for remaining signatories.",
+      });
     } catch (error: any) {
       toast({
         title: "Error signing",
@@ -456,7 +488,9 @@ export default function ViewDocument() {
     }
   };
 
-  if (loading || authLoading) {
+  // Only block render on the initial page load, not on Supabase auth state changes.
+  // Anonymous signatories never have a user session so authLoading must not gate the view.
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
