@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
-    base: process.env.GITHUB_ACTIONS ? "/EZSignNow/" : "/",
+    base: "/",
     server: {
       host: "::",
       port: 5173,
@@ -64,7 +64,7 @@ export default defineConfig(({ mode }) => {
 
                   // Dispatch email to each signatory
                   const emailPromises = signatories.map(async (sig: any) => {
-                    const origin = req.headers.origin || req.headers.referer?.replace(/\/$/, '') || 'https://ezsignnow.github.io/EZSignNow';
+                    const origin = req.headers.origin || req.headers.referer?.replace(/\/$/, '') || 'https://www.ezsignnow.com';
                     const signUrl = `${origin}/document/${documentId}/view`;
                     
                     const htmlContent = `
