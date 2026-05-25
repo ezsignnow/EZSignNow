@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { getAbsoluteUrl } from "@/utils/url";
 import { 
   FileSignature, 
   Loader2, 
@@ -69,7 +70,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: getAbsoluteUrl("/dashboard")
         }
       });
       if (error) throw error;
@@ -142,7 +143,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         type: "signup",
         email: email,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`
+          emailRedirectTo: getAbsoluteUrl("/dashboard")
         }
       });
       if (error) throw error;

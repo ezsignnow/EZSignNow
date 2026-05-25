@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    base: process.env.GITHUB_ACTIONS ? "/EZSignNow/" : "/",
     server: {
       host: "::",
       port: 5173,

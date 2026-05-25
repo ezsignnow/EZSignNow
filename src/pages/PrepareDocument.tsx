@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { getAbsoluteUrl } from "@/utils/url";
 import { FieldPalette } from "@/components/documents/FieldPalette";
 import { SignatoryManager, Signatory } from "@/components/documents/SignatoryManager";
 import { DocumentCanvas, Field } from "@/components/documents/DocumentCanvas";
@@ -530,7 +531,7 @@ export default function PrepareDocument() {
                 {/* 5. Share & Earn item */}
                 <DropdownMenuItem 
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.origin}/signup?ref=meets`);
+                    navigator.clipboard.writeText(getAbsoluteUrl("/signup?ref=meets"));
                     toast({ title: "Share & Earn Copied!", description: "Unique referral link copied to clipboard. Earn free requests!" });
                   }}
                   className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 py-2.5 cursor-pointer mt-0.5 focus:outline-none"
@@ -703,13 +704,13 @@ export default function PrepareDocument() {
                 <input
                   type="text"
                   readOnly
-                  value={`${window.location.origin}/document/${id}/view`}
+                  value={getAbsoluteUrl(`/document/${id}/view`)}
                   className="flex-1 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-3.5 py-2 text-xs text-slate-500 dark:text-slate-400 outline-none select-all font-semibold shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.01)]"
                 />
                 <Button
                   size="sm"
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.origin}/document/${id}/view`);
+                    navigator.clipboard.writeText(getAbsoluteUrl(`/document/${id}/view`));
                     setCopied(true);
                     toast({ title: "Link copied to clipboard!" });
                     setTimeout(() => setCopied(false), 2000);

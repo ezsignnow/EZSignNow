@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import { getAbsoluteUrl } from "@/utils/url";
 import { 
   FileSignature, 
   Loader2, 
@@ -81,7 +82,7 @@ export default function TryForFree() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: getAbsoluteUrl("/dashboard")
         }
       });
       if (error) throw error;
@@ -278,7 +279,7 @@ export default function TryForFree() {
         type: "signup",
         email: email,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`
+          emailRedirectTo: getAbsoluteUrl("/dashboard")
         }
       });
       if (error) throw error;

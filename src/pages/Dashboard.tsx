@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
+import { getAbsoluteUrl } from "@/utils/url";
 import { 
   PenTool, 
   FileText, 
@@ -386,7 +387,7 @@ export default function Dashboard() {
                 {/* 5. Share & Earn item */}
                 <DropdownMenuItem 
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.origin}/signup?ref=meets`);
+                    navigator.clipboard.writeText(getAbsoluteUrl("/signup?ref=meets"));
                     toast({ title: "Share & Earn Copied!", description: "Unique referral link copied to clipboard. Earn free requests!" });
                   }}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
