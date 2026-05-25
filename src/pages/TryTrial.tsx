@@ -34,7 +34,7 @@ export default function TryTrial() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "";
+  const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_live_51Q5f0EIhTj2KRkKTTflSJKNMy6akBOOqx3wVMK5rPeLykUTEwlfNe4CyAyCHcOn1PzQ4HH4QUqFRHVCcqy45Qoiy00UitUqh8L";
 
   // Form states
   const [nameOnCard, setNameOnCard] = useState("");
