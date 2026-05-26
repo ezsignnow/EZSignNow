@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { UserPlus, X, GripVertical, Mail } from "lucide-react";
+import { UserPlus, X, GripVertical, Mail, Lock } from "lucide-react";
 
 export interface Signatory {
   id?: string;
@@ -13,6 +13,8 @@ export interface Signatory {
   order_num: number;
   status?: string;
   color: string;
+  access_code?: string;
+  passcode?: string;
 }
 
 interface SignatoryManagerProps {
@@ -41,6 +43,8 @@ export function SignatoryManager({
 }: SignatoryManagerProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [accessCode, setAccessCode] = useState("");
+  const [passcode, setPasscode] = useState("");
 
   const handleAdd = () => {
     if (!name.trim() || !email.trim()) return;
@@ -50,10 +54,14 @@ export function SignatoryManager({
       email: email.trim(),
       order_num: signatories.length + 1,
       color: colors[signatories.length % colors.length],
+      access_code: accessCode.trim() || undefined,
+      passcode: passcode.trim() || undefined,
     });
     
     setName("");
     setEmail("");
+    setAccessCode("");
+    setPasscode("");
   };
 
   return (
@@ -93,8 +101,14 @@ export function SignatoryManager({
                       {signatory.name}
                     </p>
                     <p className="text-[11px] text-slate-400 dark:text-slate-500 truncate mt-0.5 leading-normal">
-                      {signatory.email}
+                      {signatory.email} {signatory.access_code ? `🔑 Code: ${signatory.access_code}` : ""}
                     </p>
+                    {signatory.passcode && (
+                      <div className="flex items-center gap-1.5 mt-1 bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded-md border border-amber-100/50 dark:border-amber-900/30 text-[9px] font-bold w-fit">
+                        <Lock className="h-2.5 w-2.5 shrink-0" />
+                        Passcode: {signatory.passcode}
+                      </div>
+                    )}
                   </div>
                   
                   <Badge 
@@ -140,6 +154,29 @@ export function SignatoryManager({
               placeholder="john@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="accessCode" className="text-[11px] font-bold text-slate-500 dark:text-slate-400">Access Code (Optional)</Label>
+            <Input
+              id="accessCode"
+              placeholder="e.g. 123456"
+              value={accessCode}
+              onChange={(e) => setAccessCode(e.target.value)}
+              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="passcode" className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
+              <Lock className="h-3 w-3 text-slate-400" /> Access Passcode (Optional)
+            </Label>
+            <Input
+              id="passcode"
+              type="password"
+              placeholder="e.g. 123456"
+              value={passcode}
+              onChange={(e) => setPasscode(e.target.value)}
               className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
             />
           </div>

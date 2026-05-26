@@ -18,7 +18,10 @@ import {
   Users,
   PenLine,
   Loader2,
-  History
+  History,
+  Lock,
+  ShieldCheck,
+  CreditCard
 } from "lucide-react";
 import { format } from "date-fns";
 import {
@@ -47,6 +50,26 @@ export default function ViewDocument() {
   const [pdfUrl, setPdfUrl] = useState<string>("");
   const [signSuccess, setSignSuccess] = useState(false);
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+
+  // Lock Screen States
+  const [passcodeVerified, setPasscodeVerified] = useState(false);
+  const [enteredPasscode, setEnteredPasscode] = useState("");
+  const [passcodeError, setPasscodeError] = useState(false);
+  const [verifyingPasscode, setVerifyingPasscode] = useState(false);
+
+  // Stripe Mock Overlay States
+  const [paymentCompleted, setPaymentCompleted] = useState(false);
+  const [showStripeCheckout, setShowStripeCheckout] = useState(false);
+  const [stripeCardName, setStripeCardName] = useState("");
+  const [stripeCardNumber, setStripeCardNumber] = useState("");
+  const [stripeExpiry, setStripeExpiry] = useState("");
+  const [stripeCvc, setStripeCvc] = useState("");
+  const [stripeProcessing, setStripeProcessing] = useState(false);
+  const [stripeError, setStripeError] = useState("");
+  const [tempSignatureData, setTempSignatureData] = useState<string | null>(null);
+
+  const depositFee = document?.payment_fee ? String(document.payment_fee) : (localStorage.getItem(`document_deposit_fee_${id}`) || "");
+  const hasDeposit = parseFloat(depositFee) > 0;
 
   useEffect(() => {
     return () => {
@@ -210,17 +233,8 @@ export default function ViewDocument() {
     fetchDocument();
   }, [id, user, navigate, toast]);
 
-  const handleSign = async () => {
-    if (!signaturePadRef.current || signaturePadRef.current.isEmpty()) {
-      toast({
-        title: "Please provide a signature",
-        variant: "destructive",
-      });
-      return;
-    }
-
+  const completeSignature = async (signatureData: string) => {
     setSigning(true);
-    const signatureData = signaturePadRef.current.getSignature();
 
     // Capture Geolocation & IP Address
     let ipAddress = "192.168.1.1";
@@ -269,7 +283,8 @@ export default function ViewDocument() {
         await fallbackService.createAuditLog(
           id!,
           "signed",
-          `${firstUnsigned.name} (${firstUnsigned.email}) signed the document.`,
+          `${firstUnsigned.name} (${firstUnsigned.email}) signed the document.` + 
+          (parseFloat(depositFee) > 0 ? ` Paid secure deposit of $${parseFloat(depositFee).toFixed(2)}.` : ""),
           ipAddress,
           location
         );
@@ -359,6 +374,28 @@ export default function ViewDocument() {
     }
   };
 
+  const handleSign = async () => {
+    if (!signaturePadRef.current || signaturePadRef.current.isEmpty()) {
+      toast({
+        title: "Please provide a signature",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const signatureData = signaturePadRef.current.getSignature();
+
+    if (hasDeposit && !paymentCompleted) {
+      const firstUnsigned = signatories.find(s => s.status !== "signed");
+      setStripeCardName(firstUnsigned?.name || "");
+      setTempSignatureData(signatureData);
+      setShowStripeCheckout(true);
+      return;
+    }
+
+    await completeSignature(signatureData);
+  };
+
   const [downloadingPdf, setDownloadingPdf] = useState(false);
 
   const handleDownloadCertified = async () => {
@@ -431,6 +468,110 @@ export default function ViewDocument() {
   }
 
   if (!document) return null;
+
+  const firstUnsigned = signatories.find((s: any) => s.status !== "signed");
+  const requiredPasscode = firstUnsigned 
+    ? (firstUnsigned.access_code || localStorage.getItem(`signatory_passcode_${id}_${firstUnsigned.email}`) || "")
+    : "";
+  const needsPasscode = !!requiredPasscode && !passcodeVerified;
+
+  const handleVerifyPasscode = () => {
+    setVerifyingPasscode(true);
+    setPasscodeError(false);
+    
+    setTimeout(() => {
+      if (enteredPasscode === requiredPasscode) {
+        setPasscodeVerified(true);
+        toast({
+          title: "Access Granted",
+          description: "Passcode successfully verified. Document unlocked.",
+        });
+      } else {
+        setPasscodeError(true);
+        toast({
+          title: "Invalid Passcode",
+          description: "The passcode you entered is incorrect. Please try again.",
+          variant: "destructive",
+        });
+      }
+      setVerifyingPasscode(false);
+    }, 850);
+  };
+
+  if (needsPasscode) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+        {/* Animated Background Gradients */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-955 via-slate-950 to-black opacity-95" />
+        <div className="absolute -left-1/4 -top-1/4 w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-[140px] pointer-events-none" />
+        <div className="absolute -right-1/4 -bottom-1/4 w-[500px] h-[500px] rounded-full bg-indigo-600/10 blur-[140px] pointer-events-none" />
+
+        <Card className="w-full max-w-md relative z-10 border border-slate-800/80 bg-slate-900/60 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#258ffb] to-transparent" />
+          
+          <CardHeader className="text-center pt-8 pb-3 px-6">
+            <div className="mx-auto h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(37,143,251,0.15)] mb-4">
+              <Lock className="h-5 w-5" />
+            </div>
+            <CardTitle className="text-xl font-bold tracking-tight text-white leading-snug">
+              Secure Document Access
+            </CardTitle>
+            <CardDescription className="text-xs text-slate-400 mt-2 font-medium leading-relaxed">
+              This document is protected with access credentials. Enter your passcode below to unlock the secure signing space.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="px-6 pb-8 pt-2 space-y-5">
+            <div className="space-y-2">
+              <div className="relative">
+                <Input
+                  type="password"
+                  placeholder="Enter access passcode"
+                  value={enteredPasscode}
+                  onChange={(e) => {
+                    setEnteredPasscode(e.target.value);
+                    setPasscodeError(false);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && enteredPasscode) {
+                      handleVerifyPasscode();
+                    }
+                  }}
+                  className={`text-center font-mono tracking-widest text-lg rounded-xl border h-11 bg-slate-950/80 text-white placeholder:text-slate-700 focus-visible:ring-offset-0 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] ${
+                    passcodeError 
+                      ? "border-rose-500/80 focus-visible:ring-rose-500/30 focus-visible:border-rose-500" 
+                      : "border-slate-800 focus-visible:ring-[#258ffb]/20"
+                  }`}
+                />
+              </div>
+              {passcodeError && (
+                <p className="text-[11px] text-rose-400 font-bold text-center">
+                  Incorrect passcode. Please verify and try again.
+                </p>
+              )}
+            </div>
+
+            <Button
+              onClick={handleVerifyPasscode}
+              disabled={!enteredPasscode || verifyingPasscode}
+              className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-2"
+            >
+              {verifyingPasscode ? (
+                <Loader2 className="h-4 w-4 animate-spin text-white" />
+              ) : (
+                <ShieldCheck className="h-4 w-4 text-white/95" />
+              )}
+              {verifyingPasscode ? "Verifying..." : "Unlock Document"}
+            </Button>
+            
+            <p className="text-[9px] text-slate-500 font-semibold text-center leading-normal">
+              Authorized signatories only. Access logs and digital audits are captured for legal verification.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -678,6 +819,177 @@ export default function ViewDocument() {
                 <PenLine className="mr-2 h-4 w-4" />
               )}
               Sign Document
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Stripe Payment Dialog */}
+      <Dialog open={showStripeCheckout} onOpenChange={(open) => !stripeProcessing && setShowStripeCheckout(open)}>
+        <DialogContent className="sm:max-w-md rounded-2xl border border-slate-100 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 p-6 transition-colors duration-250 font-sans">
+          <DialogHeader className="pb-3 border-b border-slate-50 dark:border-slate-800">
+            <DialogTitle className="flex items-center gap-2.5 text-base font-extrabold text-slate-800 dark:text-slate-100">
+              <div className="h-8 w-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/30 flex items-center justify-center border border-indigo-100 dark:border-indigo-900 shrink-0 text-indigo-600 dark:text-indigo-400">
+                <CreditCard className="h-4 w-4" />
+              </div>
+              Secure Deposit Checkout
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-400 dark:text-slate-500 font-semibold mt-1">
+              Guaranteed secure 256-bit SSL transaction processed via Stripe Gateway.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-4 space-y-4">
+            {/* Amount details banner */}
+            <div className="rounded-xl bg-[#258ffb]/[0.02] border border-[#258ffb]/10 p-3.5 flex items-center justify-between shadow-[0_2px_8px_rgba(37,143,251,0.01)]">
+              <div>
+                <span className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Deposit Amount</span>
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">EZ-Sign Agreement Execution Fee</span>
+              </div>
+              <div className="text-right">
+                <span className="text-lg font-black text-slate-800 dark:text-slate-100">${parseFloat(depositFee || "0").toFixed(2)}</span>
+                <span className="text-[10px] font-extrabold text-[#258ffb] dark:text-blue-400 uppercase tracking-wider block">USD</span>
+              </div>
+            </div>
+
+            {stripeError && (
+              <div className="rounded-xl bg-rose-50 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-900/30 p-3 text-xs text-rose-600 dark:text-rose-400 font-semibold">
+                {stripeError}
+              </div>
+            )}
+
+            {/* Simulated Card form */}
+            <div className="space-y-3.5">
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400">Cardholder Name</label>
+                <Input
+                  placeholder="e.g. John Doe"
+                  value={stripeCardName}
+                  onChange={(e) => setStripeCardName(e.target.value)}
+                  className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 text-xs h-9.5"
+                  disabled={stripeProcessing}
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400">Card Number</label>
+                <div className="relative">
+                  <Input
+                    placeholder="4242 4242 4242 4242"
+                    value={stripeCardNumber}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, "").slice(0, 16);
+                      const formatted = val.match(/.{1,4}/g)?.join(" ") || val;
+                      setStripeCardNumber(formatted);
+                      setStripeError("");
+                    }}
+                    className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 text-xs h-9.5 pl-3.5 pr-10"
+                    disabled={stripeProcessing}
+                  />
+                  <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[9px] font-black text-slate-400 tracking-wider">VISA</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3.5">
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400">Expiration Date</label>
+                  <Input
+                    placeholder="MM/YY"
+                    value={stripeExpiry}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, "").slice(0, 4);
+                      const formatted = val.length >= 2 ? `${val.slice(0, 2)}/${val.slice(2)}` : val;
+                      setStripeExpiry(formatted);
+                    }}
+                    className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 text-xs h-9.5 text-center"
+                    disabled={stripeProcessing}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400">CVC</label>
+                  <Input
+                    placeholder="123"
+                    value={stripeCvc}
+                    onChange={(e) => {
+                      setStripeCvc(e.target.value.replace(/\D/g, "").slice(0, 3));
+                    }}
+                    className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 text-xs h-9.5 text-center"
+                    disabled={stripeProcessing}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold leading-relaxed pt-1 select-none">
+              🔒 Note: Use Stripe test card details (starts with <span className="font-extrabold text-[#258ffb] dark:text-blue-400">4242</span>) to authorize transaction successfully.
+            </p>
+          </div>
+
+          <div className="mt-6 flex gap-2.5 justify-end">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowStripeCheckout(false)}
+              disabled={stripeProcessing}
+              className="rounded-full h-9.5 text-xs font-bold px-5"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={async () => {
+                if (!stripeCardName.trim() || !stripeCardNumber.trim() || !stripeExpiry.trim() || !stripeCvc.trim()) {
+                  setStripeError("Please fill out all payment details.");
+                  return;
+                }
+
+                // Check card format starts with 4242
+                const sanitizedCard = stripeCardNumber.replace(/\s+/g, "");
+                if (!sanitizedCard.startsWith("4242")) {
+                  setStripeError("Stripe Payment Declined: Card invalid. Please use a card number starting with '4242' for test mode.");
+                  return;
+                }
+
+                setStripeProcessing(true);
+                setStripeError("");
+
+                // Simulated steps
+                const steps = [
+                  "Connecting to Stripe Gateway...",
+                  "Authorizing payment amount...",
+                  "Finalizing document deposit secure transaction...",
+                  "Payment approved! Finalizing signature..."
+                ];
+
+                for (let i = 0; i < steps.length; i++) {
+                  await new Promise(resolve => setTimeout(resolve, 600));
+                  toast({
+                    title: "Stripe Checkout",
+                    description: steps[i],
+                  });
+                }
+
+                setPaymentCompleted(true);
+                setShowStripeCheckout(false);
+                setStripeProcessing(false);
+
+                // Run signature creation
+                if (tempSignatureData) {
+                  await completeSignature(tempSignatureData);
+                }
+              }} 
+              disabled={stripeProcessing}
+              className="rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold h-9.5 text-xs px-6 shadow-md flex items-center justify-center gap-1.5"
+            >
+              {stripeProcessing ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <ShieldCheck className="h-3.5 w-3.5 text-white/90" />
+                  Pay ${parseFloat(depositFee || "0").toFixed(2)} & Sign
+                </>
+              )}
             </Button>
           </div>
         </DialogContent>

@@ -34,6 +34,34 @@ export interface AuditLog {
   created_at: string;
 }
 
+export interface Document {
+  id: string;
+  title: string;
+  file_name: string;
+  file_url: string;
+  file_size?: number;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  owner_id: string;
+  payment_fee?: number | null;
+}
+
+export interface Signatory {
+  id: string;
+  document_id: string;
+  email: string;
+  name: string;
+  order_num: number;
+  status: string;
+  signed_at?: string | null;
+  signature_data?: string | null;
+  ip_address?: string | null;
+  location?: string | null;
+  access_code?: string | null;
+  color?: string;
+}
+
 const DEFAULT_TEMPLATES: Template[] = [
   { 
     id: "t1", 
@@ -287,6 +315,115 @@ export const fallbackService = {
       const updated = [...current, newLog];
       localStorage.setItem(`ez_audit_logs_${documentId}`, JSON.stringify(updated));
       return newLog;
+    }
+  },
+
+  // ==========================================
+  // DOCUMENTS HYBRID API WITH PAYMENT FEE
+  // ==========================================
+  async fetchDocument(id: string): Promise<Document | null> {
+    try {
+      const { data, error } = await supabase
+        .from("documents")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (error) throw error;
+      return data as unknown as Document;
+    } catch (err) {
+      console.warn(`Supabase document fetch for ${id} failed, falling back to localStorage`, err);
+      const local = localStorage.getItem(`ez_doc_${id}`);
+      if (local) {
+        return JSON.parse(local);
+      }
+      const allDocsRaw = localStorage.getItem("supabase_documents");
+      if (allDocsRaw) {
+        const allDocs = JSON.parse(allDocsRaw);
+        const doc = allDocs.find((d: any) => d.id === id);
+        if (doc) return doc as Document;
+      }
+      return null;
+    }
+  },
+
+  async saveDocument(document: Document): Promise<Document> {
+    try {
+      const { data, error } = await supabase
+        .from("documents")
+        .upsert(document)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as unknown as Document;
+    } catch (err) {
+      console.warn("Supabase document upsert failed, saving to localStorage", err);
+      localStorage.setItem(`ez_doc_${document.id}`, JSON.stringify(document));
+      
+      const allDocsRaw = localStorage.getItem("supabase_documents");
+      let allDocs = allDocsRaw ? JSON.parse(allDocsRaw) : [];
+      allDocs = allDocs.filter((d: any) => d.id !== document.id);
+      allDocs.push(document);
+      localStorage.setItem("supabase_documents", JSON.stringify(allDocs));
+      
+      return document;
+    }
+  },
+
+  // ==========================================
+  // SIGNATORIES HYBRID API WITH ACCESS CODE
+  // ==========================================
+  async fetchSignatories(documentId: string): Promise<Signatory[]> {
+    try {
+      const { data, error } = await supabase
+        .from("signatories")
+        .select("*")
+        .eq("document_id", documentId)
+        .order("order_num");
+      if (error) throw error;
+      return (data || []) as unknown as Signatory[];
+    } catch (err) {
+      console.warn(`Supabase signatories fetch for ${documentId} failed, falling back to localStorage`, err);
+      const local = localStorage.getItem(`supabase_signatories_${documentId}`);
+      if (local) {
+        return JSON.parse(local);
+      }
+      return [];
+    }
+  },
+
+  async saveSignatories(documentId: string, signatories: Signatory[]): Promise<Signatory[]> {
+    try {
+      // Clear existing
+      await supabase.from("signatories").delete().eq("document_id", documentId);
+      const { data, error } = await supabase
+        .from("signatories")
+        .insert(signatories)
+        .select();
+      if (error) throw error;
+      return (data || []) as unknown as Signatory[];
+    } catch (err) {
+      console.warn("Supabase signatories insert/sync failed, saving to localStorage", err);
+      localStorage.setItem(`supabase_signatories_${documentId}`, JSON.stringify(signatories));
+      return signatories;
+    }
+  },
+
+  async updateSignatory(signatory: Signatory): Promise<Signatory> {
+    try {
+      const { data, error } = await supabase
+        .from("signatories")
+        .update(signatory)
+        .eq("id", signatory.id)
+        .select()
+        .single();
+      if (error) throw error;
+      return data as unknown as Signatory;
+    } catch (err) {
+      console.warn("Supabase signatory update failed, updating localStorage", err);
+      const current = await this.fetchSignatories(signatory.document_id);
+      const updated = current.map(s => s.id === signatory.id ? signatory : s);
+      localStorage.setItem(`supabase_signatories_${signatory.document_id}`, JSON.stringify(updated));
+      return signatory;
     }
   }
 };

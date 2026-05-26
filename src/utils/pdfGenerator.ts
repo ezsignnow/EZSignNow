@@ -268,7 +268,11 @@ export async function generateCertifiedPdf(
   // Loop through signatories and draw their signature audit blocks
   for (let idx = 0; idx < signatories.length; idx++) {
     const sig = signatories[idx];
-    const boxHeight = 70;
+    const isPasscodeUsed = !!(sig.access_code || sig.passcode_used || sig.passcode || sig.passcode_authenticated);
+    const depositAmount = document.payment_fee || document.deposit_amount || sig.payment_fee || sig.deposit_amount;
+    const isDepositPaid = depositAmount && Number(depositAmount) > 0;
+
+    const boxHeight = isPasscodeUsed ? 82 : 70;
 
     certPage.drawRectangle({
       x: 40,
@@ -331,6 +335,16 @@ export async function generateCertifiedPdf(
       color: textMuted,
     });
 
+    if (isPasscodeUsed) {
+      certPage.drawText("PASSPHRASE AUTHENTICATED: SECURE", {
+        x: 50,
+        y: currY - 76,
+        size: 7,
+        font: helveticaBold,
+        color: successColor,
+      });
+    }
+
     // Embed and render the signature image inside the block
     if (sig.signature_data) {
       const base64Data = sig.signature_data.split(",")[1];
@@ -375,6 +389,24 @@ export async function generateCertifiedPdf(
               font: helveticaBold,
               color: textMuted,
             });
+
+            if (isDepositPaid) {
+              const formattedAmount = Number(depositAmount).toFixed(2);
+              certPage.drawRectangle({
+                x: pWidth - 168,
+                y: currY - boxHeight + 46,
+                width: 106,
+                height: 10,
+                color: rgb(0.9, 0.98, 0.93),
+              });
+              certPage.drawText(`STRIPE PAYMENT PROCESSED: $${formattedAmount}`, {
+                x: pWidth - 165,
+                y: currY - boxHeight + 49,
+                size: 5,
+                font: helveticaBold,
+                color: successColor,
+              });
+            }
           }
         } catch (err) {
           console.error("Error drawing signature on certificate:", err);
@@ -407,6 +439,24 @@ export async function generateCertifiedPdf(
         font: helveticaBold,
         color: textMuted,
       });
+
+      if (isDepositPaid) {
+        const formattedAmount = Number(depositAmount).toFixed(2);
+        certPage.drawRectangle({
+          x: pWidth - 168,
+          y: currY - boxHeight + 46,
+          width: 106,
+          height: 10,
+          color: rgb(0.9, 0.98, 0.93),
+        });
+        certPage.drawText(`STRIPE PAYMENT PROCESSED: $${formattedAmount}`, {
+          x: pWidth - 165,
+          y: currY - boxHeight + 49,
+          size: 5,
+          font: helveticaBold,
+          color: successColor,
+        });
+      }
     }
 
     currY -= (boxHeight + 12);

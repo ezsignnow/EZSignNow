@@ -9,6 +9,7 @@ interface Signatory {
   order_num: number;
   status: string;
   signed_at?: string | null;
+  access_code?: string | null;
 }
 
 interface Document {
@@ -16,6 +17,7 @@ interface Document {
   title: string;
   owner_id: string;
   status: string;
+  payment_fee?: number | null;
 }
 
 // Cooldown interval for sending reminders (e.g., 2 minutes for sandbox testing)
@@ -39,7 +41,7 @@ export const reminderScheduler = {
       try {
         const { data, error } = await supabase
           .from("documents")
-          .select("id, title, owner_id, status")
+          .select("*")
           .eq("status", "pending");
         
         if (error) throw error;

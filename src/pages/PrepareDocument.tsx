@@ -8,6 +8,9 @@ import { SignatoryManager, Signatory } from "@/components/documents/SignatoryMan
 import { DocumentCanvas, Field } from "@/components/documents/DocumentCanvas";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { 
   ArrowLeft, Save, Send, Loader2, Copy, Check,
   FileSignature, ChevronDown, Briefcase, User, PenTool,
@@ -46,6 +49,7 @@ export default function PrepareDocument() {
   const [pdfUrl, setPdfUrl] = useState<string>("");
   const [sentDialogOpen, setSentDialogOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [depositFee, setDepositFee] = useState("");
 
   const [isPremium, setIsPremium] = useState(localStorage.getItem("is_premium") === "true");
   const [stats, setStats] = useState({ total: 0, pending: 0, completed: 0 });
@@ -189,12 +193,22 @@ export default function PrepareDocument() {
           "hsl(24, 100%, 50%)",
           "hsl(340, 82%, 52%)",
         ];
-        loadedSignatories = sigData.map((s, i) => ({
-          ...s,
-          color: colors[i % colors.length],
-        }));
+        loadedSignatories = sigData.map((s, i) => {
+          const savedPasscode = localStorage.getItem(`signatory_passcode_${id}_${s.email}`) || "";
+          const resolvedCode = s.access_code || savedPasscode || undefined;
+          return {
+            ...s,
+            color: colors[i % colors.length],
+            access_code: resolvedCode,
+            passcode: resolvedCode,
+          };
+        });
         setSignatories(loadedSignatories);
       }
+
+      // Fetch existing deposit fee
+      const savedDepositFee = data.payment_fee ? String(data.payment_fee) : (localStorage.getItem(`document_deposit_fee_${id}`) || "");
+      setDepositFee(savedDepositFee);
 
       // Fetch existing fields
       const { data: fieldData } = await supabase
@@ -280,6 +294,13 @@ export default function PrepareDocument() {
       // Save signatories
       await supabase.from("signatories").delete().eq("document_id", id);
       
+      // Save payment_fee to documents table
+      const feeNum = depositFee.trim() ? Number(depositFee.trim()) : null;
+      await supabase
+        .from("documents")
+        .update({ payment_fee: feeNum })
+        .eq("id", id);
+
       let insertedSignatories: any[] = [];
       if (signatories.length > 0) {
         const { data: sigData, error: sigError } = await supabase
@@ -290,11 +311,29 @@ export default function PrepareDocument() {
               email: s.email,
               name: s.name,
               order_num: i + 1,
+              access_code: s.access_code || s.passcode || null,
             }))
           )
           .select();
         if (sigError) throw sigError;
         insertedSignatories = sigData || [];
+      }
+
+      // Save passcodes to localStorage
+      signatories.forEach((s) => {
+        const code = s.access_code || s.passcode || "";
+        if (code) {
+          localStorage.setItem(`signatory_passcode_${id}_${s.email}`, code);
+        } else {
+          localStorage.removeItem(`signatory_passcode_${id}_${s.email}`);
+        }
+      });
+
+      // Save deposit fee to localStorage
+      if (depositFee.trim()) {
+        localStorage.setItem(`document_deposit_fee_${id}`, depositFee.trim());
+      } else {
+        localStorage.removeItem(`document_deposit_fee_${id}`);
       }
 
       // Save fields
@@ -673,7 +712,7 @@ export default function PrepareDocument() {
           />
 
           {/* Right Sidebar - Signatories */}
-          <div>
+          <div className="space-y-4">
             <SignatoryManager
               signatories={signatories}
               onAdd={handleAddSignatory}
@@ -682,6 +721,39 @@ export default function PrepareDocument() {
               selectedSignatory={selectedSignatory}
               onSelectSignatory={setSelectedSignatory}
             />
+
+            {/* Premium Deposit Configuration Panel */}
+            <Card className="border-slate-100/80 dark:border-slate-800 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white dark:bg-slate-900 overflow-hidden transition-colors">
+              <CardHeader className="pb-3 pt-5 px-5">
+                <CardTitle className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                  <CreditCard className="h-3.5 w-3.5 text-[#258ffb]" />
+                  Deposit Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 px-5 pb-5">
+                <div className="space-y-1.5">
+                  <Label htmlFor="depositFee" className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                    Required Deposit (USD)
+                  </Label>
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-extrabold text-slate-400">$</span>
+                    <Input
+                      id="depositFee"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="0.00 (No deposit required)"
+                      value={depositFee}
+                      onChange={(e) => setDepositFee(e.target.value)}
+                      className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-350 dark:placeholder:text-slate-650 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 pl-7 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
+                    />
+                  </div>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-normal mt-1">
+                    Signatories must pay this amount via Stripe mock gateway to finalize signature. Leave blank or 0 to bypass.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </main>
