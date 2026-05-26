@@ -5,6 +5,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, X, FileText, ChevronDown, Check, Upload, Sparkles, Mail, FileSpreadsheet } from "lucide-react";
+import { logDocumentEvent } from "@/utils/auditLogger";
+
 
 export function DocumentUpload() {
   const [activeTab, setActiveTab] = useState<"upload" | "bulk">("upload");
@@ -433,7 +435,21 @@ export function DocumentUpload() {
 
       if (docError) throw docError;
 
+      // Secure Geolocation IP Logging for Document Upload
+      try {
+        await logDocumentEvent(
+          docData.id,
+          "upload",
+          undefined,
+          user.email || undefined,
+          (user.user_metadata?.full_name || "Document Owner") as string
+        );
+      } catch (logErr) {
+        console.error("Failed to log upload event:", logErr);
+      }
+
       toast({
+
         title: "Document uploaded!",
         description: "Now add signatories and fields to your document.",
       });

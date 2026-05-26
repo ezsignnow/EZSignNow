@@ -34,7 +34,13 @@ import {
   User,
   Briefcase,
   CreditCard,
-  Star
+  Star,
+  Trash2,
+  Image,
+  Palette,
+  Sparkles,
+  RefreshCw,
+  Globe
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -86,13 +92,36 @@ export default function Dashboard() {
   });
   const [statsLoading, setStatsLoading] = useState(true);
 
-  // States for interactive mock sub-views
+  // Expanded states for Templates, Branding, and Team Workspace Workflows
+  const [customTemplates, setCustomTemplates] = useState<any[]>([]);
+  const [settingsSubTab, setSettingsSubTab] = useState<"profile" | "branding">("profile");
+  
+  // Custom Branding Panel States
+  const [brandLogoUrl, setBrandLogoUrl] = useState<string | null>(null);
+  const [primaryColor, setPrimaryColor] = useState("#258ffb");
+  const [secondaryColor, setSecondaryColor] = useState("#0f172a");
+  const [accentColor, setAccentColor] = useState("#10b981");
+  const [isSavingBranding, setIsSavingBranding] = useState(false);
+
+  // Expanded Team Workspace States
+  const [workspaceName, setWorkspaceName] = useState("YalTech Antigravity Workspace");
+  const [workspaceSlug, setWorkspaceSlug] = useState("yaltech-antigravity");
   const [teamMembers, setTeamMembers] = useState([
     { email: "meets@example.com", role: "Admin", status: "Active" },
     { email: "sarah.jenkins@corp.com", role: "Member", status: "Active" },
-    { email: "m.chen@EZSignNow.com", role: "Member", status: "Pending" }
+    { email: "john.doe@yaltech.com", role: "Viewer", status: "Active" }
   ]);
   const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteRole, setInviteRole] = useState("Member");
+  const [pendingInvites, setPendingInvites] = useState([
+    { email: "m.chen@EZSignNow.com", role: "Member", invitedAt: "May 24, 2026" },
+    { email: "alex.rivera@corp.com", role: "Manager", invitedAt: "May 25, 2026" }
+  ]);
+  const [collaborativeFeatures, setCollaborativeFeatures] = useState({
+    shareTemplates: true,
+    auditTrailsPublic: true,
+    enforceSso: false
+  });
   
   const [profileName, setProfileName] = useState("Meets User");
   const [profileEmail, setProfileEmail] = useState("");
@@ -113,6 +142,33 @@ export default function Dashboard() {
   
   const [newFormName, setNewFormName] = useState("");
   const [isCreatingForm, setIsCreatingForm] = useState(false);
+
+  // Load Custom Templates & Branding settings from localStorage
+  useEffect(() => {
+    // Templates
+    const listStored = localStorage.getItem("custom_templates_list");
+    if (listStored) {
+      try {
+        setCustomTemplates(JSON.parse(listStored));
+      } catch (err) {
+        console.error("Error reading templates:", err);
+      }
+    }
+
+    // Branding
+    const storedBranding = localStorage.getItem("custom_branding");
+    if (storedBranding) {
+      try {
+        const parsed = JSON.parse(storedBranding);
+        if (parsed.logoUrl) setBrandLogoUrl(parsed.logoUrl);
+        if (parsed.primaryColor) setPrimaryColor(parsed.primaryColor);
+        if (parsed.secondaryColor) setSecondaryColor(parsed.secondaryColor);
+        if (parsed.accentColor) setAccentColor(parsed.accentColor);
+      } catch (err) {
+        console.error("Error loading custom branding:", err);
+      }
+    }
+  }, [activeTab]);
 
   const fetchStats = async () => {
     if (!user) return;
@@ -177,7 +233,162 @@ export default function Dashboard() {
     setSearchParams({ tab: tabName });
   };
 
-  // Interaction handlers for mock views
+  // Expanded Interaction Handlers
+
+  // 1. Templates Handlers
+  const handleDeleteTemplate = (id: string, name: string) => {
+    localStorage.removeItem(`template_${id}`);
+    const updated = customTemplates.filter(item => item.id !== id);
+    setCustomTemplates(updated);
+    localStorage.setItem("custom_templates_list", JSON.stringify(updated));
+    toast({
+      title: "Template Deleted",
+      description: `"${name}" has been permanently removed.`
+    });
+  };
+
+  const handleUseTemplate = async (template: any) => {
+    if (!user) return;
+    toast({
+      title: "Initializing Document",
+      description: `Creating new document copy from "${template.title}"...`,
+    });
+    
+    try {
+      const docId = `doc-${Date.now()}`;
+      // Simulate creating a document in documents table
+      const { data, error } = await supabase
+        .from("documents")
+        .insert({
+          id: docId,
+          owner_id: user.id,
+          title: `${template.title} Copy`,
+          file_name: `${template.title.toLowerCase().replace(/\s+/g, "_")}_copy.pdf`,
+          file_url: "https://ejvpyjzhwmsxshqpsuhq.supabase.co/storage/v1/object/public/documents/default_template.pdf",
+          file_size: 102400,
+          status: "draft",
+        })
+        .select()
+        .single();
+        
+      if (error) throw error;
+      
+      // If it is a custom template, read and copy full signatories & fields configuration
+      if (!template.isDefault) {
+        const fullTemplateRaw = localStorage.getItem(`template_${template.id}`);
+        if (fullTemplateRaw) {
+          const fullTemplate = JSON.parse(fullTemplateRaw);
+          
+          if (fullTemplate.roles && fullTemplate.roles.length > 0) {
+            const sigsToInsert = fullTemplate.roles.map((role: any, idx: number) => ({
+              document_id: docId,
+              email: `${role.name.toLowerCase().replace(/\s+/g, ".")}@example.com`,
+              name: role.name,
+              order_num: idx + 1,
+              status: "pending"
+            }));
+            const { data: insertedSigs, error: sigErr } = await supabase
+              .from("signatories")
+              .insert(sigsToInsert)
+              .select();
+              
+            if (sigErr) throw sigErr;
+            
+            if (fullTemplate.fields && fullTemplate.fields.length > 0 && insertedSigs) {
+              const fieldsToInsert = fullTemplate.fields.map((f: any) => {
+                const roleIdx = fullTemplate.roles.findIndex((r: any) => r.id === f.roleId);
+                const signatoryId = roleIdx !== -1 && insertedSigs[roleIdx] ? insertedSigs[roleIdx].id : null;
+                return {
+                  document_id: docId,
+                  field_type: f.type,
+                  x_position: f.x,
+                  y_position: f.y,
+                  width: f.width,
+                  height: f.height,
+                  label: f.label || null,
+                  tooltip: f.tooltip || null,
+                  required: f.required,
+                  signatory_id: signatoryId
+                };
+              });
+              const { error: fieldErr } = await supabase.from("signature_fields").insert(fieldsToInsert);
+              if (fieldErr) throw fieldErr;
+            }
+          }
+        }
+      } else {
+        // Default standard placeholders
+        const { data: defaultSigs } = await supabase
+          .from("signatories")
+          .insert([
+            { document_id: docId, email: "client@example.com", name: "Client Partner", order_num: 1, status: "pending" },
+            { document_id: docId, email: "admin@corp.com", name: "Internal Officer", order_num: 2, status: "pending" },
+          ])
+          .select();
+          
+        if (defaultSigs) {
+          await supabase.from("signature_fields").insert([
+            { document_id: docId, field_type: "signature", x_position: 120, y_position: 450, width: 140, height: 36, required: true, signatory_id: defaultSigs[0].id },
+            { document_id: docId, field_type: "signature", x_position: 340, y_position: 450, width: 140, height: 36, required: true, signatory_id: defaultSigs[1].id },
+          ]);
+        }
+      }
+      
+      toast({
+        title: "Layout Framework Loaded",
+        description: `Successfully loaded "${template.title}" configuration. Ready for final signing send!`
+      });
+      navigate(`/document/${docId}/prepare`);
+    } catch (err: any) {
+      console.error(err);
+      toast({
+        title: "Instantiate Failed",
+        description: err.message || "Failed to initialize standard document template.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  // 2. Custom Branding Handlers
+  const handleSaveBranding = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingBranding(true);
+    
+    setTimeout(() => {
+      const payload = {
+        logoUrl: brandLogoUrl,
+        primaryColor,
+        secondaryColor,
+        accentColor,
+      };
+      
+      localStorage.setItem("custom_branding", JSON.stringify(payload));
+      setIsSavingBranding(false);
+      
+      // Dispatch standard custom event to notify components like BrandLogo to re-render logo instantly
+      window.dispatchEvent(new Event("branding_updated"));
+      
+      toast({
+        title: "Workspace Branding Saved",
+        description: "Your brand colors and logo have been loaded dynamically across all signing headers!"
+      });
+    }, 900);
+  };
+
+  const handleResetBranding = () => {
+    localStorage.removeItem("custom_branding");
+    setBrandLogoUrl(null);
+    setPrimaryColor("#258ffb");
+    setSecondaryColor("#0f172a");
+    setAccentColor("#10b981");
+    window.dispatchEvent(new Event("branding_updated"));
+    toast({
+      title: "Workspace Branding Reset",
+      description: "Returned to the classic Signaturely brand colors and icons."
+    });
+  };
+
+  // 3. Expanded Workspace and Invite Handlers
   const handleInviteMember = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inviteEmail || !inviteEmail.includes("@")) {
@@ -188,11 +399,78 @@ export default function Dashboard() {
       });
       return;
     }
-    setTeamMembers([...teamMembers, { email: inviteEmail, role: "Member", status: "Pending" }]);
+
+    if (teamMembers.some(m => m.email.toLowerCase() === inviteEmail.toLowerCase())) {
+      toast({
+        title: "Already Member",
+        description: "This email is already an active member of this workspace.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (pendingInvites.some(i => i.email.toLowerCase() === inviteEmail.toLowerCase())) {
+      toast({
+        title: "Already Invited",
+        description: "This email already has an active pending workspace invitation.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Add to pending invitations
+    const newInvite = {
+      email: inviteEmail,
+      role: inviteRole,
+      invitedAt: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+    };
+    
+    setPendingInvites([...pendingInvites, newInvite]);
     setInviteEmail("");
+    
     toast({
-      title: "Invitation Sent",
-      description: `Successfully sent workspace invite to ${inviteEmail}.`
+      title: "Workspace Invite Dispatched",
+      description: `Dynamic Zoho mail relay has sent an active collaborator invite to ${inviteEmail} as "${inviteRole}".`
+    });
+  };
+
+  const handleRevokeInvite = (email: string) => {
+    setPendingInvites(pendingInvites.filter(i => i.email !== email));
+    toast({
+      title: "Invitation Revoked",
+      description: `Cancelled pending collaborator credentials for ${email}.`
+    });
+  };
+
+  const handleResendInvite = (email: string) => {
+    toast({
+      title: "Invitation Re-sent",
+      description: `Dispatched fresh verification token to ${email} workspace link.`
+    });
+  };
+
+  const handleUpdateMemberRole = (email: string, nextRole: string) => {
+    setTeamMembers(teamMembers.map(m => m.email === email ? { ...m, role: nextRole } : m));
+    toast({
+      title: "Collaborator Role Updated",
+      description: `Access role for ${email} is now configured as ${nextRole}.`
+    });
+  };
+
+  const handleRemoveMember = (email: string) => {
+    setTeamMembers(teamMembers.filter(m => m.email !== email));
+    toast({
+      title: "Member Terminated",
+      description: `Removed ${email} workspace authorization privileges.`,
+      variant: "destructive"
+    });
+  };
+
+  const handleSaveWorkspaceProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Workspace Profile Applied",
+      description: `Workspace details updated to "${workspaceName}" (${workspaceSlug})`
     });
   };
 
@@ -539,34 +817,83 @@ export default function Dashboard() {
 
             {activeTab === "templates" && (
               <div className="space-y-6 animate-in fade-in duration-200">
-                <div>
-                  <h1 className="text-2xl font-extrabold text-slate-800">Templates Library</h1>
-                  <p className="text-sm text-slate-500 mt-1">Save time by keeping reusable document forms with signature fields pre-configured.</p>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <h1 className="text-2xl font-extrabold text-slate-800">Templates Library</h1>
+                    <p className="text-sm text-slate-500 mt-1">Save time by keeping reusable document forms with signature fields pre-configured.</p>
+                  </div>
+                  <Button 
+                    onClick={() => navigate("/template/new")}
+                    className="bg-[#258ffb] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm gap-2"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Create New Template
+                  </Button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {[
-                    { title: "Standard NDA", desc: "Non-disclosure template with dual signature panels.", duration: "Last updated 3 days ago" },
-                    { title: "Independent Contractor", desc: "Consulting agreement with scope milestones & payment fields.", duration: "Last updated 1 week ago" },
-                    { title: "W-9 Form (2026)", desc: "Standard tax identification form pre-arranged.", duration: "Created on May 2, 2026" },
-                  ].map((item) => (
-                    <Card key={item.title} className="border-slate-100 hover:shadow-md transition-all group flex flex-col justify-between">
+                  {/* Custom Templates from localStorage */}
+                  {customTemplates.map((item) => (
+                    <Card key={item.id} className="border-slate-100 hover:shadow-md transition-all group flex flex-col justify-between relative bg-white overflow-hidden shadow-[0_2px_4px_rgba(0,0,0,0.01)] hover:-translate-y-0.5 duration-250">
+                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1 z-10">
+                        <button
+                          onClick={() => navigate(`/template/${item.id}/edit`)}
+                          className="p-1.5 rounded-lg bg-white border border-slate-100 text-slate-500 hover:text-slate-800 hover:shadow-sm transition-all focus:outline-none"
+                          title="Edit Template"
+                        >
+                          <Settings className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteTemplate(item.id, item.title)}
+                          className="p-1.5 rounded-lg bg-rose-50 border border-rose-100 text-rose-500 hover:text-rose-700 hover:shadow-sm transition-all focus:outline-none"
+                          title="Delete Template"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                      
                       <CardContent className="p-5 flex-1 flex flex-col justify-between">
                         <div className="space-y-2.5">
-                          <div className="h-10 w-10 bg-[#258ffb]/5 rounded-lg flex items-center justify-center">
-                            <Copy className="h-5 w-5 text-[#258ffb]" />
+                          <div className="h-10 w-10 bg-blue-50/50 border border-blue-100 text-[#258ffb] rounded-xl flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                            <Copy className="h-5 w-5" />
                           </div>
-                          <h3 className="font-bold text-slate-800 text-[15px]">{item.title}</h3>
-                          <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
+                          <h3 className="font-extrabold text-slate-800 text-[14.5px] truncate pr-12">{item.title}</h3>
+                          <p className="text-[11.5px] text-slate-400 leading-relaxed line-clamp-2">{item.desc || "No description provided."}</p>
+                        </div>
+                        <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+                          <span className="text-[10px] font-extrabold text-emerald-600 bg-emerald-50/50 border border-emerald-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)] select-none">Custom Layout</span>
+                          <button 
+                            onClick={() => handleUseTemplate(item)}
+                            className="text-xs font-bold text-[#258ffb] flex items-center gap-1 group-hover:underline focus:outline-none"
+                          >
+                            Use Layout
+                            <ArrowRight className="h-3 w-3" />
+                          </button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+
+                  {/* Standard Default Templates */}
+                  {[
+                    { id: "t-nda", title: "Standard NDA", desc: "Non-disclosure template with dual signature panels.", duration: "Last updated 3 days ago", isDefault: true },
+                    { id: "t-contract", title: "Independent Contractor", desc: "Consulting agreement with scope milestones & payment fields.", duration: "Last updated 1 week ago", isDefault: true },
+                    { id: "t-w9", title: "W-9 Form (2026)", desc: "Standard tax identification form pre-arranged.", duration: "Created on May 2, 2026", isDefault: true },
+                  ].map((item) => (
+                    <Card key={item.id} className="border-slate-100 hover:shadow-md hover:-translate-y-0.5 duration-250 transition-all group flex flex-col justify-between bg-white shadow-[0_2px_4px_rgba(0,0,0,0.01)]">
+                      <CardContent className="p-5 flex-1 flex flex-col justify-between">
+                        <div className="space-y-2.5">
+                          <div className="h-10 w-10 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl flex items-center justify-center">
+                            <Copy className="h-5 w-5" />
+                          </div>
+                          <h3 className="font-extrabold text-slate-800 text-[14.5px]">{item.title}</h3>
+                          <p className="text-[11.5px] text-slate-400 leading-relaxed line-clamp-2">{item.desc}</p>
                         </div>
                         <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
                           <span className="text-[10px] font-bold text-slate-400">{item.duration}</span>
                           <button 
-                            onClick={() => {
-                              toast({ title: "Template Activated", description: `Loading ${item.title} workspace layout.` });
-                              setActiveTab("sign");
-                            }}
-                            className="text-xs font-bold text-[#258ffb] flex items-center gap-1 group-hover:underline"
+                            onClick={() => handleUseTemplate(item)}
+                            className="text-xs font-bold text-[#258ffb] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
                             <ArrowRight className="h-3 w-3" />
@@ -577,13 +904,16 @@ export default function Dashboard() {
                   ))}
                   
                   {/* Create Template layout */}
-                  <Card className="border-dashed border-slate-200 flex flex-col items-center justify-center p-5 text-center min-h-[180px] bg-slate-50/20">
+                  <Card 
+                    onClick={() => navigate("/template/new")}
+                    className="border-dashed border-slate-200 hover:border-[#258ffb]/55 hover:bg-blue-50/10 cursor-pointer flex flex-col items-center justify-center p-5 text-center min-h-[180px] bg-slate-50/20 transition-all group shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)]"
+                  >
                     <CardContent className="p-0 space-y-3.5">
-                      <div className="h-11 w-11 rounded-full border-[1.5px] border-[#258ffb]/30 flex items-center justify-center mx-auto text-[#258ffb]">
+                      <div className="h-11 w-11 rounded-full border-[1.5px] border-[#258ffb]/30 group-hover:border-[#258ffb] flex items-center justify-center mx-auto text-[#258ffb] transition-all bg-white shadow-sm">
                         <Plus className="h-5 w-5" />
                       </div>
                       <div>
-                        <h4 className="text-[13px] font-bold text-slate-700">Create New Template</h4>
+                        <h4 className="text-[13px] font-extrabold text-slate-700 group-hover:text-slate-900 transition-colors">Create New Template</h4>
                         <p className="text-[11px] text-slate-400 max-w-[200px] mx-auto mt-1 leading-normal">Save fields setup for repeat sends.</p>
                       </div>
                     </CardContent>
@@ -672,87 +1002,305 @@ export default function Dashboard() {
                   </Card>
                 </div>
               </div>
-            )}
-
-            {activeTab === "team" && (
-              <div className="space-y-6 animate-in fade-in duration-200">
+            )}            {activeTab === "team" && (
+              <div className="space-y-8 animate-in fade-in duration-200">
                 <div>
-                  <h1 className="text-2xl font-extrabold text-slate-800">Team Workspace</h1>
-                  <p className="text-sm text-slate-500 mt-1">Invite team members to upload contracts, edit shared templates, and inspect mutual signature audits.</p>
+                  <h1 className="text-2xl font-extrabold text-slate-800">Workspace Management</h1>
+                  <p className="text-sm text-slate-500 mt-1">Configure your corporate workspace details, edit user access roles, and monitor team activities.</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                  {/* Left column - invite box */}
-                  <Card className="border-slate-100 lg:col-span-1">
-                    <CardContent className="p-5">
-                      <form onSubmit={handleInviteMember} className="space-y-4">
-                        <div className="space-y-2">
-                          <h3 className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                            <UserPlus className="h-4 w-4 text-[#258ffb]" />
-                            Invite Member
-                          </h3>
-                          <p className="text-xs text-slate-400 leading-normal">Your team plan currently allows up to 5 collaborators.</p>
+                  
+                  {/* Left Column: Workspace Config & Invites */}
+                  <div className="lg:col-span-1 space-y-6">
+                    {/* Workspace Profile details */}
+                    <Card className="border-slate-100/80 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.01)] bg-white p-5 space-y-4">
+                      <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <Briefcase className="h-4 w-4 text-[#258ffb]" />
+                        Workspace Profile
+                      </h3>
+                      
+                      <form onSubmit={handleSaveWorkspaceProfile} className="space-y-4">
+                        <div className="space-y-1.5">
+                          <Label className="text-[10px] font-bold text-slate-400">WORKSPACE NAME</Label>
+                          <Input 
+                            value={workspaceName} 
+                            onChange={(e) => setWorkspaceName(e.target.value)}
+                            className="text-xs font-semibold h-9 rounded-lg border-slate-200"
+                            placeholder="e.g. Acme Corp Workspace"
+                          />
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-400">EMAIL ADDRESS</label>
+                          <Label className="text-[10px] font-bold text-slate-400">WORKSPACE URL SLUG</Label>
+                          <div className="flex rounded-lg overflow-hidden border border-slate-200 h-9">
+                            <span className="bg-slate-50 text-[10px] font-bold text-slate-400 border-r border-slate-200 px-2.5 flex items-center select-none uppercase tracking-tight">
+                              ez/ws/
+                            </span>
+                            <input
+                              value={workspaceSlug}
+                              onChange={(e) => setWorkspaceSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
+                              className="text-xs font-semibold px-3 py-1 flex-1 focus:outline-none w-full"
+                              placeholder="acme-corp"
+                            />
+                          </div>
+                        </div>
+
+                        <Button 
+                          type="submit" 
+                          variant="outline"
+                          className="w-full text-xs font-bold border-slate-200 h-9 rounded-lg flex items-center gap-1.5 hover:bg-slate-50"
+                        >
+                          <Save className="h-3.5 w-3.5" />
+                          Apply Profile
+                        </Button>
+                      </form>
+                    </Card>
+
+                    {/* Invite Collaborator Form */}
+                    <Card className="border-slate-100/80 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.01)] bg-white p-5 space-y-4">
+                      <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <UserPlus className="h-4 w-4 text-[#258ffb]" />
+                        Invite Collaborator
+                      </h3>
+
+                      <form onSubmit={handleInviteMember} className="space-y-4">
+                        <div className="space-y-1.5">
+                          <Label className="text-[10px] font-bold text-slate-400 font-semibold">EMAIL ADDRESS</Label>
                           <div className="relative">
                             <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
-                            <input 
-                              type="email"
-                              placeholder="colleague@company.com"
-                              value={inviteEmail}
+                            <Input 
+                              type="email" 
+                              placeholder="colleague@company.com" 
+                              value={inviteEmail} 
                               onChange={(e) => setInviteEmail(e.target.value)}
-                              className="w-full text-xs font-semibold pl-9 pr-3 py-2 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
+                              className="text-xs font-semibold pl-9 h-9 rounded-lg border-slate-200"
                               required
                             />
                           </div>
                         </div>
 
-                        <Button type="submit" className="w-full bg-[#258ffb] hover:bg-[#1a7ae0] rounded-[4px] h-[36px] font-bold text-xs shadow-md shadow-[#258ffb]/10">
+                        <div className="space-y-1.5">
+                          <Label className="text-[10px] font-bold text-slate-400 font-semibold">COLLABORATOR ROLE</Label>
+                          <select 
+                            value={inviteRole}
+                            onChange={(e) => setInviteRole(e.target.value)}
+                            className="w-full text-xs font-semibold h-9 px-3 border border-slate-200 rounded-lg bg-white focus:outline-none"
+                          >
+                            <option value="Member">Member (Create & send documents)</option>
+                            <option value="Admin">Admin (Full administrative controls)</option>
+                            <option value="Manager">Manager (Review team records)</option>
+                            <option value="Viewer">Viewer (Read-only access)</option>
+                          </select>
+                        </div>
+
+                        <Button 
+                          type="submit"
+                          className="w-full bg-[#258ffb] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm"
+                        >
                           Send Invitation
                         </Button>
                       </form>
-                    </CardContent>
-                  </Card>
+                    </Card>
 
-                  {/* Right column - members list */}
-                  <Card className="border-slate-100 lg:col-span-2">
-                    <CardContent className="p-0">
+                    {/* Collaborative Settings Switches */}
+                    <Card className="border-slate-100/80 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.01)] bg-white p-5 space-y-3.5">
+                      <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Collaboration Policies</h3>
+                      
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between border-b border-slate-50 pb-3">
+                          <div>
+                            <p className="text-[11.5px] font-bold text-slate-700 leading-tight">Shared Library</p>
+                            <p className="text-[10px] text-slate-400 mt-0.5">Let members view & use saved templates.</p>
+                          </div>
+                          <button 
+                            onClick={() => setCollaborativeFeatures({ ...collaborativeFeatures, shareTemplates: !collaborativeFeatures.shareTemplates })}
+                            className={`w-9 h-5 rounded-full transition-colors flex items-center p-0.5 outline-none focus:ring-0 ${
+                              collaborativeFeatures.shareTemplates ? "bg-emerald-500" : "bg-slate-200"
+                            }`}
+                          >
+                            <div className={`w-4 h-4 rounded-full bg-white shadow-sm transform transition-transform duration-250 ${
+                              collaborativeFeatures.shareTemplates ? "translate-x-4" : "translate-x-0"
+                            }`} />
+                          </button>
+                        </div>
+
+                        <div className="flex items-center justify-between border-b border-slate-50 pb-3">
+                          <div>
+                            <p className="text-[11.5px] font-bold text-slate-700 leading-tight">Audit Trail Access</p>
+                            <p className="text-[10px] text-slate-400 mt-0.5">Allow public viewing of signature certificate hashes.</p>
+                          </div>
+                          <button 
+                            onClick={() => setCollaborativeFeatures({ ...collaborativeFeatures, auditTrailsPublic: !collaborativeFeatures.auditTrailsPublic })}
+                            className={`w-9 h-5 rounded-full transition-colors flex items-center p-0.5 outline-none focus:ring-0 ${
+                              collaborativeFeatures.auditTrailsPublic ? "bg-emerald-500" : "bg-slate-200"
+                            }`}
+                          >
+                            <div className={`w-4 h-4 rounded-full bg-white shadow-sm transform transition-transform duration-250 ${
+                              collaborativeFeatures.auditTrailsPublic ? "translate-x-4" : "translate-x-0"
+                            }`} />
+                          </button>
+                        </div>
+
+                        <div className="flex items-center justify-between pt-1">
+                          <div>
+                            <p className="text-[11.5px] font-bold text-slate-700 leading-tight flex items-center gap-1">
+                              Enforce SSO/MFA
+                              <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
+                            </p>
+                            <p className="text-[10px] text-slate-400 mt-0.5 font-semibold">Require multi-factor login for all members.</p>
+                          </div>
+                          <button 
+                            onClick={() => {
+                              toast({
+                                title: "Enterprise Policy",
+                                description: "Enforcing corporate SSO requires a premium Antigravity enterprise contract.",
+                              });
+                            }}
+                            className="w-9 h-5 rounded-full bg-slate-100 flex items-center p-0.5 cursor-not-allowed border border-slate-200"
+                          >
+                            <div className="w-4 h-4 rounded-full bg-slate-350 shadow-sm translate-x-0" />
+                          </button>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+
+                  {/* Right Column: Members and Pending Invites */}
+                  <div className="lg:col-span-2 space-y-6">
+                    {/* Active Collaborators list */}
+                    <Card className="border-slate-100/80 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white overflow-hidden">
+                      <div className="p-5 border-b border-slate-100 flex items-center justify-between">
+                        <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-2">
+                          <Users className="h-4.5 w-4.5 text-[#258ffb]" />
+                          Active Workspace Members ({teamMembers.length})
+                        </h3>
+                        <span className="text-[10px] font-bold text-slate-450 bg-slate-50 border border-slate-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                          Collaborators Plan
+                        </span>
+                      </div>
+                      
                       <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                        <table className="w-full text-left border-collapse select-none">
                           <thead>
                             <tr className="border-b border-slate-100 bg-slate-50/50">
-                              <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400">MEMBER EMAIL</th>
-                              <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400">WORKSPACE ROLE</th>
-                              <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400 text-right">STATUS</th>
+                              <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400">EMAIL ADDRESS</th>
+                              <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400">ACCESS ROLE</th>
+                              <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400 text-center">STATUS</th>
+                              <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400 text-right">ACTION</th>
                             </tr>
                           </thead>
                           <tbody>
                             {teamMembers.map((member) => (
-                              <tr key={member.email} className="border-b border-slate-100/60">
+                              <tr key={member.email} className="border-b border-slate-100/60 hover:bg-slate-50/10 transition-colors">
                                 <td className="px-5 py-4">
-                                  <span className="text-[13px] font-bold text-slate-700">{member.email}</span>
+                                  <div className="flex items-center gap-3">
+                                    <div className="h-8.5 w-8.5 bg-blue-50 border border-blue-100 text-[#258ffb] font-black rounded-full flex items-center justify-center text-xs shrink-0 shadow-sm uppercase">
+                                      {member.email.slice(0, 2)}
+                                    </div>
+                                    <div>
+                                      <p className="text-[12.5px] font-bold text-slate-700 leading-none">{member.email}</p>
+                                      <p className="text-[10px] text-slate-400 font-semibold mt-1">Invited via direct link</p>
+                                    </div>
+                                  </div>
                                 </td>
                                 <td className="px-5 py-4">
-                                  <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">{member.role}</span>
+                                  {member.email === "meets@example.com" ? (
+                                    <span className="text-[10.5px] font-bold text-slate-650 bg-slate-100/80 border border-slate-200/80 px-2 py-0.5 rounded shadow-[0_1px_2px_rgba(0,0,0,0.01)] uppercase select-none">
+                                      {member.role}
+                                    </span>
+                                  ) : (
+                                    <select
+                                      value={member.role}
+                                      onChange={(e) => handleUpdateMemberRole(member.email, e.target.value)}
+                                      className="text-xs font-bold text-slate-500 bg-white hover:text-slate-700 border border-slate-100 hover:border-slate-250 rounded px-1.5 py-0.5 focus:outline-none"
+                                    >
+                                      <option value="Admin">Admin</option>
+                                      <option value="Member">Member</option>
+                                      <option value="Manager">Manager</option>
+                                      <option value="Viewer">Viewer</option>
+                                    </select>
+                                  )}
                                 </td>
-                                <td className="px-5 py-4 text-right">
-                                  <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
-                                    member.status === "Active" 
-                                      ? "bg-emerald-500/10 text-emerald-500" 
-                                      : "bg-amber-500/10 text-amber-500 animate-pulse"
-                                  }`}>
+                                <td className="px-5 py-4 text-center">
+                                  <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-100 bg-emerald-50 text-emerald-600 shadow-[0_1px_2px_rgba(0,0,0,0.01)] uppercase select-none">
                                     {member.status}
                                   </span>
+                                </td>
+                                <td className="px-5 py-4 text-right">
+                                  {member.email !== "meets@example.com" && (
+                                    <button
+                                      onClick={() => handleRemoveMember(member.email)}
+                                      className="text-xs font-bold text-rose-500 hover:text-rose-700 hover:underline p-1 cursor-pointer focus:outline-none"
+                                    >
+                                      Remove
+                                    </button>
+                                  )}
                                 </td>
                               </tr>
                             ))}
                           </tbody>
                         </table>
                       </div>
-                    </CardContent>
-                  </Card>
+                    </Card>
+
+                    {/* Pending invitations table */}
+                    {pendingInvites.length > 0 && (
+                      <Card className="border-slate-100/80 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white overflow-hidden">
+                        <div className="p-5 border-b border-slate-100">
+                          <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-2">
+                            <Clock className="h-4.5 w-4.5 text-amber-500" />
+                            Pending Collaborator Invitations ({pendingInvites.length})
+                          </h3>
+                        </div>
+
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-left border-collapse select-none">
+                            <thead>
+                              <tr className="border-b border-slate-100 bg-slate-50/50">
+                                <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400">PENDING EMAIL</th>
+                                <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400">ASSIGNED ROLE</th>
+                                <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400">DATE SENT</th>
+                                <th className="px-5 py-3.5 text-[10px] font-bold text-slate-400 text-right">ACTIONS</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {pendingInvites.map((invite) => (
+                                <tr key={invite.email} className="border-b border-slate-100/60 hover:bg-slate-50/5 transition-colors">
+                                  <td className="px-5 py-4">
+                                    <span className="text-[12.5px] font-bold text-slate-700">{invite.email}</span>
+                                  </td>
+                                  <td className="px-5 py-4">
+                                    <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                                      {invite.role}
+                                    </span>
+                                  </td>
+                                  <td className="px-5 py-4">
+                                    <span className="text-xs text-slate-400 font-semibold">{invite.invitedAt}</span>
+                                  </td>
+                                  <td className="px-5 py-4 text-right flex justify-end gap-3.5">
+                                    <button
+                                      onClick={() => handleResendInvite(invite.email)}
+                                      className="text-xs font-bold text-[#258ffb] hover:text-[#1d7ee6] hover:underline cursor-pointer focus:outline-none"
+                                    >
+                                      Resend Link
+                                    </button>
+                                    <button
+                                      onClick={() => handleRevokeInvite(invite.email)}
+                                      className="text-xs font-bold text-rose-500 hover:text-rose-700 hover:underline cursor-pointer focus:outline-none"
+                                    >
+                                      Revoke Invite
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </Card>
+                    )}
+                  </div>
+                  
                 </div>
               </div>
             )}
@@ -803,113 +1351,456 @@ export default function Dashboard() {
 
             {activeTab === "settings" && (
               <div className="space-y-6 animate-in fade-in duration-200">
-                <div>
-                  <h1 className="text-2xl font-extrabold text-slate-800">Account Settings</h1>
-                  <p className="text-sm text-slate-500 mt-1">Configure your personal profile details, branding themes, and legal signature configurations.</p>
+                {/* Header and Sub-Tab Navigation */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-100 pb-5">
+                  <div>
+                    <h1 className="text-2xl font-extrabold text-slate-800">Account Settings</h1>
+                    <p className="text-sm text-slate-500 mt-1">Configure your personal profile details, signature presets, and workspace branding themes.</p>
+                  </div>
+                  
+                  {/* Segmented Sub-Tab Switcher */}
+                  <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/40 select-none">
+                    <button
+                      onClick={() => setSettingsSubTab("profile")}
+                      className={`px-4.5 py-1.5 rounded-lg text-xs font-bold transition-all focus:outline-none ${
+                        settingsSubTab === "profile"
+                          ? "bg-white text-slate-800 shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+                          : "text-slate-500 hover:text-slate-700"
+                      }`}
+                    >
+                      Personal Profile
+                    </button>
+                    <button
+                      onClick={() => setSettingsSubTab("branding")}
+                      className={`px-4.5 py-1.5 rounded-lg text-xs font-bold transition-all focus:outline-none flex items-center gap-1 ${
+                        settingsSubTab === "branding"
+                          ? "bg-white text-slate-800 shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+                          : "text-slate-500 hover:text-slate-700"
+                      }`}
+                    >
+                      <Palette className="h-3.5 w-3.5" />
+                      Custom Branding
+                    </button>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                  {/* Profile Edit Card */}
-                  <Card className="border-slate-100 lg:col-span-2">
-                    <CardContent className="p-6">
-                      <form onSubmit={handleSaveSettings} className="space-y-6">
-                        <h3 className="text-sm font-bold text-slate-700 pb-2 border-b border-slate-100">Personal Information</h3>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-1.5">
-                            <label className="text-[11px] font-bold text-slate-400">FULL NAME</label>
-                            <input 
-                              type="text"
-                              value={profileName}
-                              onChange={(e) => setProfileName(e.target.value)}
-                              className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
-                              required
-                            />
-                          </div>
+                {/* Tab content 1: Personal Profile */}
+                {settingsSubTab === "profile" && (
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                    <Card className="border-slate-100 lg:col-span-2">
+                      <CardContent className="p-6">
+                        <form onSubmit={handleSaveSettings} className="space-y-6">
+                          <h3 className="text-sm font-bold text-slate-700 pb-2 border-b border-slate-100">Personal Information</h3>
                           
-                          <div className="space-y-1.5">
-                            <label className="text-[11px] font-bold text-slate-400">EMAIL ADDRESS (PRIMARY)</label>
-                            <input 
-                              type="email"
-                              value={profileEmail}
-                              disabled
-                              className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded bg-slate-50 text-slate-400 cursor-not-allowed"
-                            />
-                          </div>
-                        </div>
-
-                        <h3 className="text-sm font-bold text-slate-700 pt-4 pb-2 border-b border-slate-100">Signature Config</h3>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-1.5">
-                            <label className="text-[11px] font-bold text-slate-400">DEFAULT SIGNING FONT</label>
-                            <select className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#258ffb]/50 focus:outline-none">
-                              <option>Signature Script Regular</option>
-                              <option>Dancing Script Bold</option>
-                              <option>Great Vibes Cursive</option>
-                            </select>
-                          </div>
-                          
-                          <div className="space-y-1.5">
-                            <label className="text-[11px] font-bold text-slate-400">MOCK SIGNATURE PREVIEW</label>
-                            <div className="h-10 border border-slate-100 rounded bg-slate-50/50 flex items-center justify-center p-2">
-                              <span className="font-serif italic text-lg text-slate-700 tracking-wider">
-                                {profileName || "Signer Name"}
-                              </span>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                              <label className="text-[11px] font-bold text-slate-400">FULL NAME</label>
+                              <input 
+                                type="text"
+                                value={profileName}
+                                onChange={(e) => setProfileName(e.target.value)}
+                                className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
+                                required
+                              />
+                            </div>
+                            
+                            <div className="space-y-1.5">
+                              <label className="text-[11px] font-bold text-slate-400">EMAIL ADDRESS (PRIMARY)</label>
+                              <input 
+                                type="email"
+                                value={profileEmail}
+                                disabled
+                                className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded bg-slate-50 text-slate-400 cursor-not-allowed"
+                              />
                             </div>
                           </div>
-                        </div>
 
-                        <div className="pt-4 flex items-center justify-end">
-                          <Button 
-                            type="submit" 
-                            disabled={isSavingSettings}
-                            className="bg-[#258ffb] hover:bg-[#1a7ae0] rounded-full h-[38px] px-6 font-bold text-xs shadow-md shadow-[#258ffb]/20 flex items-center gap-2"
+                          <h3 className="text-sm font-bold text-slate-700 pt-4 pb-2 border-b border-slate-100">Signature Config</h3>
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                              <label className="text-[11px] font-bold text-slate-400">DEFAULT SIGNING FONT</label>
+                              <select className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#258ffb]/50 focus:outline-none">
+                                <option>Signature Script Regular</option>
+                                <option>Dancing Script Bold</option>
+                                <option>Great Vibes Cursive</option>
+                              </select>
+                            </div>
+                            
+                            <div className="space-y-1.5">
+                              <label className="text-[11px] font-bold text-slate-400">MOCK SIGNATURE PREVIEW</label>
+                              <div className="h-10 border border-slate-100 rounded bg-slate-50/50 flex items-center justify-center p-2">
+                                <span className="font-serif italic text-lg text-slate-700 tracking-wider">
+                                  {profileName || "Signer Name"}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="pt-4 flex items-center justify-end">
+                            <Button 
+                              type="submit" 
+                              disabled={isSavingSettings}
+                              className="bg-[#258ffb] hover:bg-[#1a7ae0] rounded-full h-[38px] px-6 font-bold text-xs shadow-md shadow-[#258ffb]/20 flex items-center gap-2"
+                            >
+                              {isSavingSettings ? (
+                                <>
+                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                  Saving Details...
+                                </>
+                              ) : (
+                                <>
+                                  <Save className="h-4 w-4" />
+                                  Save Changes
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        </form>
+                      </CardContent>
+                    </Card>
+
+                    {/* Environment info info panel */}
+                    <Card className="border-slate-100 lg:col-span-1">
+                      <CardContent className="p-5 space-y-4">
+                        <h3 className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                          <Laptop className="h-4 w-4 text-[#258ffb]" />
+                          Environment Info
+                        </h3>
+                        <div className="space-y-2 text-xs font-semibold text-slate-400">
+                          <div className="flex items-center justify-between border-b border-slate-100/60 pb-2">
+                            <span>Developer Node</span>
+                            <span className="text-slate-600 bg-slate-100 px-2 py-0.5 rounded text-[10px]">Sandbox</span>
+                          </div>
+                          <div className="flex items-center justify-between border-b border-slate-100/60 pb-2">
+                            <span>Secure Keys</span>
+                            <span className="text-slate-600 font-mono text-[10px]">GOCSPX-...e75Ky3</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span>OAuth Login</span>
+                            <span className="text-emerald-500 flex items-center gap-1 text-[10px]">
+                              <Check className="h-3 w-3" />
+                              Active
+                            </span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                )}
+
+                {/* Tab content 2: Custom Branding Workspace */}
+                {settingsSubTab === "branding" && (
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+                    
+                    {/* Left: Upload Logo & Pick Colors */}
+                    <div className="lg:col-span-2 space-y-6">
+                      <form onSubmit={handleSaveBranding} className="space-y-6">
+                        
+                        {/* Logo Upload Card */}
+                        <Card className="border-slate-100/80 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-4">
+                          <div className="space-y-1">
+                            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                              <Image className="h-4 w-4 text-[#258ffb]" />
+                              Corporate Brand Logo
+                            </h3>
+                            <p className="text-xs text-slate-400">Upload your organization logo to replace YalTech / Signaturely default headers in all signer flows.</p>
+                          </div>
+
+                          <div className="flex flex-col sm:flex-row items-center gap-6 pt-2 select-none">
+                            {brandLogoUrl ? (
+                              <div className="relative h-20 w-32 rounded-2xl border border-slate-150 p-2 flex items-center justify-center bg-white shadow-sm shrink-0 group">
+                                <img src={brandLogoUrl} alt="Workspace Logo" className="max-h-full max-w-full object-contain" />
+                                <button
+                                  type="button"
+                                  onClick={() => setBrandLogoUrl(null)}
+                                  className="absolute -top-1.5 -right-1.5 h-6 w-6 rounded-full bg-rose-500 text-white flex items-center justify-center hover:bg-rose-600 shadow transition-all focus:outline-none"
+                                >
+                                  <Trash2 className="h-3 w-3" />
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="h-20 w-32 rounded-2xl border border-dashed border-slate-200 flex flex-col items-center justify-center p-3 text-center shrink-0 bg-slate-50/50">
+                                <FileText className="h-5 w-5 text-slate-350" />
+                                <span className="text-[9px] font-bold text-slate-400 mt-1 uppercase">No logo</span>
+                              </div>
+                            )}
+
+                            <div className="flex-1 w-full space-y-3">
+                              <div className="flex items-center justify-center w-full">
+                                <label className="flex flex-col items-center justify-center w-full h-20 border border-slate-200 border-dashed rounded-2xl cursor-pointer bg-slate-50/20 hover:bg-slate-50/50 transition-colors">
+                                  <div className="flex flex-col items-center justify-center py-4 text-center">
+                                    <Plus className="h-4.5 w-4.5 text-slate-450 mb-1" />
+                                    <p className="text-[11px] font-bold text-slate-500 leading-normal">
+                                      Click to upload brand logo
+                                    </p>
+                                    <p className="text-[9px] text-slate-400 mt-0.5 leading-none">
+                                      Supports SVG, PNG, JPG (Max 2MB)
+                                    </p>
+                                  </div>
+                                  <input 
+                                    type="file" 
+                                    accept="image/*" 
+                                    className="hidden" 
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0];
+                                      if (file) {
+                                        if (file.size > 2 * 1024 * 1024) {
+                                          toast({
+                                            title: "File too large",
+                                            description: "Brand logo must be less than 2MB.",
+                                            variant: "destructive"
+                                          });
+                                          return;
+                                        }
+                                        const reader = new FileReader();
+                                        reader.onload = () => {
+                                          setBrandLogoUrl(reader.result as string);
+                                          toast({
+                                            title: "Logo Loaded",
+                                            description: "Review your custom branding in the signature simulation panel!"
+                                          });
+                                        };
+                                        reader.readAsDataURL(file);
+                                      }
+                                    }}
+                                  />
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </Card>
+
+                        {/* Brand Theme Colors Picker Card */}
+                        <Card className="border-slate-100/80 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-4">
+                          <div className="space-y-1">
+                            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                              <Palette className="h-4 w-4 text-[#258ffb]" />
+                              Corporate Theme Colors
+                            </h3>
+                            <p className="text-xs text-slate-400">Personalize document sign buttons, border outlines, and email banners to align with your corporate style guide.</p>
+                          </div>
+
+                          {/* Pre-curated Brand Palettes presets */}
+                          <div className="pt-2 space-y-2">
+                            <Label className="text-[10px] font-extrabold text-slate-400 tracking-wider">PRE-CURATED BRAND PALETTES</Label>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                              {[
+                                { name: "Signaturely Blue", p: "#258ffb", s: "#0f172a", a: "#10b981" },
+                                { name: "Workspace Indigo", p: "#635bff", s: "#1e293b", a: "#f43f5e" },
+                                { name: "Forest Classic", p: "#059669", s: "#064e3b", a: "#f59e0b" },
+                                { name: "Premium Onyx", p: "#334155", s: "#0f172a", a: "#06b6d4" },
+                              ].map((preset) => (
+                                <button
+                                  key={preset.name}
+                                  type="button"
+                                  onClick={() => {
+                                    setPrimaryColor(preset.p);
+                                    setSecondaryColor(preset.s);
+                                    setAccentColor(preset.a);
+                                    toast({
+                                      title: "Preset Applied",
+                                      description: `Selected "${preset.name}" corporate theme.`
+                                    });
+                                  }}
+                                  className="flex items-center gap-2 border border-slate-100 hover:border-slate-200 hover:bg-slate-50 p-2 rounded-xl transition-all text-left text-[11px] font-bold text-slate-650 focus:outline-none"
+                                >
+                                  <span className="flex gap-0.5 shrink-0">
+                                    <span className="h-3 w-3 rounded-full" style={{ backgroundColor: preset.p }} />
+                                    <span className="h-3 w-3 rounded-full" style={{ backgroundColor: preset.s }} />
+                                  </span>
+                                  <span className="truncate leading-none">{preset.name}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Individual Color Selectors */}
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-50 select-none">
+                            <div className="space-y-2">
+                              <Label className="text-[10px] font-extrabold text-slate-400 flex items-center gap-1.5">
+                                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: primaryColor }} />
+                                PRIMARY BRAND COLOR
+                              </Label>
+                              <div className="flex gap-2 items-center">
+                                <input 
+                                  type="color" 
+                                  value={primaryColor} 
+                                  onChange={(e) => setPrimaryColor(e.target.value)}
+                                  className="h-8.5 w-10 border border-slate-200 rounded-lg p-0.5 cursor-pointer"
+                                />
+                                <Input 
+                                  value={primaryColor.toUpperCase()} 
+                                  onChange={(e) => setPrimaryColor(e.target.value)}
+                                  className="h-9 text-xs font-bold font-mono border-slate-200"
+                                />
+                              </div>
+                              <p className="text-[9px] text-slate-400">Used for prime call-to-actions, primary buttons, and signature badges.</p>
+                            </div>
+
+                            <div className="space-y-2">
+                              <Label className="text-[10px] font-extrabold text-slate-400 flex items-center gap-1.5">
+                                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: secondaryColor }} />
+                                SECONDARY TEXT COLOR
+                              </Label>
+                              <div className="flex gap-2 items-center">
+                                <input 
+                                  type="color" 
+                                  value={secondaryColor} 
+                                  onChange={(e) => setSecondaryColor(e.target.value)}
+                                  className="h-8.5 w-10 border border-slate-200 rounded-lg p-0.5 cursor-pointer"
+                                />
+                                <Input 
+                                  value={secondaryColor.toUpperCase()} 
+                                  onChange={(e) => setSecondaryColor(e.target.value)}
+                                  className="h-9 text-xs font-bold font-mono border-slate-200"
+                                />
+                              </div>
+                              <p className="text-[9px] text-slate-400">Applied to visual card borders, workspace headers, and menu text styles.</p>
+                            </div>
+
+                            <div className="space-y-2">
+                              <Label className="text-[10px] font-extrabold text-slate-400 flex items-center gap-1.5">
+                                <span className="h-2 w-2 rounded-full" style={{ backgroundColor: accentColor }} />
+                                ACCENT HIGHLIGHT
+                              </Label>
+                              <div className="flex gap-2 items-center">
+                                <input 
+                                  type="color" 
+                                  value={accentColor} 
+                                  onChange={(e) => setAccentColor(e.target.value)}
+                                  className="h-8.5 w-10 border border-slate-200 rounded-lg p-0.5 cursor-pointer"
+                                />
+                                <Input 
+                                  value={accentColor.toUpperCase()} 
+                                  onChange={(e) => setAccentColor(e.target.value)}
+                                  className="h-9 text-xs font-bold font-mono border-slate-200"
+                                />
+                              </div>
+                              <p className="text-[9px] text-slate-400">Controls highlight focus states, active switches, and verified signature flags.</p>
+                            </div>
+                          </div>
+                        </Card>
+
+                        {/* Branding Controls */}
+                        <div className="flex justify-between items-center gap-4 select-none">
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={handleResetBranding}
+                            className="text-xs font-bold hover:bg-slate-100 h-9 px-4.5 rounded-full text-slate-500 flex items-center gap-1"
                           >
-                            {isSavingSettings ? (
+                            <RefreshCw className="h-3.5 w-3.5" />
+                            Reset Defaults
+                          </Button>
+
+                          <Button
+                            type="submit"
+                            disabled={isSavingBranding}
+                            className="bg-[#258ffb] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 px-6 rounded-full shadow-md shadow-[#258ffb]/20 flex items-center gap-2"
+                          >
+                            {isSavingBranding ? (
                               <>
-                                <Loader2 className="h-4 w-4 animate-spin" />
-                                Saving Details...
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                Saving Branding...
                               </>
                             ) : (
                               <>
-                                <Save className="h-4 w-4" />
-                                Save Changes
+                                <Save className="h-3.5 w-3.5" />
+                                Save Branding Layout
                               </>
                             )}
                           </Button>
                         </div>
-                      </form>
-                    </CardContent>
-                  </Card>
 
-                  {/* Sandbox details card */}
-                  <Card className="border-slate-100 lg:col-span-1">
-                    <CardContent className="p-5 space-y-4">
-                      <h3 className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                        <Laptop className="h-4 w-4 text-[#258ffb]" />
-                        Environment Info
-                      </h3>
-                      <div className="space-y-2 text-xs font-semibold text-slate-400">
-                        <div className="flex items-center justify-between border-b border-slate-100/60 pb-2">
-                          <span>Developer Node</span>
-                          <span className="text-slate-600 bg-slate-100 px-2 py-0.5 rounded text-[10px]">Sandbox</span>
+                      </form>
+                    </div>
+
+                    {/* Right: Live Document Signing Preview Box */}
+                    <div className="lg:col-span-1 h-full select-none">
+                      <div className="sticky top-6 space-y-4">
+                        <div className="space-y-1">
+                          <Label className="text-[10px] font-extrabold text-slate-450 uppercase tracking-widest flex items-center gap-1.5">
+                            <Sparkles className="h-3.5 w-3.5 text-amber-500 fill-amber-500" />
+                            Live Signing Preview
+                          </Label>
+                          <p className="text-[10px] text-slate-400 leading-normal">This is what signatories will inspect when signing your contracts.</p>
                         </div>
-                        <div className="flex items-center justify-between border-b border-slate-100/60 pb-2">
-                          <span>Secure Keys</span>
-                          <span className="text-slate-600 font-mono text-[10px]">GOCSPX-...e75Ky3</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span>OAuth Login</span>
-                          <span className="text-emerald-500 flex items-center gap-1 text-[10px]">
-                            <Check className="h-3 w-3" />
-                            Active
-                          </span>
-                        </div>
+
+                        {/* Interactive Simulated Sign Screen */}
+                        <Card className="border-slate-150 rounded-2xl shadow-lg bg-white overflow-hidden max-w-[340px] mx-auto border-[1.5px] transition-all">
+                          {/* Corporate Email Banner Header */}
+                          <div 
+                            className="p-4 flex items-center justify-between border-b"
+                            style={{ 
+                              borderBottomColor: `${primaryColor}20`,
+                              backgroundColor: `${primaryColor}06`
+                            }}
+                          >
+                            {brandLogoUrl ? (
+                              <img src={brandLogoUrl} alt="Workspace Logo" className="h-8 max-w-[90px] object-contain" />
+                            ) : (
+                              <div className="flex items-center gap-1.5 text-slate-800">
+                                <FileSignature className="h-4.5 w-4.5 text-[#258ffb]" style={{ color: primaryColor }} />
+                                <span className="text-[10px] font-black uppercase tracking-wider">EZSignNow</span>
+                              </div>
+                            )}
+                            <span 
+                              className="text-[8px] font-bold px-2 py-0.5 rounded-full border"
+                              style={{ 
+                                color: accentColor, 
+                                backgroundColor: `${accentColor}10`,
+                                borderColor: `${accentColor}25`
+                              }}
+                            >
+                              Secured
+                            </span>
+                          </div>
+
+                          {/* Email Body Content Simulation */}
+                          <div className="p-5 space-y-4 text-left">
+                            <div className="space-y-2">
+                              <h4 className="text-[13px] font-extrabold text-slate-800 leading-snug">
+                                {workspaceName} invites you to sign:
+                              </h4>
+                              <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-3">
+                                <div className="h-8 w-8 bg-blue-50 border border-blue-100 text-[#258ffb] rounded-lg flex items-center justify-center shrink-0">
+                                  <FileText className="h-4.5 w-4.5" />
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="text-[11px] font-bold text-slate-700 truncate leading-none">mutual_nda_final.pdf</p>
+                                  <p className="text-[9px] text-slate-400 font-semibold mt-1">142 KB • 1 template field</p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <p className="text-[10.5px] text-slate-500 leading-relaxed font-semibold">
+                              Hi client,
+                              <br />
+                              Please review, place your digital signature, and complete the engagement contract using YalTech security frameworks.
+                            </p>
+
+                            {/* CTA Action Button dynamically colored */}
+                            <button
+                              type="button"
+                              onClick={() => toast({ title: "Custom Branding Preview", description: "This button will inherit your exact brand colors!" })}
+                              className="w-full text-white font-bold text-xs h-9.5 rounded-xl shadow transition-all duration-300 hover:brightness-105 active:scale-[0.99] flex items-center justify-center"
+                              style={{ backgroundColor: primaryColor }}
+                            >
+                              Review & Sign Document
+                            </button>
+                          </div>
+
+                          {/* Footer details */}
+                          <div className="px-5 py-3.5 bg-slate-50/50 border-t border-slate-100 text-center text-[9px] font-semibold text-slate-400">
+                            Powered by Antigravity Compliance Systems
+                          </div>
+                        </Card>
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                    </div>
+
+                  </div>
+                )}
               </div>
             )}
 

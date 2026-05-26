@@ -17,7 +17,8 @@ import {
   CheckCircle2, 
   Users,
   PenLine,
-  Loader2
+  Loader2,
+  History
 } from "lucide-react";
 import { format } from "date-fns";
 import {
@@ -27,6 +28,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { fallbackService, AuditLog } from "@/utils/fallbackService";
+import { generateCertifiedPdf } from "@/utils/pdfGenerator";
 
 export default function ViewDocument() {
   const { id } = useParams<{ id: string }>();
@@ -43,6 +46,7 @@ export default function ViewDocument() {
   const [signing, setSigning] = useState(false);
   const [pdfUrl, setPdfUrl] = useState<string>("");
   const [signSuccess, setSignSuccess] = useState(false);
+  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
 
   useEffect(() => {
     return () => {
@@ -187,6 +191,19 @@ export default function ViewDocument() {
         .eq("document_id", id);
 
       setFields(fieldData || []);
+      
+      try {
+        await fallbackService.createAuditLog(
+          id,
+          "opened",
+          user ? `Document opened by owner (${user?.email || "unknown"})` : `Document opened for signing`
+        );
+        const logs = await fallbackService.fetchAuditLogs(id);
+        setAuditLogs(logs);
+      } catch (err) {
+        console.error("Error creating audit log:", err);
+      }
+
       setLoading(false);
     };
 
@@ -248,6 +265,18 @@ export default function ViewDocument() {
         throw new Error(updateError.message);
       }
 
+      try {
+        await fallbackService.createAuditLog(
+          id!,
+          "signed",
+          `${firstUnsigned.name} (${firstUnsigned.email}) signed the document.`,
+          ipAddress,
+          location
+        );
+      } catch (err) {
+        console.error("Error creating audit log:", err);
+      }
+
       // Re-fetch signatories to get fresh data
       const { data: updatedSigs, error: fetchSigsError } = await supabase
         .from("signatories")
@@ -277,6 +306,18 @@ export default function ViewDocument() {
           console.error("Document status update error:", docUpdateError);
         }
 
+        try {
+          await fallbackService.createAuditLog(
+            id!,
+            "completed",
+            `Document fully signed and certified.`,
+            ipAddress,
+            location
+          );
+        } catch (err) {
+          console.error("Error logging document completion:", err);
+        }
+
         // Re-fetch document to confirm status change
         const { data: freshDoc } = await supabase
           .from("documents")
@@ -289,6 +330,13 @@ export default function ViewDocument() {
         } else {
           setDocument((prev: any) => prev ? { ...prev, status: "completed" } : null);
         }
+      }
+
+      try {
+        const freshLogs = await fallbackService.fetchAuditLogs(id!);
+        setAuditLogs(freshLogs);
+      } catch (err) {
+        console.error("Error fetching fresh audit logs:", err);
       }
 
       setSignSuccess(true);
@@ -330,141 +378,25 @@ export default function ViewDocument() {
 
       const pdfBytes = await pdfBlob.arrayBuffer();
 
-      // 2. Load PDF in pdf-lib
-      const pdfDoc = await PDFDocument.load(pdfBytes);
-      const pages = pdfDoc.getPages();
-
-      // 3. Draw signature, date, and text fields for each field
-      for (const field of fields) {
-        if (field.field_type === "signature") {
-          const sig = signatories.find((s) => s.id === field.signatory_id) || (signatories.length === 1 ? signatories[0] : null);
-          if (!sig || !sig.signature_data) continue;
-
-          const base64Data = sig.signature_data.split(",")[1];
-          if (!base64Data) continue;
-
-          let sigImage;
-          try {
-            sigImage = await pdfDoc.embedPng(base64Data);
-          } catch {
-            try {
-              sigImage = await pdfDoc.embedJpg(base64Data);
-            } catch (e) {
-              console.error("Failed to embed signature image:", e);
-              continue;
-            }
-          }
-
-          const htmlX = Number(field.x_position);
-          const htmlY = Number(field.y_position);
-          const htmlW = Number(field.width);
-          const htmlH = Number(field.height);
-
-          // Account for vertical stacking with 16px page gaps (780px page height + 16px gap)
-          const pageHeightWithGap = 780 + 16;
-          const pageIndex = Math.floor(htmlY / pageHeightWithGap);
-          const pageNumber = Math.min(Math.max(1, pageIndex + 1), pages.length);
-          const page = pages[pageNumber - 1];
-          const { width: pdfWidth, height: pdfHeight } = page.getSize();
-
-          const scaleX = pdfWidth / 600;
-          const scaleY = pdfHeight / 780;
-
-          // Obtain coordinates relative to the specific target page
-          const pageRelativeHtmlY = htmlY % pageHeightWithGap;
-
-          const x = htmlX * scaleX;
-          const y = (780 - pageRelativeHtmlY - htmlH) * scaleY;
-          const width = htmlW * scaleX;
-          const height = htmlH * scaleY;
-
-          // Draw signature image
-          page.drawImage(sigImage, {
-            x,
-            y,
-            width,
-            height,
-          });
-
-          // Draw E-Signature Digital Audit Certificate Block
-          const auditText = [
-            `Digitally Signed by: ${sig.name}`,
-            `Email: ${sig.email}`,
-            `IP: ${sig.ip_address || "127.0.0.1"} | Location: ${sig.location || "Local Sandbox"}`,
-            `Date: ${format(new Date(sig.signed_at || new Date()), "yyyy-MM-dd HH:mm:ss x")}`,
-            `Audit ID: ${sig.id.substring(0, 8)}-${document.id.substring(0, 8)}`,
-          ].join("\n");
-
-          page.drawText(auditText, {
-            x,
-            y: y - 55 * scaleY,
-            size: 8 * scaleX,
-            lineHeight: 9.5 * scaleY,
-            color: rgb(0.08, 0.18, 0.45),
-          });
-        } else if (field.field_type === "date") {
-          const sig = signatories.find((s) => s.id === field.signatory_id) || (signatories.length === 1 ? signatories[0] : null);
-          const dateStr = sig && sig.signed_at 
-            ? format(new Date(sig.signed_at), "MM/dd/yyyy")
-            : format(new Date(), "MM/dd/yyyy");
-
-          const htmlX = Number(field.x_position);
-          const htmlY = Number(field.y_position);
-          const htmlH = Number(field.height);
-
-          const pageHeightWithGap = 780 + 16;
-          const pageIndex = Math.floor(htmlY / pageHeightWithGap);
-          const pageNumber = Math.min(Math.max(1, pageIndex + 1), pages.length);
-          const page = pages[pageNumber - 1];
-          const { width: pdfWidth, height: pdfHeight } = page.getSize();
-
-          const scaleX = pdfWidth / 600;
-          const scaleY = pdfHeight / 780;
-          const pageRelativeHtmlY = htmlY % pageHeightWithGap;
-
-          const x = htmlX * scaleX;
-          const y = (780 - pageRelativeHtmlY - htmlH) * scaleY;
-
-          // Render formatted date text
-          page.drawText(dateStr, {
-            x: x + 6 * scaleX,
-            y: y + (htmlH / 2 - 4) * scaleY,
-            size: 10 * scaleX,
-            color: rgb(0.1, 0.1, 0.1),
-          });
-        } else if (field.field_type === "text" || field.field_type === "label" || field.field_type === "checkbox") {
-          const valStr = field.value || field.label || (field.field_type === "checkbox" ? "[✓]" : field.field_type);
-
-          const htmlX = Number(field.x_position);
-          const htmlY = Number(field.y_position);
-          const htmlH = Number(field.height);
-
-          const pageHeightWithGap = 780 + 16;
-          const pageIndex = Math.floor(htmlY / pageHeightWithGap);
-          const pageNumber = Math.min(Math.max(1, pageIndex + 1), pages.length);
-          const page = pages[pageNumber - 1];
-          const { width: pdfWidth, height: pdfHeight } = page.getSize();
-
-          const scaleX = pdfWidth / 600;
-          const scaleY = pdfHeight / 780;
-          const pageRelativeHtmlY = htmlY % pageHeightWithGap;
-
-          const x = htmlX * scaleX;
-          const y = (780 - pageRelativeHtmlY - htmlH) * scaleY;
-
-          // Render value or label text
-          page.drawText(valStr, {
-            x: x + 6 * scaleX,
-            y: y + (htmlH / 2 - 4) * scaleY,
-            size: 10 * scaleX,
-            color: rgb(0.1, 0.1, 0.1),
-          });
-        }
+      // 2. Fetch fresh audit logs to compile the certificate page accurately
+      let latestLogs = auditLogs;
+      try {
+        latestLogs = await fallbackService.fetchAuditLogs(id);
+      } catch (err) {
+        console.error("Error fetching latest audit logs for PDF generation:", err);
       }
 
-      const modifiedPdfBytes = await pdfDoc.save();
+      // 3. Generate the certified PDF containing signatures and appended completion certificate
+      const certifiedPdfBytes = await generateCertifiedPdf(
+        pdfBytes,
+        document,
+        signatories,
+        fields,
+        latestLogs as any[]
+      );
 
-      const blob = new Blob([modifiedPdfBytes], { type: "application/pdf" });
+      // 4. Download file
+      const blob = new Blob([certifiedPdfBytes], { type: "application/pdf" });
       const link = window.document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = `${document.title.replace(/\s+/g, "_")}_Signed_Certified.pdf`;
@@ -474,7 +406,7 @@ export default function ViewDocument() {
 
       toast({
         title: "Download complete!",
-        description: "Your certified document has been downloaded successfully.",
+        description: "Your certified document and audit trail cover page have been downloaded successfully.",
       });
     } catch (err: any) {
       console.error("Error generating signed PDF:", err);
@@ -684,6 +616,39 @@ export default function ViewDocument() {
                     </span>
                   </div>
                 ))}
+              </CardContent>
+            </Card>
+
+            {/* Audit Trail */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <History className="h-4 w-4 text-slate-500" />
+                  Audit Trail ({auditLogs.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 max-h-[250px] overflow-y-auto">
+                {auditLogs.length === 0 ? (
+                  <p className="text-xs text-muted-foreground text-center py-4">No audit logs captured yet.</p>
+                ) : (
+                  auditLogs.map((log) => (
+                    <div
+                      key={log.id}
+                      className="text-xs border-b border-border/40 pb-2 last:border-0 last:pb-0"
+                    >
+                      <div className="flex justify-between text-[10px] text-muted-foreground font-semibold">
+                        <span className="uppercase text-[#258ffb]">{log.action}</span>
+                        <span>{format(new Date(log.created_at), "HH:mm:ss")}</span>
+                      </div>
+                      <p className="font-medium text-slate-700 mt-0.5">{log.details}</p>
+                      {log.location && (
+                        <p className="text-[10px] text-slate-400 mt-0.5 font-semibold">
+                          Via: {log.ip_address} ({log.location})
+                        </p>
+                      )}
+                    </div>
+                  ))
+                )}
               </CardContent>
             </Card>
           </div>

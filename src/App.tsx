@@ -13,6 +13,7 @@ import Dashboard from "./pages/Dashboard";
 import Upload from "./pages/Upload";
 import PrepareDocument from "./pages/PrepareDocument";
 import ViewDocument from "./pages/ViewDocument";
+import TemplateBuilder from "./pages/TemplateBuilder";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,8 @@ const App = () => (
             <Route path="/upload" element={<Upload />} />
             <Route path="/document/:id/prepare" element={<PrepareDocument />} />
             <Route path="/document/:id/view" element={<ViewDocument />} />
+            <Route path="/template/new" element={<TemplateBuilder />} />
+            <Route path="/template/:id/edit" element={<TemplateBuilder />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
