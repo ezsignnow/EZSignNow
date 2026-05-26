@@ -24,7 +24,16 @@ import {
   Calendar,
   CheckSquare,
   DollarSign,
-  Smartphone
+  Smartphone,
+  Lock,
+  Eye,
+  Send,
+  RefreshCw,
+  Cloud,
+  Database,
+  MapPin,
+  Activity,
+  Server
 } from "lucide-react";
 import heroImage from "@/assets/hero-esign.jpg";
 
@@ -36,44 +45,242 @@ export default function Index() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  // Competitor-Beating Features Hub states
+  const [activeFeatureTab, setActiveFeatureTab] = useState<"savings" | "satisfaction" | "workflows" | "security">("savings");
+  const [calcDocVolume, setCalcDocVolume] = useState<number>(45);
+  
+  // Client Satisfaction Drawing Simulation states
+  const [drawingPoints, setDrawingPoints] = useState<{ x: number; y: number }[]>([]);
+  const [isDrawing, setIsDrawing] = useState(false);
+  const [simulatedPoints, setSimulatedPoints] = useState<{ x: number; y: number }[]>([]);
+  const [autoDrawStep, setAutoDrawStep] = useState<number>(0);
+  const [isAutoDrawing, setIsAutoDrawing] = useState<boolean>(true);
+
+  // Workflow Simulation states
+  const [workflowStep, setWorkflowStep] = useState<number>(0);
+  const [isSimulatingWorkflow, setIsSimulatingWorkflow] = useState<boolean>(false);
+
+  // Security Verification simulation state
+  const [activeSecurityField, setActiveSecurityField] = useState<"sha" | "geo" | "ip" | "time">("sha");
+  const [isVerifiedGlow, setIsVerifiedGlow] = useState<boolean>(false);
+
+  // States for Security (Legally Binding & Secure) geolocation trackers
+  const [geoHubIndex, setGeoHubIndex] = useState(0);
+  const [geoCoordsJitter, setGeoCoordsJitter] = useState({ lat: 0, lng: 0 });
+
+  const globalHubs = [
+    { city: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093, ip: "114.76.221.99", provider: "Telstra Enterprise", hash: "sha256:8f9a0b1c2d3e4f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a" },
+    { city: "New York", country: "United States", lat: 40.7128, lng: -74.0060, ip: "192.168.1.108", provider: "Verizon Fios", hash: "sha256:7d8c92a18b3d4f5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e" },
+    { city: "London", country: "United Kingdom", lat: 51.5074, lng: -0.1278, ip: "82.165.44.201", provider: "British Telecom", hash: "sha256:3f8a41b2c6d7e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5" },
+    { city: "Tokyo", country: "Japan", lat: 35.6762, lng: 139.6503, ip: "210.140.10.45", provider: "NTT Docomo", hash: "sha256:9e0b12a3c4f5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1" },
+    { city: "Paris", country: "France", lat: 48.8566, lng: 2.3522, ip: "176.132.89.12", provider: "Orange SA", hash: "sha256:5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b" }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGeoHubIndex((prev) => (prev + 1) % globalHubs.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const jitterInterval = setInterval(() => {
+      setGeoCoordsJitter({
+        lat: (Math.random() - 0.5) * 0.0004,
+        lng: (Math.random() - 0.5) * 0.0004
+      });
+    }, 1000);
+    return () => clearInterval(jitterInterval);
+  }, []);
+
+  const activeHub = globalHubs[geoHubIndex];
+  const displayLat = activeHub.lat + geoCoordsJitter.lat;
+  const displayLng = activeHub.lng + geoCoordsJitter.lng;
+
+  // Timeline Logs state (Better Tracking)
+  const [activityLogs, setActivityLogs] = useState([
+    { id: "1", event: "Document Created", details: "PDF secure upload completed. Audit key: ak_7a21", time: "10:05:22 AM", type: "system" },
+    { id: "2", event: "Signer Invited", details: "Sent verification email with secure magic link.", time: "10:06:15 AM", type: "invite" },
+    { id: "3", event: "Access Code Verified", details: "Signer verified 6-digit session OTP code.", time: "10:07:01 AM", type: "secure" }
+  ]);
+
+  const addSimulatedEvent = (type: "view" | "sign" | "sms" | "lock") => {
+    const timeStr = new Date().toLocaleTimeString();
+    let newEvent = { id: String(Date.now()), event: "", details: "", time: timeStr, type: "" };
+    
+    switch (type) {
+      case "view":
+        newEvent.event = "Document Viewed";
+        newEvent.details = `Signer opened doc. IP: ${activeHub.ip} (${activeHub.city})`;
+        newEvent.type = "view";
+        break;
+      case "sms":
+        newEvent.event = "OTP Verification Sent";
+        newEvent.details = "Secure 6-digit code routed via Zoho SMTP relay.";
+        newEvent.type = "secure";
+        break;
+      case "sign":
+        newEvent.event = "Signature Affixed";
+        newEvent.details = `Signed digitally. Fingerprint: ${activeHub.hash.slice(0, 15)}...`;
+        newEvent.type = "sign";
+        break;
+      case "lock":
+        newEvent.event = "Document Sealed";
+        newEvent.details = "Tamper-evident cryptoseal locked. PDF compiled successfully!";
+        newEvent.type = "lock";
+        break;
+    }
+    
+    setActivityLogs((prev) => [newEvent, ...prev].slice(0, 6));
+  };
+
+  // Cloud integration sync state (Automated Cloud Archiving)
+  const [selectedCloud, setSelectedCloud] = useState<"gdrive" | "dropbox" | "onedrive">("gdrive");
+  const [archiveStatus, setArchiveStatus] = useState<"idle" | "syncing" | "done">("idle");
+  const [archiveProgress, setArchiveProgress] = useState(0);
+
+  const startCloudSync = () => {
+    if (archiveStatus === "syncing") return;
+    setArchiveStatus("syncing");
+    setArchiveProgress(0);
+    
+    const duration = 1500;
+    const intervalTime = 50;
+    const steps = duration / intervalTime;
+    const increment = 100 / steps;
+    
+    let progress = 0;
+    const timer = setInterval(() => {
+      progress += increment;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(timer);
+        setArchiveStatus("done");
+        
+        const timeStr = new Date().toLocaleTimeString();
+        setActivityLogs((prev) => [
+          {
+            id: String(Date.now()),
+            event: `Archived to ${selectedCloud === "gdrive" ? "Google Drive" : selectedCloud === "dropbox" ? "Dropbox" : "OneDrive"}`,
+            details: `PDF copy securely mirrored in cloud storage slot.`,
+            time: timeStr,
+            type: "cloud"
+          },
+          ...prev
+        ].slice(0, 6));
+      }
+      setArchiveProgress(Math.floor(progress));
+    }, intervalTime);
+  };
+
+  const signaturePath = [
+    { x: 30, y: 55 }, { x: 35, y: 48 }, { x: 40, y: 35 }, { x: 42, y: 25 }, { x: 40, y: 22 },
+    { x: 37, y: 28 }, { x: 36, y: 45 }, { x: 42, y: 55 }, { x: 50, y: 58 }, { x: 60, y: 58 },
+    { x: 65, y: 50 }, { x: 68, y: 35 }, { x: 65, y: 32 }, { x: 60, y: 38 }, { x: 62, y: 52 },
+    { x: 70, y: 56 }, { x: 80, y: 56 }, { x: 85, y: 45 }, { x: 82, y: 38 }, { x: 80, y: 48 },
+    { x: 86, y: 56 }, { x: 95, y: 56 }, { x: 105, y: 48 }, { x: 110, y: 35 }, { x: 105, y: 42 },
+    { x: 112, y: 52 }, { x: 120, y: 56 }, { x: 130, y: 45 }, { x: 135, y: 35 }, { x: 140, y: 52 },
+    { x: 155, y: 56 }, { x: 170, y: 48 }, { x: 180, y: 45 }
+  ];
+
+  useEffect(() => {
+    if (activeFeatureTab !== "satisfaction") {
+      setSimulatedPoints([]);
+      setAutoDrawStep(0);
+      setIsAutoDrawing(true);
+      return;
+    }
+
+    if (!isAutoDrawing) return;
+
+    const timer = setTimeout(() => {
+      if (autoDrawStep < signaturePath.length) {
+        setSimulatedPoints(prev => [...prev, signaturePath[autoDrawStep]]);
+        setAutoDrawStep(prev => prev + 1);
+      } else {
+        const pauseTimer = setTimeout(() => {
+          setSimulatedPoints([]);
+          setAutoDrawStep(0);
+        }, 2000);
+        return () => clearTimeout(pauseTimer);
+      }
+    }, 45);
+
+    return () => clearTimeout(timer);
+  }, [activeFeatureTab, autoDrawStep, isAutoDrawing]);
+
+  useEffect(() => {
+    if (!isSimulatingWorkflow) return;
+
+    if (workflowStep < 4) {
+      const timer = setTimeout(() => {
+        setWorkflowStep(prev => prev + 1);
+      }, 1500);
+      return () => clearTimeout(timer);
+    } else {
+      const resetTimer = setTimeout(() => {
+        setIsSimulatingWorkflow(false);
+        setWorkflowStep(0);
+      }, 5000);
+      return () => clearTimeout(resetTimer);
+    }
+  }, [workflowStep, isSimulatingWorkflow]);
+
+  const startWorkflowSimulation = () => {
+    setWorkflowStep(0);
+    setIsSimulatingWorkflow(true);
+  };
+
+
+  const handleCanvasMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
+    setIsAutoDrawing(false);
+    setSimulatedPoints([]);
+    setIsDrawing(true);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 200;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setDrawingPoints([{ x, y }]);
+  };
+
+  const handleCanvasMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+    if (!isDrawing) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 200;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setDrawingPoints(prev => [...prev, { x, y }]);
+  };
+
+  const handleCanvasMouseUp = () => {
+    setIsDrawing(false);
+  };
+
+  const handleCanvasTouchStart = (e: React.TouchEvent<SVGSVGElement>) => {
+    setIsAutoDrawing(false);
+    setSimulatedPoints([]);
+    setIsDrawing(true);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = ((touch.clientX - rect.left) / rect.width) * 200;
+    const y = ((touch.clientY - rect.top) / rect.height) * 100;
+    setDrawingPoints([{ x, y }]);
+  };
+
+  const handleCanvasTouchMove = (e: React.TouchEvent<SVGSVGElement>) => {
+    if (!isDrawing) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = ((touch.clientX - rect.left) / rect.width) * 200;
+    const y = ((touch.clientY - rect.top) / rect.height) * 100;
+    setDrawingPoints(prev => [...prev, { x, y }]);
+  };
+
   useEffect(() => {
     if (!loading && user) {
       navigate("/dashboard", { replace: true });
     }
   }, [user, loading, navigate]);
 
-  const features = [
-    {
-      icon: Zap,
-      title: "Faster Turnaround Times",
-      description: "Documents are signed and returned in minutes. Senders can automatically route documents to multiple parties to drastically reduce turnaround times.",
-    },
-    {
-      icon: DollarSign,
-      title: "Unprecedented Cost Savings",
-      description: "100% paperless workflows. Completely eliminate traditional expenses related to paper, printing, ink, courier shipping, and physical storage.",
-    },
-    {
-      icon: Shield,
-      title: "Legally Binding & Secure",
-      description: "Strict regulatory compliance. Modern systems use advanced encryption, secure geolocations, and tamper-evident audit trails to ensure compliance.",
-    },
-    {
-      icon: Smartphone,
-      title: "Enhanced Client Satisfaction",
-      description: "Clients can sign documents from anywhere, on any device (like a smartphone or tablet), without needing physical meetings or software installs.",
-    },
-    {
-      icon: Clock,
-      title: "Better Tracking & Reminders",
-      description: "Automatic alerts notify you when a document is viewed or signed. Set automatic email reminders to keep outstanding signers moving.",
-    },
-    {
-      icon: FileText,
-      title: "Automated Cloud Archiving",
-      description: "Eliminate manual filing by safely organizing completed documents in the private, secure cloud the second they are fully completed.",
-    },
-  ];
+  // Features array replaced by the interactive Competitor-Beating Features Hub state machines below
 
   const steps = [
     {
@@ -371,31 +578,596 @@ export default function Index() {
           </div>
         </div>
       </section>
-      {/* Features Grid */}
-      <section className="py-20 bg-background" id="features">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">
-              Everything You Need in One Screen
+      {/* Competitor-Beating Features Hub */}
+      <section className="py-24 bg-background relative overflow-hidden" id="features">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.01] via-transparent to-primary/[0.01] pointer-events-none" />
+        
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary uppercase tracking-wider select-none animate-pulse">
+              Competitor-Beating Features Hub
+            </span>
+            <h2 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl leading-tight font-sans tracking-tight">
+              Why Legal Agencies Are Choosing EZSignNow
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
-              Skip the complexity. We provide an intuitive, high-performance toolkit to handle standard SaaS contracting workflows.
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Ditch the clunky, expensive legacy grids. Experience the premium features that put us years ahead of Signaturely and DocuSign.
             </p>
           </div>
-          
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {features.map((feat) => (
-              <div
-                key={feat.title}
-                className="group rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-primary/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300"
-              >
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                  <feat.icon className="h-5 w-5" />
+
+          {/* Interactive Feature Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-10 max-w-4xl mx-auto">
+            {[
+              { id: "savings", label: "Cost Savings", icon: DollarSign, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
+              { id: "security", label: "Legally Binding & Secure", icon: Shield, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" },
+              { id: "satisfaction", label: "Better Tracking", icon: Clock, color: "text-[#258ffb] bg-[#258ffb]/10 border-[#258ffb]/20" },
+              { id: "workflows", label: "Automated Cloud Archiving", icon: Cloud, color: "text-[#635bff] bg-[#635bff]/10 border-[#635bff]/20" }
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeFeatureTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveFeatureTab(tab.id as any)}
+                  className={`flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold border transition-all duration-300 shadow-sm ${
+                    isActive 
+                      ? "bg-primary text-white border-primary scale-[1.03] shadow-md shadow-primary/20"
+                      : "bg-card text-muted-foreground hover:text-foreground border-border hover:bg-slate-50 dark:hover:bg-slate-900"
+                  }`}
+                >
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : ''}`} />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Split Screen Container */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch bg-card/60 dark:bg-slate-900/40 backdrop-blur-md rounded-3xl p-6 lg:p-10 border border-border/80 shadow-2xl transition-all duration-500">
+            
+            {/* Left Column: Premium Value Prop Card */}
+            <div className="lg:col-span-5 flex flex-col justify-between space-y-6 text-left">
+              {activeFeatureTab === "savings" && (
+                <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
+                  <div className="h-10 w-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                    <DollarSign className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
+                    Unprecedented Cost Savings
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Completely eliminate traditional expenses. While platforms like Signaturely charge $20+/month for standard features, EZSignNow offers premium performance starting at a fraction of the cost, saving thousands of dollars in print, paper, and courier shipping annually.
+                  </p>
+                  
+                  <div className="space-y-3.5 pt-2">
+                    <div className="flex items-start gap-2.5">
+                      <Check className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-foreground">No Premium Markups</h4>
+                        <p className="text-[11px] text-muted-foreground leading-normal">
+                          Get unlimited envelopes and custom team collaboration without paying enterprise rates.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-2.5">
+                      <Check className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-foreground">Eco-Friendly Efficiency</h4>
+                        <p className="text-[11px] text-muted-foreground leading-normal">
+                          Ditch printers and physical storage facilities forever. 100% paperless digital archiving.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="mb-2 font-bold text-foreground text-lg">{feat.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{feat.description}</p>
+              )}
+
+              {activeFeatureTab === "security" && (
+                <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
+                  <div className="h-10 w-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
+                    <Shield className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
+                    Legally Binding & Secure
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    EZSignNow complies fully with ESIGN Act, UETA, and eIDAS regulations. Every transaction produces a legally binding document sealed with dynamic geolocation metadata, secure public IP logs, and SHA-256 digital seals.
+                  </p>
+                  
+                  <div className="space-y-3.5 pt-2">
+                    <div className="flex items-start gap-2.5">
+                      <Check className="h-4.5 w-4.5 text-amber-500 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-foreground">Court-Admissible Certificates</h4>
+                        <p className="text-[11px] text-muted-foreground leading-normal">
+                          Download signed PDFs complete with secure, untampered legal audit trail summary sheets.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-2.5">
+                      <Check className="h-4.5 w-4.5 text-amber-500 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-foreground">Cryptographic SHA-256 Locking</h4>
+                        <p className="text-[11px] text-muted-foreground leading-normal">
+                          Any attempts to modify the document after finalization automatically voids the digital checksum.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeFeatureTab === "satisfaction" && (
+                <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
+                  <div className="h-10 w-10 rounded-xl bg-[#258ffb]/10 text-[#258ffb] flex items-center justify-center">
+                    <Clock className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
+                    Better Tracking & Logs
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Get automated alerts and track document lifecycles in real-time. View precisely when envelopes are created, delivered, verified, or geolocated, with detailed audit trace history built dynamically.
+                  </p>
+                  
+                  <div className="space-y-3.5 pt-2">
+                    <div className="flex items-start gap-2.5">
+                      <Check className="h-4.5 w-4.5 text-[#258ffb] shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-foreground">Chronological Event Logs</h4>
+                        <p className="text-[11px] text-muted-foreground leading-normal">
+                          Verify sign actions instantly. Keep permanent, immutable timestamps for all signatories.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-2.5">
+                      <Check className="h-4.5 w-4.5 text-[#258ffb] shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-foreground">Smart SMS Verification Trace</h4>
+                        <p className="text-[11px] text-muted-foreground leading-normal">
+                          Record authentication attempts automatically to guarantee identity validity under court standards.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {activeFeatureTab === "workflows" && (
+                <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
+                  <div className="h-10 w-10 rounded-xl bg-[#635bff]/10 text-[#635bff] flex items-center justify-center">
+                    <Cloud className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
+                    Automated Cloud Archiving
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    Eliminate manual contract filing. Once all parties complete, EZSignNow automatically compiles a certified PDF and synchronizes copies directly to Dropbox, Google Drive, or OneDrive.
+                  </p>
+                  
+                  <div className="space-y-3.5 pt-2">
+                    <div className="flex items-start gap-2.5">
+                      <Check className="h-4.5 w-4.5 text-[#635bff] shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-foreground">Instant Sync Engines</h4>
+                        <p className="text-[11px] text-muted-foreground leading-normal">
+                          Automatically mirror completed agreements in dedicated, structured client directories in real-time.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-2.5">
+                      <Check className="h-4.5 w-4.5 text-[#635bff] shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="text-xs font-bold text-foreground">Seamless Folder Organization</h4>
+                        <p className="text-[11px] text-muted-foreground leading-normal">
+                          Files slide effortlessly from secure local Supabase storage directly into connected cloud partner vaults.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Bottom Card Footer Action */}
+              <div className="pt-6 border-t border-border flex items-center gap-4">
+                <Button size="lg" className="font-bold text-xs h-10 px-5 shadow bg-primary hover:bg-primary/95 text-white" asChild>
+                  <Link to="/try-for-free">
+                    Get Started Risk-Free
+                    <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                  </Link>
+                </Button>
+                <div className="text-[10px] text-muted-foreground font-semibold">
+                  Free Starter Account • No Credit Card
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Right Column: Dynamic Interactive Tool Block */}
+            <div className="lg:col-span-7 bg-slate-50/50 dark:bg-slate-950/20 rounded-2xl border border-border/80 p-6 lg:p-8 flex flex-col justify-center items-center relative overflow-hidden min-h-[460px] shadow-inner transition-colors duration-300">
+              
+              {/* Savings Calculator (savings tab) */}
+              {activeFeatureTab === "savings" && (
+                <div className="w-full space-y-6 animate-[fadeIn_0.4s_ease-out]">
+                  <div className="space-y-3.5 text-left">
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <span className="text-[10px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase block mb-0.5">SLIDING SAVINGS CALCULATOR</span>
+                        <label className="text-sm font-extrabold text-foreground">Monthly Document Volume</label>
+                      </div>
+                      <span className="text-2xl font-black text-[#258ffb] font-mono tracking-tight">{calcDocVolume} contracts/mo</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="5"
+                      max="300"
+                      value={calcDocVolume}
+                      onChange={(e) => setCalcDocVolume(Number(e.target.value))}
+                      className="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#258ffb] focus:outline-none"
+                    />
+                    <div className="flex justify-between text-[10px] text-slate-400 font-semibold px-0.5 select-none">
+                      <span>5 Contracts</span>
+                      <span>150 Contracts</span>
+                      <span>300 Contracts</span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3.5">
+                    <div className="p-4 bg-white dark:bg-card border border-border/60 rounded-xl shadow-sm transition-all hover:shadow-md">
+                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold block mb-1">PAPER & PRINTING SAVED</span>
+                      <span className="text-xl font-bold text-foreground font-mono">${(calcDocVolume * 1.5).toFixed(0)}</span>
+                    </div>
+                    <div className="p-4 bg-white dark:bg-card border border-border/60 rounded-xl shadow-sm transition-all hover:shadow-md">
+                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold block mb-1">COURIER & DELIVERY SAVED</span>
+                      <span className="text-xl font-bold text-foreground font-mono">${(calcDocVolume * 8.5).toFixed(0)}</span>
+                    </div>
+                    <div className="p-4 bg-white dark:bg-card border border-border/60 rounded-xl shadow-sm transition-all hover:shadow-md">
+                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold block mb-1">ADMIN LABOR HOURS SAVED</span>
+                      <span className="text-xl font-bold text-foreground font-mono">{(calcDocVolume * 0.8).toFixed(1)} hrs</span>
+                    </div>
+                    <div className="p-4 bg-white dark:bg-card border border-[#258ffb]/20 bg-[#258ffb]/[0.02] rounded-xl shadow-sm">
+                      <span className="text-[10px] text-[#258ffb] font-bold block mb-1">EZSIGNNOW COST</span>
+                      <span className="text-xl font-bold text-[#258ffb] font-mono">$2 / mo</span>
+                    </div>
+                  </div>
+
+                  <div className="p-5 bg-emerald-500/[0.05] dark:bg-emerald-500/[0.03] border border-emerald-500/20 rounded-2xl flex flex-col justify-center items-center text-center">
+                    <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-1.5 leading-none">TOTAL COMBINED SAAS SAVINGS</span>
+                    <span className="text-3xl sm:text-4xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono tracking-tight">
+                      ${(calcDocVolume * 1.5 + calcDocVolume * 8.5 + calcDocVolume * 22).toFixed(0)}<span className="text-lg font-semibold">/mo</span>
+                    </span>
+                    <span className="text-[11px] text-muted-foreground mt-2 font-medium">
+                      That amounts to <strong className="text-foreground dark:text-white font-bold">${((calcDocVolume * 1.5 + calcDocVolume * 8.5 + calcDocVolume * 22) * 12).toLocaleString()}</strong> saved per year!
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Certified Legal Certificate (security tab) */}
+              {activeFeatureTab === "security" && (
+                <div className="w-full flex flex-col gap-4 items-stretch text-left animate-[fadeIn_0.4s_ease-out]">
+                  {/* Glowing Completion Certificate Frame */}
+                  <div className="w-full bg-white dark:bg-slate-950 border-2 border-amber-500/25 dark:border-amber-500/15 rounded-2xl p-5 shadow-[0_0_25px_rgba(245,158,11,0.18)] flex flex-col justify-between relative overflow-hidden transition-all duration-300">
+                    
+                    {/* Glowing Stamp Badge */}
+                    <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-[8.5px] font-black uppercase tracking-wider animate-pulse">
+                      <Shield className="h-3 w-3" />
+                      ESIGN & UETA CERTIFIED
+                    </div>
+
+                    <div className="space-y-4 text-left select-none">
+                      {/* Header block with Logo and Title */}
+                      <div className="border-b border-slate-100 dark:border-slate-850 pb-3 flex justify-between items-end">
+                        <div>
+                          <span className="text-[8.5px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none font-mono">EZSIGNNOW COMPLIANCE PORTAL</span>
+                          <h4 className="text-xs font-bold text-foreground mt-1">CERTIFIED DIGITAL COMPLETION CERTIFICATE</h4>
+                        </div>
+                        <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-[8px] font-bold">
+                          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                          <span>LIVE TRACKER ACTIVE</span>
+                        </div>
+                      </div>
+
+                      {/* Dynamic Geolocation Live Stats */}
+                      <div className="grid grid-cols-2 gap-3.5 bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-xl border border-border/80">
+                        <div className="space-y-1">
+                          <span className="text-[8px] text-slate-400 dark:text-slate-500 font-extrabold uppercase">SIGNATURE ORIGIN</span>
+                          <span className="text-xs font-bold text-foreground block flex items-center gap-1">
+                            <MapPin className="h-3.5 w-3.5 text-amber-500" />
+                            {activeHub.city}, {activeHub.country}
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          <span className="text-[8px] text-slate-400 dark:text-slate-500 font-extrabold uppercase">GPS COORDINATES</span>
+                          <span className="text-[11px] font-mono text-foreground font-semibold block font-sans">
+                            Lat: {displayLat.toFixed(6)}°<br />
+                            Lng: {displayLng.toFixed(6)}°
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          <span className="text-[8px] text-slate-400 dark:text-slate-500 font-extrabold uppercase">PUBLIC IP ADDRESS</span>
+                          <span className="text-xs font-mono font-bold text-foreground block">
+                            {activeHub.ip}
+                          </span>
+                        </div>
+                        <div className="space-y-1">
+                          <span className="text-[8px] text-slate-400 dark:text-slate-500 font-extrabold uppercase">ISP / PROVIDER</span>
+                          <span className="text-xs font-semibold text-foreground block truncate">
+                            {activeHub.provider}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Audit Details */}
+                      <div className="space-y-2.5 text-[10px] leading-relaxed border-t border-slate-100 dark:border-slate-850 pt-3">
+                        <div className="flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/30 p-2 rounded border border-border/50">
+                          <div className="min-w-0 flex-grow">
+                            <strong className="text-foreground dark:text-white font-bold block mb-0.5">Secure Document Fingerprint</strong>
+                            <code className="text-[9.5px] font-mono text-muted-foreground bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded truncate block">
+                              {activeHub.hash}
+                            </code>
+                          </div>
+                          <Lock className="h-4 w-4 text-emerald-500 shrink-0 ml-2" />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 text-[9px] text-muted-foreground font-semibold">
+                          <div>Signer Email: owner@yaltech.com.au</div>
+                          <div className="text-right">Timestamp: {new Date().toLocaleDateString()} {new Date().toLocaleTimeString()}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="border-t border-slate-100 dark:border-slate-850 pt-2.5 mt-3.5 flex items-center justify-between text-[8.5px] font-bold text-slate-400 select-none">
+                      <span>AUDIT SERIAL: #ez-928-19c-{geoHubIndex}a7</span>
+                      <button 
+                        onClick={() => setGeoHubIndex((prev) => (prev + 1) % globalHubs.length)}
+                        className="text-amber-500 hover:text-amber-600 flex items-center gap-1 uppercase tracking-wider font-extrabold cursor-pointer transition-colors"
+                      >
+                        <RefreshCw className="h-3 w-3 animate-spin-slow" />
+                        Force Cycle Hub
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              )}
+
+              {/* Chronological Activity timeline (tracking/satisfaction tab) */}
+              {activeFeatureTab === "satisfaction" && (
+                <div className="w-full space-y-5 text-left animate-[fadeIn_0.4s_ease-out]">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-slate-100/50 dark:bg-slate-900/40 p-3 rounded-2xl border border-border/80">
+                    <div>
+                      <span className="text-[9px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase block">SIMULATOR LAB</span>
+                      <h4 className="text-xs font-extrabold text-foreground">Trigger Document Actions Below:</h4>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-1.5">
+                      <Button 
+                        onClick={() => addSimulatedEvent("view")}
+                        size="sm"
+                        variant="outline"
+                        className="h-7 px-2.5 text-[9px] font-bold uppercase tracking-wider gap-1 border-border hover:bg-slate-100 hover:text-foreground"
+                      >
+                        <Eye className="h-3 w-3 text-sky-500" />
+                        View
+                      </Button>
+                      <Button 
+                        onClick={() => addSimulatedEvent("sms")}
+                        size="sm"
+                        variant="outline"
+                        className="h-7 px-2.5 text-[9px] font-bold uppercase tracking-wider gap-1 border-border hover:bg-slate-100 hover:text-foreground"
+                      >
+                        <Send className="h-3 w-3 text-amber-500" />
+                        SMS OTP
+                      </Button>
+                      <Button 
+                        onClick={() => addSimulatedEvent("sign")}
+                        size="sm"
+                        variant="outline"
+                        className="h-7 px-2.5 text-[9px] font-bold uppercase tracking-wider gap-1 border-border hover:bg-slate-100 hover:text-foreground"
+                      >
+                        <FileSignature className="h-3 w-3 text-emerald-500" />
+                        Sign
+                      </Button>
+                      <Button 
+                        onClick={() => addSimulatedEvent("lock")}
+                        size="sm"
+                        variant="outline"
+                        className="h-7 px-2.5 text-[9px] font-bold uppercase tracking-wider gap-1 border-border hover:bg-slate-100 hover:text-foreground"
+                      >
+                        <Lock className="h-3 w-3 text-primary" />
+                        Seal
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Log Dispatch Feed */}
+                  <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1 select-none w-full">
+                    {activityLogs.map((log, index) => {
+                      const isNew = index === 0;
+                      return (
+                        <div 
+                          key={log.id}
+                          className={`flex items-start gap-3 p-3 rounded-xl border transition-all duration-300 ${
+                            isNew 
+                              ? "bg-primary/[0.04] dark:bg-primary/[0.02] border-primary/45 shadow-[0_0_15px_rgba(37,143,251,0.08)] scale-[1.01]" 
+                              : "bg-white dark:bg-slate-950 border-border/80"
+                          }`}
+                        >
+                          <div className={`h-6 w-6 rounded-full flex items-center justify-center shrink-0 text-[10px] ${
+                            log.type === "view" ? "bg-sky-500/10 text-sky-500" :
+                            log.type === "secure" ? "bg-amber-500/10 text-amber-500" :
+                            log.type === "sign" ? "bg-emerald-500/10 text-emerald-500" :
+                            log.type === "lock" ? "bg-primary/10 text-primary animate-pulse" :
+                            log.type === "cloud" ? "bg-purple-500/10 text-purple-500" :
+                            "bg-slate-500/10 text-slate-500"
+                          }`}>
+                            {log.type === "view" && <Eye className="h-3.5 w-3.5" />}
+                            {log.type === "secure" && <Shield className="h-3.5 w-3.5" />}
+                            {log.type === "sign" && <FileSignature className="h-3.5 w-3.5" />}
+                            {log.type === "lock" && <Lock className="h-3.5 w-3.5" />}
+                            {log.type === "cloud" && <Cloud className="h-3.5 w-3.5" />}
+                            {log.type === "system" && <Server className="h-3.5 w-3.5" />}
+                            {log.type === "invite" && <Users className="h-3.5 w-3.5" />}
+                          </div>
+
+                          <div className="flex-grow text-left space-y-0.5 min-w-0">
+                            <div className="flex justify-between items-start gap-2">
+                              <h5 className="text-[11px] font-black text-foreground truncate">
+                                {log.event}
+                              </h5>
+                              <span className="text-[8.5px] text-muted-foreground shrink-0 font-mono">
+                                {log.time}
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-muted-foreground leading-normal truncate">
+                              {log.details}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Cloud Integration folders slide-in simulator (workflows tab) */}
+              {activeFeatureTab === "workflows" && (
+                <div className="w-full space-y-6 text-left animate-[fadeIn_0.4s_ease-out]">
+                  {/* Select Destination Cloud */}
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-border/85 pb-3">
+                    <div>
+                      <span className="text-[9px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase block">INTEGRATION SYNC ENGINE</span>
+                      <h4 className="text-xs font-extrabold text-foreground">Select Cloud Destination:</h4>
+                    </div>
+                    
+                    <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-border/50">
+                      {[
+                        { id: "gdrive", label: "Google Drive" },
+                        { id: "dropbox", label: "Dropbox" },
+                        { id: "onedrive", label: "OneDrive" }
+                      ].map((cloudItem) => (
+                        <button
+                          key={cloudItem.id}
+                          onClick={() => {
+                            setSelectedCloud(cloudItem.id as any);
+                            setArchiveStatus("idle");
+                            setArchiveProgress(0);
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase transition-all ${
+                            selectedCloud === cloudItem.id
+                              ? "bg-white dark:bg-slate-850 shadow-sm text-foreground"
+                              : "text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          {cloudItem.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Simulation Theater */}
+                  <div className="h-[210px] w-full bg-slate-50 dark:bg-slate-900/30 rounded-2xl border border-border/60 flex items-center justify-between p-6 relative overflow-hidden">
+                    
+                    {/* Vault (Left side) */}
+                    <div className="flex flex-col items-center gap-2.5 z-10 shrink-0 select-none">
+                      <div className="h-16 w-12 bg-white dark:bg-slate-950 rounded-xl border-2 border-primary/45 shadow-lg flex flex-col justify-between p-1.5 relative">
+                        {/* Little pdf header */}
+                        <div className="h-2 w-full bg-primary/20 rounded-sm"></div>
+                        <div className="h-6 w-full flex items-center justify-center text-primary font-bold text-[8px] italic font-serif">
+                          PDF
+                        </div>
+                        <div className="h-1.5 w-2/3 bg-slate-200 dark:bg-slate-800 rounded-sm mx-auto"></div>
+                      </div>
+                      <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase">EZSignNow Vault</span>
+                    </div>
+
+                    {/* Laser Path / Loading Pipeline */}
+                    <div className="flex-grow mx-4 relative h-1 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden flex items-center justify-center">
+                      {archiveStatus === "syncing" && (
+                        <div 
+                          className="absolute left-0 top-0 h-full bg-[#635bff] transition-all duration-75"
+                          style={{ width: `${archiveProgress}%` }}
+                        />
+                      )}
+                      {archiveStatus === "done" && (
+                        <div className="absolute inset-0 bg-emerald-500" />
+                      )}
+                    </div>
+
+                    {/* Animated Floating Document Node */}
+                    {archiveStatus === "syncing" && (
+                      <div 
+                        className="absolute h-9 w-7 bg-white dark:bg-slate-950 rounded border-2 border-primary shadow-lg flex items-center justify-center text-primary font-bold text-[6px] italic z-20 pointer-events-none transition-all"
+                        style={{
+                          left: `calc(24px + 12% + (${archiveProgress}% * 0.54))`,
+                          top: `calc(50% - 18px)`,
+                          transform: `scale(${1 - (archiveProgress / 200)}) rotate(${archiveProgress * 3.6}deg)`,
+                          opacity: `${1 - (archiveProgress / 100)}`
+                        }}
+                      >
+                        PDF
+                      </div>
+                    )}
+
+                    {/* Destination Folders Slot (Right side) */}
+                    <div className="flex flex-col items-center gap-2.5 z-10 shrink-0 select-none">
+                      <div className={`h-16 w-16 rounded-2xl flex flex-col items-center justify-center shadow-lg border transition-all ${
+                        archiveStatus === "done" 
+                          ? "bg-emerald-500/10 border-emerald-500 text-emerald-600 scale-[1.04]"
+                          : "bg-white dark:bg-slate-950 border-border text-slate-400"
+                      }`}>
+                        {selectedCloud === "gdrive" && (
+                          <svg className="h-7 w-7 text-emerald-600 dark:text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                            <path d="M12 2L2 22h20L12 2z" />
+                          </svg>
+                        )}
+                        {selectedCloud === "dropbox" && (
+                          <svg className="h-7 w-7 text-blue-600 dark:text-blue-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                          </svg>
+                        )}
+                        {selectedCloud === "onedrive" && (
+                          <Cloud className="h-7 w-7 text-sky-500 shrink-0" />
+                        )}
+                      </div>
+                      
+                      <span className="text-[9px] font-black text-slate-500 dark:text-slate-400 uppercase block">
+                        {selectedCloud === "gdrive" ? "Google Drive" : selectedCloud === "dropbox" ? "Dropbox" : "OneDrive"}
+                      </span>
+                    </div>
+
+                  </div>
+
+                  {/* Synchronization Trigger Panel */}
+                  <div className="flex justify-between items-center bg-slate-100/50 dark:bg-slate-900/40 p-3 rounded-2xl border border-border/80">
+                    <div className="text-[10px] text-muted-foreground font-semibold leading-none">
+                      {archiveStatus === "idle" && "Ready to trigger simulated transfer."}
+                      {archiveStatus === "syncing" && `Syncing... ${archiveProgress}%`}
+                      {archiveStatus === "done" && (
+                        <span className="text-emerald-600 dark:text-emerald-400 font-extrabold flex items-center gap-1.5 animate-pulse">
+                          <Check className="h-4 w-4" />
+                          ARCHIVED SUCCESSFULLY & COMPLETED
+                        </span>
+                      )}
+                    </div>
+                    
+                    <Button
+                      onClick={startCloudSync}
+                      disabled={archiveStatus === "syncing"}
+                      size="sm"
+                      className="h-8 font-bold text-[9px] uppercase tracking-wider bg-primary hover:bg-primary/95 text-white"
+                    >
+                      {archiveStatus === "syncing" ? "Syncing..." : archiveStatus === "done" ? "Sync Again" : "Trigger Archive Sync"}
+                    </Button>
+                  </div>
+                </div>
+              )}
+              
+            </div>
+
           </div>
         </div>
       </section>
