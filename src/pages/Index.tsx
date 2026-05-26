@@ -33,7 +33,8 @@ import {
   Database,
   MapPin,
   Activity,
-  Server
+  Server,
+  Flame
 } from "lucide-react";
 import heroImage from "@/assets/hero-esign.jpg";
 
@@ -389,6 +390,17 @@ export default function Index() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
+      {/* Top GTM Promotion Bar */}
+      <div className="bg-gradient-to-r from-primary via-slate-900 to-secondary text-white py-2.5 px-4 text-center text-xs font-bold shadow-md relative z-50 flex items-center justify-center gap-2 select-none">
+        <span className="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider text-primary-foreground border border-white/10 animate-pulse">
+          Limited Deal
+        </span>
+        <span>Why pay $20/mo? Switch from signNow to EZSignNow for just $5/mo with unlimited envelopes!</span>
+        <Link to="/compare/signnow" className="underline hover:text-primary-foreground/90 inline-flex items-center gap-0.5 ml-1">
+          Learn More <span className="no-underline">→</span>
+        </Link>
+      </div>
+
       <Navbar />
       
       {/* Hero Section */}
@@ -1914,6 +1926,52 @@ export default function Index() {
                 </Button>
               </div>
             ))}
+          </div>
+
+          {/* Small Direct Comparison Grid */}
+          <div className="mt-16 bg-card/50 backdrop-blur-md border border-border/80 rounded-3xl p-6 md:p-8 max-w-4xl mx-auto shadow-lg text-left">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-border/50">
+              <div>
+                <h3 className="text-lg font-extrabold text-foreground flex items-center gap-2">
+                  <Flame className="h-5 w-5 text-primary animate-pulse" />
+                  EZSignNow vs signNow: At a Glance
+                </h3>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  See how the standard Business plans compare directly.
+                </p>
+              </div>
+              <Button size="sm" className="bg-primary hover:bg-primary/95 text-white font-bold text-xs self-start md:self-center" asChild>
+                <Link to="/compare/signnow">
+                  See Full Head-to-Head Details
+                  <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-5 text-center">
+              {[
+                { label: "Seat Cost", ez: "$5 / mo", comp: "$20 / mo" },
+                { label: "Envelopes", ez: "Unlimited", comp: "Restricted" },
+                { label: "SMS OTP", ez: "Free", comp: "$10+ addon" },
+                { label: "Custom Logo", ez: "Included", comp: "$30/mo tier" },
+                { label: "Stripe Billing", ez: "Standard", comp: "Enterprise" }
+              ].map((item, idx) => (
+                <div key={idx} className="bg-background/85 dark:bg-slate-900/80 rounded-2xl p-4 border border-border/60 shadow-sm flex flex-col justify-between hover:scale-[1.03] transition-all">
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block mb-2">{item.label}</span>
+                  <div className="space-y-1">
+                    <div className="bg-primary/5 rounded-lg py-1 px-2 border border-primary/20">
+                      <span className="text-xs font-bold text-primary flex items-center justify-center gap-1">
+                        <Check className="h-3 w-3 text-emerald-500" />
+                        {item.ez}
+                      </span>
+                    </div>
+                    <div className="text-[10px] text-muted-foreground/80 line-through">
+                      {item.comp}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

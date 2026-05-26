@@ -15,6 +15,8 @@ import PrepareDocument from "./pages/PrepareDocument";
 import ViewDocument from "./pages/ViewDocument";
 import TemplateBuilder from "./pages/TemplateBuilder";
 import NotFound from "./pages/NotFound";
+import CompareSignNow from "./pages/CompareSignNow";
+import Blog from "./pages/Blog";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +39,8 @@ const App = () => (
             <Route path="/document/:id/view" element={<ViewDocument />} />
             <Route path="/template/new" element={<TemplateBuilder />} />
             <Route path="/template/:id/edit" element={<TemplateBuilder />} />
+            <Route path="/compare/signnow" element={<CompareSignNow />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
