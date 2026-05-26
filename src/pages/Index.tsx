@@ -22,7 +22,9 @@ import {
   Check,
   Play,
   Calendar,
-  CheckSquare
+  CheckSquare,
+  DollarSign,
+  Smartphone
 } from "lucide-react";
 import heroImage from "@/assets/hero-esign.jpg";
 
@@ -42,24 +44,34 @@ export default function Index() {
 
   const features = [
     {
-      icon: FileSignature,
-      title: "Legally Binding Signatures",
-      description: "Fully compliant with the US ESIGN Act, UETA, and European eIDAS regulations. Every signature is legally binding.",
+      icon: Zap,
+      title: "Faster Turnaround Times",
+      description: "Documents are signed and returned in minutes. Senders can automatically route documents to multiple parties to drastically reduce turnaround times.",
     },
     {
-      icon: Users,
-      title: "Multi-Signer Orchestration",
-      description: "Define signing orders, map custom signatory fields, and track real-time progression natively from your dashboard.",
+      icon: DollarSign,
+      title: "Unprecedented Cost Savings",
+      description: "100% paperless workflows. Completely eliminate traditional expenses related to paper, printing, ink, courier shipping, and physical storage.",
     },
     {
       icon: Shield,
-      title: "Digital Audit Logs",
-      description: "Every contract downloads with a tamper-evident digital certificate capturing IP address, city, country, and precise timestamps.",
+      title: "Legally Binding & Secure",
+      description: "Strict regulatory compliance. Modern systems use advanced encryption, secure geolocations, and tamper-evident audit trails to ensure compliance.",
     },
     {
-      icon: Zap,
-      title: "Lightning-Fast Execution",
-      description: "Send, track, and complete signature collections in minutes. Zero printing, zero scanning, 100% digital operations.",
+      icon: Smartphone,
+      title: "Enhanced Client Satisfaction",
+      description: "Clients can sign documents from anywhere, on any device (like a smartphone or tablet), without needing physical meetings or software installs.",
+    },
+    {
+      icon: Clock,
+      title: "Better Tracking & Reminders",
+      description: "Automatic alerts notify you when a document is viewed or signed. Set automatic email reminders to keep outstanding signers moving.",
+    },
+    {
+      icon: FileText,
+      title: "Automated Cloud Archiving",
+      description: "Eliminate manual filing by safely organizing completed documents in the private, secure cloud the second they are fully completed.",
     },
   ];
 
@@ -371,7 +383,7 @@ export default function Index() {
             </p>
           </div>
           
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feat) => (
               <div
                 key={feat.title}
