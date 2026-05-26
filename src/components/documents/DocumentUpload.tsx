@@ -189,6 +189,7 @@ export function DocumentUpload() {
             .addView(view)
             .setOAuthToken(accessToken)
             .setDeveloperKey(apiKey)
+            .setOrigin(window.location.origin)
             .setCallback(async (data: any) => {
               if (data.action === (window as any).google.picker.Action.PICKED) {
                 const doc = data.docs[0];
@@ -245,44 +246,135 @@ export function DocumentUpload() {
     });
   };
 
-  const handleGoogleDriveImport = async () => {
+  const handleGoogleDriveImport = () => {
+    const google = (window as any).google;
+    if (!google?.accounts?.oauth2) {
+      toast({
+        title: "Google Client Library not loaded",
+        description: "The authentication helper is still loading. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
-      setUploading(true);
-      const { data: { session } } = await supabase.auth.getSession();
-      const providerToken = session?.provider_token;
-
-      if (!providerToken) {
-        toast({
-          title: "Connecting Google Drive",
-          description: "Authorizing your Google account with Drive access...",
-        });
-        
-        // Trigger Supabase OAuth signin with Google Drive readonly scope!
-        const { error } = await supabase.auth.signInWithOAuth({
-          provider: "google",
-          options: {
-            redirectTo: window.location.href,
-            scopes: "https://www.googleapis.com/auth/drive.readonly",
-            queryParams: {
-              access_type: "offline",
-              prompt: "consent",
-            }
+      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "920786736352-i5rhkoaakbdbpcc54i6te4ue9keul9uj.apps.googleusercontent.com";
+      const client = google.accounts.oauth2.initTokenClient({
+        client_id: clientId,
+        scope: "https://www.googleapis.com/auth/drive.readonly",
+        callback: (response: any) => {
+          if (response.error) {
+            toast({
+              title: "Authorization failed",
+              description: response.error_description || "Google authorization was unsuccessful.",
+              variant: "destructive",
+            });
+            return;
           }
-        });
-        if (error) throw error;
-        return;
-      }
-
-      loadGooglePicker(providerToken);
+          if (response.access_token) {
+            loadGooglePicker(response.access_token);
+          }
+        },
+      });
+      client.requestAccessToken();
     } catch (err: any) {
       toast({
         title: "Connection error",
-        description: err.message || "Failed to connect to Google Drive.",
+        description: err.message || "Failed to initialize Google login.",
         variant: "destructive",
       });
-    } finally {
-      setUploading(false);
     }
+  };
+
+  const loadDropboxScript = (appKey: string): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if ((window as any).Dropbox) {
+        resolve(true);
+        return;
+      }
+      
+      const script = document.createElement("script");
+      script.src = "https://www.dropbox.com/static/api/2/dropins.js";
+      script.id = "dropboxjs";
+      script.setAttribute("data-app-key", appKey);
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleDropboxImport = async () => {
+    const appKey = import.meta.env.VITE_DROPBOX_APP_KEY || "";
+    
+    if (!appKey) {
+      toast({
+        title: "Dropbox Client (Sandbox Demo)",
+        description: "Configure VITE_DROPBOX_APP_KEY in your .env for production integration. Running sandbox simulation...",
+      });
+      simulateCloudImport("Dropbox");
+      return;
+    }
+
+    setUploading(true);
+    const loaded = await loadDropboxScript(appKey);
+    if (!loaded) {
+      toast({
+        title: "Dropbox SDK failed to load",
+        description: "Could not load the Dropbox Chooser library. Please try again.",
+        variant: "destructive",
+      });
+      setUploading(false);
+      return;
+    }
+
+    const Dropbox = (window as any).Dropbox;
+    Dropbox.choose({
+      success: async (files: any[]) => {
+        if (files && files.length > 0) {
+          const file = files[0];
+          const fileName = file.name;
+          const fileUrl = file.link;
+          
+          toast({
+            title: "Importing file...",
+            description: `Fetching "${fileName}" from Dropbox...`,
+          });
+
+          try {
+            const response = await fetch(fileUrl);
+            if (!response.ok) {
+              throw new Error("Failed to download file from Dropbox");
+            }
+
+            const blob = await response.blob();
+            const importedFile = new File([blob], fileName, { type: "application/pdf" });
+            
+            setFile(importedFile);
+            toast({
+              title: "Import Successful",
+              description: `Successfully imported "${fileName}" from Dropbox.`,
+            });
+          } catch (err: any) {
+            console.error("Dropbox import error:", err);
+            toast({
+              title: "Import failed",
+              description: err.message || "Failed to retrieve the file from Dropbox.",
+              variant: "destructive",
+            });
+          } finally {
+            setUploading(false);
+          }
+        } else {
+          setUploading(false);
+        }
+      },
+      cancel: () => {
+        setUploading(false);
+      },
+      linkType: "direct",
+      multiselect: false,
+      extensions: [".pdf"],
+    });
   };
 
   // Simulating Cloud Uploads
@@ -678,7 +770,7 @@ export function DocumentUpload() {
                 </button>
 
                 <button 
-                  onClick={() => simulateCloudImport("Dropbox")}
+                  onClick={handleDropboxImport}
                   disabled={uploading}
                   className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#258ffb]/40 hover:shadow-sm transition-all"
                 >

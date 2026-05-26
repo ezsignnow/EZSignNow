@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
     base: "/",
     server: {
       host: "::",
-      port: 5173,
+      port: 8085,
       hmr: {
         overlay: false,
       },

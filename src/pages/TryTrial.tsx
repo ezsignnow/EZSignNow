@@ -316,7 +316,7 @@ export default function TryTrial() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Your plan</h3>
-                <p className="text-lg font-extrabold text-slate-800 mt-1">7-day free trial, then $50/month</p>
+                <p className="text-lg font-extrabold text-slate-800 mt-1">7-day free trial, then $5/month</p>
               </div>
 
               <div className="space-y-3.5">
@@ -588,7 +588,7 @@ export default function TryTrial() {
                   </div>
                   <div>
                     <h4 className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Day 7: Trial Ends ({billDate})</h4>
-                    <p className="text-[11px] text-slate-400 mt-0.5 leading-normal">You will be billed for the Business monthly plan ($50/month) on {billDate}.</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5 leading-normal">You will be billed for the Business monthly plan ($5/month) on {billDate}.</p>
                   </div>
                 </div>
               </div>

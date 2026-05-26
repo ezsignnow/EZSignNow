@@ -1063,7 +1063,7 @@ export default function Index() {
               },
               {
                 title: "Personal Pro",
-                price: billingCycle === "annual" ? "15" : "19",
+                price: billingCycle === "annual" ? "2" : "3",
                 desc: "Great for freelancers, realtors, and solo legal practitioners.",
                 features: [
                   "Unlimited document uploads",
@@ -1078,7 +1078,7 @@ export default function Index() {
               },
               {
                 title: "Business Enterprise",
-                price: billingCycle === "annual" ? "30" : "40",
+                price: billingCycle === "annual" ? "4" : "5",
                 desc: "Perfect for scaling businesses requiring robust team coordination.",
                 features: [
                   "Unlimited document uploads",
