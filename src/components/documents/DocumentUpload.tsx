@@ -304,7 +304,7 @@ export function DocumentUpload() {
   };
 
   const handleDropboxImport = async () => {
-    const appKey = import.meta.env.VITE_DROPBOX_APP_KEY || "";
+    const appKey = import.meta.env.VITE_DROPBOX_APP_KEY || "0363a1165c3d30daf10fb31e5bb38c603f79c2588b6a8bcc8b1bb85f3366cf9e";
     
     if (!appKey) {
       toast({
