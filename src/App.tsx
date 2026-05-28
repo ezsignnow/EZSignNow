@@ -17,6 +17,7 @@ import TemplateBuilder from "./pages/TemplateBuilder";
 import NotFound from "./pages/NotFound";
 import CompareSignNow from "./pages/CompareSignNow";
 import Blog from "./pages/Blog";
+import FormsLibrary from "./pages/FormsLibrary";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/template/:id/edit" element={<TemplateBuilder />} />
             <Route path="/compare/signnow" element={<CompareSignNow />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/forms" element={<FormsLibrary />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

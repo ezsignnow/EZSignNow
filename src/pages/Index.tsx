@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useAuth } from "@/contexts/AuthContext";
+import { SEO } from "@/components/SEO";
 import { 
   FileSignature, 
   Users, 
@@ -390,6 +391,15 @@ export default function Index() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
+      <SEO 
+        title="EZSignNow | Super Simple Free Electronic Signatures"
+        description="Upload PDF documents to sign online in seconds. EZSignNow is the fastest, legally binding free e-signature tool complying with ESIGN, UETA, & eIDAS."
+        keywords="electronic signature, free e-signature, sign PDF online, digital signature, sign documents, online contract signature, e-sign tools"
+        includeOrganization={true}
+        includeWebSite={true}
+        includeProductRating={true}
+        faqs={faqs.map(f => ({ question: f.q, answer: f.a }))}
+      />
       {/* Top GTM Promotion Bar */}
       <div className="bg-gradient-to-r from-primary via-slate-900 to-secondary text-white py-2.5 px-4 text-center text-xs font-bold shadow-md relative z-50 flex items-center justify-center gap-2 select-none">
         <span className="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider text-primary-foreground border border-white/10 animate-pulse">
@@ -1973,6 +1983,28 @@ export default function Index() {
               ))}
             </div>
           </div>
+
+          {/* Forms Library Promotion Card */}
+          <div className="mt-12 bg-gradient-to-r from-[#635bff]/10 to-primary/10 border border-[#635bff]/20 rounded-3xl p-6 md:p-8 max-w-4xl mx-auto shadow-md text-left flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-primary/40 transition-colors">
+            <div className="space-y-2 max-w-xl">
+              <span className="inline-flex items-center gap-1 bg-[#635bff]/20 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider text-primary border border-primary/10">
+                Templates Hub
+              </span>
+              <h3 className="text-xl font-extrabold text-foreground">
+                Browse Vetted, Signable Form Templates
+              </h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Access standard IRS W-9s, NDAs, Residential Leases, and Freelance Consulting Agreements. Preview, customize, and sign them online in seconds without any paper, print, or shipping costs.
+              </p>
+            </div>
+            <Button size="lg" className="bg-[#635bff] hover:bg-[#635bff]/90 text-white font-bold text-xs shrink-0 self-start md:self-center" asChild>
+              <Link to="/forms">
+                Explore Forms Library
+                <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+              </Link>
+            </Button>
+          </div>
+
         </div>
       </section>
 

@@ -22,9 +22,16 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/">
-          <BrandLogo />
-        </Link>
+        <div className="flex items-center gap-8">
+          <Link to="/">
+            <BrandLogo />
+          </Link>
+          <div className="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
+            <Link to="/forms" className="text-muted-foreground hover:text-foreground transition-colors">Forms Library</Link>
+            <Link to="/compare/signnow" className="text-muted-foreground hover:text-foreground transition-colors">signNow Alternative</Link>
+            <Link to="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Resources</Link>
+          </div>
+        </div>
 
         <div className="flex items-center gap-4">
           {user ? (

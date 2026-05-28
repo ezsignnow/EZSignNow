@@ -9,8 +9,11 @@ export function Footer() {
           <Link to="/">
             <BrandLogo />
           </Link>
-          <div className="flex gap-6 text-sm text-muted-foreground">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">
             <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+            <Link to="/forms" className="hover:text-foreground transition-colors">Forms Library</Link>
+            <Link to="/compare/signnow" className="hover:text-foreground transition-colors">signNow vs EZ</Link>
+            <Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link>
             <Link to="/login" className="hover:text-foreground transition-colors">Login</Link>
             <Link to="/signup" className="hover:text-foreground transition-colors">Sign Up</Link>
           </div>

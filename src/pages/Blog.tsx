@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { 
   BookOpen, 
   Video, 
@@ -151,6 +152,11 @@ The Verdict (7:00 - end)
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-slate-50 dark:bg-background">
+      <SEO 
+        title="EZSignNow Blog | Digital Signature Guides & Comparisons"
+        description="Read expert guides on electronic signatures, legal tech compliance, and step-by-step tutorials to migrate your templates from signNow to EZSignNow."
+        keywords="digital signature blog, e-signature guide, how to sign PDF, legal tech compliance, signNow migration, ezsignnow blog"
+      />
       <Navbar />
 
       {/* Hero Banner */}

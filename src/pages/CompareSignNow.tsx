@@ -4,6 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { SEO } from "@/components/SEO";
 import { 
   Check, 
   X, 
@@ -82,6 +83,21 @@ export default function CompareSignNow() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-slate-50 dark:bg-background">
+      <SEO 
+        title="ezsignnow vs signNow: The Smart, Cheap $5/mo Alternative"
+        description="Why pay $20/mo per user for signNow? Switch to EZSignNow for just $5/mo. Get unlimited document envelopes, custom branding, and legal-grade digital certificates."
+        keywords="signNow alternative, signNow competitor, cheap e-signature, signNow vs ezsignnow, free electronic signature templates"
+        faqs={[
+          {
+            question: "Why is EZSignNow cheaper than signNow?",
+            answer: "EZSignNow does not charge expensive corporate overhead. We offer identical compliant signature security, unlimited templates, and geolocations for just $5/mo compared to signNow's $20/mo tiers."
+          },
+          {
+            question: "Is it easy to migrate my templates from signNow to EZSignNow?",
+            answer: "Yes, our layout importer recreates all your signNow templates automatically in under 5 minutes, saving hours of manual field setup."
+          }
+        ]}
+      />
       <Navbar />
 
       {/* Hero Section */}
