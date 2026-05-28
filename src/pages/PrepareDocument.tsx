@@ -271,6 +271,12 @@ export default function PrepareDocument() {
     } else if (type === "date" || type === "label") {
       width = 120;
       height = 36;
+    } else if (type === "attachment") {
+      width = 165;
+      height = 54;
+    } else if (type === "drawing") {
+      width = 185;
+      height = 110;
     }
 
     const newField: Field = {

@@ -122,6 +122,37 @@ export async function generateCertifiedPdf(
         font: helveticaFont,
         color: rgb(0.1, 0.1, 0.1),
       });
+    } else if (field.field_type === "attachment") {
+      const fileLabel = `[Attachment: ${field.value || "Not Uploaded"}]`;
+      page.drawText(fileLabel, {
+        x: x + 6 * scaleX,
+        y: y + (htmlH / 2 - 4) * scaleY,
+        size: 8.5 * scaleX,
+        font: helveticaFont,
+        color: rgb(0.08, 0.45, 0.55),
+      });
+    } else if (field.field_type === "drawing" && field.value) {
+      const base64Data = field.value.split(",")[1];
+      if (base64Data) {
+        try {
+          let drawImg;
+          try {
+            drawImg = await pdfDoc.embedPng(base64Data);
+          } catch {
+            drawImg = await pdfDoc.embedJpg(base64Data);
+          }
+          if (drawImg) {
+            page.drawImage(drawImg, {
+              x,
+              y,
+              width,
+              height,
+            });
+          }
+        } catch (err) {
+          console.error("Failed to embed drawing image into PDF:", err);
+        }
+      }
     }
   }
 

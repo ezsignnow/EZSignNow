@@ -5,7 +5,9 @@ import {
   Square,
   Calendar,
   Tag,
-  Info
+  Info,
+  Paperclip,
+  Palette
 } from "lucide-react";
 import {
   Tooltip,
@@ -52,6 +54,20 @@ const fieldTypes = [
     label: "Label", 
     description: "Static text label",
     colorClass: "bg-rose-50 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 group-hover:bg-rose-100 dark:group-hover:bg-rose-900/40 group-hover:text-rose-600 dark:group-hover:text-rose-300"
+  },
+  { 
+    type: "attachment", 
+    icon: Paperclip, 
+    label: "Attachment", 
+    description: "Upload supporting document",
+    colorClass: "bg-cyan-50 dark:bg-cyan-950/30 text-cyan-500 dark:text-cyan-400 group-hover:bg-cyan-100 dark:group-hover:bg-cyan-900/40 group-hover:text-cyan-600 dark:group-hover:text-cyan-300"
+  },
+  { 
+    type: "drawing", 
+    icon: Palette, 
+    label: "Drawing", 
+    description: "Sketch or draw diagrams",
+    colorClass: "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-500 dark:text-indigo-400 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/40 group-hover:text-indigo-600 dark:group-hover:text-indigo-300"
   },
 ];
 

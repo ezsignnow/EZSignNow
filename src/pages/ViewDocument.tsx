@@ -67,6 +67,13 @@ export default function ViewDocument() {
   const [stripeProcessing, setStripeProcessing] = useState(false);
   const [stripeError, setStripeError] = useState("");
   const [tempSignatureData, setTempSignatureData] = useState<string | null>(null);
+  
+  // Advanced fields states
+  const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
+  const [attachmentDialogOpen, setAttachmentDialogOpen] = useState(false);
+  const [drawingDialogOpen, setDrawingDialogOpen] = useState(false);
+  const [mockUploading, setMockUploading] = useState(false);
+  const [mockUploadStep, setMockUploadStep] = useState("");
 
   const depositFee = document?.payment_fee ? String(document.payment_fee) : (localStorage.getItem(`document_deposit_fee_${id}`) || "");
   const hasDeposit = parseFloat(depositFee) > 0;
@@ -655,7 +662,20 @@ export default function ViewDocument() {
                   selectedSignatory={null}
                   readOnly={true}
                   fileUrl={pdfUrl}
-                  onFieldClick={() => document.status === "pending" && setSignDialogOpen(true)}
+                  onFieldClick={(fieldId) => {
+                    if (document.status !== "pending") return;
+                    const clickedField = fields.find(f => f.id === fieldId);
+                    if (!clickedField) return;
+                    
+                    setSelectedFieldId(fieldId);
+                    if (clickedField.field_type === "signature") {
+                      setSignDialogOpen(true);
+                    } else if (clickedField.field_type === "attachment") {
+                      setAttachmentDialogOpen(true);
+                    } else if (clickedField.field_type === "drawing") {
+                      setDrawingDialogOpen(true);
+                    }
+                  }}
                 />
                 {document.status === "pending" && (
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 shadow-lg">
