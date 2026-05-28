@@ -807,6 +807,47 @@ export default function Dashboard() {
                   ))}
                 </div>
 
+                {/* Kiosk Mode Quick-Launch Banner */}
+                {stats.pending > 0 && (
+                  <Card className="border border-[#258ffb]/20 bg-gradient-to-r from-blue-50/40 to-indigo-50/20 dark:from-slate-900/40 dark:to-slate-950/20 rounded-2xl shadow-[0_2px_8px_rgba(37,143,251,0.01)] overflow-hidden select-none animate-in fade-in slide-in-from-top-1.5 duration-300 mb-6">
+                    <CardContent className="p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#258ffb] to-indigo-500 text-white flex items-center justify-center shadow-md shadow-[#258ffb]/10 shrink-0">
+                          <Laptop className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-sm">Host In-Person Signing Kiosk</h3>
+                          <p className="text-xs text-slate-500 dark:text-slate-450 mt-0.5">You have {stats.pending} pending envelope(s) ready to sign in-person on this local device.</p>
+                        </div>
+                      </div>
+                      <Button
+                        onClick={async () => {
+                          try {
+                            const { data } = await supabase
+                              .from("documents")
+                              .select("id")
+                              .eq("status", "pending")
+                              .order("created_at", { ascending: false })
+                              .limit(1)
+                              .maybeSingle();
+                            if (data) {
+                              navigate(`/document/${data.id}/view?kiosk=true`);
+                            } else {
+                              toast({ title: "No pending envelopes", description: "All envelopes are completed or in draft status." });
+                            }
+                          } catch (err) {
+                            console.error("Kiosk launch error:", err);
+                          }
+                        }}
+                        className="rounded-full bg-gradient-to-r from-[#258ffb] to-indigo-600 hover:from-[#1d7ee6] hover:to-indigo-700 text-white font-bold text-xs h-9 px-5 shadow-sm shrink-0 flex items-center gap-1.5 transition-all"
+                      >
+                        Launch Kiosk Mode
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )}
+
                 {/* Your Documents listing */}
                 <div>
                   <h2 className="mb-4 text-sm font-bold text-slate-700">Your Signature Pipeline</h2>

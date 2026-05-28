@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { UserPlus, X, GripVertical, Mail, Lock } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 export interface Signatory {
   id?: string;
@@ -24,6 +25,8 @@ interface SignatoryManagerProps {
   onReorder: (signatories: Signatory[]) => void;
   selectedSignatory: number | null;
   onSelectSignatory: (index: number | null) => void;
+  strictRouting?: boolean;
+  onStrictRoutingChange?: (checked: boolean) => void;
 }
 
 const colors = [
@@ -40,6 +43,8 @@ export function SignatoryManager({
   onRemove,
   selectedSignatory,
   onSelectSignatory,
+  strictRouting = false,
+  onStrictRoutingChange,
 }: SignatoryManagerProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -72,6 +77,21 @@ export function SignatoryManager({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 px-5 pb-5">
+        {onStrictRoutingChange && (
+          <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-slate-800">
+            <div className="space-y-0.5">
+              <Label className="text-[11px] font-bold text-slate-600 dark:text-slate-400">Strict Routing Order</Label>
+              <p className="text-[10px] text-slate-400 dark:text-slate-550 leading-normal">
+                Enforce sequential signing sequence
+              </p>
+            </div>
+            <Switch
+              id="strict-routing-toggle"
+              checked={strictRouting}
+              onCheckedChange={onStrictRoutingChange}
+            />
+          </div>
+        )}
         {signatories.length > 0 && (
           <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-1 scrollbar-thin">
             {signatories.map((signatory, index) => {
@@ -115,7 +135,7 @@ export function SignatoryManager({
                     variant="outline" 
                     className="text-[10px] font-extrabold px-1.5 py-0 border-slate-100/80 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-500 dark:text-slate-400 rounded-md shadow-none shrink-0"
                   >
-                    #{signatory.order_num}
+                    #{index + 1}
                   </Badge>
 
                   <Button

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/layout/Navbar";
@@ -21,7 +21,11 @@ import {
   History,
   Lock,
   ShieldCheck,
-  CreditCard
+  CreditCard,
+  Laptop,
+  Clock,
+  ChevronRight,
+  ArrowRight
 } from "lucide-react";
 import { format } from "date-fns";
 import {
@@ -40,6 +44,10 @@ export default function ViewDocument() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const signaturePadRef = useRef<SignaturePadRef>(null);
+  
+  const [searchParams] = useSearchParams();
+  const [showKioskHandoff, setShowKioskHandoff] = useState(false);
+  const [nextKioskSigner, setNextKioskSigner] = useState<any>(null);
   
   const [document, setDocument] = useState<any>(null);
   const [signatories, setSignatories] = useState<any[]>([]);
@@ -354,14 +362,25 @@ export default function ViewDocument() {
         console.error("Error fetching fresh audit logs:", err);
       }
 
-      setSignSuccess(true);
+      const isKioskMode = searchParams.get("kiosk") === "true" || localStorage.getItem(`document_in_person_signing_${id}`) === "true";
+      if (isKioskMode && !allSigned) {
+        const nextSigner = freshSigs.find(s => s.status !== "signed");
+        if (nextSigner) {
+          setNextKioskSigner(nextSigner);
+          setShowKioskHandoff(true);
+        }
+      } else {
+        setSignSuccess(true);
+      }
       setSignDialogOpen(false);
 
       toast({
         title: allSigned ? "🎉 Document fully signed!" : "✅ Signature recorded!",
         description: allSigned
           ? "All parties have signed. You can now download the certified PDF."
-          : "Your signature has been recorded. Waiting for remaining signatories.",
+          : isKioskMode
+            ? `Signature recorded! Preparing for ${freshSigs.find(s => s.status !== "signed")?.name || "next signer"}...`
+            : "Your signature has been recorded. Waiting for remaining signatories.",
       });
     } catch (error: any) {
       toast({
@@ -474,6 +493,200 @@ export default function ViewDocument() {
     ? (firstUnsigned.access_code || localStorage.getItem(`signatory_passcode_${id}_${firstUnsigned.email}`) || "")
     : "";
   const needsPasscode = !!requiredPasscode && !passcodeVerified;
+
+  // Check strict routing order and kiosk mode settings
+  const isStrictRoutingActive = localStorage.getItem(`document_strict_routing_${id}`) === "true";
+  const isKioskMode = searchParams.get("kiosk") === "true" || localStorage.getItem(`document_in_person_signing_${id}`) === "true";
+  
+  const currentSignerEmail = searchParams.get("email") || searchParams.get("signer_email");
+  const currentSignerId = searchParams.get("signer") || searchParams.get("signatory_id");
+
+  let isDownstream = false;
+  if (isStrictRoutingActive && firstUnsigned) {
+    if (currentSignerEmail) {
+      const visitor = signatories.find((s: any) => s.email.toLowerCase() === currentSignerEmail.toLowerCase());
+      if (visitor && visitor.order_num > firstUnsigned.order_num) {
+        isDownstream = true;
+      }
+    } else if (currentSignerId) {
+      const visitor = signatories.find((s: any) => s.id === currentSignerId);
+      if (visitor && visitor.order_num > firstUnsigned.order_num) {
+        isDownstream = true;
+      }
+    }
+  }
+
+  // Downstream signer warning gate (Strict Routing Order)
+  if (isStrictRoutingActive && isDownstream && firstUnsigned) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-950 via-slate-950 to-black opacity-95" />
+        <div className="absolute -left-1/4 -top-1/4 w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-[140px] pointer-events-none" />
+        
+        <Card className="w-full max-w-md relative z-10 border border-blue-500/20 bg-blue-950/20 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#258ffb] to-transparent" />
+          <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
+            <div className="mx-auto h-16 w-16 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(37,143,251,0.2)] animate-pulse">
+              <Clock className="h-8 w-8" />
+            </div>
+            <div className="space-y-2">
+              <span className="text-[10px] font-extrabold text-[#258ffb] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+                Strict Routing Order Active
+              </span>
+              <h2 className="text-xl font-black tracking-tight text-white pt-2">
+                Waiting on {firstUnsigned.name}...
+              </h2>
+              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-sm mx-auto">
+                This document is configured with a sequential signing workflow. You will be notified via email once {firstUnsigned.name} (Signer {firstUnsigned.order_num}) has completed their signature.
+              </p>
+            </div>
+            <div className="border-t border-slate-800/80 pt-5 flex items-center justify-center gap-3">
+              <div className="flex -space-x-2">
+                {signatories.map((sig: any, idx: number) => (
+                  <div 
+                    key={idx}
+                    className={`h-7 w-7 rounded-full border border-slate-950 flex items-center justify-center text-[9px] font-black text-white shrink-0 shadow-sm ${
+                      sig.status === 'signed' 
+                        ? 'bg-emerald-500' 
+                        : sig.order_num === firstUnsigned.order_num 
+                          ? 'bg-blue-500 animate-pulse' 
+                          : 'bg-slate-850 text-slate-500'
+                    }`}
+                  >
+                    {sig.name.slice(0, 1).toUpperCase()}
+                  </div>
+                ))}
+              </div>
+              <span className="text-[10px] text-slate-500 font-bold">
+                Signer {firstUnsigned.order_num} of {signatories.length} active
+              </span>
+            </div>
+            <Button 
+              onClick={() => navigate("/dashboard")}
+              className="w-full rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-850 text-white font-bold h-11 text-xs transition-all shadow-md"
+            >
+              Return to Dashboard
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Kiosk Handoff Screen overlay
+  if (isKioskMode && showKioskHandoff && nextKioskSigner) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-955 via-slate-950 to-black opacity-95" />
+        <Card className="w-full max-w-md relative z-10 border border-blue-500/20 bg-slate-900/40 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#258ffb] to-transparent" />
+          <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
+            <div className="mx-auto h-16 w-16 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(37,143,251,0.2)] animate-bounce">
+              <Laptop className="h-8 w-8" />
+            </div>
+            <div className="space-y-2">
+              <span className="text-[10px] font-extrabold text-[#258ffb] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+                In-Person Kiosk Mode
+              </span>
+              <h2 className="text-xl font-black tracking-tight text-white pt-2">
+                Kiosk Handoff Screen
+              </h2>
+              <p className="text-[13px] text-slate-300 font-bold leading-relaxed max-w-sm mx-auto">
+                Please hand this device over to <span className="text-[#258ffb] font-black">{nextKioskSigner.name}</span> to sign.
+              </p>
+              <p className="text-xs text-slate-400 font-semibold leading-relaxed max-w-xs mx-auto">
+                Email: {nextKioskSigner.email}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/50 p-4 space-y-2.5">
+              <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <span>Signer Flow Progress</span>
+                <span>{signatories.filter((s: any) => s.status === 'signed').length} of {signatories.length} completed</span>
+              </div>
+              <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-blue-500 rounded-full transition-all duration-500" 
+                  style={{ width: `${(signatories.filter((s: any) => s.status === 'signed').length / signatories.length) * 100}%` }}
+                />
+              </div>
+            </div>
+            <Button
+              onClick={() => {
+                setShowKioskHandoff(false);
+                setPasscodeVerified(false);
+                setEnteredPasscode("");
+                setSignDialogOpen(true);
+              }}
+              className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
+            >
+              I am {nextKioskSigner.name}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Kiosk Session Complete Page
+  const allSigned = signatories.length > 0 && signatories.every((s: any) => s.status === "signed");
+  if (isKioskMode && allSigned) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-955 via-slate-950 to-black opacity-95" />
+        <Card className="w-full max-w-md relative z-10 border border-emerald-500/20 bg-slate-900/40 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] animate-in fade-in duration-200">
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#10b981] to-transparent" />
+          <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
+            <div className="mx-auto h-16 w-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+              <CheckCircle2 className="h-8 w-8" />
+            </div>
+            <div className="space-y-2">
+              <span className="text-[10px] font-extrabold text-[#10b981] tracking-wider uppercase bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                In-Person Kiosk Session Complete
+              </span>
+              <h2 className="text-xl font-black tracking-tight text-white pt-2">
+                All Parties Have Signed!
+              </h2>
+              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-sm mx-auto">
+                The document is now legally finalized and certified. We've compiled the secure digital signatures and audit logs.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-950/50 p-4 space-y-3">
+              <div className="flex justify-between items-center text-xs font-bold text-slate-400 border-b border-slate-850 pb-2 last:border-0">
+                <span>Document Title</span>
+                <span className="text-slate-200 text-right truncate max-w-[180px]">{document.title}</span>
+              </div>
+              <div className="flex justify-between items-center text-xs font-bold text-slate-400">
+                <span>Total Signatures</span>
+                <span className="text-slate-200">{signatories.length}</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2.5">
+              <Button
+                onClick={handleDownloadCertified}
+                disabled={downloadingPdf}
+                className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
+              >
+                {downloadingPdf ? (
+                  <Loader2 className="h-4 w-4 animate-spin text-white" />
+                ) : (
+                  <FileText className="h-4 w-4 text-white" />
+                )}
+                {downloadingPdf ? "Generating Certified PDF..." : "Download Certified PDF"}
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => navigate("/dashboard")}
+                className="w-full rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-850 text-white font-bold h-11 text-xs transition-all shadow-md"
+              >
+                Go to Dashboard
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const handleVerifyPasscode = () => {
     setVerifyingPasscode(true);
