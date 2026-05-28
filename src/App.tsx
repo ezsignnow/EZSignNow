@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import CompareSignNow from "./pages/CompareSignNow";
 import Blog from "./pages/Blog";
 import FormsLibrary from "./pages/FormsLibrary";
+import TemplateSign from "./pages/TemplateSign";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/document/:id/view" element={<ViewDocument />} />
             <Route path="/template/new" element={<TemplateBuilder />} />
             <Route path="/template/:id/edit" element={<TemplateBuilder />} />
+            <Route path="/t/:id/sign" element={<TemplateSign />} />
             <Route path="/compare/signnow" element={<CompareSignNow />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/forms" element={<FormsLibrary />} />
