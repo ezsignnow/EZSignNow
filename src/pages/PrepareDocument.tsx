@@ -15,8 +15,9 @@ import {
   ArrowLeft, Save, Send, Loader2, Copy, Check,
   FileSignature, ChevronDown, Briefcase, User, PenTool,
   CreditCard, Star, LogOut, HelpCircle, FileText, Clock,
-  Sun, Moon
+  Sun, Moon, Laptop
 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import {
   Dialog,
   DialogContent,
@@ -43,6 +44,8 @@ export default function PrepareDocument() {
   const [signatories, setSignatories] = useState<Signatory[]>([]);
   const [fields, setFields] = useState<Field[]>([]);
   const [selectedSignatory, setSelectedSignatory] = useState<number | null>(null);
+  const [strictRouting, setStrictRouting] = useState(false);
+  const [inPersonSigning, setInPersonSigning] = useState(false);
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -210,6 +213,13 @@ export default function PrepareDocument() {
       const savedDepositFee = data.payment_fee ? String(data.payment_fee) : (localStorage.getItem(`document_deposit_fee_${id}`) || "");
       setDepositFee(savedDepositFee);
 
+      // Fetch strict routing and in-person signing configuration
+      const savedStrictRouting = localStorage.getItem(`document_strict_routing_${id}`) === "true";
+      setStrictRouting(savedStrictRouting);
+
+      const savedInPersonSigning = localStorage.getItem(`document_in_person_signing_${id}`) === "true";
+      setInPersonSigning(savedInPersonSigning);
+
       // Fetch existing fields
       const { data: fieldData } = await supabase
         .from("signature_fields")
@@ -295,6 +305,10 @@ export default function PrepareDocument() {
   const handleSave = async () => {
     if (!id) return;
     setSaving(true);
+
+    // Save strict routing and in-person signing configuration
+    localStorage.setItem(`document_strict_routing_${id}`, String(strictRouting));
+    localStorage.setItem(`document_in_person_signing_${id}`, String(inPersonSigning));
 
     try {
       // Save signatories
@@ -726,7 +740,41 @@ export default function PrepareDocument() {
               onReorder={setSignatories}
               selectedSignatory={selectedSignatory}
               onSelectSignatory={setSelectedSignatory}
+              strictRouting={strictRouting}
+              onStrictRoutingChange={setStrictRouting}
             />
+
+            {/* In-Person Kiosk Mode Card */}
+            <Card className="border-slate-100/80 dark:border-slate-800 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white dark:bg-slate-900 overflow-hidden transition-colors">
+              <CardHeader className="pb-3 pt-5 px-5">
+                <CardTitle className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                  <Laptop className="h-3.5 w-3.5 text-[#258ffb]" />
+                  In-Person Kiosk Mode
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 px-5 pb-5">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="inPersonSigning" className="text-xs font-bold text-slate-700 dark:text-slate-350">
+                      In-Person Signing
+                    </Label>
+                    <p className="text-[10px] text-slate-455 dark:text-slate-500 leading-normal">
+                      Host signatories on this local device instantly
+                    </p>
+                  </div>
+                  <Switch
+                    id="inPersonSigning"
+                    checked={inPersonSigning}
+                    onCheckedChange={setInPersonSigning}
+                  />
+                </div>
+                {inPersonSigning && (
+                  <div className="rounded-xl bg-[#258ffb]/[0.02] border border-[#258ffb]/10 p-3 text-[10px] text-slate-500 dark:text-slate-450 font-medium leading-relaxed animate-in fade-in slide-in-from-top-1.5 duration-200">
+                    💡 <strong>Kiosk Mode Active:</strong> Direct signing will launch a high-fidelity handoff gate between each sequential signatory on this screen.
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
             {/* Premium Deposit Configuration Panel */}
             <Card className="border-slate-100/80 dark:border-slate-800 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white dark:bg-slate-900 overflow-hidden transition-colors">

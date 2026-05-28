@@ -18,7 +18,8 @@ import {
   Loader2,
   Calendar,
   Filter,
-  RefreshCw
+  RefreshCw,
+  Laptop
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -464,13 +465,24 @@ export function DocumentList() {
                           <DropdownMenuContent align="end" className="bg-popover w-48 p-1 border border-slate-100 shadow-md">
                             
                             {doc.status !== "draft" ? (
-                              <DropdownMenuItem 
-                                onClick={() => navigate(`/document/${doc.id}/view`)}
-                                className="text-xs font-semibold text-slate-600 cursor-pointer"
-                              >
-                                <Eye className="mr-2 h-4 w-4 text-slate-400" />
-                                View Audit Canvas
-                              </DropdownMenuItem>
+                              <>
+                                <DropdownMenuItem 
+                                  onClick={() => navigate(`/document/${doc.id}/view`)}
+                                  className="text-xs font-semibold text-slate-600 cursor-pointer"
+                                >
+                                  <Eye className="mr-2 h-4 w-4 text-slate-400" />
+                                  View Audit Canvas
+                                </DropdownMenuItem>
+                                {doc.status === "pending" && (
+                                  <DropdownMenuItem 
+                                    onClick={() => navigate(`/document/${doc.id}/view?kiosk=true`)}
+                                    className="text-xs font-bold text-[#258ffb] cursor-pointer mt-0.5 focus:text-[#1d7ee6] focus:bg-[#258ffb]/5"
+                                  >
+                                    <Laptop className="mr-2 h-4 w-4 text-[#258ffb]" />
+                                    Host In-Person Sign
+                                  </DropdownMenuItem>
+                                )}
+                              </>
                             ) : (
                               <DropdownMenuItem 
                                 onClick={() => navigate(`/document/${doc.id}/prepare`)}
