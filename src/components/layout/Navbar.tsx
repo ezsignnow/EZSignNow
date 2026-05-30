@@ -29,6 +29,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
             <Link to="/forms" className="text-muted-foreground hover:text-foreground transition-colors">Forms Library</Link>
             <Link to="/compare/signnow" className="text-muted-foreground hover:text-foreground transition-colors">signNow Alternative</Link>
+            <Link to="/security" className="text-muted-foreground hover:text-foreground transition-colors">Security</Link>
             <Link to="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Resources</Link>
           </div>
         </div>

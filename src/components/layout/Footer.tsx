@@ -13,6 +13,7 @@ export function Footer() {
             <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
             <Link to="/forms" className="hover:text-foreground transition-colors">Forms Library</Link>
             <Link to="/compare/signnow" className="hover:text-foreground transition-colors">signNow vs EZ</Link>
+            <Link to="/security" className="hover:text-foreground transition-colors">Security</Link>
             <Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link>
             <Link to="/login" className="hover:text-foreground transition-colors">Login</Link>
             <Link to="/signup" className="hover:text-foreground transition-colors">Sign Up</Link>

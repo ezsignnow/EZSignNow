@@ -8,12 +8,12 @@ const __dirname = path.dirname(__filename);
 // Base URL for the site
 const BASE_URL = 'https://ezsignnow.com';
 
-// Dynamic list of active routes
 const routes = [
   { path: '/', changefreq: 'daily', priority: '1.0' },
   { path: '/compare/signnow', changefreq: 'weekly', priority: '0.9' },
   { path: '/blog', changefreq: 'daily', priority: '0.8' },
   { path: '/forms', changefreq: 'daily', priority: '0.9' },
+  { path: '/security', changefreq: 'weekly', priority: '0.8' },
   { path: '/login', changefreq: 'monthly', priority: '0.5' },
   { path: '/signup', changefreq: 'monthly', priority: '0.6' },
   { path: '/try-for-free', changefreq: 'monthly', priority: '0.8' },
