@@ -78,8 +78,8 @@ export function BrandLogo({
         </div>
         
         {/* Bottom brand subtitle */}
-        <span className={`text-[8px] font-bold text-slate-400 dark:text-slate-500 tracking-wider leading-none mt-1 whitespace-nowrap ${subtitleClassName}`}>
-          Techladder
+        <span className={`text-[8px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none mt-1.5 whitespace-nowrap ${subtitleClassName}`}>
+          one stop solution for digital Signature
         </span>
       </div>
     </div>
