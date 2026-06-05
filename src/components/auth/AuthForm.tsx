@@ -201,7 +201,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80"
     },
     {
-      name: "Sridharan Udayakumar",
+      name: "Joe Thomas",
       role: "Director, Subcontractor",
       quote: "Downloading a certified PDF with full audit trail records was exactly what we needed to secure our agency contracts.",
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=120&h=120&q=80"

@@ -333,7 +333,7 @@ export default function Index() {
             <p className="text-xs text-muted-foreground font-mono">IP: 192.168.1.72 | New York, US</p>
           </div>
           <div className="h-[60px] w-2/3 rounded-lg border border-emerald-200 dark:border-emerald-900 bg-white dark:bg-card flex items-center justify-center p-2 self-center">
-            <span className="text-xs italic text-slate-500 font-serif">Sridharan Udayakumar</span>
+            <span className="text-xs italic text-slate-500 font-serif">Joe Thomas</span>
           </div>
           <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] h-7 self-end">
             Download Certified PDF
@@ -520,7 +520,7 @@ export default function Index() {
                 <div className="border-t border-dashed border-border pt-4 flex justify-between items-center">
                   <div>
                     <span className="text-[8px] text-muted-foreground font-semibold block mb-1">Subcontractor Signature</span>
-                    <span className="text-xs italic font-serif text-primary font-semibold block animate-pulse">Sridharan Udayakumar</span>
+                    <span className="text-xs italic font-serif text-primary font-semibold block animate-pulse">Joe Thomas</span>
                   </div>
                   <div className="h-8 w-16 bg-primary/5 rounded border border-primary/20 flex items-center justify-center">
                     <FileSignature className="h-4 w-4 text-primary" />
@@ -1459,7 +1459,7 @@ export default function Index() {
                     <div className="flex-1 h-9 rounded-lg border border-[#258ffb] bg-[#258ffb]/[0.02] flex items-center justify-center p-2 relative">
                       {/* Animated cursive signature representation */}
                       <span className="text-xs italic text-[#258ffb] font-serif font-bold animate-pulse select-none">
-                        Sridharan Udayakumar
+                        Joe Thomas
                       </span>
                     </div>
                   </div>
