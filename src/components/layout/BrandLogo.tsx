@@ -70,17 +70,7 @@ export function BrandLogo({
       
       {/* Brand Text Stack */}
       <div className="flex flex-col text-left justify-center">
-        {/* Top brand line: YalTech (replaces airSlate) */}
-        <div className="flex items-center gap-0.5 leading-none mb-0.5">
-          <span className="text-[10px] font-black text-slate-800 dark:text-slate-100 uppercase tracking-wider">
-            Yal
-          </span>
-          <span className="text-[10px] font-extrabold text-[#258ffb] uppercase tracking-wider">
-            Tech
-          </span>
-        </div>
-
-        {/* Middle brand line: EZSignNow (replaces SignNow) */}
+        {/* Middle brand line: EZSignNow */}
         <div className="flex items-baseline leading-none">
           <span className="text-xl font-extrabold text-[#258ffb] tracking-tight group-hover:text-[#1a7ae0] transition-colors">
             EZSignNow
@@ -88,8 +78,8 @@ export function BrandLogo({
         </div>
         
         {/* Bottom brand subtitle */}
-        <span className={`text-[8px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none mt-1.5 whitespace-nowrap ${subtitleClassName}`}>
-          one stop solution for digital Signature
+        <span className={`text-[8px] font-bold text-slate-400 dark:text-slate-500 tracking-wider leading-none mt-1 whitespace-nowrap ${subtitleClassName}`}>
+          Techladder
         </span>
       </div>
     </div>

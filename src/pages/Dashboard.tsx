@@ -104,12 +104,12 @@ export default function Dashboard() {
   const [isSavingBranding, setIsSavingBranding] = useState(false);
 
   // Expanded Team Workspace States
-  const [workspaceName, setWorkspaceName] = useState("YalTech Antigravity Workspace");
-  const [workspaceSlug, setWorkspaceSlug] = useState("yaltech-antigravity");
+  const [workspaceName, setWorkspaceName] = useState("Techladder Antigravity Workspace");
+  const [workspaceSlug, setWorkspaceSlug] = useState("techladder-antigravity");
   const [teamMembers, setTeamMembers] = useState([
     { email: "meets@example.com", role: "Admin", status: "Active" },
     { email: "sarah.jenkins@corp.com", role: "Member", status: "Active" },
-    { email: "john.doe@yaltech.com", role: "Viewer", status: "Active" }
+    { email: "john.doe@techladder.com", role: "Viewer", status: "Active" }
   ]);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState("Member");
@@ -1545,7 +1545,7 @@ export default function Dashboard() {
                               <Image className="h-4 w-4 text-[#258ffb]" />
                               Corporate Brand Logo
                             </h3>
-                            <p className="text-xs text-slate-400">Upload your organization logo to replace YalTech / Signaturely default headers in all signer flows.</p>
+                            <p className="text-xs text-slate-400">Upload your organization logo to replace Techladder / Signaturely default headers in all signer flows.</p>
                           </div>
 
                           <div className="flex flex-col sm:flex-row items-center gap-6 pt-2 select-none">
@@ -1818,7 +1818,7 @@ export default function Dashboard() {
                             <p className="text-[10.5px] text-slate-500 leading-relaxed font-semibold">
                               Hi client,
                               <br />
-                              Please review, place your digital signature, and complete the engagement contract using YalTech security frameworks.
+                              Please review, place your digital signature, and complete the engagement contract using Techladder security frameworks.
                             </p>
 
                             {/* CTA Action Button dynamically colored */}

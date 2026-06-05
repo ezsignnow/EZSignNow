@@ -935,7 +935,7 @@ export default function Index() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-2 text-[9px] text-muted-foreground font-semibold">
-                          <div>Signer Email: owner@yaltech.com.au</div>
+                          <div>Signer Email: owner@techladder.com.au</div>
                           <div className="text-right">Timestamp: {new Date().toLocaleDateString()} {new Date().toLocaleTimeString()}</div>
                         </div>
                       </div>
@@ -1365,7 +1365,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Why choose YalTech EZSignNow Section */}
+      {/* Why choose Techladder EZSignNow Section */}
       <section className="py-24 bg-[#f8fafc] dark:bg-slate-950 border-b border-border/40 overflow-hidden transition-colors duration-250">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
@@ -1377,7 +1377,7 @@ export default function Index() {
               </span>
               
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white leading-[1.1] tracking-tight">
-                Why choose <span className="text-slate-800 dark:text-white">YalTech</span> <span className="text-[#258ffb]">EZSignNow</span>
+                Why choose <span className="text-slate-800 dark:text-white">Techladder</span> <span className="text-[#258ffb]">EZSignNow</span>
               </h2>
               
               <div className="space-y-6 pt-2">
@@ -1400,7 +1400,7 @@ export default function Index() {
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                      Honest pricing for full-featured plans. <span className="text-slate-500 dark:text-slate-400 font-semibold leading-relaxed block mt-1">YalTech EZSignNow offers subscription plans with no overages or hidden fees at renewal.</span>
+                      Honest pricing for full-featured plans. <span className="text-slate-500 dark:text-slate-400 font-semibold leading-relaxed block mt-1">Techladder EZSignNow offers subscription plans with no overages or hidden fees at renewal.</span>
                     </h3>
                   </div>
                 </div>
@@ -1412,7 +1412,7 @@ export default function Index() {
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                      Enterprise-grade security. <span className="text-slate-500 dark:text-slate-400 font-semibold leading-relaxed block mt-1">YalTech EZSignNow helps you comply with global security standards.</span>
+                      Enterprise-grade security. <span className="text-slate-500 dark:text-slate-400 font-semibold leading-relaxed block mt-1">Techladder EZSignNow helps you comply with global security standards.</span>
                     </h3>
                   </div>
                 </div>
