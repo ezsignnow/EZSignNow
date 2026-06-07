@@ -409,6 +409,86 @@ export function DocumentUpload() {
     });
   };
 
+  const handleOneDriveImport = () => {
+    const OneDrive = (window as any).OneDrive;
+    if (!OneDrive) {
+      toast({
+        title: "OneDrive SDK loading...",
+        description: "Microsoft SDK is still loading. Running a sandbox simulation instead.",
+      });
+      simulateCloudImport("OneDrive");
+      return;
+    }
+
+    const odOptions = {
+      clientId: import.meta.env.VITE_ONEDRIVE_CLIENT_ID || "9b6a7d3e-1234-4abc-b456-000000000000",
+      action: "download",
+      multiSelect: false,
+      openInNewWindow: true,
+      advanced: {
+        filter: ".pdf",
+        redirectUri: window.location.origin,
+      },
+      success: async (files: any) => {
+        const file = files?.value?.[0];
+        if (!file) return;
+
+        const fileName = file.name;
+        const downloadUrl = file["@microsoft.graph.downloadUrl"];
+
+        if (!downloadUrl) {
+          toast({
+            title: "Import Error",
+            description: "Could not get a download URL from OneDrive. Please try again.",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        toast({
+          title: "Importing file...",
+          description: `Fetching "${fileName}" from OneDrive...`,
+        });
+        setUploading(true);
+
+        try {
+          const response = await fetch(downloadUrl);
+          if (!response.ok) throw new Error("Failed to download file from OneDrive");
+
+          const blob = await response.blob();
+          const importedFile = new File([blob], fileName, { type: "application/pdf" });
+          setFile(importedFile);
+          setSingleTemplate("");
+          toast({
+            title: "Import Successful",
+            description: `Successfully imported "${fileName}" from OneDrive.`,
+          });
+        } catch (err: any) {
+          toast({
+            title: "Import failed",
+            description: err.message || "Failed to retrieve the file from OneDrive.",
+            variant: "destructive",
+          });
+        } finally {
+          setUploading(false);
+        }
+      },
+      cancel: () => {
+        toast({ title: "OneDrive Cancelled", description: "No file was selected." });
+      },
+      error: (err: any) => {
+        console.error("OneDrive picker error:", err);
+        toast({
+          title: "OneDrive Error",
+          description: err?.message || "An error occurred opening the OneDrive picker.",
+          variant: "destructive",
+        });
+      },
+    };
+
+    OneDrive.open(odOptions);
+  };
+
   // Simulating Cloud Uploads
   const simulateCloudImport = (provider: string) => {
     toast({
@@ -809,7 +889,7 @@ export function DocumentUpload() {
                 </button>
 
                 <button 
-                  onClick={() => simulateCloudImport("OneDrive")}
+                  onClick={handleOneDriveImport}
                   disabled={uploading}
                   className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#258ffb]/40 hover:shadow-sm transition-all"
                 >
