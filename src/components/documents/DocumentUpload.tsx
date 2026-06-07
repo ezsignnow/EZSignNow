@@ -18,6 +18,7 @@ export function DocumentUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
+  const [singleTemplate, setSingleTemplate] = useState("");
 
   // Tab 2: Bulk Send States
   const [selectedTemplate, setSelectedTemplate] = useState("");
@@ -77,6 +78,7 @@ export function DocumentUpload() {
       const droppedFile = e.dataTransfer.files[0];
       if (droppedFile.type === "application/pdf") {
         setFile(droppedFile);
+        setSingleTemplate("");
       } else {
         toast({
           title: "Invalid file type",
@@ -90,6 +92,32 @@ export function DocumentUpload() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
+      setSingleTemplate("");
+    }
+  };
+
+  const handleSingleTemplateChange = (val: string) => {
+    setSingleTemplate(val);
+    if (val === "w9") {
+      setFile(new File([new Uint8Array(100)], "W-9 Form.pdf", { type: "application/pdf" }));
+      toast({
+        title: "W-9 Template Loaded",
+        description: "Template form loaded. Click Prepare Document to continue.",
+      });
+    } else if (val === "nda") {
+      setFile(new File([new Uint8Array(100)], "Non-Disclosure Agreement (NDA).pdf", { type: "application/pdf" }));
+      toast({
+        title: "NDA Template Loaded",
+        description: "Template form loaded. Click Prepare Document to continue.",
+      });
+    } else if (val === "contract") {
+      setFile(new File([new Uint8Array(100)], "Independent Contractor Agreement.pdf", { type: "application/pdf" }));
+      toast({
+        title: "Independent Contractor Agreement Loaded",
+        description: "Template form loaded. Click Prepare Document to continue.",
+      });
+    } else {
+      setFile(null);
     }
   };
 
@@ -219,6 +247,7 @@ export function DocumentUpload() {
                   const importedFile = new File([blob], fileName, { type: "application/pdf" });
                   
                   setFile(importedFile);
+                  setSingleTemplate("");
                   toast({
                     title: "Import Successful",
                     description: `Successfully imported "${fileName}" from Google Drive.`,
@@ -352,6 +381,7 @@ export function DocumentUpload() {
             const importedFile = new File([blob], fileName, { type: "application/pdf" });
             
             setFile(importedFile);
+            setSingleTemplate("");
             toast({
               title: "Import Successful",
               description: `Successfully imported "${fileName}" from Dropbox.`,
@@ -392,6 +422,7 @@ export function DocumentUpload() {
       const blob = new Blob([mockPdfContent], { type: "application/pdf" });
       const simulatedFile = new File([blob], `${provider}_Imported_Doc.pdf`, { type: "application/pdf" });
       setFile(simulatedFile);
+      setSingleTemplate("");
       setUploading(false);
       toast({
         title: "Import Successful",
@@ -727,6 +758,7 @@ export function DocumentUpload() {
                       onClick={(e) => {
                         e.stopPropagation();
                         setFile(null);
+                        setSingleTemplate("");
                       }}
                       className="mt-2 h-8 text-xs text-destructive border-destructive/20 hover:bg-destructive/10 hover:border-destructive/30 rounded-full px-4"
                     >
@@ -812,10 +844,11 @@ export function DocumentUpload() {
               <h3 className="text-sm font-bold text-slate-800">Choose Template</h3>
               <div className="relative">
                 <select 
+                  value={singleTemplate}
+                  onChange={(e) => handleSingleTemplateChange(e.target.value)}
                   className="w-full appearance-none rounded border border-slate-200 bg-white px-4 py-2.5 text-[13px] font-medium text-slate-400 outline-none focus:border-[#258ffb]/50 cursor-pointer"
-                  defaultValue=""
                 >
-                  <option value="" disabled>Choose a Template</option>
+                  <option value="">Choose a Template</option>
                   <option value="nda">Non-Disclosure Agreement (NDA)</option>
                   <option value="contract">Independent Contractor Agreement</option>
                   <option value="w9">W-9 Form</option>
