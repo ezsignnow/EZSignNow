@@ -127,6 +127,33 @@ export default function Dashboard() {
   const [profileEmail, setProfileEmail] = useState("");
   const [isSavingSettings, setIsSavingSettings] = useState(false);
 
+  // Signature font
+  const FONT_OPTIONS = [
+    { label: "Dancing Script Bold",    value: "Dancing Script",    google: "Dancing+Script:wght@700" },
+    { label: "Great Vibes Cursive",     value: "Great Vibes",       google: "Great+Vibes" },
+    { label: "Pacifico Regular",        value: "Pacifico",          google: "Pacifico" },
+    { label: "Pinyon Script",           value: "Pinyon Script",     google: "Pinyon+Script" },
+    { label: "Sacramento Cursive",      value: "Sacramento",        google: "Sacramento" },
+    { label: "Allura Script",           value: "Allura",            google: "Allura" },
+  ];
+  const [signingFont, setSigningFont] = useState(
+    () => localStorage.getItem("signing_font") || "Dancing Script"
+  );
+
+  // Load the Google Font whenever signingFont changes
+  useEffect(() => {
+    const selected = FONT_OPTIONS.find(f => f.value === signingFont);
+    if (!selected) return;
+    const linkId = `gfont-${selected.value.replace(/\s/g, "-")}`;
+    if (!document.getElementById(linkId)) {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = `https://fonts.googleapis.com/css2?family=${selected.google}&display=swap`;
+      document.head.appendChild(link);
+    }
+  }, [signingFont]);
+
   const [integrations, setIntegrations] = useState([
     { id: "gdrive", name: "Google Drive", connected: true, description: "Import files directly from your Google Drive account.", icon: GoogleDriveIcon },
     { id: "onedrive", name: "OneDrive", connected: false, description: "Access documents stored in your Microsoft OneDrive account.", icon: OneDriveIcon },
@@ -1464,17 +1491,27 @@ export default function Dashboard() {
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-1.5">
                               <label className="text-[11px] font-bold text-slate-400">DEFAULT SIGNING FONT</label>
-                              <select className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#258ffb]/50 focus:outline-none">
-                                <option>Signature Script Regular</option>
-                                <option>Dancing Script Bold</option>
-                                <option>Great Vibes Cursive</option>
+                              <select
+                                value={signingFont}
+                                onChange={(e) => {
+                                  setSigningFont(e.target.value);
+                                  localStorage.setItem("signing_font", e.target.value);
+                                }}
+                                className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#258ffb]/50 focus:outline-none"
+                              >
+                                {FONT_OPTIONS.map((f) => (
+                                  <option key={f.value} value={f.value}>{f.label}</option>
+                                ))}
                               </select>
                             </div>
                             
                             <div className="space-y-1.5">
                               <label className="text-[11px] font-bold text-slate-400">MOCK SIGNATURE PREVIEW</label>
-                              <div className="h-10 border border-slate-100 rounded bg-slate-50/50 flex items-center justify-center p-2">
-                                <span className="font-serif italic text-lg text-slate-700 tracking-wider">
+                              <div className="h-14 border border-slate-200 rounded-lg bg-white shadow-inner flex items-center justify-center px-4 transition-all">
+                                <span
+                                  style={{ fontFamily: `'${signingFont}', cursive`, fontSize: "1.5rem", lineHeight: 1 }}
+                                  className="text-slate-800 tracking-wide select-none"
+                                >
                                   {profileName || "Signer Name"}
                                 </span>
                               </div>
