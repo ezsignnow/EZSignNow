@@ -255,12 +255,10 @@ export default function Dashboard() {
     });
     
     try {
-      const docId = `doc-${Date.now()}`;
-      // Simulate creating a document in documents table
+      // Generate a proper UUID — Supabase documents.id is type uuid, not text
       const { data, error } = await supabase
         .from("documents")
         .insert({
-          id: docId,
           owner_id: user.id,
           title: `${template.title} Copy`,
           file_name: `${template.title.toLowerCase().replace(/\s+/g, "_")}_copy.pdf`,
@@ -272,6 +270,9 @@ export default function Dashboard() {
         .single();
         
       if (error) throw error;
+
+      // Use the Supabase-generated UUID as docId for all subsequent relations
+      const docId = data.id;
       
       // If it is a custom template, read and copy full signatories & fields configuration
       if (!template.isDefault) {
@@ -1043,7 +1044,9 @@ export default function Dashboard() {
                   </Card>
                 </div>
               </div>
-            )}            {activeTab === "team" && (
+            )}
+
+            {activeTab === "team" && (
               <div className="space-y-8 animate-in fade-in duration-200">
                 <div>
                   <h1 className="text-2xl font-extrabold text-slate-800">Workspace Management</h1>
