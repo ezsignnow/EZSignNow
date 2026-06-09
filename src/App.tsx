@@ -21,6 +21,8 @@ import FormsLibrary from "./pages/FormsLibrary";
 import TemplateSign from "./pages/TemplateSign";
 import Security from "./pages/Security";
 import Support from "./pages/Support";
+import Company from "./pages/Company";
+import Team from "./pages/Team";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +51,8 @@ const App = () => (
             <Route path="/forms" element={<FormsLibrary />} />
             <Route path="/security" element={<Security />} />
             <Route path="/support" element={<Support />} />
+            <Route path="/company" element={<Company />} />
+            <Route path="/team" element={<Team />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
