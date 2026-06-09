@@ -335,8 +335,8 @@ export default function Index() {
           <div className="h-[60px] w-2/3 rounded-lg border border-emerald-200 dark:border-emerald-900 bg-white dark:bg-card flex items-center justify-center p-2 self-center">
             <span className="text-xs italic text-slate-500 font-serif">Joe Thomas</span>
           </div>
-          <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] h-7 self-end">
-            Download Certified PDF
+          <Button asChild size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] h-7 self-end">
+            <Link to="/try-for-free">Download Certified PDF</Link>
           </Button>
         </div>
       )
@@ -1212,7 +1212,7 @@ export default function Index() {
               </p>
               
               <Link 
-                to="/try-for-free" 
+                to="/security" 
                 className="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:underline hover:gap-2 transition-all"
               >
                 Learn more about eSignature's laws

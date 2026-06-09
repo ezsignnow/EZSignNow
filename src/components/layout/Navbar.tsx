@@ -47,7 +47,7 @@ export function Navbar() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="bg-popover">
-                  <DropdownMenuItem className="text-popover-foreground">
+                  <DropdownMenuItem onClick={() => navigate("/dashboard?tab=settings")} className="text-popover-foreground cursor-pointer">
                     {user.email}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleSignOut} className="text-destructive">

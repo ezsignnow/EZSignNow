@@ -128,8 +128,12 @@ export default function Dashboard() {
     enforceSso: false
   });
   
-  const [profileName, setProfileName] = useState("Meets User");
-  const [profileEmail, setProfileEmail] = useState("");
+  const [profileName, setProfileName] = useState(
+    () => localStorage.getItem("profile_name") || (user?.email ? user.email.split("@")[0] : "")
+  );
+  const [profileEmail, setProfileEmail] = useState(
+    () => localStorage.getItem("profile_email") || ""
+  );
   const [isSavingSettings, setIsSavingSettings] = useState(false);
 
   // Signature font
@@ -532,10 +536,13 @@ export default function Dashboard() {
     e.preventDefault();
     setIsSavingSettings(true);
     setTimeout(() => {
+      // Persist profile to localStorage
+      localStorage.setItem("profile_name", profileName);
+      localStorage.setItem("profile_email", profileEmail);
       setIsSavingSettings(false);
       toast({
-        title: "Settings Saved",
-        description: "Your workspace profile changes have been applied."
+        title: "Settings Saved ✅",
+        description: "Your profile name, email, and signing font have been saved."
       });
     }, 1000);
   };
@@ -719,8 +726,8 @@ export default function Dashboard() {
                 {/* 5. Share & Earn item */}
                 <DropdownMenuItem 
                   onClick={() => {
-                    navigator.clipboard.writeText(getAbsoluteUrl("/signup?ref=meets"));
-                    toast({ title: "Share & Earn Copied!", description: "Unique referral link copied to clipboard. Earn free requests!" });
+                    navigator.clipboard.writeText(getAbsoluteUrl(`/signup?ref=${user?.email?.split("@")[0] || "ezsignnow"}`));
+                    toast({ title: "Share & Earn Copied!", description: "Your unique referral link has been copied to clipboard!" });
                   }}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
                 >

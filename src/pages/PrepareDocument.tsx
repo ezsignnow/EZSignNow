@@ -609,8 +609,8 @@ export default function PrepareDocument() {
                 {/* 5. Share & Earn item */}
                 <DropdownMenuItem 
                   onClick={() => {
-                    navigator.clipboard.writeText(getAbsoluteUrl("/signup?ref=meets"));
-                    toast({ title: "Share & Earn Copied!", description: "Unique referral link copied to clipboard. Earn free requests!" });
+                    navigator.clipboard.writeText(getAbsoluteUrl(`/signup?ref=${user?.email?.split("@")[0] || "ezsignnow"}`));
+                    toast({ title: "Share & Earn Copied!", description: "Your unique referral link has been copied to clipboard!" });
                   }}
                   className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 py-2.5 cursor-pointer mt-0.5 focus:outline-none"
                 >
