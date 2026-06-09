@@ -98,6 +98,11 @@ export default function Dashboard() {
   
   // Custom Branding Panel States
   const [brandLogoUrl, setBrandLogoUrl] = useState<string | null>(null);
+  const [brandLogoUrlInput, setBrandLogoUrlInput] = useState("");
+  const [companyName, setCompanyName] = useState("EZSignNow");
+  const [tagline, setTagline] = useState("Secure Document Signing");
+  const [emailHeaderText, setEmailHeaderText] = useState("You have been invited to sign a document.");
+  const [brandFont, setBrandFont] = useState("Inter");
   const [primaryColor, setPrimaryColor] = useState("#258ffb");
   const [secondaryColor, setSecondaryColor] = useState("#0f172a");
   const [accentColor, setAccentColor] = useState("#10b981");
@@ -191,8 +196,12 @@ export default function Dashboard() {
         if (parsed.primaryColor) setPrimaryColor(parsed.primaryColor);
         if (parsed.secondaryColor) setSecondaryColor(parsed.secondaryColor);
         if (parsed.accentColor) setAccentColor(parsed.accentColor);
+        if (parsed.companyName) setCompanyName(parsed.companyName);
+        if (parsed.tagline) setTagline(parsed.tagline);
+        if (parsed.emailHeaderText) setEmailHeaderText(parsed.emailHeaderText);
+        if (parsed.brandFont) setBrandFont(parsed.brandFont);
       } catch (err) {
-        console.error("Error loading custom branding:", err);
+        console.error("Error reading branding:", err);
       }
     }
   }, [activeTab]);
@@ -378,6 +387,12 @@ export default function Dashboard() {
   };
 
   // 2. Custom Branding Handlers
+  const applyBrandingCssVars = (p: string, s: string, a: string) => {
+    document.documentElement.style.setProperty("--brand-primary", p);
+    document.documentElement.style.setProperty("--brand-secondary", s);
+    document.documentElement.style.setProperty("--brand-accent", a);
+  };
+
   const handleSaveBranding = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSavingBranding(true);
@@ -388,17 +403,22 @@ export default function Dashboard() {
         primaryColor,
         secondaryColor,
         accentColor,
+        companyName,
+        tagline,
+        emailHeaderText,
+        brandFont,
       };
       
       localStorage.setItem("custom_branding", JSON.stringify(payload));
+      applyBrandingCssVars(primaryColor, secondaryColor, accentColor);
       setIsSavingBranding(false);
       
       // Dispatch standard custom event to notify components like BrandLogo to re-render logo instantly
       window.dispatchEvent(new Event("branding_updated"));
       
       toast({
-        title: "Workspace Branding Saved",
-        description: "Your brand colors and logo have been loaded dynamically across all signing headers!"
+        title: "✅ Workspace Branding Saved",
+        description: "Your brand colors, logo and copy have been applied across all signing flows!"
       });
     }, 900);
   };
@@ -406,13 +426,19 @@ export default function Dashboard() {
   const handleResetBranding = () => {
     localStorage.removeItem("custom_branding");
     setBrandLogoUrl(null);
+    setBrandLogoUrlInput("");
+    setCompanyName("EZSignNow");
+    setTagline("Secure Document Signing");
+    setEmailHeaderText("You have been invited to sign a document.");
+    setBrandFont("Inter");
     setPrimaryColor("#258ffb");
     setSecondaryColor("#0f172a");
     setAccentColor("#10b981");
+    applyBrandingCssVars("#258ffb", "#0f172a", "#10b981");
     window.dispatchEvent(new Event("branding_updated"));
     toast({
       title: "Workspace Branding Reset",
-      description: "Returned to the classic Signaturely brand colors and icons."
+      description: "Returned to the classic EZSignNow brand colors and defaults."
     });
   };
 
@@ -716,9 +742,9 @@ export default function Dashboard() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Help Button (outside the dropdown) */}
+            {/* Help Button — opens Support page */}
             <button 
-              onClick={() => toast({ title: "Customer Support", description: "Opening interactive documentation..." })}
+              onClick={() => navigate("/support")}
               className="h-[34px] w-[34px] rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 bg-white shadow-sm transition-all"
             >
               <HelpCircle className="h-4.5 w-4.5" />
@@ -1578,6 +1604,58 @@ export default function Dashboard() {
                     <div className="lg:col-span-2 space-y-6">
                       <form onSubmit={handleSaveBranding} className="space-y-6">
                         
+                        {/* Brand Identity Inputs */}
+                        <Card className="border-slate-100/80 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-4">
+                          <div className="space-y-1">
+                            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                              <FileSignature className="h-4 w-4 text-[#258ffb]" />
+                              Brand Identity
+                            </h3>
+                            <p className="text-xs text-slate-400">These values appear in signing email headers, document footers, and client-facing signing flows.</p>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Company / Brand Name</Label>
+                              <Input
+                                value={companyName}
+                                onChange={(e) => setCompanyName(e.target.value)}
+                                placeholder="EZSignNow"
+                                className="h-9 text-xs font-semibold border-slate-200 rounded-lg"
+                              />
+                            </div>
+                            <div className="space-y-1.5">
+                              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Brand Tagline</Label>
+                              <Input
+                                value={tagline}
+                                onChange={(e) => setTagline(e.target.value)}
+                                placeholder="Secure Document Signing"
+                                className="h-9 text-xs font-semibold border-slate-200 rounded-lg"
+                              />
+                            </div>
+                            <div className="sm:col-span-2 space-y-1.5">
+                              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Email Header Message</Label>
+                              <Input
+                                value={emailHeaderText}
+                                onChange={(e) => setEmailHeaderText(e.target.value)}
+                                placeholder="You have been invited to sign a document."
+                                className="h-9 text-xs font-semibold border-slate-200 rounded-lg"
+                              />
+                            </div>
+                            <div className="space-y-1.5">
+                              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Brand Font</Label>
+                              <select
+                                value={brandFont}
+                                onChange={(e) => setBrandFont(e.target.value)}
+                                className="w-full text-xs font-semibold h-9 px-3 border border-slate-200 rounded-lg bg-white focus:outline-none focus:border-[#258ffb]/50"
+                              >
+                                {["Inter","Roboto","Poppins","Lato","Montserrat","Open Sans","Playfair Display"].map(f => (
+                                  <option key={f} value={f}>{f}</option>
+                                ))}
+                              </select>
+                            </div>
+                          </div>
+                        </Card>
+
                         {/* Logo Upload Card */}
                         <Card className="border-slate-100/80 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-4">
                           <div className="space-y-1">
@@ -1585,7 +1663,7 @@ export default function Dashboard() {
                               <Image className="h-4 w-4 text-[#258ffb]" />
                               Corporate Brand Logo
                             </h3>
-                            <p className="text-xs text-slate-400">Upload your organization logo to replace Techladder / Signaturely default headers in all signer flows.</p>
+                            <p className="text-xs text-slate-400">Upload or paste a URL for your logo. It replaces the default EZSignNow header in all signer flows.</p>
                           </div>
 
                           <div className="flex flex-col sm:flex-row items-center gap-6 pt-2 select-none">
@@ -1594,7 +1672,7 @@ export default function Dashboard() {
                                 <img src={brandLogoUrl} alt="Workspace Logo" className="max-h-full max-w-full object-contain" />
                                 <button
                                   type="button"
-                                  onClick={() => setBrandLogoUrl(null)}
+                                  onClick={() => { setBrandLogoUrl(null); setBrandLogoUrlInput(""); }}
                                   className="absolute -top-1.5 -right-1.5 h-6 w-6 rounded-full bg-rose-500 text-white flex items-center justify-center hover:bg-rose-600 shadow transition-all focus:outline-none"
                                 >
                                   <Trash2 className="h-3 w-3" />
@@ -1616,7 +1694,7 @@ export default function Dashboard() {
                                       Click to upload brand logo
                                     </p>
                                     <p className="text-[9px] text-slate-400 mt-0.5 leading-none">
-                                      Supports SVG, PNG, JPG (Max 2MB)
+                                      SVG, PNG, JPG (Max 2MB)
                                     </p>
                                   </div>
                                   <input 
@@ -1638,8 +1716,8 @@ export default function Dashboard() {
                                         reader.onload = () => {
                                           setBrandLogoUrl(reader.result as string);
                                           toast({
-                                            title: "Logo Loaded",
-                                            description: "Review your custom branding in the signature simulation panel!"
+                                            title: "Logo Loaded ✅",
+                                            description: "Review your custom branding in the live preview panel!"
                                           });
                                         };
                                         reader.readAsDataURL(file);
@@ -1647,6 +1725,28 @@ export default function Dashboard() {
                                     }}
                                   />
                                 </label>
+                              </div>
+                              {/* URL input alternative */}
+                              <div className="flex gap-2">
+                                <Input
+                                  value={brandLogoUrlInput}
+                                  onChange={(e) => setBrandLogoUrlInput(e.target.value)}
+                                  placeholder="Or paste a logo URL (https://...)" 
+                                  className="h-8 text-xs font-semibold border-slate-200 rounded-lg flex-1"
+                                />
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  className="h-8 text-xs font-bold border-slate-200 rounded-lg px-3 shrink-0"
+                                  onClick={() => {
+                                    if (brandLogoUrlInput.startsWith("http")) {
+                                      setBrandLogoUrl(brandLogoUrlInput);
+                                      toast({ title: "Logo URL Applied", description: "Logo loaded from URL." });
+                                    } else {
+                                      toast({ title: "Invalid URL", description: "Please enter a valid https:// URL.", variant: "destructive" });
+                                    }
+                                  }}
+                                >Apply</Button>
                               </div>
                             </div>
                           </div>
@@ -1815,15 +1915,18 @@ export default function Dashboard() {
                             className="p-4 flex items-center justify-between border-b"
                             style={{ 
                               borderBottomColor: `${primaryColor}20`,
-                              backgroundColor: `${primaryColor}06`
+                              backgroundColor: `${primaryColor}08`
                             }}
                           >
                             {brandLogoUrl ? (
                               <img src={brandLogoUrl} alt="Workspace Logo" className="h-8 max-w-[90px] object-contain" />
                             ) : (
                               <div className="flex items-center gap-1.5 text-slate-800">
-                                <FileSignature className="h-4.5 w-4.5 text-[#258ffb]" style={{ color: primaryColor }} />
-                                <span className="text-[10px] font-black uppercase tracking-wider">EZSignNow</span>
+                                <FileSignature className="h-4.5 w-4.5" style={{ color: primaryColor }} />
+                                <div>
+                                  <span className="text-[10px] font-black uppercase tracking-wider block" style={{ color: primaryColor }}>{companyName}</span>
+                                  <span className="text-[8px] text-slate-400 font-medium">{tagline}</span>
+                                </div>
                               </div>
                             )}
                             <span 
@@ -1842,8 +1945,9 @@ export default function Dashboard() {
                           <div className="p-5 space-y-4 text-left">
                             <div className="space-y-2">
                               <h4 className="text-[13px] font-extrabold text-slate-800 leading-snug">
-                                {workspaceName} invites you to sign:
+                                {companyName} invites you to sign:
                               </h4>
+                              <p className="text-[10px] text-slate-400 italic">{emailHeaderText}</p>
                               <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-3">
                                 <div className="h-8 w-8 bg-blue-50 border border-blue-100 text-[#258ffb] rounded-lg flex items-center justify-center shrink-0">
                                   <FileText className="h-4.5 w-4.5" />
