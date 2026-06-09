@@ -382,7 +382,7 @@ export default function TemplateBuilder() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <button onClick={() => toast({ title: "Template Builder Help", description: "This builder lets you position signature panels for your roles." })} className="h-[34px] w-[34px] rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 bg-white shadow-sm transition-all focus:outline-none">
+            <button onClick={() => navigate("/support")} className="h-[34px] w-[34px] rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 bg-white shadow-sm transition-all focus:outline-none" title="Get Help">
               <HelpCircle className="h-4.5 w-4.5" />
             </button>
           </div>

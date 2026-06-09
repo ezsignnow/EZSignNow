@@ -437,7 +437,7 @@ export default function PrepareDocument() {
           body: JSON.stringify({
             signatories,
             documentId: id,
-            documentTitle: document.title,
+            documentTitle: document?.title || "Untitled Document",
             ownerEmail: user?.email || "support@ezsignnow.com",
           }),
         });
@@ -645,9 +645,9 @@ export default function PrepareDocument() {
               )}
             </button>
 
-            {/* Help Button (outside the dropdown) */}
+            {/* Help Button — opens Support page */}
             <button 
-              onClick={() => toast({ title: "Customer Support", description: "Opening interactive documentation..." })}
+              onClick={() => navigate("/support")}
               className="h-[34px] w-[34px] rounded-full border border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-350 bg-white dark:bg-slate-900 shadow-sm transition-all focus:outline-none"
             >
               <HelpCircle className="h-4.5 w-4.5" />
@@ -673,7 +673,7 @@ export default function PrepareDocument() {
               <div>
                 <div className="flex items-center gap-2.5">
                   <h1 className="text-base font-extrabold text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
-                    {document.title}
+                    {document?.title || "Untitled Document"}
                   </h1>
                   <span className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-500 font-extrabold px-2.5 py-0.5 text-[9px] rounded-full uppercase select-none tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
                     Draft

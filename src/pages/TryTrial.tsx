@@ -266,9 +266,9 @@ export default function TryTrial() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Help Button (outside the dropdown) */}
+            {/* Help Button — opens Support page */}
             <button 
-              onClick={() => toast({ title: "Customer Support", description: "Opening interactive documentation..." })}
+              onClick={() => navigate("/support")}
               className="h-[34px] w-[34px] rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 bg-white shadow-sm transition-all"
             >
               <HelpCircle className="h-4.5 w-4.5" />
