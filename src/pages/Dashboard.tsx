@@ -684,7 +684,7 @@ export default function Dashboard() {
                 
                 {/* 1. Company item */}
                 <DropdownMenuItem 
-                  onClick={() => setSearchParams({ tab: "team" })}
+                  onClick={() => navigate("/dashboard?tab=team")}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer"
                 >
                   <Briefcase className="mr-3 h-4 w-4 text-slate-400" />
@@ -693,7 +693,7 @@ export default function Dashboard() {
 
                 {/* 2. Profile item */}
                 <DropdownMenuItem 
-                  onClick={() => setSearchParams({ tab: "settings" })}
+                  onClick={() => navigate("/dashboard?tab=settings")}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
                 >
                   <User className="mr-3 h-4 w-4 text-slate-400" />
@@ -703,7 +703,7 @@ export default function Dashboard() {
                 {/* 3. Edit Signature item */}
                 <DropdownMenuItem 
                   onClick={() => {
-                    setSearchParams({ tab: "settings" });
+                    navigate("/dashboard?tab=settings");
                     setTimeout(() => {
                       toast({ title: "Edit Signature Active", description: "Select your default cursive script fonts below." });
                     }, 300);
