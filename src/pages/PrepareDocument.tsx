@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { 
   ArrowLeft, Save, Send, Loader2, Copy, Check,
   FileSignature, ChevronDown, Briefcase, User, PenTool,
-  CreditCard, Star, LogOut, HelpCircle, FileText, Clock,
+  CreditCard, Star, LogOut, Headset, FileText, Clock,
   Sun, Moon, Laptop
 } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -648,9 +648,10 @@ export default function PrepareDocument() {
             {/* Help Button — opens Support page */}
             <button 
               onClick={() => navigate("/support")}
-              className="h-[34px] w-[34px] rounded-full border border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-350 bg-white dark:bg-slate-900 shadow-sm transition-all focus:outline-none"
+              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 border border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
             >
-              <HelpCircle className="h-4.5 w-4.5" />
+              <Headset className="h-4 w-4" />
+              <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
           </div>
         </div>

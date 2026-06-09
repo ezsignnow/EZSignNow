@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { 
   ArrowLeft, Save, Loader2, Plus, Trash2, PenTool, 
-  HelpCircle, User, Briefcase, CreditCard, Star, LogOut, ChevronDown, Info,
+  Headset, User, Briefcase, CreditCard, Star, LogOut, ChevronDown, Info,
   Settings, Copy, FileText, Move, X, AlertCircle, FileSignature
 } from "lucide-react";
 import {
@@ -382,8 +382,9 @@ export default function TemplateBuilder() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <button onClick={() => navigate("/support")} className="h-[34px] w-[34px] rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 bg-white shadow-sm transition-all focus:outline-none" title="Get Help">
-              <HelpCircle className="h-4.5 w-4.5" />
+            <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 text-indigo-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1" title="Get Help">
+              <Headset className="h-4 w-4" />
+              <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
           </div>
         </div>

@@ -8,7 +8,7 @@ import { getAbsoluteUrl } from "@/utils/url";
 import { 
   FileSignature, 
   Check, 
-  HelpCircle, 
+  Headset, 
   ChevronDown, 
   LogOut, 
   Loader2, 
@@ -269,9 +269,10 @@ export default function TryTrial() {
             {/* Help Button — opens Support page */}
             <button 
               onClick={() => navigate("/support")}
-              className="h-[34px] w-[34px] rounded-full border border-slate-100 hover:border-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600 bg-white shadow-sm transition-all"
+              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 text-indigo-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
             >
-              <HelpCircle className="h-4.5 w-4.5" />
+              <Headset className="h-4 w-4" />
+              <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
           </div>
         </div>
