@@ -104,7 +104,7 @@ export default function Dashboard() {
   const [tagline, setTagline] = useState("Secure Document Signing");
   const [emailHeaderText, setEmailHeaderText] = useState("You have been invited to sign a document.");
   const [brandFont, setBrandFont] = useState("Inter");
-  const [primaryColor, setPrimaryColor] = useState("#258ffb");
+  const [primaryColor, setPrimaryColor] = useState("#22c55e");
   const [secondaryColor, setSecondaryColor] = useState("#0f172a");
   const [accentColor, setAccentColor] = useState("#10b981");
   const [isSavingBranding, setIsSavingBranding] = useState(false);
@@ -436,10 +436,10 @@ export default function Dashboard() {
     setTagline("Secure Document Signing");
     setEmailHeaderText("You have been invited to sign a document.");
     setBrandFont("Inter");
-    setPrimaryColor("#258ffb");
+    setPrimaryColor("#22c55e");
     setSecondaryColor("#0f172a");
     setAccentColor("#10b981");
-    applyBrandingCssVars("#258ffb", "#0f172a", "#10b981");
+    applyBrandingCssVars("#22c55e", "#0f172a", "#10b981");
     window.dispatchEvent(new Event("branding_updated"));
     toast({
       title: "Workspace Branding Reset",
@@ -591,7 +591,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-[#258ffb]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
       </div>
     );
   }
@@ -616,7 +616,7 @@ export default function Dashboard() {
           </button>
         </div>
       ) : (
-        <div className="bg-[#258ffb] text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
+        <div className="bg-[#22c55e] text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
           <span>You have a 7-day Free Business Trial.</span>
           <button onClick={() => navigate("/try-trial")} className="underline hover:text-white/95 transition-all font-bold">Try now</button>
         </div>
@@ -650,7 +650,7 @@ export default function Dashboard() {
             className={`rounded-full h-[34px] px-5 font-bold text-xs shadow-sm transition-all border-[1.5px] bg-white ${
               isPremium 
                 ? "border-emerald-500 text-emerald-500 hover:bg-emerald-50/50" 
-                : "border-[#258ffb] text-[#258ffb] hover:bg-[#258ffb]/5"
+                : "border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/5"
             }`}
           >
             {isPremium ? "Premium" : "Upgrade"}
@@ -743,7 +743,7 @@ export default function Dashboard() {
             {/* Help Button — opens Support page */}
             <button 
               onClick={() => navigate("/support")}
-              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 text-indigo-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
+              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
             >
               <Headset className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
@@ -779,7 +779,7 @@ export default function Dashboard() {
                     <h1 className="text-2xl font-extrabold text-slate-800">Documents Dashboard</h1>
                     <p className="text-sm text-slate-500 mt-1">Monitor, track status, and manage your electronic signatures.</p>
                   </div>
-                  <Button onClick={() => setActiveTab("sign")} className="bg-[#258ffb] hover:bg-[#1a7ae0] font-bold text-xs h-9 rounded-full px-5 shadow-sm gap-2">
+                  <Button onClick={() => setActiveTab("sign")} className="bg-[#22c55e] hover:bg-[#1a7ae0] font-bold text-xs h-9 rounded-full px-5 shadow-sm gap-2">
                     <Plus className="h-4 w-4" />
                     New Document
                   </Button>
@@ -788,7 +788,7 @@ export default function Dashboard() {
                 {/* Dashboard stats cards */}
                 <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
                   {[
-                    { icon: FileText, label: "Total Documents", value: statsLoading ? "-" : stats.total.toString(), color: "bg-[#258ffb]/10 text-[#258ffb]" },
+                    { icon: FileText, label: "Total Documents", value: statsLoading ? "-" : stats.total.toString(), color: "bg-[#22c55e]/10 text-[#22c55e]" },
                     { icon: Clock, label: "Pending Signatures", value: statsLoading ? "-" : stats.pending.toString(), color: "bg-amber-500/10 text-amber-500" },
                     { icon: CheckCircle2, label: "Completed Signatures", value: statsLoading ? "-" : stats.completed.toString(), color: "bg-emerald-500/10 text-emerald-500" },
                   ].map((stat) => (
@@ -808,10 +808,10 @@ export default function Dashboard() {
 
                 {/* Kiosk Mode Quick-Launch Banner */}
                 {stats.pending > 0 && (
-                  <Card className="border border-[#258ffb]/20 bg-gradient-to-r from-blue-50/40 to-indigo-50/20 dark:from-slate-900/40 dark:to-slate-950/20 rounded-2xl shadow-[0_2px_8px_rgba(37,143,251,0.01)] overflow-hidden select-none animate-in fade-in slide-in-from-top-1.5 duration-300 mb-6">
+                  <Card className="border border-[#22c55e]/20 bg-emerald-50/30 dark:from-slate-900/40 dark:to-slate-950/20 rounded-2xl shadow-[0_2px_8px_rgba(37,143,251,0.01)] overflow-hidden select-none animate-in fade-in slide-in-from-top-1.5 duration-300 mb-6">
                     <CardContent className="p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#258ffb] to-indigo-500 text-white flex items-center justify-center shadow-md shadow-[#258ffb]/10 shrink-0">
+                        <div className="h-10 w-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-[#22c55e]/10 shrink-0">
                           <Laptop className="h-5 w-5" />
                         </div>
                         <div>
@@ -838,7 +838,7 @@ export default function Dashboard() {
                             console.error("Kiosk launch error:", err);
                           }
                         }}
-                        className="rounded-full bg-gradient-to-r from-[#258ffb] to-indigo-600 hover:from-[#1d7ee6] hover:to-indigo-700 text-white font-bold text-xs h-9 px-5 shadow-sm shrink-0 flex items-center gap-1.5 transition-all"
+                        className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-9 px-5 shadow-sm shrink-0 flex items-center gap-1.5 transition-all"
                       >
                         Launch Kiosk Mode
                         <ArrowRight className="h-3.5 w-3.5" />
@@ -864,7 +864,7 @@ export default function Dashboard() {
                   </div>
                   <Button 
                     onClick={() => navigate("/template/new")}
-                    className="bg-[#258ffb] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm gap-2"
+                    className="bg-[#22c55e] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm gap-2"
                   >
                     <Plus className="h-4 w-4" />
                     Create New Template
@@ -894,7 +894,7 @@ export default function Dashboard() {
                       
                       <CardContent className="p-5 flex-1 flex flex-col justify-between">
                         <div className="space-y-2.5">
-                          <div className="h-10 w-10 bg-blue-50/50 border border-blue-100 text-[#258ffb] rounded-xl flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                          <div className="h-10 w-10 bg-blue-50/50 border border-blue-100 text-[#22c55e] rounded-xl flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
                             <Copy className="h-5 w-5" />
                           </div>
                           <h3 className="font-extrabold text-slate-800 text-[14.5px] truncate pr-12">{item.title}</h3>
@@ -904,7 +904,7 @@ export default function Dashboard() {
                           <span className="text-[10px] font-extrabold text-emerald-600 bg-emerald-50/50 border border-emerald-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)] select-none">Custom Layout</span>
                           <button 
                             onClick={() => handleUseTemplate(item)}
-                            className="text-xs font-bold text-[#258ffb] flex items-center gap-1 group-hover:underline focus:outline-none"
+                            className="text-xs font-bold text-[#22c55e] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
                             <ArrowRight className="h-3 w-3" />
@@ -933,7 +933,7 @@ export default function Dashboard() {
                           <span className="text-[10px] font-bold text-slate-400">{item.duration}</span>
                           <button 
                             onClick={() => handleUseTemplate(item)}
-                            className="text-xs font-bold text-[#258ffb] flex items-center gap-1 group-hover:underline focus:outline-none"
+                            className="text-xs font-bold text-[#22c55e] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
                             <ArrowRight className="h-3 w-3" />
@@ -946,10 +946,10 @@ export default function Dashboard() {
                   {/* Create Template layout */}
                   <Card 
                     onClick={() => navigate("/template/new")}
-                    className="border-dashed border-slate-200 hover:border-[#258ffb]/55 hover:bg-blue-50/10 cursor-pointer flex flex-col items-center justify-center p-5 text-center min-h-[180px] bg-slate-50/20 transition-all group shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)]"
+                    className="border-dashed border-slate-200 hover:border-[#22c55e]/55 hover:bg-blue-50/10 cursor-pointer flex flex-col items-center justify-center p-5 text-center min-h-[180px] bg-slate-50/20 transition-all group shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)]"
                   >
                     <CardContent className="p-0 space-y-3.5">
-                      <div className="h-11 w-11 rounded-full border-[1.5px] border-[#258ffb]/30 group-hover:border-[#258ffb] flex items-center justify-center mx-auto text-[#258ffb] transition-all bg-white shadow-sm">
+                      <div className="h-11 w-11 rounded-full border-[1.5px] border-[#22c55e]/30 group-hover:border-[#22c55e] flex items-center justify-center mx-auto text-[#22c55e] transition-all bg-white shadow-sm">
                         <Plus className="h-5 w-5" />
                       </div>
                       <div>
@@ -982,14 +982,14 @@ export default function Dashboard() {
                             value={newFormName}
                             onChange={(e) => setNewFormName(e.target.value)}
                             placeholder="e.g. Guest Release Form"
-                            className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
+                            className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded focus:border-[#22c55e]/50 focus:outline-none"
                             required
                           />
                         </div>
                         <Button 
                           type="submit" 
                           disabled={isCreatingForm}
-                          className="w-full bg-[#258ffb] hover:bg-[#1a7ae0] rounded-[4px] h-[36px] font-bold text-xs shadow-md shadow-[#258ffb]/10"
+                          className="w-full bg-[#22c55e] hover:bg-[#1a7ae0] rounded-[4px] h-[36px] font-bold text-xs shadow-md shadow-[#22c55e]/10"
                         >
                           {isCreatingForm ? <Loader2 className="h-4 w-4 animate-spin" /> : "Publish Active Link"}
                         </Button>
@@ -1024,7 +1024,7 @@ export default function Dashboard() {
                                       navigator.clipboard.writeText(`https://${item.link}`);
                                       toast({ title: "Link Copied", description: "Public URL loaded into clipboard." });
                                     }}
-                                    className="text-xs text-[#258ffb] font-semibold hover:underline flex items-center gap-1.5"
+                                    className="text-xs text-[#22c55e] font-semibold hover:underline flex items-center gap-1.5"
                                   >
                                     {item.link}
                                     <ExternalLink className="h-3 w-3" />
@@ -1113,7 +1113,7 @@ export default function Dashboard() {
                                 type="text"
                                 value={profileName}
                                 onChange={(e) => setProfileName(e.target.value)}
-                                className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
+                                className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded focus:border-[#22c55e]/50 focus:outline-none"
                                 required
                               />
                             </div>
@@ -1140,7 +1140,7 @@ export default function Dashboard() {
                                   setSigningFont(e.target.value);
                                   localStorage.setItem("signing_font", e.target.value);
                                 }}
-                                className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#258ffb]/50 focus:outline-none"
+                                className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#22c55e]/50 focus:outline-none"
                               >
                                 {FONT_OPTIONS.map((f) => (
                                   <option key={f.value} value={f.value}>{f.label}</option>
@@ -1165,7 +1165,7 @@ export default function Dashboard() {
                             <Button 
                               type="submit" 
                               disabled={isSavingSettings}
-                              className="bg-[#258ffb] hover:bg-[#1a7ae0] rounded-full h-[38px] px-6 font-bold text-xs shadow-md shadow-[#258ffb]/20 flex items-center gap-2"
+                              className="bg-[#22c55e] hover:bg-[#1a7ae0] rounded-full h-[38px] px-6 font-bold text-xs shadow-md shadow-[#22c55e]/20 flex items-center gap-2"
                             >
                               {isSavingSettings ? (
                                 <>
@@ -1188,7 +1188,7 @@ export default function Dashboard() {
                     <Card className="border-slate-100 lg:col-span-1">
                       <CardContent className="p-5 space-y-4">
                         <h3 className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                          <Laptop className="h-4 w-4 text-[#258ffb]" />
+                          <Laptop className="h-4 w-4 text-[#22c55e]" />
                           Environment Info
                         </h3>
                         <div className="space-y-2 text-xs font-semibold text-slate-400">
@@ -1221,4 +1221,7 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+
 

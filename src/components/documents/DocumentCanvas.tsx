@@ -250,7 +250,7 @@ export function DocumentCanvas({
       id="document-scroll-container"
       className={`relative h-[800px] bg-[#f8fafc] dark:bg-slate-950 overflow-y-auto border rounded-2xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_2px_4px_rgba(0,0,0,0.15)] scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-850 scrollbar-track-transparent transition-all duration-250 ${
         isDragOver 
-          ? "border-[#258ffb] bg-blue-50/20 dark:bg-blue-950/15 ring-2 ring-[#258ffb]/20" 
+          ? "border-[#22c55e] bg-blue-50/20 dark:bg-blue-950/15 ring-2 ring-[#22c55e]/20" 
           : "border-slate-100 dark:border-slate-800"
       }`}
       onMouseMove={handleMouseMove}
@@ -264,7 +264,7 @@ export function DocumentCanvas({
       <div className="flex justify-center p-6 min-h-full">
         {loadingPdf ? (
           <div className="flex flex-col items-center justify-center gap-2.5 text-slate-400 dark:text-slate-500 self-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-[#258ffb]" />
+            <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
             <p className="text-xs font-bold uppercase tracking-wider">Rendering PDF pages...</p>
           </div>
         ) : fileUrl && pageImages.length > 0 ? (
@@ -333,7 +333,7 @@ export function DocumentCanvas({
                       />
                       <Button
                         size="sm"
-                        className="h-6 text-xs bg-[#258ffb] hover:bg-[#1d7ee6] rounded-full px-3"
+                        className="h-6 text-xs bg-[#22c55e] hover:bg-[#1d7ee6] rounded-full px-3"
                         onClick={() => setEditingField(null)}
                       >
                         Done
@@ -479,3 +479,6 @@ export function DocumentCanvas({
     </Card>
   );
 }
+
+
+

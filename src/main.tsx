@@ -7,3 +7,6 @@ import { reminderScheduler } from "./utils/reminderScheduler";
 reminderScheduler.start(60000); // scan every 60 seconds
 
 createRoot(document.getElementById("root")!).render(<App />);
+
+
+

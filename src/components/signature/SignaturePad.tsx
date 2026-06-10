@@ -65,3 +65,6 @@ export const SignaturePad = forwardRef<SignaturePadRef, SignaturePadProps>(
 );
 
 SignaturePad.displayName = "SignaturePad";
+
+
+

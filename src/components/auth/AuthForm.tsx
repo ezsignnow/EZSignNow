@@ -425,7 +425,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       </div>
 
       {/* Right Column - Testimonials Panel (Signaturely.com exact copy) */}
-      <div className="hidden md:flex md:w-[42%] lg:w-[48%] bg-[#258ffb] text-white p-12 flex-col justify-between relative overflow-hidden select-none">
+      <div className="hidden md:flex md:w-[42%] lg:w-[48%] bg-[#22c55e] text-white p-12 flex-col justify-between relative overflow-hidden select-none">
         
         {/* Soft background vector wave art */}
         <div className="absolute inset-0 opacity-20 pointer-events-none bg-no-repeat bg-bottom bg-cover" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,224L80,224C160,224,320,224,480,213.3C640,203,800,181,960,186.7C1120,192,1280,224,1360,240L1440,256L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z'%3E%3C/path%3E%3C/svg%3E")` }} />
@@ -498,3 +498,6 @@ export function AuthForm({ mode }: AuthFormProps) {
     </div>
   );
 }
+
+
+

@@ -265,7 +265,7 @@ export function DocumentList() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-[#258ffb] stroke-[2.5]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e] stroke-[2.5]" />
         <span className="text-xs font-semibold text-slate-400 mt-2">Loading documents...</span>
       </div>
     );
@@ -279,7 +279,7 @@ export function DocumentList() {
         <div className="flex flex-wrap gap-2.5 items-center flex-1">
           {/* Documents Scope Dropdown */}
           <div className="relative">
-            <select className="appearance-none h-9 pl-4 pr-9 border border-slate-200 bg-white rounded text-xs font-bold text-slate-600 outline-none focus:border-[#258ffb]/40 cursor-pointer">
+            <select className="appearance-none h-9 pl-4 pr-9 border border-slate-200 bg-white rounded text-xs font-bold text-slate-600 outline-none focus:border-[#22c55e]/40 cursor-pointer">
               <option>Documents</option>
               <option>Templates</option>
               <option>Forms</option>
@@ -295,7 +295,7 @@ export function DocumentList() {
               placeholder="Search for Documents..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-9 pl-9 pr-3 text-xs font-semibold border border-slate-200 bg-white rounded outline-none focus:border-[#258ffb]/40"
+              className="w-full h-9 pl-9 pr-3 text-xs font-semibold border border-slate-200 bg-white rounded outline-none focus:border-[#22c55e]/40"
             />
           </div>
 
@@ -307,7 +307,7 @@ export function DocumentList() {
                 setStatusFilter(e.target.value);
                 setSearchParams({ tab: "documents", status: e.target.value });
               }}
-              className="appearance-none h-9 pl-4 pr-9 border border-slate-200 bg-white rounded text-xs font-bold text-slate-600 outline-none focus:border-[#258ffb]/40 cursor-pointer"
+              className="appearance-none h-9 pl-4 pr-9 border border-slate-200 bg-white rounded text-xs font-bold text-slate-600 outline-none focus:border-[#22c55e]/40 cursor-pointer"
             >
               <option value="all">Status: All</option>
               <option value="completed">Completed</option>
@@ -323,7 +323,7 @@ export function DocumentList() {
             <select 
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="appearance-none h-9 pl-4 pr-9 border border-slate-200 bg-white rounded text-xs font-bold text-slate-600 outline-none focus:border-[#258ffb]/40 cursor-pointer"
+              className="appearance-none h-9 pl-4 pr-9 border border-slate-200 bg-white rounded text-xs font-bold text-slate-600 outline-none focus:border-[#22c55e]/40 cursor-pointer"
             >
               <option value="all">Select date</option>
               <option value="week">Last 7 days</option>
@@ -337,7 +337,7 @@ export function DocumentList() {
         <Button 
           variant="outline"
           onClick={() => toast({ title: "Folders Sandbox", description: "Created a new document collection folder." })}
-          className="rounded-full h-9 border-[#258ffb] text-[#258ffb] hover:bg-[#258ffb]/5 font-bold text-xs shadow-sm shrink-0 self-start sm:self-center gap-1.5"
+          className="rounded-full h-9 border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/5 font-bold text-xs shadow-sm shrink-0 self-start sm:self-center gap-1.5"
         >
           <FolderPlus className="h-4 w-4" />
           Create Folder
@@ -350,7 +350,7 @@ export function DocumentList() {
           Showing {filteredDocs.length > 0 ? "1" : "0"}-{filteredDocs.length} of {filteredDocs.length} results
         </span>
         {selectedDocs.length > 0 && (
-          <span className="text-[#258ffb] animate-in fade-in slide-in-from-right-1 duration-200">
+          <span className="text-[#22c55e] animate-in fade-in slide-in-from-right-1 duration-200">
             {selectedDocs.length} items selected
           </span>
         )}
@@ -369,7 +369,7 @@ export function DocumentList() {
                 We couldn't find any documents matching your active search filters.
               </p>
             </div>
-            <Button asChild className="bg-[#258ffb] hover:bg-[#1a7ae0] font-bold text-xs h-8.5 rounded-full px-5 shadow-sm">
+            <Button asChild className="bg-[#22c55e] hover:bg-[#1a7ae0] font-bold text-xs h-8.5 rounded-full px-5 shadow-sm">
               <Link to="/dashboard?tab=sign">Upload Document</Link>
             </Button>
           </CardContent>
@@ -385,7 +385,7 @@ export function DocumentList() {
                       type="checkbox"
                       checked={filteredDocs.length > 0 && selectedDocs.length === filteredDocs.length}
                       onChange={handleSelectAll}
-                      className="h-3.5 w-3.5 rounded border-slate-300 accent-[#258ffb] cursor-pointer"
+                      className="h-3.5 w-3.5 rounded border-slate-300 accent-[#22c55e] cursor-pointer"
                     />
                   </th>
                   <th className="px-5 py-4">TITLE</th>
@@ -403,7 +403,7 @@ export function DocumentList() {
                     <tr 
                       key={doc.id} 
                       className={`border-b border-slate-100/60 hover:bg-slate-50/20 transition-all ${
-                        isChecked ? "bg-[#258ffb]/5/20" : ""
+                        isChecked ? "bg-[#22c55e]/5/20" : ""
                       }`}
                     >
                       {/* Checkbox cell */}
@@ -412,15 +412,15 @@ export function DocumentList() {
                           type="checkbox"
                           checked={isChecked}
                           onChange={(e) => handleSelectDoc(doc.id, e.target.checked)}
-                          className="h-3.5 w-3.5 rounded border-slate-300 accent-[#258ffb] cursor-pointer"
+                          className="h-3.5 w-3.5 rounded border-slate-300 accent-[#22c55e] cursor-pointer"
                         />
                       </td>
 
                       {/* Title & Status Badge cell */}
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-8.5 w-8.5 bg-[#258ffb]/5 rounded flex items-center justify-center shrink-0">
-                            <FileText className="h-4.5 w-4.5 text-[#258ffb]" />
+                          <div className="h-8.5 w-8.5 bg-[#22c55e]/5 rounded flex items-center justify-center shrink-0">
+                            <FileText className="h-4.5 w-4.5 text-[#22c55e]" />
                           </div>
                           <div className="flex items-center gap-2.5 truncate">
                             <span className="text-[13px] font-bold text-slate-700 truncate max-w-[200px] md:max-w-[280px]">
@@ -444,7 +444,7 @@ export function DocumentList() {
                       {/* Created By cell */}
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2">
-                          <div className="h-6 w-6 rounded-full bg-slate-100 flex items-center justify-center text-[9px] font-bold text-[#258ffb] shrink-0 border border-slate-200/50">
+                          <div className="h-6 w-6 rounded-full bg-slate-100 flex items-center justify-center text-[9px] font-bold text-[#22c55e] shrink-0 border border-slate-200/50">
                             {getUserInitials()}
                           </div>
                           <span className="text-xs font-bold text-slate-600 truncate max-w-[140px]">
@@ -476,9 +476,9 @@ export function DocumentList() {
                                 {doc.status === "pending" && (
                                   <DropdownMenuItem 
                                     onClick={() => navigate(`/document/${doc.id}/view?kiosk=true`)}
-                                    className="text-xs font-bold text-[#258ffb] cursor-pointer mt-0.5 focus:text-[#1d7ee6] focus:bg-[#258ffb]/5"
+                                    className="text-xs font-bold text-[#22c55e] cursor-pointer mt-0.5 focus:text-[#1d7ee6] focus:bg-[#22c55e]/5"
                                   >
-                                    <Laptop className="mr-2 h-4 w-4 text-[#258ffb]" />
+                                    <Laptop className="mr-2 h-4 w-4 text-[#22c55e]" />
                                     Host In-Person Sign
                                   </DropdownMenuItem>
                                 )}
@@ -486,7 +486,7 @@ export function DocumentList() {
                             ) : (
                               <DropdownMenuItem 
                                 onClick={() => navigate(`/document/${doc.id}/prepare`)}
-                                className="text-xs font-semibold text-[#258ffb] cursor-pointer"
+                                className="text-xs font-semibold text-[#22c55e] cursor-pointer"
                               >
                                 <Edit3 className="mr-2 h-4 w-4" />
                                 Prepare Document
@@ -556,3 +556,6 @@ export function DocumentList() {
     </div>
   );
 }
+
+
+

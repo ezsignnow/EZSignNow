@@ -101,7 +101,7 @@ export function SignatoryManager({
                   key={index}
                   className={`flex items-center gap-2.5 rounded-xl border p-2.5 cursor-pointer transition-all duration-200 ${
                     isSelected
-                      ? "border-[#258ffb] bg-[#258ffb]/[0.02] dark:bg-[#258ffb]/[0.04] shadow-[0_2px_8px_rgba(37,143,251,0.05)]"
+                      ? "border-[#22c55e] bg-[#22c55e]/[0.02] dark:bg-[#22c55e]/[0.04] shadow-[0_2px_8px_rgba(37,143,251,0.05)]"
                       : "border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 bg-white dark:bg-slate-900"
                   }`}
                   onClick={() => onSelectSignatory(isSelected ? null : index)}
@@ -163,7 +163,7 @@ export function SignatoryManager({
               placeholder="John Doe"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
+              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
             />
           </div>
           <div className="space-y-1.5">
@@ -174,7 +174,7 @@ export function SignatoryManager({
               placeholder="john@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
+              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
             />
           </div>
           <div className="space-y-1.5">
@@ -184,7 +184,7 @@ export function SignatoryManager({
               placeholder="e.g. 123456"
               value={accessCode}
               onChange={(e) => setAccessCode(e.target.value)}
-              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
+              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
             />
           </div>
           <div className="space-y-1.5">
@@ -197,13 +197,13 @@ export function SignatoryManager({
               placeholder="e.g. 123456"
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
-              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
+              className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e] focus-visible:ring-offset-0 placeholder:text-slate-300 dark:placeholder:text-slate-700 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
             />
           </div>
           <Button
             onClick={handleAdd}
             disabled={!name.trim() || !email.trim()}
-            className="w-full rounded-full bg-[#258ffb] hover:bg-[#1d7ee6] disabled:hover:bg-[#258ffb] text-white font-bold h-9.5 text-xs transition-all shadow-sm flex items-center justify-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#258ffb]/20 mt-1"
+            className="w-full rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] disabled:hover:bg-[#22c55e] text-white font-bold h-9.5 text-xs transition-all shadow-sm flex items-center justify-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#22c55e]/20 mt-1"
           >
             <UserPlus className="h-3.5 w-3.5" />
             Add Signatory
@@ -213,3 +213,6 @@ export function SignatoryManager({
     </Card>
   );
 }
+
+
+

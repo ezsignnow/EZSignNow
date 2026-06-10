@@ -57,34 +57,34 @@ export default function DashboardSidebar() {
           <div key={item.id} className="space-y-1">
             <button
               onClick={() => handleNavigate(item.id)}
-              className={`w-full flex items-center gap-3.5 px-4.5 py-3 rounded-lg text-xs font-bold transition-all ${
+              className={`w-full flex items-center gap-3.5 px-4.5 py-3 rounded-md text-xs font-semibold transition-all ${
                 itemActive
-                  ? "bg-[#258ffb]/5 text-[#258ffb] shadow-[inset_3px_0_0_#258ffb]"
+                  ? "bg-emerald-50 text-emerald-600 shadow-[inset_3px_0_0_#22c55e]"
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
               }`}
             >
-              <item.icon className={`h-4.5 w-4.5 ${itemActive ? "text-[#258ffb]" : "text-slate-400"}`} />
+              <item.icon className={`h-4.5 w-4.5 ${itemActive ? "text-emerald-600" : "text-slate-400"}`} />
               {item.label}
             </button>
             
             {/* Nested sub-menu for Documents when active */}
             {isDocActive && item.id === "documents" && (
-              <div className="pl-6.5 py-1 space-y-1 select-none border-l border-slate-100 ml-5.5 animate-in slide-in-from-top-1.5 duration-200">
+              <div className="pl-6.5 py-1 space-y-1 select-none border-l-2 border-slate-100 ml-5.5 animate-in slide-in-from-top-1.5 duration-200">
                 {[
                   { id: "completed", label: "Completed", color: "bg-emerald-500" },
                   { id: "pending", label: "Awaiting Signature", color: "bg-amber-500" },
                   { id: "cancelled", label: "Voided", color: "bg-red-500" },
                   { id: "draft", label: "Draft", color: "bg-slate-400" },
-                  { id: "received", label: "Received", color: "bg-[#258ffb]" },
+                  { id: "received", label: "Received", color: "bg-emerald-600" },
                   { id: "trash", label: "Trash", color: "bg-slate-300" },
                 ].map((sub) => (
                   <button
                     key={sub.id}
                     onClick={() => navigate(`/dashboard?tab=documents&status=${sub.id}`)}
-                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded text-[11px] font-bold transition-all ${
+                    className={`w-full flex items-center gap-2 px-3 py-1.5 rounded-md text-[11px] font-semibold transition-all ${
                       docStatus === sub.id
-                        ? "text-[#258ffb] bg-[#258ffb]/5"
-                        : "text-slate-500 hover:text-slate-800 hover:bg-slate-50/50"
+                        ? "text-emerald-600 bg-emerald-50"
+                        : "text-slate-500 hover:text-slate-800 hover:bg-slate-50"
                     }`}
                   >
                     <span className={`h-1.5 w-1.5 rounded-full ${sub.color}`} />
@@ -99,3 +99,6 @@ export default function DashboardSidebar() {
     </aside>
   );
 }
+
+
+

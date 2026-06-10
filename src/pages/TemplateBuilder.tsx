@@ -46,7 +46,7 @@ interface TemplateField {
 }
 
 const colorPalette = [
-  "#258ffb", // Premium Blue
+  "#22c55e", // Premium Blue
   "#10b981", // Emerald Green
   "#8b5cf6", // Purple
   "#f59e0b", // Amber Yellow
@@ -63,7 +63,7 @@ export default function TemplateBuilder() {
   const [templateName, setTemplateName] = useState("Untitled Template");
   const [templateDesc, setTemplateDesc] = useState("Standard reusable document template.");
   const [roles, setRoles] = useState<TemplateRole[]>([
-    { id: "role-1", name: "Client Signer", color: "#258ffb" },
+    { id: "role-1", name: "Client Signer", color: "#22c55e" },
     { id: "role-2", name: "Internal Admin", color: "#10b981" }
   ]);
   const [fields, setFields] = useState<TemplateField[]>([]);
@@ -333,7 +333,7 @@ export default function TemplateBuilder() {
   if (authLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <Loader2 className="h-8 w-8 animate-spin text-[#258ffb]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
       </div>
     );
   }
@@ -382,7 +382,7 @@ export default function TemplateBuilder() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 text-indigo-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1" title="Get Help">
+            <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1" title="Get Help">
               <Headset className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
@@ -402,7 +402,7 @@ export default function TemplateBuilder() {
               <ArrowLeft className="h-4 w-4" />
             </button>
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-50/50 border border-blue-100 rounded-xl text-[#258ffb] shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+              <div className="p-2 bg-blue-50/50 border border-blue-100 rounded-xl text-[#22c55e] shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
                 <FileSignature className="h-5 w-5" />
               </div>
               <div>
@@ -410,7 +410,7 @@ export default function TemplateBuilder() {
                   <h1 className="text-base font-extrabold text-slate-800 tracking-tight leading-tight">
                     {templateName || "Untitled Template"}
                   </h1>
-                  <span className="bg-blue-50 text-[#258ffb] border border-blue-100 font-extrabold px-2.5 py-0.5 text-[9px] rounded-full uppercase select-none tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                  <span className="bg-blue-50 text-[#22c55e] border border-blue-100 font-extrabold px-2.5 py-0.5 text-[9px] rounded-full uppercase select-none tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
                     Reusable Layout
                   </span>
                 </div>
@@ -425,7 +425,7 @@ export default function TemplateBuilder() {
             <Button 
               onClick={handleSaveTemplate}
               disabled={isSaving}
-              className="rounded-full bg-[#258ffb] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all flex items-center gap-2"
+              className="rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all flex items-center gap-2"
             >
               {isSaving ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -462,7 +462,7 @@ export default function TemplateBuilder() {
                     onChange={(e) => setTemplateDesc(e.target.value)}
                     placeholder="Describe when to use this template layout..."
                     rows={3}
-                    className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded-lg focus:border-[#258ffb]/50 focus:outline-none resize-none"
+                    className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded-lg focus:border-[#22c55e]/50 focus:outline-none resize-none"
                   />
                 </div>
               </div>
@@ -488,7 +488,7 @@ export default function TemplateBuilder() {
 
               <div className="grid grid-cols-1 gap-2.5">
                 {[
-                  { type: "signature", label: "Signature Field", color: "text-[#258ffb] bg-blue-50/50" },
+                  { type: "signature", label: "Signature Field", color: "text-[#22c55e] bg-blue-50/50" },
                   { type: "text", label: "Text Input Box", color: "text-purple-500 bg-purple-50/50" },
                   { type: "checkbox", label: "Checkbox Option", color: "text-emerald-500 bg-emerald-50/50" },
                   { type: "date", label: "Date Picker Box", color: "text-amber-500 bg-amber-50/50" },
@@ -649,7 +649,7 @@ export default function TemplateBuilder() {
                       onClick={() => setSelectedRole(role.id)}
                       className={`p-3.5 border rounded-2xl transition-all cursor-pointer space-y-2.5 ${
                         selectedRole === role.id 
-                          ? "border-[#258ffb] bg-blue-50/10 shadow-[0_4px_12px_rgba(37,143,251,0.02)]" 
+                          ? "border-[#22c55e] bg-blue-50/10 shadow-[0_4px_12px_rgba(37,143,251,0.02)]" 
                           : "border-slate-100 hover:border-slate-200 hover:bg-slate-50/20"
                       }`}
                     >
@@ -684,7 +684,7 @@ export default function TemplateBuilder() {
 
             {/* Instruction Banner */}
             <Card className="border-blue-100 bg-blue-50/20 rounded-2xl p-5 space-y-3">
-              <div className="flex items-center gap-2 text-[#258ffb]">
+              <div className="flex items-center gap-2 text-[#22c55e]">
                 <AlertCircle className="h-4.5 w-4.5 shrink-0" />
                 <h4 className="text-xs font-extrabold">Builder Tip</h4>
               </div>
@@ -699,3 +699,6 @@ export default function TemplateBuilder() {
     </div>
   );
 }
+
+
+

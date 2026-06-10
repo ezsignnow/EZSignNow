@@ -548,15 +548,15 @@ export default function Index() {
 
           <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
             {/* Integration 1: Google Drive */}
-            <div className="group rounded-2xl border border-border bg-white dark:bg-card p-8 shadow-sm hover:border-[#258ffb]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
-              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#258ffb]/10 text-[#258ffb] transition-colors group-hover:bg-[#258ffb] group-hover:text-white">
+            <div className="group rounded-2xl border border-border bg-white dark:bg-card p-8 shadow-sm hover:border-[#22c55e]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#22c55e]/10 text-[#22c55e] transition-colors group-hover:bg-[#22c55e] group-hover:text-white">
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2L2 22h20L12 2z" />
                   <path d="M12 2l5 8.5" />
                   <path d="M22 22l-10-17.3" />
                 </svg>
               </div>
-              <span className="text-[10px] font-extrabold text-[#258ffb] bg-[#258ffb]/10 px-2.5 py-1 rounded-full uppercase tracking-wider mb-3.5 inline-block">
+              <span className="text-[10px] font-extrabold text-[#22c55e] bg-[#22c55e]/10 px-2.5 py-1 rounded-full uppercase tracking-wider mb-3.5 inline-block">
                 Google Drive
               </span>
               <h3 className="mb-2 font-bold text-foreground text-xl">Interactive File Picker</h3>
@@ -566,14 +566,14 @@ export default function Index() {
             </div>
 
             {/* Integration 2: Stripe */}
-            <div className="group rounded-2xl border border-border bg-white dark:bg-card p-8 shadow-sm hover:border-[#635bff]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
-              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#635bff]/10 text-[#635bff] transition-colors group-hover:bg-[#635bff] group-hover:text-white">
+            <div className="group rounded-2xl border border-border bg-white dark:bg-card p-8 shadow-sm hover:border-[#1e293b]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1e293b]/10 text-[#1e293b] transition-colors group-hover:bg-[#1e293b] group-hover:text-white">
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
                   <line x1="1" y1="10" x2="23" y2="10" />
                 </svg>
               </div>
-              <span className="text-[10px] font-extrabold text-[#635bff] bg-[#635bff]/10 px-2.5 py-1 rounded-full uppercase tracking-wider mb-3.5 inline-block">
+              <span className="text-[10px] font-extrabold text-[#1e293b] bg-[#1e293b]/10 px-2.5 py-1 rounded-full uppercase tracking-wider mb-3.5 inline-block">
                 Stripe Payments
               </span>
               <h3 className="mb-2 font-bold text-foreground text-xl">Instant Account Upgrades</h3>
@@ -622,8 +622,8 @@ export default function Index() {
             {[
               { id: "savings", label: "Cost Savings", icon: DollarSign, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
               { id: "security", label: "Legally Binding & Secure", icon: Shield, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" },
-              { id: "satisfaction", label: "Better Tracking", icon: Clock, color: "text-[#258ffb] bg-[#258ffb]/10 border-[#258ffb]/20" },
-              { id: "workflows", label: "Automated Cloud Archiving", icon: Cloud, color: "text-[#635bff] bg-[#635bff]/10 border-[#635bff]/20" }
+              { id: "satisfaction", label: "Better Tracking", icon: Clock, color: "text-[#22c55e] bg-[#22c55e]/10 border-[#22c55e]/20" },
+              { id: "workflows", label: "Automated Cloud Archiving", icon: Cloud, color: "text-[#1e293b] bg-[#1e293b]/10 border-[#1e293b]/20" }
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeFeatureTab === tab.id;
@@ -723,7 +723,7 @@ export default function Index() {
 
               {activeFeatureTab === "satisfaction" && (
                 <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
-                  <div className="h-10 w-10 rounded-xl bg-[#258ffb]/10 text-[#258ffb] flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-xl bg-[#22c55e]/10 text-[#22c55e] flex items-center justify-center">
                     <Clock className="h-5 w-5" />
                   </div>
                   <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
@@ -735,7 +735,7 @@ export default function Index() {
                   
                   <div className="space-y-3.5 pt-2">
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-[#258ffb] shrink-0 mt-0.5" />
+                      <Check className="h-4.5 w-4.5 text-[#22c55e] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Chronological Event Logs</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -745,7 +745,7 @@ export default function Index() {
                     </div>
                     
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-[#258ffb] shrink-0 mt-0.5" />
+                      <Check className="h-4.5 w-4.5 text-[#22c55e] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Smart SMS Verification Trace</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -759,7 +759,7 @@ export default function Index() {
 
               {activeFeatureTab === "workflows" && (
                 <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
-                  <div className="h-10 w-10 rounded-xl bg-[#635bff]/10 text-[#635bff] flex items-center justify-center">
+                  <div className="h-10 w-10 rounded-xl bg-[#1e293b]/10 text-[#1e293b] flex items-center justify-center">
                     <Cloud className="h-5 w-5" />
                   </div>
                   <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
@@ -771,7 +771,7 @@ export default function Index() {
                   
                   <div className="space-y-3.5 pt-2">
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-[#635bff] shrink-0 mt-0.5" />
+                      <Check className="h-4.5 w-4.5 text-[#1e293b] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Instant Sync Engines</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -781,7 +781,7 @@ export default function Index() {
                     </div>
                     
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-[#635bff] shrink-0 mt-0.5" />
+                      <Check className="h-4.5 w-4.5 text-[#1e293b] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Seamless Folder Organization</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -819,7 +819,7 @@ export default function Index() {
                         <span className="text-[10px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase block mb-0.5">SLIDING SAVINGS CALCULATOR</span>
                         <label className="text-sm font-extrabold text-foreground">Monthly Document Volume</label>
                       </div>
-                      <span className="text-2xl font-black text-[#258ffb] font-mono tracking-tight">{calcDocVolume} contracts/mo</span>
+                      <span className="text-2xl font-black text-[#22c55e] font-mono tracking-tight">{calcDocVolume} contracts/mo</span>
                     </div>
                     <input
                       type="range"
@@ -827,7 +827,7 @@ export default function Index() {
                       max="300"
                       value={calcDocVolume}
                       onChange={(e) => setCalcDocVolume(Number(e.target.value))}
-                      className="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#258ffb] focus:outline-none"
+                      className="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#22c55e] focus:outline-none"
                     />
                     <div className="flex justify-between text-[10px] text-slate-400 font-semibold px-0.5 select-none">
                       <span>5 Contracts</span>
@@ -849,9 +849,9 @@ export default function Index() {
                       <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold block mb-1">ADMIN LABOR HOURS SAVED</span>
                       <span className="text-xl font-bold text-foreground font-mono">{(calcDocVolume * 0.8).toFixed(1)} hrs</span>
                     </div>
-                    <div className="p-4 bg-white dark:bg-card border border-[#258ffb]/20 bg-[#258ffb]/[0.02] rounded-xl shadow-sm">
-                      <span className="text-[10px] text-[#258ffb] font-bold block mb-1">EZSIGNNOW COST</span>
-                      <span className="text-xl font-bold text-[#258ffb] font-mono">$2 / mo</span>
+                    <div className="p-4 bg-white dark:bg-card border border-[#22c55e]/20 bg-[#22c55e]/[0.02] rounded-xl shadow-sm">
+                      <span className="text-[10px] text-[#22c55e] font-bold block mb-1">EZSIGNNOW COST</span>
+                      <span className="text-xl font-bold text-[#22c55e] font-mono">$2 / mo</span>
                     </div>
                   </div>
 
@@ -1110,7 +1110,7 @@ export default function Index() {
                     <div className="flex-grow mx-4 relative h-1 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden flex items-center justify-center">
                       {archiveStatus === "syncing" && (
                         <div 
-                          className="absolute left-0 top-0 h-full bg-[#635bff] transition-all duration-75"
+                          className="absolute left-0 top-0 h-full bg-[#1e293b] transition-all duration-75"
                           style={{ width: `${archiveProgress}%` }}
                         />
                       )}
@@ -1372,18 +1372,18 @@ export default function Index() {
             
             {/* Left Column Copywriting */}
             <div className="space-y-7 text-left max-w-xl">
-              <span className="text-xs font-bold text-[#258ffb] uppercase tracking-widest leading-none block">
+              <span className="text-xs font-bold text-[#22c55e] uppercase tracking-widest leading-none block">
                 BE READY TO GET MORE
               </span>
               
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white leading-[1.1] tracking-tight">
-                Why choose <span className="text-slate-800 dark:text-white">Techladder</span> <span className="text-[#258ffb]">EZSignNow</span>
+                Why choose <span className="text-slate-800 dark:text-white">Techladder</span> <span className="text-[#22c55e]">EZSignNow</span>
               </h2>
               
               <div className="space-y-6 pt-2">
                 {/* Point 1 */}
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#258ffb] transition-colors">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#22c55e] transition-colors">
                     <Clock className="h-5 w-5" />
                   </div>
                   <div>
@@ -1395,7 +1395,7 @@ export default function Index() {
 
                 {/* Point 2 */}
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#258ffb] transition-colors">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#22c55e] transition-colors">
                     <FileText className="h-5 w-5" />
                   </div>
                   <div>
@@ -1407,7 +1407,7 @@ export default function Index() {
 
                 {/* Point 3 */}
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#258ffb] transition-colors">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#22c55e] transition-colors">
                     <Shield className="h-5 w-5" />
                   </div>
                   <div>
@@ -1422,7 +1422,7 @@ export default function Index() {
                 <Button 
                   onClick={() => navigate("/try-trial")}
                   size="lg"
-                  className="rounded-full bg-[#258ffb] hover:bg-[#1d7ee6] text-white font-bold text-sm px-8 h-12 shadow-md shadow-[#258ffb]/20"
+                  className="rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] text-white font-bold text-sm px-8 h-12 shadow-md shadow-[#22c55e]/20"
                 >
                   Start free trial
                 </Button>
@@ -1456,9 +1456,9 @@ export default function Index() {
                   {/* Owner field block */}
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase w-12 text-left">Owner</span>
-                    <div className="flex-1 h-9 rounded-lg border border-[#258ffb] bg-[#258ffb]/[0.02] flex items-center justify-center p-2 relative">
+                    <div className="flex-1 h-9 rounded-lg border border-[#22c55e] bg-[#22c55e]/[0.02] flex items-center justify-center p-2 relative">
                       {/* Animated cursive signature representation */}
-                      <span className="text-xs italic text-[#258ffb] font-serif font-bold animate-pulse select-none">
+                      <span className="text-xs italic text-[#22c55e] font-serif font-bold animate-pulse select-none">
                         Joe Thomas
                       </span>
                     </div>
@@ -1468,8 +1468,8 @@ export default function Index() {
                   <div className="flex items-center justify-between gap-2">
                     <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase w-12 text-left">Company</span>
                     {/* Pulsing Drag Target Field */}
-                    <div className="flex-1 h-9 rounded-lg border border-dashed border-[#635bff] bg-[#635bff]/5 flex items-center justify-center relative select-none animate-pulse">
-                      <span className="text-[9px] font-extrabold text-[#635bff] uppercase tracking-wider flex items-center gap-1 select-none">
+                    <div className="flex-1 h-9 rounded-lg border border-dashed border-[#1e293b] bg-[#1e293b]/5 flex items-center justify-center relative select-none animate-pulse">
+                      <span className="text-[9px] font-extrabold text-[#1e293b] uppercase tracking-wider flex items-center gap-1 select-none">
                         <FileSignature className="h-3 w-3" />
                         Signature Field
                       </span>
@@ -1483,7 +1483,7 @@ export default function Index() {
                 <div className="space-y-3.5">
                   {/* Select signatory header */}
                   <div className="space-y-1">
-                    <div className="h-7 w-full rounded-lg bg-[#258ffb] text-white flex items-center gap-2 px-2.5 shadow-sm text-[9px] font-bold">
+                    <div className="h-7 w-full rounded-lg bg-[#22c55e] text-white flex items-center gap-2 px-2.5 shadow-sm text-[9px] font-bold">
                       <div className="h-4.5 w-4.5 rounded-full bg-white/20 flex items-center justify-center text-[8px] font-black">
                         O
                       </div>
@@ -1519,11 +1519,11 @@ export default function Index() {
                           key={idx}
                           className={`h-7 rounded border flex items-center gap-2 px-2 text-[9px] font-semibold transition-all ${
                             isDraggingMock 
-                              ? "border-[#635bff] bg-[#635bff]/5 text-[#635bff] shadow-sm translate-x-[-2px] animate-pulse" 
+                              ? "border-[#1e293b] bg-[#1e293b]/5 text-[#1e293b] shadow-sm translate-x-[-2px] animate-pulse" 
                               : "border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400"
                           }`}
                         >
-                          <Icon className={`h-3 w-3 shrink-0 ${isDraggingMock ? 'text-[#635bff]' : 'text-slate-400'}`} />
+                          <Icon className={`h-3 w-3 shrink-0 ${isDraggingMock ? 'text-[#1e293b]' : 'text-slate-400'}`} />
                           <span className="truncate">{tool.label}</span>
                         </div>
                       );
@@ -1985,9 +1985,9 @@ export default function Index() {
           </div>
 
           {/* Forms Library Promotion Card */}
-          <div className="mt-12 bg-gradient-to-r from-[#635bff]/10 to-primary/10 border border-[#635bff]/20 rounded-3xl p-6 md:p-8 max-w-4xl mx-auto shadow-md text-left flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-primary/40 transition-colors">
+          <div className="mt-12 bg-gradient-to-r from-[#1e293b]/10 to-primary/10 border border-[#1e293b]/20 rounded-3xl p-6 md:p-8 max-w-4xl mx-auto shadow-md text-left flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-primary/40 transition-colors">
             <div className="space-y-2 max-w-xl">
-              <span className="inline-flex items-center gap-1 bg-[#635bff]/20 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider text-primary border border-primary/10">
+              <span className="inline-flex items-center gap-1 bg-[#1e293b]/20 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider text-primary border border-primary/10">
                 Templates Hub
               </span>
               <h3 className="text-xl font-extrabold text-foreground">
@@ -1997,7 +1997,7 @@ export default function Index() {
                 Access standard IRS W-9s, NDAs, Residential Leases, and Freelance Consulting Agreements. Preview, customize, and sign them online in seconds without any paper, print, or shipping costs.
               </p>
             </div>
-            <Button size="lg" className="bg-[#635bff] hover:bg-[#635bff]/90 text-white font-bold text-xs shrink-0 self-start md:self-center" asChild>
+            <Button size="lg" className="bg-[#1e293b] hover:bg-[#1e293b]/90 text-white font-bold text-xs shrink-0 self-start md:self-center" asChild>
               <Link to="/forms">
                 Explore Forms Library
                 <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
@@ -2077,3 +2077,6 @@ export default function Index() {
     </div>
   );
 }
+
+
+

@@ -104,7 +104,7 @@ export default function CompareSignNow() {
       <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-28 bg-gradient-to-br from-slate-900 via-secondary to-slate-950 text-white border-b border-border/10">
         {/* Glassmorphic Ambient Highlights */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/20 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#635bff]/15 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#1e293b]/15 blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 max-w-7xl relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 border border-primary/20 text-primary-foreground mb-6 uppercase tracking-wider">
@@ -430,3 +430,6 @@ export default function CompareSignNow() {
     </div>
   );
 }
+
+
+

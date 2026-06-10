@@ -48,6 +48,7 @@ export default function PrepareDocument() {
   const [inPersonSigning, setInPersonSigning] = useState(false);
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
+  const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState<string>("");
   const [sentDialogOpen, setSentDialogOpen] = useState(false);
@@ -483,7 +484,7 @@ export default function PrepareDocument() {
   if (loading || authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950 transition-colors duration-250">
-        <Loader2 className="h-8 w-8 animate-spin text-[#258ffb]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
       </div>
     );
   }
@@ -508,7 +509,7 @@ export default function PrepareDocument() {
           </button>
         </div>
       ) : (
-        <div className="bg-[#258ffb] dark:bg-[#1d7ee6] text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
+        <div className="bg-[#22c55e] dark:bg-[#1d7ee6] text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
           <span>You have a 7-day Free Business Trial.</span>
           <button onClick={() => navigate("/try-trial")} className="underline hover:text-white/95 transition-all font-bold focus:outline-none">Try now</button>
         </div>
@@ -542,7 +543,7 @@ export default function PrepareDocument() {
             className={`rounded-full h-[34px] px-5 font-bold text-xs shadow-sm transition-all border-[1.5px] bg-white dark:bg-slate-900 ${
               isPremium 
                 ? "border-emerald-500 dark:border-emerald-600 text-emerald-500 dark:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20" 
-                : "border-[#258ffb] text-[#258ffb] dark:text-blue-400 hover:bg-[#258ffb]/5 dark:hover:bg-blue-950/20"
+                : "border-[#22c55e] text-[#22c55e] dark:text-blue-400 hover:bg-[#22c55e]/5 dark:hover:bg-blue-950/20"
             }`}
           >
             {isPremium ? "Premium" : "Upgrade"}
@@ -648,7 +649,7 @@ export default function PrepareDocument() {
             {/* Help Button — opens Support page */}
             <button 
               onClick={() => navigate("/support")}
-              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 border border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
+              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 dark:hover:bg-slate-500/20 border border-slate-100 dark:border-indigo-500/20 text-slate-600 dark:text-indigo-400 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
             >
               <Headset className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
@@ -668,7 +669,7 @@ export default function PrepareDocument() {
               <ArrowLeft className="h-4 w-4" />
             </button>
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl text-slate-500 dark:text-slate-400 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+              <div className="p-2 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl text-slate-500 dark:text-slate-400 shadow-[0_1px_2px_rgba(0,0,0,0.01)] hidden sm:block">
                 <FileText className="h-5 w-5" />
               </div>
               <div>
@@ -676,141 +677,178 @@ export default function PrepareDocument() {
                   <h1 className="text-base font-extrabold text-slate-800 dark:text-slate-100 tracking-tight leading-tight">
                     {document?.title || "Untitled Document"}
                   </h1>
-                  <span className="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-500 font-extrabold px-2.5 py-0.5 text-[9px] rounded-full uppercase select-none tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-                    Draft
-                  </span>
                 </div>
-                <p className="text-[11px] text-slate-400 dark:text-slate-500 font-semibold mt-0.5 leading-normal">
-                  Add fields and signatories to your document
-                </p>
+                <div className="flex items-center gap-2 mt-1.5">
+                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${step === 1 ? "bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 shadow-sm" : "text-slate-400"}`}>1. Signers</span>
+                  <span className="text-slate-300 dark:text-slate-600">/</span>
+                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${step === 2 ? "bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 shadow-sm" : "text-slate-400"}`}>2. Prepare</span>
+                  <span className="text-slate-300 dark:text-slate-600">/</span>
+                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${step === 3 ? "bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 shadow-sm" : "text-slate-400"}`}>3. Send</span>
+                </div>
               </div>
             </div>
           </div>
           <div className="flex gap-2.5 items-center">
+            {step > 1 && (
+              <Button 
+                variant="outline" 
+                onClick={() => setStep(step - 1)} 
+                className="rounded-full border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 bg-white dark:bg-slate-900 h-9.5 px-5 font-bold text-xs shadow-sm transition-all focus-visible:ring-1 focus-visible:ring-slate-200"
+              >
+                Back
+              </Button>
+            )}
             <Button 
               variant="outline" 
               onClick={handleSave} 
               disabled={saving}
-              className="rounded-full border-[#258ffb] text-[#258ffb] dark:text-blue-400 hover:bg-[#258ffb]/5 dark:hover:bg-blue-950/20 bg-white dark:bg-slate-900 h-9.5 px-5 font-bold text-xs shadow-sm transition-all focus-visible:ring-1 focus-visible:ring-[#258ffb]/20"
+              className="rounded-full border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/5 h-9.5 px-5 font-bold text-xs shadow-sm transition-all"
             >
-              {saving ? (
-                <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <Save className="mr-2 h-3.5 w-3.5" />
-              )}
+              {saving ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Save className="mr-2 h-3.5 w-3.5" />}
               Save Draft
             </Button>
-            <Button 
-              onClick={handleSend}
-              disabled={saving || sending}
-              className="rounded-full bg-[#258ffb] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-[#258ffb]/20"
-            >
-              {sending ? (
-                <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-              ) : (
-                <Send className="mr-2 h-3.5 w-3.5" />
-              )}
-              {sending ? "Sending..." : "Send for Signing"}
-            </Button>
+            {step < 3 ? (
+              <Button 
+                onClick={() => setStep(step + 1)}
+                className="rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
+              >
+                Next
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleSend}
+                disabled={saving || sending}
+                className="rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
+              >
+                {sending ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Send className="mr-2 h-3.5 w-3.5" />}
+                {sending ? "Sending..." : "Send Document"}
+              </Button>
+            )}
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="grid gap-6 lg:grid-cols-[280px_1fr_280px]">
-          {/* Left Sidebar - Field Palette */}
-          <div className="space-y-4">
-            <FieldPalette onAddField={handleAddField} />
+        {step === 1 && (
+          <div className="max-w-4xl mx-auto space-y-6 mt-4">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] border border-slate-100/80 dark:border-slate-800">
+              <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">Add Signers</h2>
+              <p className="text-xs font-semibold text-slate-500 mb-6">Who needs to sign this document? Add signers in the order they should sign.</p>
+              
+              <SignatoryManager
+                signatories={signatories}
+                onAdd={handleAddSignatory}
+                onRemove={handleRemoveSignatory}
+                onReorder={setSignatories}
+                selectedSignatory={selectedSignatory}
+                onSelectSignatory={setSelectedSignatory}
+                strictRouting={strictRouting}
+                onStrictRoutingChange={setStrictRouting}
+              />
+            </div>
           </div>
+        )}
 
-          {/* Center - Document Canvas */}
-          <DocumentCanvas
-            fields={fields}
-            onFieldsChange={setFields}
-            signatories={signatories}
-            selectedSignatory={selectedSignatory}
-            fileUrl={pdfUrl}
-            onDropField={handleAddField}
-          />
-
-          {/* Right Sidebar - Signatories */}
-          <div className="space-y-4">
-            <SignatoryManager
-              signatories={signatories}
-              onAdd={handleAddSignatory}
-              onRemove={handleRemoveSignatory}
-              onReorder={setSignatories}
-              selectedSignatory={selectedSignatory}
-              onSelectSignatory={setSelectedSignatory}
-              strictRouting={strictRouting}
-              onStrictRoutingChange={setStrictRouting}
-            />
-
-            {/* In-Person Kiosk Mode Card */}
-            <Card className="border-slate-100/80 dark:border-slate-800 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white dark:bg-slate-900 overflow-hidden transition-colors">
-              <CardHeader className="pb-3 pt-5 px-5">
-                <CardTitle className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                  <Laptop className="h-3.5 w-3.5 text-[#258ffb]" />
-                  In-Person Kiosk Mode
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4 px-5 pb-5">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label htmlFor="inPersonSigning" className="text-xs font-bold text-slate-700 dark:text-slate-350">
-                      In-Person Signing
-                    </Label>
-                    <p className="text-[10px] text-slate-455 dark:text-slate-500 leading-normal">
-                      Host signatories on this local device instantly
-                    </p>
-                  </div>
-                  <Switch
-                    id="inPersonSigning"
-                    checked={inPersonSigning}
-                    onCheckedChange={setInPersonSigning}
-                  />
-                </div>
-                {inPersonSigning && (
-                  <div className="rounded-xl bg-[#258ffb]/[0.02] border border-[#258ffb]/10 p-3 text-[10px] text-slate-500 dark:text-slate-450 font-medium leading-relaxed animate-in fade-in slide-in-from-top-1.5 duration-200">
-                    💡 <strong>Kiosk Mode Active:</strong> Direct signing will launch a high-fidelity handoff gate between each sequential signatory on this screen.
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Premium Deposit Configuration Panel */}
-            <Card className="border-slate-100/80 dark:border-slate-800 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white dark:bg-slate-900 overflow-hidden transition-colors">
-              <CardHeader className="pb-3 pt-5 px-5">
-                <CardTitle className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                  <CreditCard className="h-3.5 w-3.5 text-[#258ffb]" />
-                  Deposit Configuration
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4 px-5 pb-5">
-                <div className="space-y-1.5">
-                  <Label htmlFor="depositFee" className="text-[11px] font-bold text-slate-500 dark:text-slate-400">
-                    Required Deposit (USD)
-                  </Label>
-                  <div className="relative">
-                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-xs font-extrabold text-slate-400">$</span>
-                    <Input
-                      id="depositFee"
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      placeholder="0.00 (No deposit required)"
-                      value={depositFee}
-                      onChange={(e) => setDepositFee(e.target.value)}
-                      className="rounded-xl border border-slate-200 dark:border-slate-800 focus-visible:ring-1 focus-visible:ring-[#258ffb] focus-visible:border-[#258ffb] focus-visible:ring-offset-0 placeholder:text-slate-350 dark:placeholder:text-slate-650 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-900 pl-7 h-9.5 text-xs transition-all shadow-[0_1px_2px_rgba(0,0,0,0.01)]"
-                    />
-                  </div>
-                  <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-normal mt-1">
-                    Signatories must pay this amount via Stripe mock gateway to finalize signature. Leave blank or 0 to bypass.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+        {step === 2 && (
+          <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+            <div className="space-y-4 h-[calc(100vh-180px)] overflow-y-auto pr-2 custom-scrollbar">
+              <FieldPalette onAddField={handleAddField} />
+            </div>
+            <div className="bg-slate-100/50 dark:bg-slate-950/50 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800 h-[calc(100vh-180px)] flex justify-center">
+              <DocumentCanvas
+                fields={fields}
+                onFieldsChange={setFields}
+                signatories={signatories}
+                selectedSignatory={selectedSignatory}
+                fileUrl={pdfUrl}
+                onDropField={handleAddField}
+              />
+            </div>
           </div>
-        </div>
+        )}
+
+        {step === 3 && (
+          <div className="max-w-3xl mx-auto space-y-6 mt-4">
+            <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] border border-slate-100/80 dark:border-slate-800">
+              <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-6">Review & Send</h2>
+              
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Email Message</h3>
+                  <div className="space-y-3">
+                    <Input placeholder="Email Subject" defaultValue={`Signature Request: ${document?.title}`} className="font-semibold text-sm h-11" />
+                    <textarea 
+                      className="w-full min-h-[120px] rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-sm font-medium text-slate-700 dark:text-slate-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#22c55e] resize-y bg-white dark:bg-slate-900"
+                      placeholder="Please review and sign this document..."
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div className="border-t border-slate-100 dark:border-slate-800 pt-6">
+                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Recipients ({signatories.length})</h3>
+                  <div className="space-y-2">
+                    {signatories.map((sig, idx) => (
+                      <div key={idx} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl p-3">
+                        <div className="h-8 w-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">
+                          {idx + 1}
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-slate-700 dark:text-slate-200">{sig.name}</p>
+                          <p className="text-xs font-semibold text-slate-500">{sig.email}</p>
+                        </div>
+                      </div>
+                    ))}
+                    {signatories.length === 0 && (
+                      <p className="text-sm text-amber-600 bg-amber-50 p-3 rounded-lg border border-amber-100">You haven't added any signers. You must add at least one signer to send.</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="border-t border-slate-100 dark:border-slate-800 pt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* In-Person Kiosk Mode Card */}
+                  <Card className="border-slate-100/80 dark:border-slate-800 rounded-xl shadow-none bg-slate-50/50 dark:bg-slate-900/50">
+                    <CardHeader className="pb-2 pt-4 px-4">
+                      <CardTitle className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <Laptop className="h-3.5 w-3.5 text-[#22c55e]" />
+                        In-Person Kiosk Mode
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-4 pb-4">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="inPersonSigning" className="text-xs font-bold text-slate-700 dark:text-slate-350">
+                          Enable Local Signing
+                        </Label>
+                        <Switch id="inPersonSigning" checked={inPersonSigning} onCheckedChange={setInPersonSigning} />
+                      </div>
+                      {inPersonSigning && (
+                        <p className="text-[10px] text-slate-500 mt-2">Direct signing will launch a high-fidelity handoff gate between each sequential signatory on this screen.</p>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Premium Deposit Configuration Panel */}
+                  <Card className="border-slate-100/80 dark:border-slate-800 rounded-xl shadow-none bg-slate-50/50 dark:bg-slate-900/50">
+                    <CardHeader className="pb-2 pt-4 px-4">
+                      <CardTitle className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <CreditCard className="h-3.5 w-3.5 text-[#22c55e]" />
+                        Require Payment
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-4 pb-4">
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">$</span>
+                        <Input
+                          id="depositFee" type="number" min="0" step="0.01" placeholder="0.00" value={depositFee} onChange={(e) => setDepositFee(e.target.value)}
+                          className="pl-6 h-8 text-xs bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                        />
+                      </div>
+                      <p className="text-[10px] text-slate-500 mt-2">Signatories must pay this amount via Stripe to finalize signature.</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
 
       {/* Document Sent Dialog */}
@@ -861,7 +899,7 @@ export default function PrepareDocument() {
                     toast({ title: "Link copied to clipboard!" });
                     setTimeout(() => setCopied(false), 2000);
                   }}
-                  className="h-9.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1 bg-[#258ffb] hover:bg-[#1d7ee6] shadow-sm shrink-0"
+                  className="h-9.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1 bg-[#22c55e] hover:bg-[#1d7ee6] shadow-sm shrink-0"
                 >
                   {copied ? (
                     <>
@@ -883,7 +921,7 @@ export default function PrepareDocument() {
             <Button onClick={() => {
               setSentDialogOpen(false);
               navigate("/dashboard");
-            }} className="w-full sm:w-auto rounded-full bg-[#258ffb] hover:bg-[#1d7ee6] font-bold text-xs h-9.5 shadow-sm px-6">
+            }} className="w-full sm:w-auto rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] font-bold text-xs h-9.5 shadow-sm px-6">
               Go to Dashboard
             </Button>
           </div>
@@ -892,5 +930,8 @@ export default function PrepareDocument() {
     </div>
   );
 }
+
+
+
 
 

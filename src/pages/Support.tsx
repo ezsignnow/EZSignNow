@@ -116,11 +116,11 @@ export default function Support() {
           </button>
 
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-[#258ffb] to-[#1a6fcc] flex items-center justify-center shadow">
+            <div className="h-8 w-8 rounded-xl bg-emerald-600 flex items-center justify-center shadow">
               <HeadphonesIcon className="h-4 w-4 text-white" />
             </div>
             <span className="font-extrabold text-slate-800 text-[15px] tracking-tight">
-              EZSignNow <span className="text-[#258ffb]">Support</span>
+              EZSignNow <span className="text-[#22c55e]">Support</span>
             </span>
           </div>
 
@@ -137,7 +137,7 @@ export default function Support() {
 
         {/* ── Hero ── */}
         <section className="text-center space-y-4 pt-4">
-          <div className="inline-flex items-center gap-2 bg-[#258ffb]/10 border border-[#258ffb]/20 text-[#258ffb] text-xs font-bold px-4 py-1.5 rounded-full">
+          <div className="inline-flex items-center gap-2 bg-[#22c55e]/10 border border-[#22c55e]/20 text-[#22c55e] text-xs font-bold px-4 py-1.5 rounded-full">
             <ShieldCheck className="h-3.5 w-3.5" />
             Trusted Support · 4-Hour Response Guarantee
           </div>
@@ -155,7 +155,7 @@ export default function Support() {
           {/* Phone */}
           <a
             href="tel:4124445156"
-            className="group flex flex-col items-center gap-3 p-6 bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:border-[#258ffb]/40 hover:shadow-[0_4px_24px_rgba(37,143,251,0.08)] transition-all text-center"
+            className="group flex flex-col items-center gap-3 p-6 bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:border-[#22c55e]/40 hover:shadow-[0_4px_24px_rgba(37,143,251,0.08)] transition-all text-center"
           >
             <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-200 group-hover:scale-105 transition-transform">
               <Phone className="h-5 w-5 text-white" />
@@ -170,9 +170,9 @@ export default function Support() {
           {/* Email */}
           <a
             href="mailto:support@ezsignnow.com"
-            className="group flex flex-col items-center gap-3 p-6 bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:border-[#258ffb]/40 hover:shadow-[0_4px_24px_rgba(37,143,251,0.08)] transition-all text-center"
+            className="group flex flex-col items-center gap-3 p-6 bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:border-[#22c55e]/40 hover:shadow-[0_4px_24px_rgba(37,143,251,0.08)] transition-all text-center"
           >
-            <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-[#258ffb] to-[#1a6fcc] flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform">
+            <div className="h-12 w-12 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform">
               <Mail className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -201,7 +201,7 @@ export default function Support() {
           {/* Ticket Form */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.05)] overflow-hidden">
-              <div className="bg-gradient-to-r from-[#258ffb] to-[#1a6fcc] p-5 flex items-center gap-3">
+              <div className="bg-emerald-600 p-5 flex items-center gap-3">
                 <MessageSquare className="h-5 w-5 text-white" />
                 <div>
                   <h2 className="font-extrabold text-white text-[15px]">Submit a Support Ticket</h2>
@@ -232,7 +232,7 @@ export default function Support() {
                     </Button>
                     <Button
                       onClick={() => navigate("/dashboard")}
-                      className="text-xs font-bold rounded-full bg-[#258ffb] hover:bg-[#1a7ae0]"
+                      className="text-xs font-bold rounded-full bg-[#22c55e] hover:bg-[#1a7ae0]"
                     >
                       Back to Dashboard
                     </Button>
@@ -253,7 +253,7 @@ export default function Support() {
                         onChange={handleChange}
                         placeholder="Joe Thomas"
                         required
-                        className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#258ffb]/60 focus:ring-2 focus:ring-[#258ffb]/10 outline-none transition-all"
+                        className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#22c55e]/60 focus:ring-2 focus:ring-[#22c55e]/10 outline-none transition-all"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -267,7 +267,7 @@ export default function Support() {
                         onChange={handleChange}
                         placeholder="you@company.com"
                         required
-                        className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#258ffb]/60 focus:ring-2 focus:ring-[#258ffb]/10 outline-none transition-all"
+                        className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#22c55e]/60 focus:ring-2 focus:ring-[#22c55e]/10 outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -283,7 +283,7 @@ export default function Support() {
                         value={form.category}
                         onChange={handleChange}
                         required
-                        className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#258ffb]/60 focus:ring-2 focus:ring-[#258ffb]/10 outline-none transition-all"
+                        className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#22c55e]/60 focus:ring-2 focus:ring-[#22c55e]/10 outline-none transition-all"
                       >
                         <option value="">Select a category...</option>
                         {CATEGORIES.map((c) => (
@@ -297,7 +297,7 @@ export default function Support() {
                         name="priority"
                         value={form.priority}
                         onChange={handleChange}
-                        className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#258ffb]/60 focus:ring-2 focus:ring-[#258ffb]/10 outline-none transition-all"
+                        className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#22c55e]/60 focus:ring-2 focus:ring-[#22c55e]/10 outline-none transition-all"
                       >
                         <option value="Low">🟢 Low — General question</option>
                         <option value="Normal">🟡 Normal — Need help soon</option>
@@ -318,7 +318,7 @@ export default function Support() {
                       value={form.subject}
                       onChange={handleChange}
                       placeholder="Brief summary of your issue..."
-                      className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#258ffb]/60 focus:ring-2 focus:ring-[#258ffb]/10 outline-none transition-all"
+                      className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#22c55e]/60 focus:ring-2 focus:ring-[#22c55e]/10 outline-none transition-all"
                     />
                   </div>
 
@@ -334,20 +334,20 @@ export default function Support() {
                       required
                       rows={5}
                       placeholder="Please describe your issue in detail — include any error messages, steps to reproduce, or screenshots links if available..."
-                      className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#258ffb]/60 focus:ring-2 focus:ring-[#258ffb]/10 outline-none transition-all resize-none"
+                      className="w-full text-sm font-medium px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 focus:bg-white focus:border-[#22c55e]/60 focus:ring-2 focus:ring-[#22c55e]/10 outline-none transition-all resize-none"
                     />
                   </div>
 
                   {/* Note */}
                   <div className="flex items-start gap-2.5 text-[11px] text-slate-400 bg-blue-50/60 border border-blue-100 rounded-xl p-3.5">
-                    <AlertCircle className="h-3.5 w-3.5 text-[#258ffb] shrink-0 mt-0.5" />
+                    <AlertCircle className="h-3.5 w-3.5 text-[#22c55e] shrink-0 mt-0.5" />
                     <span>
                       For urgent billing or legal issues, please also call us at{" "}
-                      <a href="tel:4124445156" className="text-[#258ffb] font-bold hover:underline">
+                      <a href="tel:4124445156" className="text-[#22c55e] font-bold hover:underline">
                         412-444-5156
                       </a>{" "}
                       or email{" "}
-                      <a href="mailto:support@ezsignnow.com" className="text-[#258ffb] font-bold hover:underline">
+                      <a href="mailto:support@ezsignnow.com" className="text-[#22c55e] font-bold hover:underline">
                         support@ezsignnow.com
                       </a>{" "}
                       directly.
@@ -357,7 +357,7 @@ export default function Support() {
                   <Button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-gradient-to-r from-[#258ffb] to-[#1a6fcc] hover:from-[#1a7ae0] hover:to-[#155bb5] text-white font-bold rounded-xl h-11 text-sm shadow-lg shadow-blue-200 flex items-center gap-2 transition-all"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl h-11 text-sm shadow-lg shadow-blue-200 flex items-center gap-2 transition-all"
                   >
                     {submitting ? (
                       <>
@@ -386,7 +386,7 @@ export default function Support() {
                 Quick Resources
               </h3>
               {[
-                { icon: BookOpen, label: "Documentation & API Guides", href: "/blog", color: "text-[#258ffb] bg-blue-50" },
+                { icon: BookOpen, label: "Documentation & API Guides", href: "/blog", color: "text-[#22c55e] bg-blue-50" },
                 { icon: ShieldCheck, label: "Security & Compliance Center", href: "/security", color: "text-emerald-600 bg-emerald-50" },
                 { icon: FileQuestion, label: "Forms Library & Templates", href: "/forms", color: "text-violet-600 bg-violet-50" },
               ].map(({ icon: Icon, label, href, color }) => (
@@ -409,7 +409,7 @@ export default function Support() {
             <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden">
               <div className="p-5 border-b border-slate-50">
                 <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                  <MessageSquare className="h-3.5 w-3.5 text-[#258ffb]" />
+                  <MessageSquare className="h-3.5 w-3.5 text-[#22c55e]" />
                   Frequently Asked Questions
                 </h3>
               </div>
@@ -424,14 +424,14 @@ export default function Support() {
                         {faq.q}
                       </span>
                       {openFaq === idx ? (
-                        <ChevronUp className="h-4 w-4 text-[#258ffb] shrink-0" />
+                        <ChevronUp className="h-4 w-4 text-[#22c55e] shrink-0" />
                       ) : (
                         <ChevronDown className="h-4 w-4 text-slate-400 shrink-0" />
                       )}
                     </button>
                     {openFaq === idx && (
                       <div className="px-4 pb-4 animate-in fade-in slide-in-from-top-1 duration-150">
-                        <p className="text-[12px] text-slate-500 leading-relaxed border-l-2 border-[#258ffb]/30 pl-3">
+                        <p className="text-[12px] text-slate-500 leading-relaxed border-l-2 border-[#22c55e]/30 pl-3">
                           {faq.a}
                         </p>
                       </div>
@@ -442,7 +442,7 @@ export default function Support() {
             </div>
 
             {/* SLA Badge */}
-            <div className="bg-gradient-to-br from-[#258ffb]/5 to-blue-50 border border-[#258ffb]/15 rounded-2xl p-5 space-y-3">
+            <div className="bg-gradient-to-br from-[#22c55e]/5 to-blue-50 border border-[#22c55e]/15 rounded-2xl p-5 space-y-3">
               <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Our Support SLA</h4>
               {[
                 { label: "Email Response", value: "≤ 4 hours" },
@@ -463,9 +463,9 @@ export default function Support() {
         <footer className="text-center text-[11.5px] text-slate-400 space-y-1 pb-4">
           <p className="font-semibold">
             EZSignNow Customer Support ·{" "}
-            <a href="tel:4124445156" className="text-[#258ffb] hover:underline">412-444-5156</a>
+            <a href="tel:4124445156" className="text-[#22c55e] hover:underline">412-444-5156</a>
             {" · "}
-            <a href="mailto:support@ezsignnow.com" className="text-[#258ffb] hover:underline">support@ezsignnow.com</a>
+            <a href="mailto:support@ezsignnow.com" className="text-[#22c55e] hover:underline">support@ezsignnow.com</a>
           </p>
           <p>© {new Date().getFullYear()} EZSignNow. All rights reserved.</p>
         </footer>
@@ -473,3 +473,6 @@ export default function Support() {
     </div>
   );
 }
+
+
+

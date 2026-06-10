@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getAbsoluteUrl } from "@/utils/url";
 import DashboardSidebar from "@/components/layout/DashboardSidebar";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 export default function Team() {
   const { user, signOut } = useAuth();
@@ -116,22 +117,14 @@ export default function Team() {
     <div className="min-h-screen bg-slate-50/50 flex flex-col font-sans">
       <header className="h-[60px] bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0 z-10 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
         <div className="flex items-center gap-3">
-          <div 
-            onClick={() => navigate("/dashboard")}
-            className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#258ffb] to-[#1a7ae0] flex items-center justify-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-          >
-            <PenTool className="text-white h-4.5 w-4.5" />
-          </div>
-          <span className="font-black text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600 hidden sm:inline-block cursor-pointer" onClick={() => navigate("/dashboard")}>
-            EZSign<span className="text-[#258ffb]">Now</span>
-          </span>
+          <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
         </div>
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 border-l border-slate-100 pl-4 ml-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#258ffb]/20">
+                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#22c55e]/20">
                   <div className="h-7 w-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-black shrink-0 border border-emerald-200">
                     {user?.email ? user.email.slice(0, 2).toUpperCase() : "U"}
                   </div>
@@ -176,7 +169,7 @@ export default function Team() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 text-indigo-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1">
+            <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1">
               <Headset className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
@@ -202,7 +195,7 @@ export default function Team() {
                 {/* Invite Collaborator Form */}
                 <Card className="border-slate-100/80 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.01)] bg-white p-5 space-y-4">
                   <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <UserPlus className="h-4 w-4 text-[#258ffb]" />
+                    <UserPlus className="h-4 w-4 text-[#22c55e]" />
                     Invite Collaborator
                   </h3>
 
@@ -238,7 +231,7 @@ export default function Team() {
 
                     <Button 
                       type="submit"
-                      className="w-full bg-[#258ffb] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm"
+                      className="w-full bg-[#22c55e] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm"
                     >
                       Send Invitation
                     </Button>
@@ -314,7 +307,7 @@ export default function Team() {
                 <Card className="border-slate-100/80 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white overflow-hidden">
                   <div className="p-5 border-b border-slate-100 flex items-center justify-between">
                     <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-2">
-                      <Users className="h-4.5 w-4.5 text-[#258ffb]" />
+                      <Users className="h-4.5 w-4.5 text-[#22c55e]" />
                       Active Workspace Members ({teamMembers.length})
                     </h3>
                     <span className="text-[10px] font-bold text-slate-450 bg-slate-50 border border-slate-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
@@ -337,7 +330,7 @@ export default function Team() {
                           <tr key={member.email} className="border-b border-slate-100/60 hover:bg-slate-50/10 transition-colors">
                             <td className="px-5 py-4">
                               <div className="flex items-center gap-3">
-                                <div className="h-8.5 w-8.5 bg-blue-50 border border-blue-100 text-[#258ffb] font-black rounded-full flex items-center justify-center text-xs shrink-0 shadow-sm uppercase">
+                                <div className="h-8.5 w-8.5 bg-blue-50 border border-blue-100 text-[#22c55e] font-black rounded-full flex items-center justify-center text-xs shrink-0 shadow-sm uppercase">
                                   {member.email.slice(0, 2)}
                                 </div>
                                 <div>
@@ -423,7 +416,7 @@ export default function Team() {
                               <td className="px-5 py-4 text-right flex justify-end gap-3.5">
                                 <button
                                   onClick={() => handleResendInvite(invite.email)}
-                                  className="text-xs font-bold text-[#258ffb] hover:text-[#1d7ee6] hover:underline cursor-pointer focus:outline-none"
+                                  className="text-xs font-bold text-[#22c55e] hover:text-[#1d7ee6] hover:underline cursor-pointer focus:outline-none"
                                 >
                                   Resend Link
                                 </button>
@@ -450,3 +443,6 @@ export default function Team() {
     </div>
   );
 }
+
+
+

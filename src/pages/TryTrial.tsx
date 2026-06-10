@@ -154,7 +154,7 @@ export default function TryTrial() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-[#258ffb]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
       </div>
     );
   }
@@ -176,7 +176,7 @@ export default function TryTrial() {
           </div>
 
           <Button 
-            className="rounded-full h-[34px] px-5 border-[#258ffb] text-[#258ffb] bg-white border-[1.5px] hover:bg-[#258ffb]/5 font-bold text-xs shadow-sm transition-all cursor-not-allowed"
+            className="rounded-full h-[34px] px-5 border-[#22c55e] text-[#22c55e] bg-white border-[1.5px] hover:bg-[#22c55e]/5 font-bold text-xs shadow-sm transition-all cursor-not-allowed"
             disabled
           >
             Upgrade
@@ -269,7 +269,7 @@ export default function TryTrial() {
             {/* Help Button — opens Support page */}
             <button 
               onClick={() => navigate("/support")}
-              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 text-indigo-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
+              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
             >
               <Headset className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
@@ -284,14 +284,14 @@ export default function TryTrial() {
         {/* Step Timeline Indicator */}
         <div className="flex items-center gap-4 mb-6">
           <div className="flex items-center gap-2">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#258ffb] text-[10px] font-bold text-white">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[10px] font-bold text-white">
               ✓
             </span>
             <span className="text-xs font-bold text-slate-500">Create an account</span>
           </div>
           <div className="h-[2px] w-12 bg-slate-200" />
           <div className="flex items-center gap-2">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#258ffb] text-[10px] font-bold text-white">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[10px] font-bold text-white">
               2
             </span>
             <span className="text-xs font-bold text-slate-700">Activate your trial</span>
@@ -336,7 +336,7 @@ export default function TryTrial() {
                     "Custom business branding"
                   ].map((feature) => (
                     <li key={feature} className="flex items-center gap-2.5 text-xs font-semibold text-slate-600">
-                      <span className="h-4.5 w-4.5 rounded-full bg-[#258ffb]/10 text-[#258ffb] flex items-center justify-center shrink-0">
+                      <span className="h-4.5 w-4.5 rounded-full bg-[#22c55e]/10 text-[#22c55e] flex items-center justify-center shrink-0">
                         <Check className="h-3 w-3" />
                       </span>
                       <span>{feature}</span>
@@ -352,8 +352,8 @@ export default function TryTrial() {
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-5">
               <h3 className="text-sm font-bold text-slate-700">Billing Information</h3>
               {stripePublishableKey && (
-                <span className="flex items-center gap-1.5 text-[9px] font-extrabold text-[#635bff] bg-[#635bff]/5 border border-[#635bff]/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider select-none animate-pulse">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#635bff]" />
+                <span className="flex items-center gap-1.5 text-[9px] font-extrabold text-[#1e293b] bg-[#1e293b]/5 border border-[#1e293b]/10 px-2.5 py-0.5 rounded-full uppercase tracking-wider select-none animate-pulse">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#1e293b]" />
                   Stripe Live Connected
                 </span>
               )}
@@ -362,9 +362,9 @@ export default function TryTrial() {
             {isSubmitting ? (
               <div className="py-8 flex flex-col items-center justify-center space-y-6">
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-full bg-[#258ffb]/10 animate-ping" />
+                  <div className="absolute inset-0 rounded-full bg-[#22c55e]/10 animate-ping" />
                   <div className="relative bg-white border border-slate-100 rounded-full p-4 shadow-md">
-                    <Loader2 className="h-8 w-8 animate-spin text-[#258ffb]" />
+                    <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
                   </div>
                 </div>
                 
@@ -397,7 +397,7 @@ export default function TryTrial() {
                             ✓
                           </span>
                         ) : isCurrent ? (
-                          <Loader2 className="h-5 w-5 animate-spin text-[#258ffb] shrink-0" />
+                          <Loader2 className="h-5 w-5 animate-spin text-[#22c55e] shrink-0" />
                         ) : (
                           <span className="h-5 w-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-[10px] font-bold shrink-0" />
                         )}
@@ -418,7 +418,7 @@ export default function TryTrial() {
                     value={nameOnCard} 
                     onChange={(e) => setNameOnCard(e.target.value)} 
                     placeholder="Your Name" 
-                    className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
+                    className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#22c55e]/50 focus:outline-none"
                     required
                   />
                 </div>
@@ -436,7 +436,7 @@ export default function TryTrial() {
                   </div>
                   
                   {/* Stripe Element Unified Input Container */}
-                  <div className="flex items-center gap-2 w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-slate-50/50 focus-within:border-[#258ffb] focus-within:ring-1 focus-within:ring-[#258ffb]/20 transition-all select-none">
+                  <div className="flex items-center gap-2 w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-slate-50/50 focus-within:border-[#22c55e] focus-within:ring-1 focus-within:ring-[#22c55e]/20 transition-all select-none">
                     {getCardBrandIcon()}
                     
                     <input 
@@ -483,7 +483,7 @@ export default function TryTrial() {
                       Payments are secure and encrypted
                     </span>
                     <span className="flex items-center gap-0.5">
-                      Powered by <span className="text-[#635bff] font-black uppercase tracking-wider text-[10px]">stripe</span>
+                      Powered by <span className="text-[#1e293b] font-black uppercase tracking-wider text-[10px]">stripe</span>
                     </span>
                   </div>
                 </div>
@@ -496,7 +496,7 @@ export default function TryTrial() {
                       value={zip} 
                       onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))} 
                       placeholder="00000" 
-                      className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#258ffb]/50 focus:outline-none"
+                      className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#22c55e]/50 focus:outline-none"
                       maxLength={6}
                       required
                     />
@@ -508,7 +508,7 @@ export default function TryTrial() {
                       <select 
                         value={coupon} 
                         onChange={(e) => setCoupon(e.target.value)}
-                        className="w-full appearance-none text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#258ffb]/50 focus:outline-none cursor-pointer text-slate-400"
+                        className="w-full appearance-none text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#22c55e]/50 focus:outline-none cursor-pointer text-slate-400"
                       >
                         <option value="">Apply Promo Code</option>
                         <option value="welcome">WELCOME20 (20% OFF)</option>
@@ -522,7 +522,7 @@ export default function TryTrial() {
                 <Button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full bg-[#258ffb] hover:bg-[#1a7ae0] h-[44px] rounded-lg text-xs font-bold text-white shadow-md shadow-[#258ffb]/20 mt-6"
+                  className="w-full bg-[#22c55e] hover:bg-[#1a7ae0] h-[44px] rounded-lg text-xs font-bold text-white shadow-md shadow-[#22c55e]/20 mt-6"
                 >
                   Start My 7-day Free Trial
                 </Button>
@@ -551,18 +551,18 @@ export default function TryTrial() {
               <div className="relative pl-6 space-y-6 border-l border-slate-100 ml-3">
                 {/* Milestone 1 */}
                 <div className="relative">
-                  <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#258ffb] text-white flex items-center justify-center border-4 border-white shadow-sm">
+                  <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#22c55e] text-white flex items-center justify-center border-4 border-white shadow-sm">
                     <Check className="h-2 w-2" />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-bold text-[#258ffb] uppercase tracking-wide">Create An Account</h4>
+                    <h4 className="text-[11px] font-bold text-[#22c55e] uppercase tracking-wide">Create An Account</h4>
                     <p className="text-[11px] text-slate-400 mt-0.5 leading-normal">You successfully created your free account.</p>
                   </div>
                 </div>
 
                 {/* Milestone 2 */}
                 <div className="relative">
-                  <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#258ffb]/10 text-[#258ffb] flex items-center justify-center border-4 border-white shadow-sm">
+                  <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#22c55e]/10 text-[#22c55e] flex items-center justify-center border-4 border-white shadow-sm">
                     <Lock className="h-2 w-2" />
                   </div>
                   <div>
@@ -606,3 +606,6 @@ export default function TryTrial() {
     </div>
   );
 }
+
+
+

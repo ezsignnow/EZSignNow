@@ -63,7 +63,7 @@ export function BrandLogo({
           <img src={customLogo} alt="Workspace Logo" className="max-h-full max-w-full object-contain" />
         </div>
       ) : (
-        <div className="bg-gradient-to-tr from-[#258ffb] to-[#635bff] p-2 rounded-xl text-white shadow-md shadow-[#258ffb]/15 shrink-0 transform group-hover:scale-105 group-hover:rotate-2 transition-all duration-300">
+        <div className="bg-emerald-600 p-2 rounded-lg text-white shadow-md shadow-emerald-600/15 shrink-0 transform group-hover:scale-105 transition-all duration-300">
           <FileSignature className={iconSize} />
         </div>
       )}
@@ -72,7 +72,7 @@ export function BrandLogo({
       <div className="flex flex-col text-left justify-center">
         {/* Middle brand line: EZSignNow */}
         <div className="flex items-baseline leading-none">
-          <span className="text-xl font-extrabold text-[#258ffb] tracking-tight group-hover:text-[#1a7ae0] transition-colors">
+          <span className="text-xl font-bold text-slate-800 tracking-tight transition-colors">
             EZSignNow
           </span>
         </div>
@@ -85,3 +85,6 @@ export function BrandLogo({
     </div>
   );
 }
+
+
+

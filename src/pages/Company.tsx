@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getAbsoluteUrl } from "@/utils/url";
 import DashboardSidebar from "@/components/layout/DashboardSidebar";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 export default function Company() {
   const { user, signOut } = useAuth();
@@ -36,7 +37,7 @@ export default function Company() {
   const [tagline, setTagline] = useState("Secure Document Signing");
   const [emailHeaderText, setEmailHeaderText] = useState("You have been invited to sign a document.");
   const [brandFont, setBrandFont] = useState("Inter");
-  const [primaryColor, setPrimaryColor] = useState("#258ffb");
+  const [primaryColor, setPrimaryColor] = useState("#22c55e");
   const [secondaryColor, setSecondaryColor] = useState("#0f172a");
   const [accentColor, setAccentColor] = useState("#10b981");
   const [isSavingBranding, setIsSavingBranding] = useState(false);
@@ -129,10 +130,10 @@ export default function Company() {
     setTagline("Secure Document Signing");
     setEmailHeaderText("You have been invited to sign a document.");
     setBrandFont("Inter");
-    setPrimaryColor("#258ffb");
+    setPrimaryColor("#22c55e");
     setSecondaryColor("#0f172a");
     setAccentColor("#10b981");
-    applyBrandingCssVars("#258ffb", "#0f172a", "#10b981");
+    applyBrandingCssVars("#22c55e", "#0f172a", "#10b981");
     window.dispatchEvent(new Event("branding_updated"));
     toast({
       title: "Workspace Branding Reset",
@@ -144,22 +145,14 @@ export default function Company() {
     <div className="min-h-screen bg-slate-50/50 flex flex-col font-sans">
       <header className="h-[60px] bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0 z-10 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
         <div className="flex items-center gap-3">
-          <div 
-            onClick={() => navigate("/dashboard")}
-            className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#258ffb] to-[#1a7ae0] flex items-center justify-center shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-          >
-            <PenTool className="text-white h-4.5 w-4.5" />
-          </div>
-          <span className="font-black text-xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600 hidden sm:inline-block cursor-pointer" onClick={() => navigate("/dashboard")}>
-            EZSign<span className="text-[#258ffb]">Now</span>
-          </span>
+          <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
         </div>
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 border-l border-slate-100 pl-4 ml-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#258ffb]/20">
+                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#22c55e]/20">
                   <div className="h-7 w-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-black shrink-0 border border-emerald-200">
                     {user?.email ? user.email.slice(0, 2).toUpperCase() : "U"}
                   </div>
@@ -204,7 +197,7 @@ export default function Company() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 text-indigo-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1">
+            <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1">
               <Headset className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
@@ -228,7 +221,7 @@ export default function Company() {
               <div className="lg:col-span-1 space-y-6">
                 <Card className="border-slate-100/80 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.01)] bg-white p-5 space-y-4">
                   <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <Briefcase className="h-4 w-4 text-[#258ffb]" />
+                    <Briefcase className="h-4 w-4 text-[#22c55e]" />
                     Workspace Profile
                   </h3>
                   
@@ -277,7 +270,7 @@ export default function Company() {
                   <Card className="border-slate-100/80 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-4">
                     <div className="space-y-1">
                       <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                        <FileSignature className="h-4 w-4 text-[#258ffb]" />
+                        <FileSignature className="h-4 w-4 text-[#22c55e]" />
                         Brand Identity
                       </h3>
                       <p className="text-xs text-slate-400">These values appear in signing email headers, document footers, and client-facing signing flows.</p>
@@ -317,7 +310,7 @@ export default function Company() {
                   <Card className="border-slate-100/80 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-5">
                     <div className="space-y-1 border-b border-slate-100 pb-3">
                       <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                        <LayoutTemplate className="h-4 w-4 text-[#258ffb]" />
+                        <LayoutTemplate className="h-4 w-4 text-[#22c55e]" />
                         Visual Aesthetics
                       </h3>
                       <p className="text-xs text-slate-400">Customize the colors and typography to match your corporate brand guidelines.</p>
@@ -424,7 +417,7 @@ export default function Company() {
                         <div className="pt-2">
                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Curated Presets</span>
                           <div className="flex items-center gap-2">
-                            <button type="button" onClick={() => { setPrimaryColor("#258ffb"); setSecondaryColor("#0f172a"); setAccentColor("#10b981"); toast({ title: "Palette Applied", description: "Default blue loaded." }); }} className="w-6 h-6 rounded-full bg-[#258ffb] shadow-sm hover:ring-2 hover:ring-offset-1 hover:ring-[#258ffb] transition-all" title="Default Blue" />
+                            <button type="button" onClick={() => { setPrimaryColor("#22c55e"); setSecondaryColor("#0f172a"); setAccentColor("#10b981"); toast({ title: "Palette Applied", description: "Default blue loaded." }); }} className="w-6 h-6 rounded-full bg-[#22c55e] shadow-sm hover:ring-2 hover:ring-offset-1 hover:ring-[#22c55e] transition-all" title="Default Blue" />
                             <button type="button" onClick={() => { setPrimaryColor("#8b5cf6"); setSecondaryColor("#2e1065"); setAccentColor("#f59e0b"); toast({ title: "Palette Applied", description: "Royal purple loaded." }); }} className="w-6 h-6 rounded-full bg-[#8b5cf6] shadow-sm hover:ring-2 hover:ring-offset-1 hover:ring-[#8b5cf6] transition-all" title="Royal Purple" />
                             <button type="button" onClick={() => { setPrimaryColor("#ec4899"); setSecondaryColor("#4c1d95"); setAccentColor("#06b6d4"); toast({ title: "Palette Applied", description: "Vibrant pink loaded." }); }} className="w-6 h-6 rounded-full bg-[#ec4899] shadow-sm hover:ring-2 hover:ring-offset-1 hover:ring-[#ec4899] transition-all" title="Vibrant Pink" />
                             <button type="button" onClick={() => { setPrimaryColor("#14b8a6"); setSecondaryColor("#042f2e"); setAccentColor("#f43f5e"); toast({ title: "Palette Applied", description: "Teal emerald loaded." }); }} className="w-6 h-6 rounded-full bg-[#14b8a6] shadow-sm hover:ring-2 hover:ring-offset-1 hover:ring-[#14b8a6] transition-all" title="Teal Emerald" />
@@ -448,7 +441,7 @@ export default function Company() {
                     <Button 
                       type="submit" 
                       disabled={isSavingBranding}
-                      className="bg-[#258ffb] hover:bg-[#1a7ae0] text-white rounded-full h-10 px-8 font-bold text-xs shadow-lg shadow-[#258ffb]/25 flex items-center gap-2 transition-all hover:scale-[1.02]"
+                      className="bg-[#22c55e] hover:bg-[#1a7ae0] text-white rounded-full h-10 px-8 font-bold text-xs shadow-lg shadow-[#22c55e]/25 flex items-center gap-2 transition-all hover:scale-[1.02]"
                     >
                       {isSavingBranding ? (
                         <>
@@ -472,3 +465,6 @@ export default function Company() {
     </div>
   );
 }
+
+
+

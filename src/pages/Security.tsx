@@ -55,7 +55,7 @@ export default function Security() {
       <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-28 bg-gradient-to-br from-slate-900 via-secondary to-slate-950 text-white border-b border-border/10">
         {/* Ambient Glows */}
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#635bff]/10 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#1e293b]/10 blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 max-w-6xl relative z-10 text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 border border-primary/20 text-primary-foreground mb-6 uppercase tracking-wider">
@@ -193,7 +193,7 @@ export default function Security() {
 
                   <div className="grid gap-4 sm:grid-cols-2 pt-2">
                     <div className="bg-slate-50 dark:bg-accent/5 border border-border rounded-xl p-4 text-left">
-                      <div className="h-8 w-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/20 text-indigo-600 flex items-center justify-center mb-3">
+                      <div className="h-8 w-8 rounded-lg bg-slate-50 dark:bg-indigo-950/20 text-slate-600 flex items-center justify-center mb-3">
                         <Lock className="h-4.5 w-4.5" />
                       </div>
                       <p className="text-xs font-bold text-foreground">AES-256 Protection</p>
@@ -291,7 +291,7 @@ export default function Security() {
         <div className="container mx-auto px-4 max-w-4xl text-left space-y-16">
           <div className="bg-white dark:bg-card rounded-3xl p-8 border border-border/80 shadow-md flex flex-col md:flex-row gap-8 items-center justify-between">
             <div className="space-y-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-black bg-indigo-50 border border-indigo-150 text-indigo-600 uppercase tracking-widest">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-black bg-slate-50 border border-indigo-150 text-slate-600 uppercase tracking-widest">
                 Data Sovereignty
               </span>
               <h3 className="text-xl font-extrabold text-foreground">HIPAA & GDPR Privacy Protection</h3>
@@ -330,3 +330,6 @@ export default function Security() {
     </div>
   );
 }
+
+
+

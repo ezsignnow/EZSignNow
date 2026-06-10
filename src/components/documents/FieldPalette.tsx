@@ -67,7 +67,7 @@ const fieldTypes = [
     icon: Palette, 
     label: "Drawing", 
     description: "Sketch or draw diagrams",
-    colorClass: "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-500 dark:text-indigo-400 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/40 group-hover:text-indigo-600 dark:group-hover:text-indigo-300"
+    colorClass: "bg-slate-50 dark:bg-indigo-950/30 text-indigo-500 dark:text-indigo-400 group-hover:bg-slate-100 dark:group-hover:bg-indigo-900/40 group-hover:text-slate-600 dark:group-hover:text-indigo-300"
   },
 ];
 
@@ -120,4 +120,7 @@ export function FieldPalette({ onAddField }: FieldPaletteProps) {
     </Card>
   );
 }
+
+
+
 
