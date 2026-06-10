@@ -74,128 +74,54 @@ export default defineConfig(({ mode }) => {
                     const signUrl = `${origin}/document/${documentId}/view`;
                     
                     const htmlContent = `
-                      <!DOCTYPE html>
-                      <html>
-                      <head>
-                        <meta charset="utf-8">
-                        <title>Signature Requested</title>
-                        <style>
-                          body {
-                            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-                            background-color: #f8fafc;
-                            color: #334155;
-                            margin: 0;
-                            padding: 0;
-                          }
-                          .container {
-                            max-width: 600px;
-                            margin: 40px auto;
-                            background: #ffffff;
-                            border: 1px solid #f1f5f9;
-                            border-radius: 16px;
-                            overflow: hidden;
-                            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-                          }
-                          .header {
-                            background-color: #258ffb;
-                            padding: 32px;
-                            text-align: center;
-                          }
-                          .header h1 {
-                            color: #ffffff;
-                            margin: 0;
-                            font-size: 24px;
-                            font-weight: 800;
-                            letter-spacing: -0.5px;
-                          }
-                          .content {
-                            padding: 40px;
-                          }
-                          .content p {
-                            font-size: 16px;
-                            line-height: 24px;
-                            margin: 0 0 24px 0;
-                            color: #475569;
-                          }
-                          .doc-box {
-                            background-color: #f8fafc;
-                            border: 1px solid #e2e8f0;
-                            border-radius: 12px;
-                            padding: 20px;
-                            margin-bottom: 32px;
-                          }
-                          .doc-title {
-                            font-weight: 700;
-                            font-size: 17px;
-                            color: #1e293b;
-                            margin-bottom: 6px;
-                          }
-                          .doc-meta {
-                            font-size: 13px;
-                            color: #64748b;
-                          }
-                          .cta-container {
-                            text-align: center;
-                            margin-bottom: 32px;
-                          }
-                          .cta-button {
-                            display: inline-block;
-                            background-color: #258ffb;
-                            color: #ffffff !important;
-                            text-decoration: none;
-                            padding: 14px 32px;
-                            font-size: 15px;
-                            font-weight: 700;
-                            border-radius: 9999px;
-                            box-shadow: 0 4px 6px -1px rgba(37, 143, 251, 0.2), 0 2px 4px -2px rgba(37, 143, 251, 0.2);
-                            transition: background-color 0.2s;
-                          }
-                          .cta-button:hover {
-                            background-color: #1d7ee6;
-                          }
-                          .footer {
-                            padding: 32px;
-                            background-color: #f8fafc;
-                            border-top: 1px solid #f1f5f9;
-                            text-align: center;
-                            font-size: 12px;
-                            color: #94a3b8;
-                            font-weight: 500;
-                          }
-                          .footer a {
-                            color: #64748b;
-                            text-decoration: underline;
-                          }
-                        </style>
-                      </head>
-                      <body>
-                        <div class="container">
-                          <div class="header">
-                            <h1>EZSignNow</h1>
+                      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+                        <!-- Top Bar -->
+                        <div style="background-color: #f1f5f9; padding: 12px; text-align: center; color: #0f172a; font-size: 13px; font-weight: 500;">
+                          EZSignNow Document Services
+                        </div>
+                        
+                        <!-- Logo Section -->
+                        <div style="text-align: center; padding: 30px 0;">
+                          <h1 style="color: #1e0098; font-size: 32px; margin: 0; font-weight: 800; letter-spacing: -1px;">
+                            <span style="color: #22c55e;">ez</span>signnow
+                          </h1>
+                          <p style="color: #64748b; font-size: 13px; margin: 5px 0 0 0;">Secure Document Portal</p>
+                        </div>
+
+                        <!-- Main Content Area -->
+                        <div style="background-color: #f8fafc; padding: 40px;">
+                          <p style="color: #0f172a; font-size: 16px; margin: 0 0 20px 0; line-height: 1.5;">
+                            Hello <strong>${sig.name}</strong>,
+                          </p>
+                          <p style="color: #0f172a; font-size: 16px; margin: 0 0 20px 0; line-height: 1.5;">
+                            <strong>${ownerEmail}</strong> has requested your signature on the document <strong>"${documentTitle}"</strong>. Please review and sign it below.
+                          </p>
+                          
+                          <div style="margin: 30px 0;">
+                            <a href="${signUrl}" style="background-color: #1e0098; color: #ffffff; padding: 14px 32px; border-radius: 9999px; text-decoration: none; font-weight: 600; display: inline-block; font-size: 15px;">View Document</a>
                           </div>
-                          <div class="content">
-                            <p>Hello <strong>${sig.name}</strong>,</p>
-                            <p><strong>${ownerEmail}</strong> has requested your signature on the document listed below:</p>
-                            
-                            <div class="doc-box">
-                              <div class="doc-title">${documentTitle}</div>
-                              <div class="doc-meta">Role: Signatory #${sig.order_num || 1}</div>
-                            </div>
-                            
-                            <div class="cta-container">
-                              <a href="${signUrl}" class="cta-button">Review & Sign Document</a>
-                            </div>
-                            
-                            <p>Alternatively, you can copy and paste this URL into your browser:</p>
-                            <p style="font-size: 13px; word-break: break-all; background-color: #f1f5f9; padding: 12px; border-radius: 8px; font-family: monospace;">${signUrl}</p>
-                          </div>
-                          <div class="footer">
-                            Sent securely by <strong style="color: #64748b;">EZSignNow</strong>.<br>
-                            If you did not expect this request, please ignore this email.
+                          
+                          <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;" />
+                          
+                          <!-- Warning Section -->
+                          <div>
+                            <h4 style="margin: 0 0 8px 0; font-size: 16px; color: #0f172a; font-weight: 700;">Do Not Share This Email</h4>
+                            <p style="margin: 0; font-size: 15px; color: #334155; line-height: 1.5;">To ensure the security of your data, do not share the links or forward this email to others.</p>
                           </div>
                         </div>
-                      </body>
-                      </html>
+
+                        <!-- Footer Section -->
+                        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f1f5f9; padding: 25px 40px;">
+                          <tr>
+                            <td style="font-size: 13px; color: #0f172a; line-height: 1.5;">
+                              Processed by EZSignNow on behalf of ${ownerEmail}
+                            </td>
+                            <td align="right" width="100">
+                              <a href="mailto:${ownerEmail}" style="border: 1px solid #1e0098; color: #1e0098; padding: 8px 24px; border-radius: 9999px; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-block;">Contact</a>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
                     `;
 
                     await transporter.sendMail({
