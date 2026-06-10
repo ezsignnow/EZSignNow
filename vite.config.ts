@@ -145,6 +145,22 @@ export default defineConfig(({ mode }) => {
                   res.end(JSON.stringify({ error: err.message || 'Internal server error' }));
                 }
               });
+            } else if (req.url === '/api/send-verification-code' && req.method === 'POST') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', () => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ success: true, mocked: true }));
+              });
+            } else if (req.url === '/api/send-action-email' && req.method === 'POST') {
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', () => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ success: true, mocked: true }));
+              });
             } else {
               next();
             }

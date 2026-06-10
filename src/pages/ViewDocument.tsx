@@ -362,6 +362,35 @@ export default function ViewDocument() {
         }
       }
 
+      // Dispatch action emails
+      try {
+        if (allSigned) {
+          await fetch("/api/send-action-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              emails: freshSigs.map(s => s.email),
+              documentTitle: document?.title || document?.file_name || "Document",
+              actionType: "completed",
+              actorName: "All Parties",
+            }),
+          });
+        } else {
+          await fetch("/api/send-action-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              emails: [freshSigs.find(s => s.status !== "signed")?.email || "owner@ezsignnow.com"],
+              documentTitle: document?.title || document?.file_name || "Document",
+              actionType: "signed",
+              actorName: firstUnsigned.name,
+            }),
+          });
+        }
+      } catch (err) {
+        console.error("Failed to send action email:", err);
+      }
+
       try {
         const freshLogs = await fallbackService.fetchAuditLogs(id!);
         setAuditLogs(freshLogs);
@@ -798,37 +827,99 @@ export default function ViewDocument() {
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">{document.title}</h1>
-              <p className="text-sm text-muted-foreground">
-                Created {format(new Date(document.created_at), "MMMM d, yyyy")}
-              </p>
+        {document.status === "completed" ? (
+          <div className="w-full max-w-6xl mx-auto bg-white border border-slate-200 rounded-lg shadow-sm mb-12">
+            
+            {/* Top Bar */}
+            <div className="flex items-center justify-between p-6 border-b border-slate-200">
+              <h1 className="text-xl font-semibold text-slate-800 flex items-center gap-2">
+                <span className="text-[#1e0098]">Status:</span> {document.title}
+              </h1>
+              <Button onClick={handleDownloadCertified} disabled={downloadingPdf} className="bg-[#1e0098] hover:bg-[#15006b] text-white rounded-full px-6 shadow-md transition-transform hover:scale-105">
+                {downloadingPdf ? (
+                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Generating PDF...</>
+                ) : (
+                  "Download Document"
+                )}
+              </Button>
             </div>
-          </div>
-          {document.status === "completed" && (
-            <Button onClick={handleDownloadCertified} disabled={downloadingPdf} className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold">
-              {downloadingPdf ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating PDF...
-                </>
-              ) : (
-                <>
-                  <FileText className="mr-2 h-4 w-4" />
-                  Download Certified PDF
-                </>
-              )}
-            </Button>
-          )}
-        </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_350px]">
+            {/* Sender Row */}
+            <div className="bg-slate-100/50 px-6 py-3 border-b border-slate-200 text-sm text-slate-600 text-center font-medium">
+              Document sent via EZSignNow Secure Portal
+            </div>
+
+            {/* Document Details Row */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+              <div className="flex items-center gap-4">
+                <div className="bg-emerald-400 text-white text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider">
+                  Completed
+                </div>
+                <span className="text-sm font-semibold text-slate-800">{document.file_name}</span>
+              </div>
+              <div className="text-sm text-slate-500">
+                Created on {format(new Date(document.created_at), "MMM d, yyyy")}
+              </div>
+            </div>
+
+            {/* Signatories Table */}
+            <div className="w-full">
+              <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-slate-100 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase">
+                <div className="col-span-2">Order</div>
+                <div className="col-span-6">Recipient</div>
+                <div className="col-span-4 text-right pr-12">Status</div>
+              </div>
+              {signatories.map((sig, idx) => (
+                <div key={sig.id} className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-slate-100 items-center">
+                  <div className="col-span-2 text-sm text-slate-600">Signer #{idx + 1}</div>
+                  <div className="col-span-6 flex flex-col">
+                    <span className="text-sm font-semibold text-slate-800">{sig.name}</span>
+                    <span className="text-xs text-slate-500">{sig.email}</span>
+                  </div>
+                  <div className="col-span-4 flex items-center justify-end gap-3 pr-4">
+                    <div className="bg-emerald-400 text-white text-[11px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
+                      Signed
+                    </div>
+                    <span className="text-xs text-slate-500">
+                      on {sig.signed_at ? format(new Date(sig.signed_at), "MMM d, yyyy") : "Unknown"}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* PDF Viewer Section */}
+            <div className="bg-slate-50 p-6 flex justify-center">
+              <div className="border border-slate-300 shadow-sm bg-white overflow-hidden max-w-[800px] w-full">
+                {pdfUrl ? (
+                  <DocumentCanvas
+                    fields={fields.map((f) => ({
+                      id: f.id,
+                      type: f.field_type,
+                      x: Number(f.x_position),
+                      y: Number(f.y_position),
+                      width: Number(f.width),
+                      height: Number(f.height),
+                      label: f.label || undefined,
+                      value: f.value || undefined,
+                      signatoryIndex: 0,
+                    }))}
+                    onFieldsChange={() => {}}
+                    signatories={signatories}
+                    selectedSignatory={null}
+                    readOnly={true}
+                    fileUrl={pdfUrl}
+                    onFieldClick={() => {}}
+                  />
+                ) : (
+                  <div className="h-64 flex items-center justify-center text-slate-400">Loading document preview...</div>
+                )}
+              </div>
+            </div>
+
+          </div>
+        ) : (
+          <div className="grid gap-8 lg:grid-cols-[1fr_350px]">
           {/* Document Preview */}
           <Card className="overflow-hidden flex flex-col h-[800px]">
             {pdfUrl ? (
@@ -1026,7 +1117,7 @@ export default function ViewDocument() {
               </CardContent>
             </Card>
           </div>
-        </div>
+        )}
       </main>
 
       {/* Sign Dialog */}

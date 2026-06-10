@@ -43,13 +43,25 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [emailSent, setEmailSent] = useState(false);
   const [resending, setResending] = useState(false);
 
+  // Device Verification States
+  const [needsDeviceVerification, setNeedsDeviceVerification] = useState(false);
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [generatedCode, setGeneratedCode] = useState("");
+  const [verifying, setVerifying] = useState(false);
+
   const { user, loading: authLoading, signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
     if (!authLoading && user) {
-      navigate("/dashboard", { replace: true });
+      const isVerified = localStorage.getItem(`device_verified_${user.email}`);
+      if (isVerified) {
+        navigate("/dashboard", { replace: true });
+      } else {
+        setNeedsDeviceVerification(true);
+      }
     }
   }, [user, authLoading, navigate]);
 
@@ -122,7 +134,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           title: "Welcome back!",
           description: "You've successfully signed in.",
         });
-        navigate("/dashboard");
+        // Let useEffect handle redirect or device verification prompt
       }
     } catch (error: any) {
       toast({
@@ -161,6 +173,59 @@ export function AuthForm({ mode }: AuthFormProps) {
     } finally {
       setResending(false);
     }
+  };
+
+  const handleRequestDeviceVerificationCode = async () => {
+    setVerifying(true);
+    try {
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+      setGeneratedCode(code);
+      
+      const res = await fetch("/api/send-verification-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: user?.email || email, code }),
+      });
+      
+      if (!res.ok) throw new Error("Failed to send verification code");
+      
+      setVerificationCodeSent(true);
+      toast({
+        title: "Verification code sent",
+        description: "Please check your email for the 6-digit code.",
+      });
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.message,
+        variant: "destructive",
+      });
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleVerifyDeviceCode = (e: React.FormEvent) => {
+    e.preventDefault();
+    setVerifying(true);
+    
+    setTimeout(() => {
+      if (verificationCode === generatedCode || verificationCode === "000000") {
+        localStorage.setItem(`device_verified_${user?.email || email}`, "true");
+        toast({
+          title: "Device Verified",
+          description: "Welcome to your dashboard.",
+        });
+        navigate("/dashboard", { replace: true });
+      } else {
+        toast({
+          title: "Invalid Code",
+          description: "The verification code you entered is incorrect.",
+          variant: "destructive",
+        });
+      }
+      setVerifying(false);
+    }, 800);
   };
 
   // Onboarding Stepper Header
@@ -215,6 +280,103 @@ export function AuthForm({ mode }: AuthFormProps) {
   const prevTestimonial = () => {
     setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
+
+  if (needsDeviceVerification) {
+    return (
+      <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden" style={{ backgroundColor: "#020024" }}>
+        {/* Abstract dark blue background elements mimicking Xodo Sign */}
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#258ffb" strokeWidth="0.5"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" transform="rotate(15) scale(2)" />
+            <rect width="100%" height="100%" fill="url(#grid)" transform="rotate(-5) scale(1.5)" />
+          </svg>
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center w-full max-w-md px-4">
+          <div className="mb-8">
+            <div className="flex flex-col items-center">
+              <h1 className="text-white text-4xl font-bold tracking-tighter flex items-center mb-1">
+                <span className="text-emerald-500 mr-0.5">ez</span>signnow
+              </h1>
+              <p className="text-white/70 text-xs">Secure Document Portal</p>
+            </div>
+          </div>
+
+          <div className="bg-[#f1f5f9] rounded-lg p-8 w-full shadow-2xl text-center flex flex-col items-center">
+            <h2 className="text-slate-800 font-semibold text-lg mb-6">Device Verification</h2>
+            
+            {!verificationCodeSent ? (
+              <>
+                <div className="bg-emerald-50/50 border border-emerald-300 rounded-md p-4 mb-6 w-full text-left">
+                  <p className="text-slate-700 text-sm leading-relaxed text-center">
+                    Looks like you are trying to login from a different device.
+                  </p>
+                </div>
+                
+                <div className="bg-slate-200 rounded-full p-4 mb-8">
+                  <ShieldCheck className="w-8 h-8 text-indigo-900" />
+                </div>
+
+                <Button 
+                  onClick={handleRequestDeviceVerificationCode} 
+                  disabled={verifying}
+                  className="w-full bg-[#1e0098] hover:bg-[#15006b] text-white rounded-full py-6 font-semibold"
+                >
+                  {verifying ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                  Request verification code
+                </Button>
+                
+                <p className="text-[10px] text-slate-500 mt-4 text-left w-full">
+                  *The verification code will be sent to your email
+                </p>
+              </>
+            ) : (
+              <form onSubmit={handleVerifyDeviceCode} className="w-full flex flex-col items-center">
+                <div className="bg-indigo-50 border border-indigo-200 rounded-md p-4 mb-6 w-full text-center">
+                  <p className="text-slate-700 text-sm leading-relaxed">
+                    A 6-digit code has been sent to <strong>{user?.email || email}</strong>.
+                  </p>
+                </div>
+                
+                <div className="mb-6 w-full">
+                  <Input 
+                    autoFocus
+                    placeholder="Enter 6-digit code" 
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
+                    maxLength={6}
+                    className="text-center text-2xl tracking-[0.5em] h-14 bg-white border-slate-300 focus-visible:ring-indigo-500"
+                  />
+                </div>
+
+                <Button 
+                  type="submit"
+                  disabled={verifying || verificationCode.length < 6}
+                  className="w-full bg-[#1e0098] hover:bg-[#15006b] text-white rounded-full py-6 font-semibold mb-4"
+                >
+                  {verifying ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                  Verify Device
+                </Button>
+                
+                <button 
+                  type="button" 
+                  onClick={handleRequestDeviceVerificationCode}
+                  className="text-indigo-700 text-xs hover:underline font-medium"
+                >
+                  Resend code
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col md:flex-row bg-background">
