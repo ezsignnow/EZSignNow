@@ -1,73 +1,78 @@
-# Welcome to your Lovable project
+# EZSignNow
 
-## Project info
+EZSignNow is a robust, secure, and modern digital signature platform built to streamline your document workflows. It offers a premium, enterprise-grade user experience with seamless document preparation, digital signatures, Stripe payment integrations, and action-triggered email notifications.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Document Preparation Wizard:** An intuitive, multi-step wizard to upload PDFs, add recipients, and place signature/text fields seamlessly.
+- **Action-Triggered Emails:** Automated email dispatching via Zoho SMTP for document signatures and full completion events.
+- **Enterprise UI & Theme:** Professional, modern aesthetics modeled after industry standards (slate and emerald palettes) with full responsiveness.
+- **Device Verification (2FA):** Secure login gate that requires an email-based 6-digit OTP when accessing from unverified devices.
+- **Stripe Integration:** Integrated secure deposit/payment gateway right within the document viewing flow.
+- **Real-Time Document Status:** Full-width tabular views of document progress, signatory statuses, and certified PDF downloads.
 
-There are several ways of editing your application.
+## Technology Stack
 
-**Use Lovable**
+- **Frontend:** React, Vite, TypeScript, Tailwind CSS, shadcn-ui, Lucide Icons.
+- **Backend/API:** Node.js, Express.js (for proxying and email dispatch).
+- **Email Delivery:** Nodemailer integrated with Zoho SMTP.
+- **Database / Auth:** Supabase (PostgreSQL, Row Level Security, Authentication).
+- **Payments:** Stripe Checkout.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js & npm installed
+- A Supabase project set up
+- A Stripe account
+- An SMTP provider (e.g., Zoho)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Local Development
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ezsignnow/EZSignNow.git
+   cd EZSignNow
+   ```
 
-Follow these steps:
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. **Environment Setup:**
+   Create a `.env` file in the root directory and add your keys:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   SMTP_HOST=smtppro.zoho.com
+   SMTP_PORT=587
+   SMTP_USER=your_smtp_user
+   SMTP_PASS=your_smtp_pass
+   SMTP_SENDER_NAME=EZSignNow
+   SMTP_SENDER_EMAIL=your_smtp_email
+   STRIPE_SECRET_KEY=your_stripe_secret_key
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+4. **Start the Frontend (Vite):**
+   ```bash
+   npm run dev
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+5. **Start the Backend (Express for emails and Stripe):**
+   ```bash
+   node server/server.js
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Deployment
 
-**Edit a file directly in GitHub**
+The application is configured to be deployed on modern cloud platforms like **Vercel** or **Netlify**. 
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+When connected to your GitHub repository, pushing to the `main` branch will automatically trigger a production build (`npm run build`) and deploy your frontend. Ensure you add all environment variables to your deployment provider's settings. 
 
-**Use GitHub Codespaces**
+The Express backend can be hosted on platforms like Render, Heroku, or directly via serverless functions on Vercel.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## License
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+All rights reserved. EZSignNow.
