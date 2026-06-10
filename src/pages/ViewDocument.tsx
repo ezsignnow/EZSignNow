@@ -1117,6 +1117,7 @@ export default function ViewDocument() {
               </CardContent>
             </Card>
           </div>
+        </div>
         )}
       </main>
 
