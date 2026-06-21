@@ -148,10 +148,70 @@ export default defineConfig(({ mode }) => {
             } else if (req.url === '/api/send-verification-code' && req.method === 'POST') {
               let body = '';
               req.on('data', chunk => body += chunk);
-              req.on('end', () => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({ success: true, mocked: true }));
+              req.on('end', async () => {
+                try {
+                  const data = JSON.parse(body);
+                  const { email, code } = data;
+
+                  if (!email || !code) {
+                    res.statusCode = 400;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({ error: 'Missing email or code' }));
+                    return;
+                  }
+
+                  const smtpHost = env.SMTP_HOST || "smtppro.zoho.com";
+                  const smtpPort = Number(env.SMTP_PORT) || 587;
+                  const smtpUser = env.SMTP_USER || "support@ezsignnow.com";
+                  const smtpPass = env.SMTP_PASS || "Techl@der@2023";
+                  const smtpSenderName = env.SMTP_SENDER_NAME || "EZSignNow";
+                  const smtpSenderEmail = env.SMTP_SENDER_EMAIL || "support@ezsignnow.com";
+
+                  const transporter = nodemailer.createTransport({
+                    host: smtpHost,
+                    port: smtpPort,
+                    secure: smtpPort === 465,
+                    auth: {
+                      user: smtpUser,
+                      pass: smtpPass,
+                    },
+                  });
+
+                  const htmlContent = `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+                      <div style="background-color: #f1f5f9; padding: 12px; text-align: center; color: #0f172a; font-size: 13px; font-weight: 500;">
+                        EZSignNow Security
+                      </div>
+                      <div style="text-align: center; padding: 30px 0;">
+                        <h1 style="color: #1e0098; font-size: 32px; margin: 0; font-weight: 800; letter-spacing: -1px;">
+                          <span style="color: #22c55e;">ez</span>signnow
+                        </h1>
+                      </div>
+                      <div style="background-color: #f8fafc; padding: 40px; text-align: center;">
+                        <p style="color: #0f172a; font-size: 16px; margin: 0 0 20px 0;">Your device verification code is:</p>
+                        <h2 style="font-size: 36px; letter-spacing: 5px; color: #1e0098; margin: 20px 0;">${code}</h2>
+                        <p style="color: #64748b; font-size: 14px; margin: 20px 0 0 0;">Enter this code to complete your login.</p>
+                      </div>
+                    </div>
+                  `;
+
+                  await transporter.sendMail({
+                    from: `"${smtpSenderName}" <${smtpSenderEmail}>`,
+                    to: email,
+                    subject: `Your EZSignNow Verification Code: ${code}`,
+                    text: `Your device verification code is: ${code}`,
+                    html: htmlContent,
+                  });
+
+                  res.statusCode = 200;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ success: true }));
+                } catch (err: any) {
+                  console.error('Error sending verification code email:', err);
+                  res.statusCode = 500;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ error: err.message || 'Internal server error' }));
+                }
               });
             } else if (req.url === '/api/send-action-email' && req.method === 'POST') {
               let body = '';
