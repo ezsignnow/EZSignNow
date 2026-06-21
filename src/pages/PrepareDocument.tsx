@@ -484,7 +484,7 @@ export default function PrepareDocument() {
   if (loading || authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950 transition-colors duration-250">
-        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#2563eb]" />
       </div>
     );
   }
@@ -495,7 +495,7 @@ export default function PrepareDocument() {
     <div className="min-h-screen flex flex-col bg-[#fdfdfd] dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-250 antialiased">
       {/* Top Trial Banner */}
       {isPremium ? (
-        <div className="bg-emerald-600 dark:bg-emerald-700 text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
+        <div className="bg-blue-600 dark:bg-blue-700 text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
           <span>🌟 Business Trial Active. You have 7 days remaining on your trial.</span>
           <button 
             onClick={() => { 
@@ -509,7 +509,7 @@ export default function PrepareDocument() {
           </button>
         </div>
       ) : (
-        <div className="bg-[#22c55e] dark:bg-[#1d7ee6] text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
+        <div className="bg-[#2563eb] dark:bg-[#1d7ee6] text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
           <span>You have a 7-day Free Business Trial.</span>
           <button onClick={() => navigate("/try-trial")} className="underline hover:text-white/95 transition-all font-bold focus:outline-none">Try now</button>
         </div>
@@ -523,7 +523,7 @@ export default function PrepareDocument() {
           {/* Monthly usage */}
           {isPremium ? (
             <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-semibold select-none">
-              <span className="bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-full text-[11px] font-bold">
+              <span className="bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded-full text-[11px] font-bold">
                 Active
               </span>
               <span>Business Trial plan</span>
@@ -542,8 +542,8 @@ export default function PrepareDocument() {
             onClick={() => navigate("/try-trial")}
             className={`rounded-full h-[34px] px-5 font-bold text-xs shadow-sm transition-all border-[1.5px] bg-white dark:bg-slate-900 ${
               isPremium 
-                ? "border-emerald-500 dark:border-emerald-600 text-emerald-500 dark:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20" 
-                : "border-[#22c55e] text-[#22c55e] dark:text-blue-400 hover:bg-[#22c55e]/5 dark:hover:bg-blue-950/20"
+                ? "border-blue-500 dark:border-blue-600 text-blue-500 dark:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-950/20" 
+                : "border-[#2563eb] text-[#2563eb] dark:text-blue-400 hover:bg-[#2563eb]/5 dark:hover:bg-blue-950/20"
             }`}
           >
             {isPremium ? "Premium" : "Upgrade"}
@@ -702,7 +702,7 @@ export default function PrepareDocument() {
               variant="outline" 
               onClick={handleSave} 
               disabled={saving}
-              className="rounded-full border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/5 h-9.5 px-5 font-bold text-xs shadow-sm transition-all"
+              className="rounded-full border-[#2563eb] text-[#2563eb] hover:bg-[#2563eb]/5 h-9.5 px-5 font-bold text-xs shadow-sm transition-all"
             >
               {saving ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Save className="mr-2 h-3.5 w-3.5" />}
               Save Draft
@@ -710,7 +710,7 @@ export default function PrepareDocument() {
             {step < 3 ? (
               <Button 
                 onClick={() => setStep(step + 1)}
-                className="rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
+                className="rounded-full bg-[#2563eb] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
               >
                 Next
               </Button>
@@ -718,7 +718,7 @@ export default function PrepareDocument() {
               <Button 
                 onClick={handleSend}
                 disabled={saving || sending}
-                className="rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
+                className="rounded-full bg-[#2563eb] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
               >
                 {sending ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Send className="mr-2 h-3.5 w-3.5" />}
                 {sending ? "Sending..." : "Send Document"}
@@ -777,7 +777,7 @@ export default function PrepareDocument() {
                   <div className="space-y-3">
                     <Input placeholder="Email Subject" defaultValue={`Signature Request: ${document?.title}`} className="font-semibold text-sm h-11" />
                     <textarea 
-                      className="w-full min-h-[120px] rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-sm font-medium text-slate-700 dark:text-slate-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#22c55e] resize-y bg-white dark:bg-slate-900"
+                      className="w-full min-h-[120px] rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-sm font-medium text-slate-700 dark:text-slate-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2563eb] resize-y bg-white dark:bg-slate-900"
                       placeholder="Please review and sign this document..."
                     ></textarea>
                   </div>
@@ -788,7 +788,7 @@ export default function PrepareDocument() {
                   <div className="space-y-2">
                     {signatories.map((sig, idx) => (
                       <div key={idx} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl p-3">
-                        <div className="h-8 w-8 rounded-full bg-emerald-100 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-xs shrink-0">
+                        <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 flex items-center justify-center font-bold text-xs shrink-0">
                           {idx + 1}
                         </div>
                         <div>
@@ -808,7 +808,7 @@ export default function PrepareDocument() {
                   <Card className="border-slate-100/80 dark:border-slate-800 rounded-xl shadow-none bg-slate-50/50 dark:bg-slate-900/50">
                     <CardHeader className="pb-2 pt-4 px-4">
                       <CardTitle className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <Laptop className="h-3.5 w-3.5 text-[#22c55e]" />
+                        <Laptop className="h-3.5 w-3.5 text-[#2563eb]" />
                         In-Person Kiosk Mode
                       </CardTitle>
                     </CardHeader>
@@ -829,7 +829,7 @@ export default function PrepareDocument() {
                   <Card className="border-slate-100/80 dark:border-slate-800 rounded-xl shadow-none bg-slate-50/50 dark:bg-slate-900/50">
                     <CardHeader className="pb-2 pt-4 px-4">
                       <CardTitle className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <CreditCard className="h-3.5 w-3.5 text-[#22c55e]" />
+                        <CreditCard className="h-3.5 w-3.5 text-[#2563eb]" />
                         Require Payment
                       </CardTitle>
                     </CardHeader>
@@ -861,7 +861,7 @@ export default function PrepareDocument() {
         <DialogContent className="sm:max-w-md rounded-2xl border border-slate-100 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 p-6 transition-colors duration-250">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2.5 text-lg font-extrabold text-slate-800 dark:text-slate-100">
-              <Check className="h-6 w-6 text-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 rounded-full p-1 border border-emerald-100 dark:border-emerald-900 shrink-0" />
+              <Check className="h-6 w-6 text-blue-500 bg-blue-50 dark:bg-blue-950/30 rounded-full p-1 border border-blue-100 dark:border-blue-900 shrink-0" />
               Document Sent Successfully!
             </DialogTitle>
             <DialogDescription className="pt-2 text-xs text-slate-400 dark:text-slate-500 font-semibold leading-relaxed">
@@ -899,11 +899,11 @@ export default function PrepareDocument() {
                     toast({ title: "Link copied to clipboard!" });
                     setTimeout(() => setCopied(false), 2000);
                   }}
-                  className="h-9.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1 bg-[#22c55e] hover:bg-[#1d7ee6] shadow-sm shrink-0"
+                  className="h-9.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1 bg-[#2563eb] hover:bg-[#1d7ee6] shadow-sm shrink-0"
                 >
                   {copied ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-emerald-300" />
+                      <Check className="h-3.5 w-3.5 text-blue-300" />
                       Copied
                     </>
                   ) : (
@@ -921,7 +921,7 @@ export default function PrepareDocument() {
             <Button onClick={() => {
               setSentDialogOpen(false);
               navigate("/dashboard");
-            }} className="w-full sm:w-auto rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] font-bold text-xs h-9.5 shadow-sm px-6">
+            }} className="w-full sm:w-auto rounded-full bg-[#2563eb] hover:bg-[#1d7ee6] font-bold text-xs h-9.5 shadow-sm px-6">
               Go to Dashboard
             </Button>
           </div>

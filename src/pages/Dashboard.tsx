@@ -104,7 +104,7 @@ export default function Dashboard() {
   const [tagline, setTagline] = useState("Secure Document Signing");
   const [emailHeaderText, setEmailHeaderText] = useState("You have been invited to sign a document.");
   const [brandFont, setBrandFont] = useState("Inter");
-  const [primaryColor, setPrimaryColor] = useState("#22c55e");
+  const [primaryColor, setPrimaryColor] = useState("#2563eb");
   const [secondaryColor, setSecondaryColor] = useState("#0f172a");
   const [accentColor, setAccentColor] = useState("#10b981");
   const [isSavingBranding, setIsSavingBranding] = useState(false);
@@ -436,10 +436,10 @@ export default function Dashboard() {
     setTagline("Secure Document Signing");
     setEmailHeaderText("You have been invited to sign a document.");
     setBrandFont("Inter");
-    setPrimaryColor("#22c55e");
+    setPrimaryColor("#2563eb");
     setSecondaryColor("#0f172a");
     setAccentColor("#10b981");
-    applyBrandingCssVars("#22c55e", "#0f172a", "#10b981");
+    applyBrandingCssVars("#2563eb", "#0f172a", "#10b981");
     window.dispatchEvent(new Event("branding_updated"));
     toast({
       title: "Workspace Branding Reset",
@@ -591,7 +591,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#2563eb]" />
       </div>
     );
   }
@@ -599,167 +599,30 @@ export default function Dashboard() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fdfdfd] antialiased">
-      {/* Top Trial Banner */}
-      {isPremium ? (
-        <div className="bg-emerald-600 text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
-          <span>🌟 Business Trial Active. You have 7 days remaining on your trial.</span>
-          <button 
-            onClick={() => { 
-              localStorage.removeItem("is_premium"); 
-              setIsPremium(false); 
-              toast({ title: "Trial Deactivated", description: "Returned to the free sandbox plan." }); 
-            }} 
-            className="underline hover:text-white/95 transition-all font-bold ml-1.5"
-          >
-            Manage Plan
-          </button>
-        </div>
-      ) : (
-        <div className="bg-[#22c55e] text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
-          <span>You have a 7-day Free Business Trial.</span>
-          <button onClick={() => navigate("/try-trial")} className="underline hover:text-white/95 transition-all font-bold">Try now</button>
-        </div>
-      )}
-
-      {/* Header bar matching Signaturely */}
-      <header className="border-b border-slate-100 bg-white px-6 py-4 flex items-center justify-between shadow-[0_1px_2px_rgba(0,0,0,0.02)] shrink-0">
-        <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
-
-        <div className="flex items-center gap-6">
-          {/* Monthly usage */}
-          {isPremium ? (
-            <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 font-semibold select-none">
-              <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-[11px] font-bold">
-                Active
-              </span>
-              <span>Business Trial plan</span>
-            </div>
-          ) : (
-            <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 font-semibold select-none">
-              <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-[11px] font-bold">
-                {statsLoading ? "..." : stats.total} of 3
-              </span>
-              <span>signature requests this month</span>
-            </div>
-          )}
-
-          {/* Upgrade button */}
-          <Button 
-            onClick={() => navigate("/try-trial")}
-            className={`rounded-full h-[34px] px-5 font-bold text-xs shadow-sm transition-all border-[1.5px] bg-white ${
-              isPremium 
-                ? "border-emerald-500 text-emerald-500 hover:bg-emerald-50/50" 
-                : "border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/5"
-            }`}
-          >
-            {isPremium ? "Premium" : "Upgrade"}
-          </Button>
-
-          {/* User profile dropdown & support dropdown */}
-          <div className="flex items-center gap-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 hover:bg-slate-50/50 p-1.5 rounded-lg transition-all bg-white select-none">
-                  {/* User green logo avatar circle */}
-                  <div className="h-7 w-7 rounded-full bg-[#10b981] border border-slate-100 flex items-center justify-center text-[10px] font-extrabold text-white shadow-sm shrink-0 uppercase">
-                    {user.email ? user.email.slice(0, 2) : "US"}
-                  </div>
-                  <span className="text-xs font-bold text-slate-600 hidden md:inline max-w-[120px] truncate">
-                    {user.email ? user.email.split("@")[0] : "User"}
-                  </span>
-                  <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-popover w-52 p-1 border border-slate-100/80 shadow-md select-none">
-                
-                {/* 1. Company item */}
-                <DropdownMenuItem 
-                  onClick={() => navigate("/company")}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer"
-                >
-                  <Briefcase className="mr-3 h-4 w-4 text-slate-400" />
-                  Company
-                </DropdownMenuItem>
-
-                {/* 2. Profile item */}
-                <DropdownMenuItem 
-                  onClick={() => navigate("/dashboard?tab=settings")}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
-                >
-                  <User className="mr-3 h-4 w-4 text-slate-400" />
-                  Profile
-                </DropdownMenuItem>
-
-                {/* 3. Edit Signature item */}
-                <DropdownMenuItem 
-                  onClick={() => {
-                    navigate("/dashboard?tab=settings");
-                    setTimeout(() => {
-                      toast({ title: "Edit Signature Active", description: "Select your default cursive script fonts below." });
-                    }, 300);
-                  }}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
-                >
-                  <PenTool className="mr-3 h-4 w-4 text-slate-400" />
-                  Edit Signature
-                </DropdownMenuItem>
-
-                {/* 4. Billing item */}
-                <DropdownMenuItem 
-                  onClick={() => navigate("/try-trial")}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
-                >
-                  <CreditCard className="mr-3 h-4 w-4 text-slate-400" />
-                  Billing
-                </DropdownMenuItem>
-
-                {/* 5. Share & Earn item */}
-                <DropdownMenuItem 
-                  onClick={() => {
-                    navigator.clipboard.writeText(getAbsoluteUrl(`/signup?ref=${user?.email?.split("@")[0] || "ezsignnow"}`));
-                    toast({ title: "Share & Earn Copied!", description: "Your unique referral link has been copied to clipboard!" });
-                  }}
-                  className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
-                >
-                  <Star className="mr-3 h-4 w-4 text-slate-400" />
-                  Share & Earn
-                </DropdownMenuItem>
-
-                {/* Separator */}
-                <div className="border-t border-slate-100 my-1" />
-
-                {/* 6. Logout item */}
-                <DropdownMenuItem 
-                  onClick={handleSignOut}
-                  className="text-xs font-bold text-destructive hover:text-destructive/95 py-2.5 cursor-pointer"
-                >
-                  <LogOut className="mr-3 h-4 w-4 text-slate-400" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Help Button — opens Support page */}
+    <div className="flex-1 bg-slate-50 p-6 md:p-8 lg:p-10 overflow-y-auto">
+      <div className="max-w-[1000px] mx-auto w-full">
+        
+        {/* Top Trial Banner */}
+        {isPremium ? (
+          <div className="bg-blue-600 text-white py-2 px-4 rounded-md text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0 mb-6">
+            <span>🌟 Business Trial Active. You have 7 days remaining on your trial.</span>
             <button 
-              onClick={() => navigate("/support")}
-              className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
+              onClick={() => { 
+                localStorage.removeItem("is_premium"); 
+                setIsPremium(false); 
+                toast({ title: "Trial Deactivated", description: "Returned to the free sandbox plan." }); 
+              }} 
+              className="underline hover:text-white/95 transition-all font-bold ml-1.5"
             >
-              <Headset className="h-4 w-4" />
-              <span className="hidden sm:inline uppercase tracking-wider">Support</span>
+              Manage Plan
             </button>
           </div>
-        </div>
-      </header>
-
-      {/* Main screen container split layout */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar Navigation */}
-        <DashboardSidebar />
-
-        {/* Right view panel */}
-        <main className="flex-1 bg-[#f8fafc]/40 p-6 md:p-8 lg:p-10 overflow-y-auto">
-          <div className="max-w-[1000px] mx-auto w-full">
+        ) : (
+          <div className="bg-blue-600 text-white py-2 px-4 rounded-md text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0 mb-6">
+            <span>You have a 7-day Free Business Trial.</span>
+            <button onClick={() => navigate("/try-trial")} className="underline hover:text-white/95 transition-all font-bold">Try now</button>
+          </div>
+        )}
             
             {/* View Pane Switch */}
             {activeTab === "sign" && (
@@ -779,7 +642,7 @@ export default function Dashboard() {
                     <h1 className="text-2xl font-extrabold text-slate-800">Documents Dashboard</h1>
                     <p className="text-sm text-slate-500 mt-1">Monitor, track status, and manage your electronic signatures.</p>
                   </div>
-                  <Button onClick={() => setActiveTab("sign")} className="bg-[#22c55e] hover:bg-[#1a7ae0] font-bold text-xs h-9 rounded-full px-5 shadow-sm gap-2">
+                  <Button onClick={() => setActiveTab("sign")} className="bg-[#2563eb] hover:bg-[#1a7ae0] font-bold text-xs h-9 rounded-full px-5 shadow-sm gap-2">
                     <Plus className="h-4 w-4" />
                     New Document
                   </Button>
@@ -788,9 +651,9 @@ export default function Dashboard() {
                 {/* Dashboard stats cards */}
                 <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
                   {[
-                    { icon: FileText, label: "Total Documents", value: statsLoading ? "-" : stats.total.toString(), color: "bg-[#22c55e]/10 text-[#22c55e]" },
+                    { icon: FileText, label: "Total Documents", value: statsLoading ? "-" : stats.total.toString(), color: "bg-[#2563eb]/10 text-[#2563eb]" },
                     { icon: Clock, label: "Pending Signatures", value: statsLoading ? "-" : stats.pending.toString(), color: "bg-amber-500/10 text-amber-500" },
-                    { icon: CheckCircle2, label: "Completed Signatures", value: statsLoading ? "-" : stats.completed.toString(), color: "bg-emerald-500/10 text-emerald-500" },
+                    { icon: CheckCircle2, label: "Completed Signatures", value: statsLoading ? "-" : stats.completed.toString(), color: "bg-blue-500/10 text-blue-500" },
                   ].map((stat) => (
                     <Card key={stat.label} className="border-slate-100 shadow-[0_2px_4px_rgba(0,0,0,0.01)] hover:shadow-md transition-shadow">
                       <CardContent className="flex items-center gap-4.5 p-5">
@@ -808,10 +671,10 @@ export default function Dashboard() {
 
                 {/* Kiosk Mode Quick-Launch Banner */}
                 {stats.pending > 0 && (
-                  <Card className="border border-[#22c55e]/20 bg-emerald-50/30 dark:from-slate-900/40 dark:to-slate-950/20 rounded-2xl shadow-[0_2px_8px_rgba(37,143,251,0.01)] overflow-hidden select-none animate-in fade-in slide-in-from-top-1.5 duration-300 mb-6">
+                  <Card className="border border-[#2563eb]/20 bg-blue-50/30 dark:from-slate-900/40 dark:to-slate-950/20 rounded-2xl shadow-[0_2px_8px_rgba(37,143,251,0.01)] overflow-hidden select-none animate-in fade-in slide-in-from-top-1.5 duration-300 mb-6">
                     <CardContent className="p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-[#22c55e]/10 shrink-0">
+                        <div className="h-10 w-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-[#2563eb]/10 shrink-0">
                           <Laptop className="h-5 w-5" />
                         </div>
                         <div>
@@ -838,7 +701,7 @@ export default function Dashboard() {
                             console.error("Kiosk launch error:", err);
                           }
                         }}
-                        className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-9 px-5 shadow-sm shrink-0 flex items-center gap-1.5 transition-all"
+                        className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-9 px-5 shadow-sm shrink-0 flex items-center gap-1.5 transition-all"
                       >
                         Launch Kiosk Mode
                         <ArrowRight className="h-3.5 w-3.5" />
@@ -864,7 +727,7 @@ export default function Dashboard() {
                   </div>
                   <Button 
                     onClick={() => navigate("/template/new")}
-                    className="bg-[#22c55e] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm gap-2"
+                    className="bg-[#2563eb] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm gap-2"
                   >
                     <Plus className="h-4 w-4" />
                     Create New Template
@@ -894,17 +757,17 @@ export default function Dashboard() {
                       
                       <CardContent className="p-5 flex-1 flex flex-col justify-between">
                         <div className="space-y-2.5">
-                          <div className="h-10 w-10 bg-blue-50/50 border border-blue-100 text-[#22c55e] rounded-xl flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                          <div className="h-10 w-10 bg-blue-50/50 border border-blue-100 text-[#2563eb] rounded-xl flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
                             <Copy className="h-5 w-5" />
                           </div>
                           <h3 className="font-extrabold text-slate-800 text-[14.5px] truncate pr-12">{item.title}</h3>
                           <p className="text-[11.5px] text-slate-400 leading-relaxed line-clamp-2">{item.desc || "No description provided."}</p>
                         </div>
                         <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-                          <span className="text-[10px] font-extrabold text-emerald-600 bg-emerald-50/50 border border-emerald-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)] select-none">Custom Layout</span>
+                          <span className="text-[10px] font-extrabold text-blue-600 bg-blue-50/50 border border-blue-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)] select-none">Custom Layout</span>
                           <button 
                             onClick={() => handleUseTemplate(item)}
-                            className="text-xs font-bold text-[#22c55e] flex items-center gap-1 group-hover:underline focus:outline-none"
+                            className="text-xs font-bold text-[#2563eb] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
                             <ArrowRight className="h-3 w-3" />
@@ -933,7 +796,7 @@ export default function Dashboard() {
                           <span className="text-[10px] font-bold text-slate-400">{item.duration}</span>
                           <button 
                             onClick={() => handleUseTemplate(item)}
-                            className="text-xs font-bold text-[#22c55e] flex items-center gap-1 group-hover:underline focus:outline-none"
+                            className="text-xs font-bold text-[#2563eb] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
                             <ArrowRight className="h-3 w-3" />
@@ -946,10 +809,10 @@ export default function Dashboard() {
                   {/* Create Template layout */}
                   <Card 
                     onClick={() => navigate("/template/new")}
-                    className="border-dashed border-slate-200 hover:border-[#22c55e]/55 hover:bg-blue-50/10 cursor-pointer flex flex-col items-center justify-center p-5 text-center min-h-[180px] bg-slate-50/20 transition-all group shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)]"
+                    className="border-dashed border-slate-200 hover:border-[#2563eb]/55 hover:bg-blue-50/10 cursor-pointer flex flex-col items-center justify-center p-5 text-center min-h-[180px] bg-slate-50/20 transition-all group shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)]"
                   >
                     <CardContent className="p-0 space-y-3.5">
-                      <div className="h-11 w-11 rounded-full border-[1.5px] border-[#22c55e]/30 group-hover:border-[#22c55e] flex items-center justify-center mx-auto text-[#22c55e] transition-all bg-white shadow-sm">
+                      <div className="h-11 w-11 rounded-full border-[1.5px] border-[#2563eb]/30 group-hover:border-[#2563eb] flex items-center justify-center mx-auto text-[#2563eb] transition-all bg-white shadow-sm">
                         <Plus className="h-5 w-5" />
                       </div>
                       <div>
@@ -982,14 +845,14 @@ export default function Dashboard() {
                             value={newFormName}
                             onChange={(e) => setNewFormName(e.target.value)}
                             placeholder="e.g. Guest Release Form"
-                            className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded focus:border-[#22c55e]/50 focus:outline-none"
+                            className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded focus:border-[#2563eb]/50 focus:outline-none"
                             required
                           />
                         </div>
                         <Button 
                           type="submit" 
                           disabled={isCreatingForm}
-                          className="w-full bg-[#22c55e] hover:bg-[#1a7ae0] rounded-[4px] h-[36px] font-bold text-xs shadow-md shadow-[#22c55e]/10"
+                          className="w-full bg-[#2563eb] hover:bg-[#1a7ae0] rounded-[4px] h-[36px] font-bold text-xs shadow-md shadow-[#2563eb]/10"
                         >
                           {isCreatingForm ? <Loader2 className="h-4 w-4 animate-spin" /> : "Publish Active Link"}
                         </Button>
@@ -1014,7 +877,7 @@ export default function Dashboard() {
                               <tr key={item.id} className="border-b border-slate-100/60 hover:bg-slate-50/20 transition-all">
                                 <td className="px-5 py-4">
                                   <div className="flex items-center gap-2">
-                                    <div className={`h-2 w-2 rounded-full ${item.status === "Active" ? "bg-emerald-500 animate-pulse" : "bg-slate-300"}`} />
+                                    <div className={`h-2 w-2 rounded-full ${item.status === "Active" ? "bg-blue-500 animate-pulse" : "bg-slate-300"}`} />
                                     <span className="text-[13px] font-bold text-slate-700">{item.name}</span>
                                   </div>
                                 </td>
@@ -1024,7 +887,7 @@ export default function Dashboard() {
                                       navigator.clipboard.writeText(`https://${item.link}`);
                                       toast({ title: "Link Copied", description: "Public URL loaded into clipboard." });
                                     }}
-                                    className="text-xs text-[#22c55e] font-semibold hover:underline flex items-center gap-1.5"
+                                    className="text-xs text-[#2563eb] font-semibold hover:underline flex items-center gap-1.5"
                                   >
                                     {item.link}
                                     <ExternalLink className="h-3 w-3" />
@@ -1062,7 +925,7 @@ export default function Dashboard() {
                             </div>
                             <div>
                               <h3 className="font-extrabold text-slate-800 text-[15px]">{item.name}</h3>
-                              <span className={`text-[10px] font-bold uppercase tracking-wider ${item.connected ? "text-emerald-500" : "text-slate-400"}`}>
+                              <span className={`text-[10px] font-bold uppercase tracking-wider ${item.connected ? "text-blue-500" : "text-slate-400"}`}>
                                 {item.connected ? "Connected" : "Disconnected"}
                               </span>
                             </div>
@@ -1072,7 +935,7 @@ export default function Dashboard() {
                           <button 
                             onClick={() => toggleIntegration(item.id, item.name)}
                             className={`w-11 h-6 rounded-full transition-colors flex items-center p-0.5 outline-none focus:ring-0 ${
-                              item.connected ? "bg-emerald-500" : "bg-slate-200"
+                              item.connected ? "bg-blue-500" : "bg-slate-200"
                             }`}
                           >
                             <div className={`w-5 h-5 rounded-full bg-white shadow-sm transform transition-transform duration-200 ${
@@ -1113,7 +976,7 @@ export default function Dashboard() {
                                 type="text"
                                 value={profileName}
                                 onChange={(e) => setProfileName(e.target.value)}
-                                className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded focus:border-[#22c55e]/50 focus:outline-none"
+                                className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded focus:border-[#2563eb]/50 focus:outline-none"
                                 required
                               />
                             </div>
@@ -1140,7 +1003,7 @@ export default function Dashboard() {
                                   setSigningFont(e.target.value);
                                   localStorage.setItem("signing_font", e.target.value);
                                 }}
-                                className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#22c55e]/50 focus:outline-none"
+                                className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#2563eb]/50 focus:outline-none"
                               >
                                 {FONT_OPTIONS.map((f) => (
                                   <option key={f.value} value={f.value}>{f.label}</option>
@@ -1165,7 +1028,7 @@ export default function Dashboard() {
                             <Button 
                               type="submit" 
                               disabled={isSavingSettings}
-                              className="bg-[#22c55e] hover:bg-[#1a7ae0] rounded-full h-[38px] px-6 font-bold text-xs shadow-md shadow-[#22c55e]/20 flex items-center gap-2"
+                              className="bg-[#2563eb] hover:bg-[#1a7ae0] rounded-full h-[38px] px-6 font-bold text-xs shadow-md shadow-[#2563eb]/20 flex items-center gap-2"
                             >
                               {isSavingSettings ? (
                                 <>
@@ -1188,7 +1051,7 @@ export default function Dashboard() {
                     <Card className="border-slate-100 lg:col-span-1">
                       <CardContent className="p-5 space-y-4">
                         <h3 className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                          <Laptop className="h-4 w-4 text-[#22c55e]" />
+                          <Laptop className="h-4 w-4 text-[#2563eb]" />
                           Environment Info
                         </h3>
                         <div className="space-y-2 text-xs font-semibold text-slate-400">
@@ -1202,7 +1065,7 @@ export default function Dashboard() {
                           </div>
                           <div className="flex items-center justify-between">
                             <span>OAuth Login</span>
-                            <span className="text-emerald-500 flex items-center gap-1 text-[10px]">
+                            <span className="text-blue-500 flex items-center gap-1 text-[10px]">
                               <Check className="h-3 w-3" />
                               Active
                             </span>
@@ -1216,8 +1079,6 @@ export default function Dashboard() {
             )}
 
           </div>
-        </main>
-      </div>
     </div>
   );
 }

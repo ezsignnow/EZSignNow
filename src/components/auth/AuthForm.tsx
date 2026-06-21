@@ -4,7 +4,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { getAbsoluteUrl } from "@/utils/url";
@@ -16,8 +15,6 @@ import {
   Sparkles, 
   ArrowLeft, 
   Check, 
-  ChevronLeft, 
-  ChevronRight,
   Mail,
   RefreshCw
 } from "lucide-react";
@@ -230,200 +227,143 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   // Onboarding Stepper Header
   const stepperHeader = (
-    <div className="flex items-center justify-center gap-2 mb-8 text-xs font-semibold select-none">
+    <div className="flex items-center justify-center gap-2 mb-6 text-xs font-semibold select-none">
       <div className="flex items-center gap-1">
         <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
-          !emailSent ? "bg-primary text-primary-foreground shadow shadow-primary/20" : "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400"
+          !emailSent ? "bg-blue-600 text-white shadow shadow-blue-600/20" : "bg-blue-100 text-blue-800"
         }`}>
           {emailSent ? <Check className="h-3 w-3" /> : "1"}
         </span>
-        <span className={!emailSent ? "text-foreground font-bold" : "text-muted-foreground"}>Create an account</span>
+        <span className={!emailSent ? "text-slate-900 font-bold" : "text-slate-500"}>Create an account</span>
       </div>
-      <div className="h-[1px] w-8 bg-border"></div>
+      <div className="h-[1px] w-8 bg-slate-200"></div>
       <div className="flex items-center gap-1">
         <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
-          emailSent ? "bg-primary text-primary-foreground shadow shadow-primary/20" : "bg-accent text-muted-foreground"
+          emailSent ? "bg-blue-600 text-white shadow shadow-blue-600/20" : "bg-slate-200 text-slate-500"
         }`}>
           2
         </span>
-        <span className={emailSent ? "text-foreground font-bold" : "text-muted-foreground"}>Activate your trial</span>
+        <span className={emailSent ? "text-slate-900 font-bold" : "text-slate-500"}>Activate your trial</span>
       </div>
     </div>
   );
 
-  // Slideshow Testimonials (Identical to Signaturely.com screenshot)
-  const testimonials = [
-    {
-      name: "Iulian Margelolu",
-      role: "Product Manager, Visco",
-      quote: "It had to be the smoothest digital signature app I've used. UI is very clean.",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80"
-    },
-    {
-      name: "Robert Waltko",
-      role: "Director of Talent Acquisition, eNGINE",
-      quote: "EZSignNow has completely modernized our contracting. Capturing signed timestamps alongside real-time IP audit trail metadata makes compliance review effortless.",
-      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&h=120&q=80"
-    },
-    {
-      name: "Joe Thomas",
-      role: "Director, Subcontractor",
-      quote: "Downloading a certified PDF with full audit trail records was exactly what we needed to secure our agency contracts.",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=120&h=120&q=80"
-    }
-  ];
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-
-  const nextTestimonial = () => {
-    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
-  };
-  const prevTestimonial = () => {
-    setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
-
   if (needsDeviceVerification) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden" style={{ backgroundColor: "#020024" }}>
-        {/* Abstract dark blue background elements mimicking Xodo Sign */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#258ffb" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" transform="rotate(15) scale(2)" />
-            <rect width="100%" height="100%" fill="url(#grid)" transform="rotate(-5) scale(1.5)" />
-          </svg>
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 p-4">
+        <div className="mb-8 flex flex-col items-center">
+          <Link to="/">
+            <BrandLogo />
+          </Link>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center w-full max-w-md px-4">
-          <div className="mb-8">
-            <div className="flex flex-col items-center">
-              <h1 className="text-white text-4xl font-bold tracking-tighter flex items-center mb-1">
-                <span className="text-emerald-500 mr-0.5">ez</span>signnow
-              </h1>
-              <p className="text-white/70 text-xs">Secure Document Portal</p>
-            </div>
-          </div>
-
-          <div className="bg-[#f1f5f9] rounded-lg p-8 w-full shadow-2xl text-center flex flex-col items-center">
-            <h2 className="text-slate-800 font-semibold text-lg mb-6">Device Verification</h2>
-            
-            {!verificationCodeSent ? (
-              <>
-                <div className="bg-emerald-50/50 border border-emerald-300 rounded-md p-4 mb-6 w-full text-left">
-                  <p className="text-slate-700 text-sm leading-relaxed text-center">
-                    Looks like you are trying to login from a different device.
-                  </p>
-                </div>
-                
-                <div className="bg-slate-200 rounded-full p-4 mb-8">
-                  <ShieldCheck className="w-8 h-8 text-indigo-900" />
-                </div>
-
-                <Button 
-                  onClick={handleRequestDeviceVerificationCode} 
-                  disabled={verifying}
-                  className="w-full bg-[#1e0098] hover:bg-[#15006b] text-white rounded-full py-6 font-semibold"
-                >
-                  {verifying ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                  Request verification code
-                </Button>
-                
-                <p className="text-[10px] text-slate-500 mt-4 text-left w-full">
-                  *The verification code will be sent to your email
+        <div className="bg-white border border-slate-200 rounded-md shadow-md p-8 w-full max-w-md text-center flex flex-col items-center">
+          <h2 className="text-slate-800 font-semibold text-lg mb-6">Device Verification</h2>
+          
+          {!verificationCodeSent ? (
+            <>
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6 w-full text-left">
+                <p className="text-slate-700 text-sm leading-relaxed text-center">
+                  Looks like you are trying to login from a different device.
                 </p>
-              </>
-            ) : (
-              <form onSubmit={handleVerifyDeviceCode} className="w-full flex flex-col items-center">
-                <div className="bg-indigo-50 border border-indigo-200 rounded-md p-4 mb-6 w-full text-center">
-                  <p className="text-slate-700 text-sm leading-relaxed">
-                    A 6-digit code has been sent to <strong>{user?.email || email}</strong>.
-                  </p>
-                </div>
-                
-                <div className="mb-6 w-full">
-                  <Input 
-                    autoFocus
-                    placeholder="Enter 6-digit code" 
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                    maxLength={6}
-                    className="text-center text-2xl tracking-[0.5em] h-14 bg-white border-slate-300 focus-visible:ring-indigo-500"
-                  />
-                </div>
+              </div>
+              
+              <div className="bg-slate-100 rounded-full p-4 mb-8">
+                <ShieldCheck className="w-8 h-8 text-blue-600" />
+              </div>
 
-                <Button 
-                  type="submit"
-                  disabled={verifying || verificationCode.length < 6}
-                  className="w-full bg-[#1e0098] hover:bg-[#15006b] text-white rounded-full py-6 font-semibold mb-4"
-                >
-                  {verifying ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                  Verify Device
-                </Button>
-                
-                <button 
-                  type="button" 
-                  onClick={handleRequestDeviceVerificationCode}
-                  className="text-indigo-700 text-xs hover:underline font-medium"
-                >
-                  Resend code
-                </button>
-              </form>
-            )}
-          </div>
+              <Button 
+                onClick={handleRequestDeviceVerificationCode} 
+                disabled={verifying}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded py-6 font-semibold"
+              >
+                {verifying ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                Request verification code
+              </Button>
+              
+              <p className="text-[10px] text-slate-500 mt-4 text-left w-full">
+                *The verification code will be sent to your email
+              </p>
+            </>
+          ) : (
+            <form onSubmit={handleVerifyDeviceCode} className="w-full flex flex-col items-center">
+              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6 w-full text-center">
+                <p className="text-slate-700 text-sm leading-relaxed">
+                  A 6-digit code has been sent to <strong>{user?.email || email}</strong>.
+                </p>
+              </div>
+              
+              <div className="mb-6 w-full">
+                <Input 
+                  autoFocus
+                  placeholder="Enter 6-digit code" 
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                  maxLength={6}
+                  className="text-center text-2xl tracking-[0.5em] h-14 bg-white border-slate-300 focus-visible:ring-blue-500"
+                />
+              </div>
+
+              <Button 
+                type="submit"
+                disabled={verifying || verificationCode.length < 6}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded py-6 font-semibold mb-4"
+              >
+                {verifying ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
+                Verify Device
+              </Button>
+              
+              <button 
+                type="button" 
+                onClick={handleRequestDeviceVerificationCode}
+                className="text-blue-600 text-xs hover:underline font-medium"
+              >
+                Resend code
+              </button>
+            </form>
+          )}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col md:flex-row bg-background">
-      
-      {/* Left Column - Form & Steppers */}
-      <div className="flex-1 flex flex-col justify-between px-6 py-8 bg-white dark:bg-background overflow-y-auto">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 p-4">
+      <div className="w-full max-w-md">
         
-        {/* Logo and Nav links */}
-        <div className="flex items-center justify-between border-b border-border/30 pb-4 mb-6">
+        {/* Logo */}
+        <div className="flex items-center justify-center mb-8">
           <Link to="/">
             <BrandLogo />
           </Link>
-          <Button variant="ghost" size="sm" className="h-8 gap-1.5 text-xs text-muted-foreground" asChild>
-            <Link to="/">
-              <ArrowLeft className="h-3.5 w-3.5" />
-              Back Home
-            </Link>
-          </Button>
         </div>
 
         {/* Stepper (Only on Signup flow) */}
         {mode === "signup" && stepperHeader}
 
         {/* Form Container */}
-        <div className="w-full max-w-md mx-auto my-auto space-y-6">
-          {emailSent ? (
-            /* Verify Email Card */
-            <Card className="border border-border/60 shadow-xl bg-white dark:bg-card">
-              <CardHeader className="text-center pb-4">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Mail className="h-6 w-6" />
-                </div>
-                <CardTitle className="text-2xl font-extrabold text-foreground">
-                  Verify your email
-                </CardTitle>
-                <CardDescription className="text-xs mt-1.5 text-muted-foreground leading-relaxed px-2">
-                  We've sent a verification link to <strong className="text-foreground">{email}</strong>.<br />
-                  Please open the link inside the email to activate your account and start signing documents.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="rounded-lg border border-border/50 bg-slate-50/50 dark:bg-accent/10 p-3.5 text-center text-xs text-muted-foreground">
-                  After confirming, you can sign in below to unlock your dashboard.
-                </div>
-              </CardContent>
-              <CardFooter className="flex flex-col gap-4">
-                <Button className="w-full h-11 text-xs font-semibold" onClick={() => { setEmailSent(false); navigate("/login"); }}>
+        {emailSent ? (
+          /* Verify Email Card */
+          <div className="bg-white border border-slate-200 shadow-md rounded-md overflow-hidden">
+            <div className="p-6 text-center border-b border-slate-100">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                <Mail className="h-6 w-6" />
+              </div>
+              <h2 className="text-2xl font-bold text-slate-900">
+                Verify your email
+              </h2>
+              <p className="text-sm mt-2 text-slate-600 leading-relaxed px-2">
+                We've sent a verification link to <strong className="text-slate-900">{email}</strong>.<br />
+                Please open the link inside the email to activate your account and start signing documents.
+              </p>
+            </div>
+            <div className="p-6 space-y-4">
+              <div className="rounded-md border border-slate-200 bg-slate-50 p-3.5 text-center text-xs text-slate-600">
+                After confirming, you can sign in below to unlock your dashboard.
+              </div>
+              
+              <div className="flex flex-col gap-4">
+                <Button className="w-full h-11 text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white" onClick={() => { setEmailSent(false); navigate("/login"); }}>
                   Proceed to Sign In
                 </Button>
                 
@@ -431,232 +371,165 @@ export function AuthForm({ mode }: AuthFormProps) {
                   type="button"
                   onClick={handleResendEmail}
                   disabled={resending}
-                  className="flex items-center justify-center gap-1.5 text-xs font-semibold text-primary hover:underline disabled:opacity-60"
+                  className="flex items-center justify-center gap-1.5 text-xs font-semibold text-blue-600 hover:underline disabled:opacity-60"
                 >
                   {resending ? <RefreshCw className="h-3 w-3 animate-spin" /> : null}
                   Resend Verification Email
                 </button>
-              </CardFooter>
-            </Card>
-          ) : (
-            /* Regular Form */
-            <Card className="border border-border/60 shadow-xl bg-white dark:bg-card">
-              <CardHeader className="text-center pb-6">
-                <CardTitle className="text-2xl font-extrabold text-foreground">
-                  {mode === "login" ? "Sign in to account" : "Create free account"}
-                </CardTitle>
-              </CardHeader>
-              <form onSubmit={handleSubmit}>
-                <CardContent className="space-y-4 text-left">
-                  {mode === "signup" && (
-                    <div className="space-y-2">
-                      <Label htmlFor="fullName" className="text-xs font-semibold text-foreground">Name</Label>
-                      <Input
-                        id="fullName"
-                        type="text"
-                        placeholder="Full Name"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        required
-                        className="h-10 border-slate-300 dark:border-border"
-                      />
-                    </div>
-                  )}
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-xs font-semibold text-foreground">Email Address</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Email Address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="h-10 border-slate-300 dark:border-border"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="password" className="text-xs font-semibold text-foreground">Password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      minLength={6}
-                      className="h-10 border-slate-300 dark:border-border"
-                    />
-                  </div>
-
-                  {/* Mock reCAPTCHA checkbox (Identical to Signaturely.com screenshot) */}
-                  {mode === "signup" && (
-                    <div className="flex items-center justify-between rounded-lg border border-border bg-slate-50/50 dark:bg-accent/15 p-3 select-none mt-4">
-                      <div className="flex items-center gap-3">
-                        <button
-                          type="button"
-                          onClick={handleCaptchaClick}
-                          disabled={captchaLoading}
-                          className={`h-6 w-6 rounded border bg-white flex items-center justify-center transition-all ${
-                            captchaChecked ? "border-emerald-500 bg-emerald-50" : "border-slate-300 hover:border-slate-400"
-                          }`}
-                        >
-                          {captchaLoading ? (
-                            <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
-                          ) : captchaChecked ? (
-                            <Check className="h-4 w-4 text-emerald-600 font-bold" />
-                          ) : null}
-                        </button>
-                        <span className="text-xs font-medium text-foreground/80">I'm not a robot</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-0.5 opacity-60">
-                        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="h-5 w-5 object-contain" />
-                        <span className="text-[7px] text-muted-foreground font-semibold">reCAPTCHA</span>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-                <CardFooter className="flex flex-col gap-4 mt-2">
-                  <Button type="submit" className="w-full h-11 text-xs font-bold shadow shadow-primary/20">
-                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {mode === "login" ? "Sign In" : "Create account"}
-                  </Button>
-
-                  {/* OR Google Sign Up / Sign In divider */}
-                  <div className="relative w-full flex py-2 items-center">
-                    <div className="flex-grow border-t border-border"></div>
-                    <span className="flex-shrink mx-4 text-slate-400 text-[10px] font-bold uppercase tracking-wider">OR</span>
-                    <div className="flex-grow border-t border-border"></div>
-                  </div>
-
-                  {/* Google OAuth Login Button (Signaturely.com screenshot inspired) */}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={triggerGoogleRedirect}
-                    className="w-full h-11 border-slate-300 dark:border-border hover:bg-slate-50 dark:hover:bg-accent/40 font-medium text-xs flex gap-2 items-center justify-center"
-                  >
-                    <svg className="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24">
-                      <path
-                        fill="#EA4335"
-                        d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.327 2.682 1.486 6.582l3.78 3.183z"
-                      />
-                      <path
-                        fill="#4285F4"
-                        d="M23.49 12.273c0-.818-.073-1.609-.209-2.373H12v4.582h6.473a5.536 5.536 0 0 1-2.4 3.636l3.782 3.182c2.209-2.036 3.636-5.036 3.636-9.027z"
-                      />
-                      <path
-                        fill="#FBBC05"
-                        d="M5.266 14.235A7.077 7.077 0 0 1 4.909 12c0-.79.136-1.555.357-2.264l-3.78-3.182A11.905 11.905 0 0 0 0 12c0 2.055.518 4.009 1.486 5.764l3.78-3.529z"
-                      />
-                      <path
-                        fill="#34A853"
-                        d="M12 24c3.245 0 5.973-1.073 7.964-2.909l-3.782-3.182c-1.045.7-2.382 1.118-4.182 1.118-3.218 0-5.936-2.164-6.909-5.082l-3.782 3.527C3.327 21.318 7.33 24 12 24z"
-                      />
-                    </svg>
-                    {mode === "login" ? "Sign In with Google" : "Sign Up with Google"}
-                  </Button>
-                  
-                  <p className="text-center text-xs text-muted-foreground mt-4">
-                    {mode === "login" ? (
-                      <>
-                        Don't have an account?{" "}
-                        <Link to="/signup" className="font-semibold text-primary hover:underline">
-                          Sign up
-                        </Link>
-                      </>
-                    ) : (
-                      <>
-                        Have an account?{" "}
-                        <Link to="/login" className="font-semibold text-primary hover:underline">
-                          Sign In
-                        </Link>
-                      </>
-                    )}
-                  </p>
-                </CardFooter>
-              </form>
-            </Card>
-          )}
-        </div>
-
-        {/* Footer info inside left pane */}
-        <div className="text-center text-[10px] text-muted-foreground/60 mt-8">
-          © {new Date().getFullYear()} EZSignNow | <a href="#" className="hover:underline">Terms and Conditions</a>
-        </div>
-
-      </div>
-
-      {/* Right Column - Testimonials Panel (Signaturely.com exact copy) */}
-      <div className="hidden md:flex md:w-[42%] lg:w-[48%] bg-[#22c55e] text-white p-12 flex-col justify-between relative overflow-hidden select-none">
-        
-        {/* Soft background vector wave art */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none bg-no-repeat bg-bottom bg-cover" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,224L80,224C160,224,320,224,480,213.3C640,203,800,181,960,186.7C1120,192,1280,224,1360,240L1440,256L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z'%3E%3C/path%3E%3C/svg%3E")` }} />
-
-        {/* Top Header */}
-        <div className="z-10 flex justify-end">
-          <Link to="/" className="text-xs font-semibold text-white/80 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-            EZSignNow.com
-          </Link>
-        </div>
-
-        {/* Testimonial slider card */}
-        <div className="my-auto z-10 space-y-12 max-w-lg mx-auto w-full text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight text-white">
-            What People Are Saying
-          </h2>
-
-          <div className="relative bg-white text-slate-800 rounded-3xl p-8 shadow-2xl flex flex-col justify-between min-h-[220px]">
-            <p className="text-md font-medium text-slate-600 italic leading-relaxed text-center mb-6">
-              "{testimonials[activeTestimonial].quote}"
-            </p>
-            <div className="flex flex-col items-center gap-2">
-              <img
-                src={testimonials[activeTestimonial].avatar}
-                alt={testimonials[activeTestimonial].name}
-                className="h-12 w-12 rounded-full border border-slate-200 object-cover shadow"
-              />
-              <div>
-                <p className="text-sm font-extrabold text-slate-900 leading-none">{testimonials[activeTestimonial].name}</p>
-                <p className="text-xs text-primary font-semibold mt-1 leading-none">{testimonials[activeTestimonial].role}</p>
               </div>
             </div>
           </div>
-
-          {/* Stepper controls */}
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={prevTestimonial}
-              className="h-9 w-9 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-all backdrop-blur-sm"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <div className="flex gap-1.5">
-              {testimonials.map((_, idx) => (
-                <span
-                  key={idx}
-                  onClick={() => setActiveTestimonial(idx)}
-                  className={`h-2 w-2 rounded-full cursor-pointer transition-all duration-300 ${
-                    activeTestimonial === idx ? "bg-white w-4" : "bg-white/40"
-                  }`}
-                />
-              ))}
+        ) : (
+          /* Regular Form */
+          <div className="bg-white border border-slate-200 shadow-md rounded-md overflow-hidden">
+            <div className="p-6 text-center border-b border-slate-100">
+              <h2 className="text-2xl font-bold text-slate-900">
+                {mode === "login" ? "Sign in to account" : "Create free account"}
+              </h2>
             </div>
-            <button
-              onClick={nextTestimonial}
-              className="h-9 w-9 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-all backdrop-blur-sm"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
+            <div className="p-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {mode === "signup" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName" className="text-xs font-semibold text-slate-700">Name</Label>
+                    <Input
+                      id="fullName"
+                      type="text"
+                      placeholder="Full Name"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      required
+                      className="h-10 border-slate-300 focus-visible:ring-blue-500"
+                    />
+                  </div>
+                )}
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-xs font-semibold text-slate-700">Email Address</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Email Address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="h-10 border-slate-300 focus-visible:ring-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="password" className="text-xs font-semibold text-slate-700">Password</Label>
+                    {mode === "login" && (
+                      <a href="#" className="text-xs text-blue-600 hover:underline">Forgot password?</a>
+                    )}
+                  </div>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    minLength={6}
+                    className="h-10 border-slate-300 focus-visible:ring-blue-500"
+                  />
+                </div>
+
+                {/* Mock reCAPTCHA checkbox */}
+                {mode === "signup" && (
+                  <div className="flex items-center justify-between rounded-md border border-slate-200 bg-slate-50 p-3 select-none mt-4">
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={handleCaptchaClick}
+                        disabled={captchaLoading}
+                        className={`h-6 w-6 rounded border bg-white flex items-center justify-center transition-all ${
+                          captchaChecked ? "border-blue-500 bg-blue-50" : "border-slate-300 hover:border-slate-400"
+                        }`}
+                      >
+                        {captchaLoading ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600" />
+                        ) : captchaChecked ? (
+                          <Check className="h-4 w-4 text-blue-600 font-bold" />
+                        ) : null}
+                      </button>
+                      <span className="text-xs font-medium text-slate-700">I'm not a robot</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-0.5 opacity-60">
+                      <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="h-5 w-5 object-contain" />
+                      <span className="text-[7px] text-slate-500 font-semibold">reCAPTCHA</span>
+                    </div>
+                  </div>
+                )}
+                
+                <div className="pt-2">
+                  <Button type="submit" className="w-full h-11 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white">
+                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {mode === "login" ? "Sign In" : "Create account"}
+                  </Button>
+                </div>
+
+                {/* OR Google Sign Up / Sign In divider */}
+                <div className="relative w-full flex py-2 items-center">
+                  <div className="flex-grow border-t border-slate-200"></div>
+                  <span className="flex-shrink mx-4 text-slate-400 text-[10px] font-bold uppercase tracking-wider">OR</span>
+                  <div className="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                {/* Google OAuth Login Button */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={triggerGoogleRedirect}
+                  className="w-full h-11 border-slate-300 hover:bg-slate-50 font-medium text-xs flex gap-2 items-center justify-center text-slate-700"
+                >
+                  <svg className="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24">
+                    <path
+                      fill="#EA4335"
+                      d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.327 2.682 1.486 6.582l3.78 3.183z"
+                    />
+                    <path
+                      fill="#4285F4"
+                      d="M23.49 12.273c0-.818-.073-1.609-.209-2.373H12v4.582h6.473a5.536 5.536 0 0 1-2.4 3.636l3.782 3.182c2.209-2.036 3.636-5.036 3.636-9.027z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M5.266 14.235A7.077 7.077 0 0 1 4.909 12c0-.79.136-1.555.357-2.264l-3.78-3.182A11.905 11.905 0 0 0 0 12c0 2.055.518 4.009 1.486 5.764l3.78-3.529z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 24c3.245 0 5.973-1.073 7.964-2.909l-3.782-3.182c-1.045.7-2.382 1.118-4.182 1.118-3.218 0-5.936-2.164-6.909-5.082l-3.782 3.527C3.327 21.318 7.33 24 12 24z"
+                    />
+                  </svg>
+                  {mode === "login" ? "Sign In with Google" : "Sign Up with Google"}
+                </Button>
+                
+                <p className="text-center text-xs text-slate-600 mt-4">
+                  {mode === "login" ? (
+                    <>
+                      Don't have an account?{" "}
+                      <Link to="/signup" className="font-semibold text-blue-600 hover:underline">
+                        Sign up
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      Have an account?{" "}
+                      <Link to="/login" className="font-semibold text-blue-600 hover:underline">
+                        Sign In
+                      </Link>
+                    </>
+                  )}
+                </p>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Bottom copyright */}
-        <div className="z-10 text-[10px] text-white/50 text-center">
-          bank-grade SSL data encryption | eIDAS certified transactions
+        {/* Footer info */}
+        <div className="text-center text-[10px] text-slate-500 mt-8">
+          © {new Date().getFullYear()} EZSignNow | <a href="#" className="hover:underline">Terms and Conditions</a>
         </div>
-
       </div>
-
     </div>
   );
 }

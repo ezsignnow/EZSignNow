@@ -560,13 +560,13 @@ export default function ViewDocument() {
         <div className="absolute -left-1/4 -top-1/4 w-[500px] h-[500px] rounded-full bg-blue-600/10 blur-[140px] pointer-events-none" />
         
         <Card className="w-full max-w-md relative z-10 border border-blue-500/20 bg-blue-950/20 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-200">
-          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#22c55e] to-transparent" />
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#2563eb] to-transparent" />
           <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
             <div className="mx-auto h-16 w-16 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(37,143,251,0.2)] animate-pulse">
               <Clock className="h-8 w-8" />
             </div>
             <div className="space-y-2">
-              <span className="text-[10px] font-extrabold text-[#22c55e] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+              <span className="text-[10px] font-extrabold text-[#2563eb] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
                 Strict Routing Order Active
               </span>
               <h2 className="text-xl font-black tracking-tight text-white pt-2">
@@ -583,7 +583,7 @@ export default function ViewDocument() {
                     key={idx}
                     className={`h-7 w-7 rounded-full border border-slate-950 flex items-center justify-center text-[9px] font-black text-white shrink-0 shadow-sm ${
                       sig.status === 'signed' 
-                        ? 'bg-emerald-500' 
+                        ? 'bg-blue-500' 
                         : sig.order_num === firstUnsigned.order_num 
                           ? 'bg-blue-500 animate-pulse' 
                           : 'bg-slate-850 text-slate-500'
@@ -615,20 +615,20 @@ export default function ViewDocument() {
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black opacity-95" />
         <Card className="w-full max-w-md relative z-10 border border-blue-500/20 bg-slate-900/40 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-200">
-          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#22c55e] to-transparent" />
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#2563eb] to-transparent" />
           <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
             <div className="mx-auto h-16 w-16 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(37,143,251,0.2)] animate-bounce">
               <Laptop className="h-8 w-8" />
             </div>
             <div className="space-y-2">
-              <span className="text-[10px] font-extrabold text-[#22c55e] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+              <span className="text-[10px] font-extrabold text-[#2563eb] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
                 In-Person Kiosk Mode
               </span>
               <h2 className="text-xl font-black tracking-tight text-white pt-2">
                 Kiosk Handoff Screen
               </h2>
               <p className="text-[13px] text-slate-300 font-bold leading-relaxed max-w-sm mx-auto">
-                Please hand this device over to <span className="text-[#22c55e] font-black">{nextKioskSigner.name}</span> to sign.
+                Please hand this device over to <span className="text-[#2563eb] font-black">{nextKioskSigner.name}</span> to sign.
               </p>
               <p className="text-xs text-slate-400 font-semibold leading-relaxed max-w-xs mx-auto">
                 Email: {nextKioskSigner.email}
@@ -653,7 +653,7 @@ export default function ViewDocument() {
                 setEnteredPasscode("");
                 setSignDialogOpen(true);
               }}
-              className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
+              className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
             >
               I am {nextKioskSigner.name}
               <ArrowRight className="h-4 w-4" />
@@ -670,14 +670,14 @@ export default function ViewDocument() {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden font-sans">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black opacity-95" />
-        <Card className="w-full max-w-md relative z-10 border border-emerald-500/20 bg-slate-900/40 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] animate-in fade-in duration-200">
+        <Card className="w-full max-w-md relative z-10 border border-blue-500/20 bg-slate-900/40 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] animate-in fade-in duration-200">
           <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#10b981] to-transparent" />
           <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
-            <div className="mx-auto h-16 w-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+            <div className="mx-auto h-16 w-16 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
               <CheckCircle2 className="h-8 w-8" />
             </div>
             <div className="space-y-2">
-              <span className="text-[10px] font-extrabold text-[#10b981] tracking-wider uppercase bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+              <span className="text-[10px] font-extrabold text-[#10b981] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
                 In-Person Kiosk Session Complete
               </span>
               <h2 className="text-xl font-black tracking-tight text-white pt-2">
@@ -701,7 +701,7 @@ export default function ViewDocument() {
               <Button
                 onClick={handleDownloadCertified}
                 disabled={downloadingPdf}
-                className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
+                className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
               >
                 {downloadingPdf ? (
                   <Loader2 className="h-4 w-4 animate-spin text-white" />
@@ -756,7 +756,7 @@ export default function ViewDocument() {
         <div className="absolute -right-1/4 -bottom-1/4 w-[500px] h-[500px] rounded-full bg-indigo-600/10 blur-[140px] pointer-events-none" />
 
         <Card className="w-full max-w-md relative z-10 border border-slate-800/80 bg-slate-900/60 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#22c55e] to-transparent" />
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#2563eb] to-transparent" />
           
           <CardHeader className="text-center pt-8 pb-3 px-6">
             <div className="mx-auto h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(37,143,251,0.15)] mb-4">
@@ -786,10 +786,10 @@ export default function ViewDocument() {
                       handleVerifyPasscode();
                     }
                   }}
-                  className={`text-center font-mono tracking-widest text-lg rounded-xl border h-11 bg-slate-950/80 text-white placeholder:text-slate-700 focus-visible:ring-offset-0 focus-visible:ring-[#22c55e] focus-visible:border-[#22c55e] transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] ${
+                  className={`text-center font-mono tracking-widest text-lg rounded-xl border h-11 bg-slate-950/80 text-white placeholder:text-slate-700 focus-visible:ring-offset-0 focus-visible:ring-[#2563eb] focus-visible:border-[#2563eb] transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)] ${
                     passcodeError 
                       ? "border-rose-500/80 focus-visible:ring-rose-500/30 focus-visible:border-rose-500" 
-                      : "border-slate-800 focus-visible:ring-[#22c55e]/20"
+                      : "border-slate-800 focus-visible:ring-[#2563eb]/20"
                   }`}
                 />
               </div>
@@ -803,7 +803,7 @@ export default function ViewDocument() {
             <Button
               onClick={handleVerifyPasscode}
               disabled={!enteredPasscode || verifyingPasscode}
-              className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-2"
+              className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-2"
             >
               {verifyingPasscode ? (
                 <Loader2 className="h-4 w-4 animate-spin text-white" />
@@ -852,7 +852,7 @@ export default function ViewDocument() {
             {/* Document Details Row */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
               <div className="flex items-center gap-4">
-                <div className="bg-emerald-400 text-white text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider">
+                <div className="bg-blue-400 text-white text-xs font-bold px-3 py-1 rounded-sm uppercase tracking-wider">
                   Completed
                 </div>
                 <span className="text-sm font-semibold text-slate-800">{document.file_name}</span>
@@ -877,7 +877,7 @@ export default function ViewDocument() {
                     <span className="text-xs text-slate-500">{sig.email}</span>
                   </div>
                   <div className="col-span-4 flex items-center justify-end gap-3 pr-4">
-                    <div className="bg-emerald-400 text-white text-[11px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
+                    <div className="bg-blue-400 text-white text-[11px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">
                       Signed
                     </div>
                     <span className="text-xs text-slate-500">
@@ -1021,7 +1021,7 @@ export default function ViewDocument() {
               <CardContent>
                 <div className="flex items-center gap-2">
                   {document.status === "completed" ? (
-                    <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                    <CheckCircle2 className="h-5 w-5 text-blue-500" />
                   ) : (
                     <div className="h-5 w-5 rounded-full border-2 border-amber-500" />
                   )}
@@ -1051,7 +1051,7 @@ export default function ViewDocument() {
                       <p className="text-xs text-muted-foreground">{sig.email}</p>
                     </div>
                     {sig.status === "signed" ? (
-                      <CheckCircle2 className="h-5 w-5 text-emerald-500" />
+                      <CheckCircle2 className="h-5 w-5 text-blue-500" />
                     ) : (
                       <div className="rounded bg-amber-100 px-2 py-1 text-xs text-amber-800">
                         Pending
@@ -1102,7 +1102,7 @@ export default function ViewDocument() {
                       className="text-xs border-b border-border/40 pb-2 last:border-0 last:pb-0"
                     >
                       <div className="flex justify-between text-[10px] text-muted-foreground font-semibold">
-                        <span className="uppercase text-[#22c55e]">{log.action}</span>
+                        <span className="uppercase text-[#2563eb]">{log.action}</span>
                         <span>{format(new Date(log.created_at), "HH:mm:ss")}</span>
                       </div>
                       <p className="font-medium text-slate-700 mt-0.5">{log.details}</p>
@@ -1166,14 +1166,14 @@ export default function ViewDocument() {
 
           <div className="mt-4 space-y-4">
             {/* Amount details banner */}
-            <div className="rounded-xl bg-[#22c55e]/[0.02] border border-[#22c55e]/10 p-3.5 flex items-center justify-between shadow-[0_2px_8px_rgba(37,143,251,0.01)]">
+            <div className="rounded-xl bg-[#2563eb]/[0.02] border border-[#2563eb]/10 p-3.5 flex items-center justify-between shadow-[0_2px_8px_rgba(37,143,251,0.01)]">
               <div>
                 <span className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Deposit Amount</span>
                 <span className="text-xs font-bold text-slate-500 dark:text-slate-400">EZ-Sign Agreement Execution Fee</span>
               </div>
               <div className="text-right">
                 <span className="text-lg font-black text-slate-800 dark:text-slate-100">${parseFloat(depositFee || "0").toFixed(2)}</span>
-                <span className="text-[10px] font-extrabold text-[#22c55e] dark:text-blue-400 uppercase tracking-wider block">USD</span>
+                <span className="text-[10px] font-extrabold text-[#2563eb] dark:text-blue-400 uppercase tracking-wider block">USD</span>
               </div>
             </div>
 
@@ -1246,7 +1246,7 @@ export default function ViewDocument() {
             </div>
 
             <p className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold leading-relaxed pt-1 select-none">
-              🔒 Note: Use Stripe test card details (starts with <span className="font-extrabold text-[#22c55e] dark:text-blue-400">4242</span>) to authorize transaction successfully.
+              🔒 Note: Use Stripe test card details (starts with <span className="font-extrabold text-[#2563eb] dark:text-blue-400">4242</span>) to authorize transaction successfully.
             </p>
           </div>
 

@@ -23,6 +23,7 @@ import Security from "./pages/Security";
 import Support from "./pages/Support";
 import Company from "./pages/Company";
 import Team from "./pages/Team";
+import { AppLayout } from "./components/layout/AppLayout";
 
 const queryClient = new QueryClient();
 
@@ -39,12 +40,13 @@ const App = () => (
             <Route path="/signup" element={<Signup />} />
             <Route path="/try-for-free" element={<TryForFree />} />
             <Route path="/try-trial" element={<TryTrial />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/upload" element={<Upload />} />
-            <Route path="/document/:id/prepare" element={<PrepareDocument />} />
-            <Route path="/document/:id/view" element={<ViewDocument />} />
-            <Route path="/template/new" element={<TemplateBuilder />} />
-            <Route path="/template/:id/edit" element={<TemplateBuilder />} />
+            
+            <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
+            <Route path="/upload" element={<AppLayout><Upload /></AppLayout>} />
+            <Route path="/document/:id/prepare" element={<AppLayout><PrepareDocument /></AppLayout>} />
+            <Route path="/document/:id/view" element={<AppLayout><ViewDocument /></AppLayout>} />
+            <Route path="/template/new" element={<AppLayout><TemplateBuilder /></AppLayout>} />
+            <Route path="/template/:id/edit" element={<AppLayout><TemplateBuilder /></AppLayout>} />
             <Route path="/t/:id/sign" element={<TemplateSign />} />
             <Route path="/compare/signnow" element={<CompareSignNow />} />
             <Route path="/blog" element={<Blog />} />
