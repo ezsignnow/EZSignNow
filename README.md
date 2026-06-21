@@ -6,7 +6,7 @@ EZSignNow is a robust, secure, and modern digital signature platform built to st
 
 - **Document Preparation Wizard:** An intuitive, multi-step wizard to upload PDFs, add recipients, and place signature/text fields seamlessly.
 - **Action-Triggered Emails:** Automated email dispatching via Zoho SMTP for document signatures and full completion events.
-- **Enterprise UI & Theme:** Professional, modern aesthetics modeled after industry standards (slate and emerald palettes) with full responsiveness.
+- **Enterprise UI & Theme:** Professional, clean aesthetics meticulously modeled after the Eversign / Xodo Sign UI, featuring a globally responsive sidebar layout, slate navigation, and premium blue action elements.
 - **Device Verification (2FA):** Secure login gate that requires an email-based 6-digit OTP when accessing from unverified devices.
 - **Stripe Integration:** Integrated secure deposit/payment gateway right within the document viewing flow.
 - **Real-Time Document Status:** Full-width tabular views of document progress, signatory statuses, and certified PDF downloads.
