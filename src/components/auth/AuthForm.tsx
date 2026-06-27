@@ -134,11 +134,20 @@ export function AuthForm({ mode }: AuthFormProps) {
         // Let useEffect handle redirect or device verification prompt
       }
     } catch (error: any) {
-      toast({
-        title: "Authentication Error",
-        description: error.message || "Something went wrong",
-        variant: "destructive",
-      });
+      if (error.message?.includes('Error sending confirmation email')) {
+        toast({
+          title: "SMTP Configuration Error",
+          description: "Signup failed because your Supabase custom SMTP (Zoho) is restricted. Please use Google Sign In or fix your Supabase SMTP settings.",
+          variant: "destructive",
+          duration: 8000,
+        });
+      } else {
+        toast({
+          title: "Authentication Error",
+          description: error.message || "Something went wrong",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -184,17 +193,27 @@ export function AuthForm({ mode }: AuthFormProps) {
         body: JSON.stringify({ email: user?.email || email, code }),
       });
       
-      if (!res.ok) throw new Error("Failed to send verification code");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send verification code");
       
       setVerificationCodeSent(true);
-      toast({
-        title: "Verification code sent",
-        description: "Please check your email for the 6-digit code.",
-      });
-    } catch (err: any) {
+      
+      if (data.mocked && data.fallbackCode) {
+        toast({
+          title: "SMTP Failed - Dev Mode",
+          description: `Code: ${data.fallbackCode} (Zoho SMTP is restricted)`,
+          duration: 10000,
+        });
+      } else {
+        toast({
+          title: "Code sent",
+          description: "Please check your email for the verification code.",
+        });
+      }
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: err.message,
+        description: error.message || "Failed to send verification code. Please try again.",
         variant: "destructive",
       });
     } finally {
