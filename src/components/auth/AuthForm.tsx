@@ -11,12 +11,8 @@ import {
   FileSignature, 
   Loader2, 
   CheckCircle2, 
-  ShieldCheck, 
   Sparkles, 
-  ArrowLeft, 
-  Check, 
-  Mail,
-  RefreshCw
+  ArrowLeft 
 } from "lucide-react";
 
 import { BrandLogo } from "@/components/layout/BrandLogo";
@@ -36,29 +32,13 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [captchaChecked, setCaptchaChecked] = useState(false);
   const [captchaLoading, setCaptchaLoading] = useState(false);
 
-  // Email Verification States
-  const [emailSent, setEmailSent] = useState(false);
-  const [resending, setResending] = useState(false);
-
-  // Device Verification States
-  const [needsDeviceVerification, setNeedsDeviceVerification] = useState(false);
-  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
-  const [verificationCode, setVerificationCode] = useState("");
-  const [generatedCode, setGeneratedCode] = useState("");
-  const [verifying, setVerifying] = useState(false);
-
   const { user, loading: authLoading, signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
     if (!authLoading && user) {
-      const isVerified = localStorage.getItem(`device_verified_${user.email}`);
-      if (isVerified) {
-        navigate("/dashboard", { replace: true });
-      } else {
-        setNeedsDeviceVerification(true);
-      }
+      navigate("/dashboard", { replace: true });
     }
   }, [user, authLoading, navigate]);
 
@@ -111,138 +91,30 @@ export function AuthForm({ mode }: AuthFormProps) {
         const { error } = await signUp(email, password, fullName);
         if (error) throw error;
         
-        // Show email verification card instead of logging in directly
-        setEmailSent(true);
         toast({
           title: "Account created!",
-          description: "Verification email sent. Please check your inbox.",
+          description: "Welcome to EZSignNow.",
         });
       } else {
         const { error } = await signIn(email, password);
-        if (error) {
-          if (error.message?.toLowerCase().includes("confirm") || error.message?.toLowerCase().includes("verification")) {
-            setEmail(email);
-            setEmailSent(true);
-            throw new Error("Please verify your email address before logging in.");
-          }
-          throw error;
-        }
+        if (error) throw error;
+        
         toast({
           title: "Welcome back!",
           description: "You've successfully signed in.",
         });
-        // Let useEffect handle redirect or device verification prompt
       }
     } catch (error: any) {
-      if (error.message?.includes('Error sending confirmation email')) {
-        toast({
-          title: "SMTP Configuration Error",
-          description: "Signup failed because your Supabase custom SMTP (Zoho) is restricted. Please use Google Sign In or fix your Supabase SMTP settings.",
-          variant: "destructive",
-          duration: 8000,
-        });
-      } else {
-        toast({
-          title: "Authentication Error",
-          description: error.message || "Something went wrong",
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "Authentication Error",
+        description: error.message || "Something went wrong",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleResendEmail = async () => {
-    setResending(true);
-    try {
-      // In Supabase we trigger a resend by executing sign up again or using auth.resend
-      const { error } = await supabase.auth.resend({
-        type: "signup",
-        email: email,
-        options: {
-          emailRedirectTo: getAbsoluteUrl("/dashboard")
-        }
-      });
-      if (error) throw error;
-
-      toast({
-        title: "Verification email resent!",
-        description: "Please check your spam or promotions folders if you don't see it.",
-      });
-    } catch (err: any) {
-      // Sandbox fallback resend alert
-      toast({
-        title: "Verification resent (Sandbox)",
-        description: `Simulating a verification link re-sent to ${email}.`,
-      });
-    } finally {
-      setResending(false);
-    }
-  };
-
-  const handleRequestDeviceVerificationCode = async () => {
-    setVerifying(true);
-    try {
-      const code = Math.floor(100000 + Math.random() * 900000).toString();
-      setGeneratedCode(code);
-      
-      const res = await fetch("/api/send-verification-code", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: user?.email || email, code }),
-      });
-      
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to send verification code");
-      
-      setVerificationCodeSent(true);
-      
-      if (data.mocked && data.fallbackCode) {
-        toast({
-          title: "SMTP Failed - Dev Mode",
-          description: `Code: ${data.fallbackCode} (Zoho SMTP is restricted)`,
-          duration: 10000,
-        });
-      } else {
-        toast({
-          title: "Code sent",
-          description: "Please check your email for the verification code.",
-        });
-      }
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to send verification code. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setVerifying(false);
-    }
-  };
-
-  const handleVerifyDeviceCode = (e: React.FormEvent) => {
-    e.preventDefault();
-    setVerifying(true);
-    
-    setTimeout(() => {
-      if (verificationCode === generatedCode || verificationCode === "000000") {
-        localStorage.setItem(`device_verified_${user?.email || email}`, "true");
-        toast({
-          title: "Device Verified",
-          description: "Welcome to your dashboard.",
-        });
-        navigate("/dashboard", { replace: true });
-      } else {
-        toast({
-          title: "Invalid Code",
-          description: "The verification code you entered is incorrect.",
-          variant: "destructive",
-        });
-      }
-      setVerifying(false);
-    }, 800);
-  };
 
   // Onboarding Stepper Header
   const stepperHeader = (
@@ -267,84 +139,7 @@ export function AuthForm({ mode }: AuthFormProps) {
     </div>
   );
 
-  if (needsDeviceVerification) {
-    return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 p-4">
-        <div className="mb-8 flex flex-col items-center">
-          <Link to="/">
-            <BrandLogo />
-          </Link>
-        </div>
 
-        <div className="bg-white border border-slate-200 rounded-md shadow-md p-8 w-full max-w-md text-center flex flex-col items-center">
-          <h2 className="text-slate-800 font-semibold text-lg mb-6">Device Verification</h2>
-          
-          {!verificationCodeSent ? (
-            <>
-              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6 w-full text-left">
-                <p className="text-slate-700 text-sm leading-relaxed text-center">
-                  Looks like you are trying to login from a different device.
-                </p>
-              </div>
-              
-              <div className="bg-slate-100 rounded-full p-4 mb-8">
-                <ShieldCheck className="w-8 h-8 text-blue-600" />
-              </div>
-
-              <Button 
-                onClick={handleRequestDeviceVerificationCode} 
-                disabled={verifying}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded py-6 font-semibold"
-              >
-                {verifying ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                Request verification code
-              </Button>
-              
-              <p className="text-[10px] text-slate-500 mt-4 text-left w-full">
-                *The verification code will be sent to your email
-              </p>
-            </>
-          ) : (
-            <form onSubmit={handleVerifyDeviceCode} className="w-full flex flex-col items-center">
-              <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-6 w-full text-center">
-                <p className="text-slate-700 text-sm leading-relaxed">
-                  A 6-digit code has been sent to <strong>{user?.email || email}</strong>.
-                </p>
-              </div>
-              
-              <div className="mb-6 w-full">
-                <Input 
-                  autoFocus
-                  placeholder="Enter 6-digit code" 
-                  value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value)}
-                  maxLength={6}
-                  className="text-center text-2xl tracking-[0.5em] h-14 bg-white border-slate-300 focus-visible:ring-blue-500"
-                />
-              </div>
-
-              <Button 
-                type="submit"
-                disabled={verifying || verificationCode.length < 6}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded py-6 font-semibold mb-4"
-              >
-                {verifying ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
-                Verify Device
-              </Button>
-              
-              <button 
-                type="button" 
-                onClick={handleRequestDeviceVerificationCode}
-                className="text-blue-600 text-xs hover:underline font-medium"
-              >
-                Resend code
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 p-4">
@@ -360,54 +155,15 @@ export function AuthForm({ mode }: AuthFormProps) {
         {/* Stepper (Only on Signup flow) */}
         {mode === "signup" && stepperHeader}
 
-        {/* Form Container */}
-        {emailSent ? (
-          /* Verify Email Card */
-          <div className="bg-white border border-slate-200 shadow-md rounded-md overflow-hidden">
-            <div className="p-6 text-center border-b border-slate-100">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                <Mail className="h-6 w-6" />
-              </div>
-              <h2 className="text-2xl font-bold text-slate-900">
-                Verify your email
-              </h2>
-              <p className="text-sm mt-2 text-slate-600 leading-relaxed px-2">
-                We've sent a verification link to <strong className="text-slate-900">{email}</strong>.<br />
-                Please open the link inside the email to activate your account and start signing documents.
-              </p>
-            </div>
-            <div className="p-6 space-y-4">
-              <div className="rounded-md border border-slate-200 bg-slate-50 p-3.5 text-center text-xs text-slate-600">
-                After confirming, you can sign in below to unlock your dashboard.
-              </div>
-              
-              <div className="flex flex-col gap-4">
-                <Button className="w-full h-11 text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white" onClick={() => { setEmailSent(false); navigate("/login"); }}>
-                  Proceed to Sign In
-                </Button>
-                
-                <button
-                  type="button"
-                  onClick={handleResendEmail}
-                  disabled={resending}
-                  className="flex items-center justify-center gap-1.5 text-xs font-semibold text-blue-600 hover:underline disabled:opacity-60"
-                >
-                  {resending ? <RefreshCw className="h-3 w-3 animate-spin" /> : null}
-                  Resend Verification Email
-                </button>
-              </div>
-            </div>
+        {/* Regular Form */}
+        <div className="bg-white border border-slate-200 shadow-md rounded-md overflow-hidden">
+          <div className="p-6 text-center border-b border-slate-100">
+            <h2 className="text-2xl font-bold text-slate-900">
+              {mode === "login" ? "Sign in to account" : "Create free account"}
+            </h2>
           </div>
-        ) : (
-          /* Regular Form */
-          <div className="bg-white border border-slate-200 shadow-md rounded-md overflow-hidden">
-            <div className="p-6 text-center border-b border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900">
-                {mode === "login" ? "Sign in to account" : "Create free account"}
-              </h2>
-            </div>
-            <div className="p-6">
-              <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
                 {mode === "signup" && (
                   <div className="space-y-2">
                     <Label htmlFor="fullName" className="text-xs font-semibold text-slate-700">Name</Label>
@@ -542,7 +298,6 @@ export function AuthForm({ mode }: AuthFormProps) {
               </form>
             </div>
           </div>
-        )}
 
         {/* Footer info */}
         <div className="text-center text-[10px] text-slate-500 mt-8">
