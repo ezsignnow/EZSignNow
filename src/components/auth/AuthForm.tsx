@@ -95,6 +95,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           title: "Account created!",
           description: "Welcome to EZSignNow.",
         });
+        navigate("/dashboard", { replace: true });
       } else {
         const { error } = await signIn(email, password);
         if (error) throw error;
@@ -103,6 +104,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           title: "Welcome back!",
           description: "You've successfully signed in.",
         });
+        navigate("/dashboard", { replace: true });
       }
     } catch (error: any) {
       toast({
