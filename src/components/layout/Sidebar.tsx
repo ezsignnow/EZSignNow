@@ -1,24 +1,25 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Users, 
-  Settings, 
-  LogOut,
-  FolderOpen
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGaugeHigh,
+  faFileLines,
+  faGear,
+  faRightFromBracket,
+  faFolderOpen
+} from "@fortawesome/free-solid-svg-icons";
 
 export function Sidebar() {
   const { user, signOut } = useAuth();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const currentTab = searchParams.get("tab");
 
   const navItems = [
-    { name: "Dashboard", path: "/", icon: LayoutDashboard },
-    { name: "Documents", path: "/documents", icon: FileText },
-    { name: "Templates", path: "/templates", icon: FolderOpen },
-    { name: "Contacts", path: "/contacts", icon: Users },
-    { name: "Settings", path: "/settings", icon: Settings },
+    { name: "Dashboard", path: "/dashboard", icon: faGaugeHigh, tab: null },
+    { name: "Documents", path: "/dashboard?tab=documents", icon: faFileLines, tab: "documents" },
+    { name: "Templates", path: "/dashboard?tab=templates", icon: faFolderOpen, tab: "templates" },
+    { name: "Settings", path: "/dashboard?tab=settings", icon: faGear, tab: "settings" },
   ];
 
   return (
@@ -29,7 +30,7 @@ export function Sidebar() {
           <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
             <span className="text-white text-xs font-bold leading-none">ES</span>
           </div>
-          Xodo Sign
+          EZSignNow
         </span>
       </div>
 
@@ -49,7 +50,7 @@ export function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 px-4 py-2 space-y-1">
         {navItems.map((item) => {
-          const isActive = location.pathname === item.path || (item.path !== "/" && location.pathname.startsWith(item.path));
+          const isActive = location.pathname === "/dashboard" && currentTab === item.tab;
           return (
             <Link
               key={item.name}
@@ -60,7 +61,7 @@ export function Sidebar() {
                   : "hover:bg-slate-800 hover:text-white"
               }`}
             >
-              <item.icon className={`h-4 w-4 ${isActive ? "text-white" : "text-slate-400"}`} />
+              <FontAwesomeIcon icon={item.icon} className={`h-4 w-4 ${isActive ? "text-white" : "text-slate-400"}`} />
               {item.name}
             </Link>
           );
@@ -73,7 +74,7 @@ export function Sidebar() {
           onClick={signOut}
           className="flex items-center gap-3 px-3 py-2.5 w-full rounded-md text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
         >
-          <LogOut className="h-4 w-4" />
+          <FontAwesomeIcon icon={faRightFromBracket} className="h-4 w-4" />
           Sign Out
         </button>
       </div>
