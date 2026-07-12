@@ -5,38 +5,39 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { SEO } from "@/components/SEO";
-import { 
-  FileSignature, 
-  Users, 
-  Shield, 
-  Zap, 
-  CheckCircle2,
-  ArrowRight,
-  FileText,
-  Clock,
-  Globe,
-  ChevronDown,
-  LayoutTemplate,
-  UserCheck,
-  Building2,
-  HelpCircle,
-  Check,
-  Play,
-  Calendar,
-  CheckSquare,
-  DollarSign,
-  Smartphone,
-  Lock,
-  Eye,
-  Send,
-  RefreshCw,
-  Cloud,
-  Database,
-  MapPin,
-  Activity,
-  Server,
-  Flame
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileSignature,
+  faUsers,
+  faShield,
+  faBolt,
+  faCircleCheck,
+  faArrowRight,
+  faFileLines,
+  faClock,
+  faGlobe,
+  faChevronDown,
+  faTableCellsLarge,
+  faUserCheck,
+  faBuildingColumns,
+  faCircleQuestion,
+  faCheck,
+  faPlay,
+  faCalendarDays,
+  faSquareCheck,
+  faDollarSign,
+  faMobileScreen,
+  faLock,
+  faEye,
+  faPaperPlane,
+  faArrowsRotate,
+  faCloud,
+  faDatabase,
+  faMapPin,
+  faHeartPulse,
+  faServer,
+  faFire
+} from "@fortawesome/free-solid-svg-icons";
 import heroImage from "@/assets/hero-esign.jpg";
 
 export default function Index() {
@@ -293,7 +294,7 @@ export default function Index() {
         <div className="relative w-full h-[220px] rounded-lg border border-border bg-accent/40 flex items-center justify-center p-6 shadow-inner">
           <div className="flex flex-col items-center justify-center gap-3 text-center">
             <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary animate-pulse">
-              <FileText className="h-6 w-6" />
+              <FontAwesomeIcon icon={faFileLines} className="h-6 w-6" />
             </div>
             <p className="text-sm font-medium text-foreground">Drag and drop your PDF here</p>
             <p className="text-xs text-muted-foreground">Secure SSL Upload | Max size 15MB</p>
@@ -311,7 +312,7 @@ export default function Index() {
           <div className="w-full h-4 bg-muted rounded mb-4 w-1/2"></div>
           {/* Mock Drag Field */}
           <div className="absolute top-[80px] left-[60px] flex items-center gap-1 px-2 py-1 rounded border-2 border-primary bg-primary/10 shadow-sm animate-bounce">
-            <FileSignature className="h-3.5 w-3.5 text-primary" />
+            <FontAwesomeIcon icon={faFileSignature} className="h-3.5 w-3.5 text-primary" />
             <span className="text-[10px] font-semibold text-primary">Signature Place</span>
           </div>
           <div className="w-full h-4 bg-muted rounded mb-2 w-3/4"></div>
@@ -327,7 +328,7 @@ export default function Index() {
         <div className="relative w-full h-[220px] rounded-lg border border-border bg-emerald-50/50 dark:bg-emerald-950/15 p-4 flex flex-col justify-between shadow-inner">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2 className="h-4 w-4" />
+              <FontAwesomeIcon icon={faCircleCheck} className="h-4 w-4" />
               <span className="text-xs font-semibold">Document Signed & Secured</span>
             </div>
             <p className="text-xs text-muted-foreground font-mono">IP: 192.168.1.72 | New York, US</p>
@@ -506,7 +507,7 @@ export default function Index() {
               {/* Mock Floating Laptop Screen Document */}
               <div className="relative bg-white dark:bg-card border border-border shadow-2xl rounded-2xl p-6 w-[88%] mx-auto transform -translate-y-4 hover:translate-y-[-20px] transition-transform duration-500 select-none">
                 <div className="flex items-center gap-2 border-b border-border pb-3 mb-4">
-                  <FileSignature className="h-4.5 w-4.5 text-primary" />
+                  <FontAwesomeIcon icon={faFileSignature} className="h-4.5 w-4.5 text-primary" />
                   <span className="text-xs font-bold text-foreground">EZSignNow-agreement.pdf</span>
                 </div>
                 
@@ -523,7 +524,7 @@ export default function Index() {
                     <span className="text-xs italic font-serif text-primary font-semibold block animate-pulse">Joe Thomas</span>
                   </div>
                   <div className="h-8 w-16 bg-primary/5 rounded border border-primary/20 flex items-center justify-center">
-                    <FileSignature className="h-4 w-4 text-primary" />
+                    <FontAwesomeIcon icon={faFileSignature} className="h-4 w-4 text-primary" />
                   </div>
                 </div>
               </div>
@@ -620,10 +621,10 @@ export default function Index() {
           {/* Interactive Feature Tabs */}
           <div className="flex flex-wrap justify-center gap-3 mb-10 max-w-4xl mx-auto">
             {[
-              { id: "savings", label: "Cost Savings", icon: DollarSign, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
-              { id: "security", label: "Legally Binding & Secure", icon: Shield, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" },
-              { id: "satisfaction", label: "Better Tracking", icon: Clock, color: "text-[#22c55e] bg-[#22c55e]/10 border-[#22c55e]/20" },
-              { id: "workflows", label: "Automated Cloud Archiving", icon: Cloud, color: "text-[#1e293b] bg-[#1e293b]/10 border-[#1e293b]/20" }
+              { id: "savings", label: "Cost Savings", icon: faDollarSign, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
+              { id: "security", label: "Legally Binding & Secure", icon: faShield, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" },
+              { id: "satisfaction", label: "Better Tracking", icon: faClock, color: "text-[#22c55e] bg-[#22c55e]/10 border-[#22c55e]/20" },
+              { id: "workflows", label: "Automated Cloud Archiving", icon: faCloud, color: "text-[#1e293b] bg-[#1e293b]/10 border-[#1e293b]/20" }
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeFeatureTab === tab.id;
@@ -632,12 +633,12 @@ export default function Index() {
                   key={tab.id}
                   onClick={() => setActiveFeatureTab(tab.id as any)}
                   className={`flex items-center gap-2 px-5 py-3 rounded-full text-sm font-bold border transition-all duration-300 shadow-sm ${
-                    isActive 
+                    isActive
                       ? "bg-primary text-white border-primary scale-[1.03] shadow-md shadow-primary/20"
                       : "bg-card text-muted-foreground hover:text-foreground border-border hover:bg-slate-50 dark:hover:bg-slate-900"
                   }`}
                 >
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : ''}`} />
+                  <FontAwesomeIcon icon={Icon} className={`h-4 w-4 ${isActive ? 'text-white' : ''}`} />
                   {tab.label}
                 </button>
               );
@@ -652,7 +653,7 @@ export default function Index() {
               {activeFeatureTab === "savings" && (
                 <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
                   <div className="h-10 w-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
-                    <DollarSign className="h-5 w-5" />
+                    <FontAwesomeIcon icon={faDollarSign} className="h-5 w-5" />
                   </div>
                   <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
                     Unprecedented Cost Savings
@@ -663,7 +664,7 @@ export default function Index() {
                   
                   <div className="space-y-3.5 pt-2">
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
+                      <FontAwesomeIcon icon={faCheck} className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">No Premium Markups</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -673,7 +674,7 @@ export default function Index() {
                     </div>
                     
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
+                      <FontAwesomeIcon icon={faCheck} className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Eco-Friendly Efficiency</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -688,7 +689,7 @@ export default function Index() {
               {activeFeatureTab === "security" && (
                 <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
                   <div className="h-10 w-10 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
-                    <Shield className="h-5 w-5" />
+                    <FontAwesomeIcon icon={faShield} className="h-5 w-5" />
                   </div>
                   <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
                     Legally Binding & Secure
@@ -699,7 +700,7 @@ export default function Index() {
                   
                   <div className="space-y-3.5 pt-2">
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-amber-500 shrink-0 mt-0.5" />
+                      <FontAwesomeIcon icon={faCheck} className="h-4.5 w-4.5 text-amber-500 shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Court-Admissible Certificates</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -709,7 +710,7 @@ export default function Index() {
                     </div>
                     
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-amber-500 shrink-0 mt-0.5" />
+                      <FontAwesomeIcon icon={faCheck} className="h-4.5 w-4.5 text-amber-500 shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Cryptographic SHA-256 Locking</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -724,7 +725,7 @@ export default function Index() {
               {activeFeatureTab === "satisfaction" && (
                 <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
                   <div className="h-10 w-10 rounded-xl bg-[#22c55e]/10 text-[#22c55e] flex items-center justify-center">
-                    <Clock className="h-5 w-5" />
+                    <FontAwesomeIcon icon={faClock} className="h-5 w-5" />
                   </div>
                   <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
                     Better Tracking & Logs
@@ -735,7 +736,7 @@ export default function Index() {
                   
                   <div className="space-y-3.5 pt-2">
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-[#22c55e] shrink-0 mt-0.5" />
+                      <FontAwesomeIcon icon={faCheck} className="h-4.5 w-4.5 text-[#22c55e] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Chronological Event Logs</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -745,7 +746,7 @@ export default function Index() {
                     </div>
                     
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-[#22c55e] shrink-0 mt-0.5" />
+                      <FontAwesomeIcon icon={faCheck} className="h-4.5 w-4.5 text-[#22c55e] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Smart SMS Verification Trace</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -760,7 +761,7 @@ export default function Index() {
               {activeFeatureTab === "workflows" && (
                 <div className="space-y-5 animate-[fadeIn_0.3s_ease-out]">
                   <div className="h-10 w-10 rounded-xl bg-[#1e293b]/10 text-[#1e293b] flex items-center justify-center">
-                    <Cloud className="h-5 w-5" />
+                    <FontAwesomeIcon icon={faCloud} className="h-5 w-5" />
                   </div>
                   <h3 className="text-2xl font-extrabold text-foreground tracking-tight">
                     Automated Cloud Archiving
@@ -771,7 +772,7 @@ export default function Index() {
                   
                   <div className="space-y-3.5 pt-2">
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-[#1e293b] shrink-0 mt-0.5" />
+                      <FontAwesomeIcon icon={faCheck} className="h-4.5 w-4.5 text-[#1e293b] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Instant Sync Engines</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -781,7 +782,7 @@ export default function Index() {
                     </div>
                     
                     <div className="flex items-start gap-2.5">
-                      <Check className="h-4.5 w-4.5 text-[#1e293b] shrink-0 mt-0.5" />
+                      <FontAwesomeIcon icon={faCheck} className="h-4.5 w-4.5 text-[#1e293b] shrink-0 mt-0.5" />
                       <div>
                         <h4 className="text-xs font-bold text-foreground">Seamless Folder Organization</h4>
                         <p className="text-[11px] text-muted-foreground leading-normal">
@@ -798,7 +799,7 @@ export default function Index() {
                 <Button size="lg" className="font-bold text-xs h-10 px-5 shadow bg-primary hover:bg-primary/95 text-white" asChild>
                   <Link to="/try-for-free">
                     Get Started Risk-Free
-                    <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                    <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5 ml-1.5" />
                   </Link>
                 </Button>
                 <div className="text-[10px] text-muted-foreground font-semibold">
@@ -875,7 +876,7 @@ export default function Index() {
                     
                     {/* Glowing Stamp Badge */}
                     <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-[8.5px] font-black uppercase tracking-wider animate-pulse">
-                      <Shield className="h-3 w-3" />
+                      <FontAwesomeIcon icon={faShield} className="h-3 w-3" />
                       ESIGN & UETA CERTIFIED
                     </div>
 
@@ -897,7 +898,7 @@ export default function Index() {
                         <div className="space-y-1">
                           <span className="text-[8px] text-slate-400 dark:text-slate-500 font-extrabold uppercase">SIGNATURE ORIGIN</span>
                           <span className="text-xs font-bold text-foreground block flex items-center gap-1">
-                            <MapPin className="h-3.5 w-3.5 text-amber-500" />
+                            <FontAwesomeIcon icon={faMapPin} className="h-3.5 w-3.5 text-amber-500" />
                             {activeHub.city}, {activeHub.country}
                           </span>
                         </div>
@@ -931,7 +932,7 @@ export default function Index() {
                               {activeHub.hash}
                             </code>
                           </div>
-                          <Lock className="h-4 w-4 text-emerald-500 shrink-0 ml-2" />
+                          <FontAwesomeIcon icon={faLock} className="h-4 w-4 text-emerald-500 shrink-0 ml-2" />
                         </div>
 
                         <div className="grid grid-cols-2 gap-2 text-[9px] text-muted-foreground font-semibold">
@@ -947,7 +948,7 @@ export default function Index() {
                         onClick={() => setGeoHubIndex((prev) => (prev + 1) % globalHubs.length)}
                         className="text-amber-500 hover:text-amber-600 flex items-center gap-1 uppercase tracking-wider font-extrabold cursor-pointer transition-colors"
                       >
-                        <RefreshCw className="h-3 w-3 animate-spin-slow" />
+                        <FontAwesomeIcon icon={faArrowsRotate} className="h-3 w-3 animate-spin-slow" />
                         Force Cycle Hub
                       </button>
                     </div>
@@ -972,7 +973,7 @@ export default function Index() {
                         variant="outline"
                         className="h-7 px-2.5 text-[9px] font-bold uppercase tracking-wider gap-1 border-border hover:bg-slate-100 hover:text-foreground"
                       >
-                        <Eye className="h-3 w-3 text-sky-500" />
+                        <FontAwesomeIcon icon={faEye} className="h-3 w-3 text-sky-500" />
                         View
                       </Button>
                       <Button 
@@ -981,7 +982,7 @@ export default function Index() {
                         variant="outline"
                         className="h-7 px-2.5 text-[9px] font-bold uppercase tracking-wider gap-1 border-border hover:bg-slate-100 hover:text-foreground"
                       >
-                        <Send className="h-3 w-3 text-amber-500" />
+                        <FontAwesomeIcon icon={faPaperPlane} className="h-3 w-3 text-amber-500" />
                         SMS OTP
                       </Button>
                       <Button 
@@ -990,7 +991,7 @@ export default function Index() {
                         variant="outline"
                         className="h-7 px-2.5 text-[9px] font-bold uppercase tracking-wider gap-1 border-border hover:bg-slate-100 hover:text-foreground"
                       >
-                        <FileSignature className="h-3 w-3 text-emerald-500" />
+                        <FontAwesomeIcon icon={faFileSignature} className="h-3 w-3 text-emerald-500" />
                         Sign
                       </Button>
                       <Button 
@@ -999,7 +1000,7 @@ export default function Index() {
                         variant="outline"
                         className="h-7 px-2.5 text-[9px] font-bold uppercase tracking-wider gap-1 border-border hover:bg-slate-100 hover:text-foreground"
                       >
-                        <Lock className="h-3 w-3 text-primary" />
+                        <FontAwesomeIcon icon={faLock} className="h-3 w-3 text-primary" />
                         Seal
                       </Button>
                     </div>
@@ -1026,13 +1027,13 @@ export default function Index() {
                             log.type === "cloud" ? "bg-purple-500/10 text-purple-500" :
                             "bg-slate-500/10 text-slate-500"
                           }`}>
-                            {log.type === "view" && <Eye className="h-3.5 w-3.5" />}
-                            {log.type === "secure" && <Shield className="h-3.5 w-3.5" />}
-                            {log.type === "sign" && <FileSignature className="h-3.5 w-3.5" />}
-                            {log.type === "lock" && <Lock className="h-3.5 w-3.5" />}
-                            {log.type === "cloud" && <Cloud className="h-3.5 w-3.5" />}
-                            {log.type === "system" && <Server className="h-3.5 w-3.5" />}
-                            {log.type === "invite" && <Users className="h-3.5 w-3.5" />}
+                            {log.type === "view" && <FontAwesomeIcon icon={faEye} className="h-3.5 w-3.5" />}
+                            {log.type === "secure" && <FontAwesomeIcon icon={faShield} className="h-3.5 w-3.5" />}
+                            {log.type === "sign" && <FontAwesomeIcon icon={faFileSignature} className="h-3.5 w-3.5" />}
+                            {log.type === "lock" && <FontAwesomeIcon icon={faLock} className="h-3.5 w-3.5" />}
+                            {log.type === "cloud" && <FontAwesomeIcon icon={faCloud} className="h-3.5 w-3.5" />}
+                            {log.type === "system" && <FontAwesomeIcon icon={faServer} className="h-3.5 w-3.5" />}
+                            {log.type === "invite" && <FontAwesomeIcon icon={faUsers} className="h-3.5 w-3.5" />}
                           </div>
 
                           <div className="flex-grow text-left space-y-0.5 min-w-0">
@@ -1152,7 +1153,7 @@ export default function Index() {
                           </svg>
                         )}
                         {selectedCloud === "onedrive" && (
-                          <Cloud className="h-7 w-7 text-sky-500 shrink-0" />
+                          <FontAwesomeIcon icon={faCloud} className="h-7 w-7 text-sky-500 shrink-0" />
                         )}
                       </div>
                       
@@ -1170,7 +1171,7 @@ export default function Index() {
                       {archiveStatus === "syncing" && `Syncing... ${archiveProgress}%`}
                       {archiveStatus === "done" && (
                         <span className="text-emerald-600 dark:text-emerald-400 font-extrabold flex items-center gap-1.5 animate-pulse">
-                          <Check className="h-4 w-4" />
+                          <FontAwesomeIcon icon={faCheck} className="h-4 w-4" />
                           ARCHIVED SUCCESSFULLY & COMPLETED
                         </span>
                       )}
@@ -1216,7 +1217,7 @@ export default function Index() {
                 className="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:underline hover:gap-2 transition-all"
               >
                 Learn more about eSignature's laws
-                <ArrowRight className="h-4 w-4" />
+                <FontAwesomeIcon icon={faArrowRight} className="h-4 w-4" />
               </Link>
 
               <div className="pt-8 border-t border-border/60">
@@ -1257,7 +1258,7 @@ export default function Index() {
 
               {/* Center Globe Node */}
               <div className="z-10 h-24 w-24 rounded-full bg-white dark:bg-card border border-border shadow-2xl flex flex-col items-center justify-center p-3 text-center scale-95 hover:scale-100 transition-all duration-500">
-                <FileSignature className="h-6 w-6 text-primary mb-1 animate-pulse" />
+                <FontAwesomeIcon icon={faFileSignature} className="h-6 w-6 text-primary mb-1 animate-pulse" />
                 <span className="text-[9px] font-extrabold text-foreground tracking-tight leading-none uppercase">GLOBAL</span>
                 <span className="text-[7px] font-bold text-slate-400 mt-0.5 leading-none">VALIDITY</span>
               </div>
@@ -1384,7 +1385,7 @@ export default function Index() {
                 {/* Point 1 */}
                 <div className="flex gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#22c55e] transition-colors">
-                    <Clock className="h-5 w-5" />
+                    <FontAwesomeIcon icon={faClock} className="h-5 w-5" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
@@ -1396,7 +1397,7 @@ export default function Index() {
                 {/* Point 2 */}
                 <div className="flex gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#22c55e] transition-colors">
-                    <FileText className="h-5 w-5" />
+                    <FontAwesomeIcon icon={faFileLines} className="h-5 w-5" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
@@ -1408,7 +1409,7 @@ export default function Index() {
                 {/* Point 3 */}
                 <div className="flex gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm text-[#22c55e] transition-colors">
-                    <Shield className="h-5 w-5" />
+                    <FontAwesomeIcon icon={faShield} className="h-5 w-5" />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">
@@ -1470,7 +1471,7 @@ export default function Index() {
                     {/* Pulsing Drag Target Field */}
                     <div className="flex-1 h-9 rounded-lg border border-dashed border-[#1e293b] bg-[#1e293b]/5 flex items-center justify-center relative select-none animate-pulse">
                       <span className="text-[9px] font-extrabold text-[#1e293b] uppercase tracking-wider flex items-center gap-1 select-none">
-                        <FileSignature className="h-3 w-3" />
+                        <FontAwesomeIcon icon={faFileSignature} className="h-3 w-3" />
                         Signature Field
                       </span>
                     </div>
@@ -1506,24 +1507,24 @@ export default function Index() {
                   <div className="space-y-1.5 overflow-hidden text-left">
                     <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tools</p>
                     {[
-                      { icon: FileSignature, label: "Signature Field" },
-                      { icon: FileText, label: "Text Field" },
-                      { icon: Calendar, label: "Date/Time Field" },
-                      { icon: CheckSquare, label: "Checkbox Field" },
-                      { icon: UserCheck, label: "Initials Field" },
+                      { icon: faFileSignature, label: "Signature Field" },
+                      { icon: faFileLines, label: "Text Field" },
+                      { icon: faCalendarDays, label: "Date/Time Field" },
+                      { icon: faSquareCheck, label: "Checkbox Field" },
+                      { icon: faUserCheck, label: "Initials Field" },
                     ].map((tool, idx) => {
                       const Icon = tool.icon;
                       const isDraggingMock = tool.label === "Signature Field";
                       return (
-                        <div 
+                        <div
                           key={idx}
                           className={`h-7 rounded border flex items-center gap-2 px-2 text-[9px] font-semibold transition-all ${
-                            isDraggingMock 
-                              ? "border-[#1e293b] bg-[#1e293b]/5 text-[#1e293b] shadow-sm translate-x-[-2px] animate-pulse" 
+                            isDraggingMock
+                              ? "border-[#1e293b] bg-[#1e293b]/5 text-[#1e293b] shadow-sm translate-x-[-2px] animate-pulse"
                               : "border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400"
                           }`}
                         >
-                          <Icon className={`h-3 w-3 shrink-0 ${isDraggingMock ? 'text-[#1e293b]' : 'text-slate-400'}`} />
+                          <FontAwesomeIcon icon={Icon} className={`h-3 w-3 shrink-0 ${isDraggingMock ? 'text-[#1e293b]' : 'text-slate-400'}`} />
                           <span className="truncate">{tool.label}</span>
                         </div>
                       );
@@ -1772,13 +1773,13 @@ export default function Index() {
               
               <ul className="space-y-4">
                 {[
-                  { icon: LayoutTemplate, title: "Shared Team Templates", desc: "Share standard NDAs and independent contractor agreements across your department." },
-                  { icon: UserCheck, title: "Role-Based Delegation", desc: "Assign specific roles to team members: creator, editor, signer, or manager." },
-                  { icon: Building2, title: "Company Brand Customization", desc: "Upload your company logo, set custom brand email layouts, and create branded portals." }
+                  { icon: faTableCellsLarge, title: "Shared Team Templates", desc: "Share standard NDAs and independent contractor agreements across your department." },
+                  { icon: faUserCheck, title: "Role-Based Delegation", desc: "Assign specific roles to team members: creator, editor, signer, or manager." },
+                  { icon: faBuildingColumns, title: "Company Brand Customization", desc: "Upload your company logo, set custom brand email layouts, and create branded portals." }
                 ].map((item, idx) => (
                   <li key={idx} className="flex gap-4 items-start">
                     <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
-                      <item.icon className="h-5 w-5" />
+                      <FontAwesomeIcon icon={item.icon} className="h-5 w-5" />
                     </div>
                     <div>
                       <h4 className="font-bold text-foreground text-md mb-0.5">{item.title}</h4>
@@ -1796,16 +1797,16 @@ export default function Index() {
             {/* Teams visual block */}
             <div className="grid grid-cols-2 gap-4 max-w-md mx-auto w-full">
               {[
-                { icon: Clock, value: "62%", label: "Faster Contract Close" },
-                { icon: FileText, value: "10K+", label: "Signed Documents" },
-                { icon: Globe, value: "24/7", label: "Global Legal Legality" },
-                { icon: Shield, value: "Bank-Grade", label: "SSL Data Security" },
+                { icon: faClock, value: "62%", label: "Faster Contract Close" },
+                { icon: faFileLines, value: "10K+", label: "Signed Documents" },
+                { icon: faGlobe, value: "24/7", label: "Global Legal Legality" },
+                { icon: faShield, value: "Bank-Grade", label: "SSL Data Security" },
               ].map((stat, idx) => (
                 <div
                   key={idx}
                   className="rounded-2xl border border-border bg-card p-6 text-center shadow-sm hover:scale-[1.02] transition-all"
                 >
-                  <stat.icon className="mx-auto h-8 w-8 text-primary" />
+                  <FontAwesomeIcon icon={stat.icon} className="mx-auto h-8 w-8 text-primary" />
                   <p className="mt-3 text-2xl font-extrabold text-foreground">{stat.value}</p>
                   <p className="text-xs text-muted-foreground mt-0.5 font-medium">{stat.label}</p>
                 </div>
@@ -1924,7 +1925,7 @@ export default function Index() {
                   <ul className="space-y-3.5 border-t border-border/50 pt-6">
                     {plan.features.map((feat, fidx) => (
                       <li key={fidx} className="flex gap-2.5 items-start">
-                        <Check className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
+                        <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-primary flex-shrink-0 mt-0.5" />
                         <span className="text-xs text-foreground/80 leading-tight">{feat}</span>
                       </li>
                     ))}
@@ -1943,7 +1944,7 @@ export default function Index() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-border/50">
               <div>
                 <h3 className="text-lg font-extrabold text-foreground flex items-center gap-2">
-                  <Flame className="h-5 w-5 text-primary animate-pulse" />
+                  <FontAwesomeIcon icon={faFire} className="h-5 w-5 text-primary animate-pulse" />
                   EZSignNow vs signNow: At a Glance
                 </h3>
                 <p className="text-xs text-muted-foreground mt-0.5">
@@ -1953,7 +1954,7 @@ export default function Index() {
               <Button size="sm" className="bg-primary hover:bg-primary/95 text-white font-bold text-xs self-start md:self-center" asChild>
                 <Link to="/compare/signnow">
                   See Full Head-to-Head Details
-                  <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                  <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5 ml-1.5" />
                 </Link>
               </Button>
             </div>
@@ -1971,7 +1972,7 @@ export default function Index() {
                   <div className="space-y-1">
                     <div className="bg-primary/5 rounded-lg py-1 px-2 border border-primary/20">
                       <span className="text-xs font-bold text-primary flex items-center justify-center gap-1">
-                        <Check className="h-3 w-3 text-emerald-500" />
+                        <FontAwesomeIcon icon={faCheck} className="h-3 w-3 text-emerald-500" />
                         {item.ez}
                       </span>
                     </div>
@@ -2000,7 +2001,7 @@ export default function Index() {
             <Button size="lg" className="bg-[#1e293b] hover:bg-[#1e293b]/90 text-white font-bold text-xs shrink-0 self-start md:self-center" asChild>
               <Link to="/forms">
                 Explore Forms Library
-                <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5 ml-1.5" />
               </Link>
             </Button>
           </div>
@@ -2031,10 +2032,10 @@ export default function Index() {
                   className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
                 >
                   <span className="font-bold text-foreground text-md flex items-center gap-2">
-                    <HelpCircle className="h-4 w-4 text-primary flex-shrink-0" />
+                    <FontAwesomeIcon icon={faCircleQuestion} className="h-4 w-4 text-primary flex-shrink-0" />
                     {faq.q}
                   </span>
-                  <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform duration-300 flex-shrink-0 ${
+                  <FontAwesomeIcon icon={faChevronDown} className={`h-5 w-5 text-muted-foreground transition-transform duration-300 flex-shrink-0 ${
                     openFaq === idx ? "transform rotate-180" : ""
                   }`} />
                 </button>
@@ -2063,7 +2064,7 @@ export default function Index() {
             <Button size="lg" className="h-12 px-8 text-sm font-semibold" asChild>
               <Link to="/try-for-free">
                 Create Free Account
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <FontAwesomeIcon icon={faArrowRight} className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button size="lg" className="h-12 px-8 text-sm font-semibold border-secondary-foreground/20 text-secondary-foreground hover:bg-secondary-foreground/10" variant="ghost" asChild>

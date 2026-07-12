@@ -6,11 +6,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  Briefcase, Star, User, PenTool, 
-  ChevronDown, LogOut, Headset, CreditCard, 
-  Users, UserPlus, Clock, Mail
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBriefcase, faStar, faUser, faPenNib,
+  faChevronDown, faRightFromBracket, faHeadset, faCreditCard,
+  faUsers, faUserPlus, faClock, faEnvelope
+} from "@fortawesome/free-solid-svg-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -131,46 +132,46 @@ export default function Team() {
                   <span className="text-xs font-bold text-slate-600 hidden md:inline max-w-[120px] truncate">
                     {user?.email ? user.email.split("@")[0] : "User"}
                   </span>
-                  <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                  <FontAwesomeIcon icon={faChevronDown} className="h-3.5 w-3.5 text-slate-400" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-popover w-52 p-1 border border-slate-100/80 shadow-md select-none">
                 <DropdownMenuItem onClick={() => navigate("/company")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer">
-                  <Briefcase className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faBriefcase} className="mr-3 h-4 w-4 text-slate-400" />
                   Company
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/dashboard?tab=settings")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <User className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faUser} className="mr-3 h-4 w-4 text-slate-400" />
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => {
                   navigate("/dashboard?tab=settings");
                   setTimeout(() => toast({ title: "Edit Signature Active", description: "Select your default cursive script fonts below." }), 300);
                 }} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <PenTool className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faPenNib} className="mr-3 h-4 w-4 text-slate-400" />
                   Edit Signature
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/try-trial")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <CreditCard className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faCreditCard} className="mr-3 h-4 w-4 text-slate-400" />
                   Billing
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => {
                   navigator.clipboard.writeText(getAbsoluteUrl(`/signup?ref=${user?.email?.split("@")[0] || "ezsignnow"}`));
                   toast({ title: "Share & Earn Copied!", description: "Your unique referral link has been copied to clipboard!" });
                 }} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <Star className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faStar} className="mr-3 h-4 w-4 text-slate-400" />
                   Share & Earn
                 </DropdownMenuItem>
                 <div className="border-t border-slate-100 my-1" />
                 <DropdownMenuItem onClick={handleSignOut} className="text-xs font-bold text-destructive hover:text-destructive/95 py-2.5 cursor-pointer">
-                  <LogOut className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faRightFromBracket} className="mr-3 h-4 w-4 text-slate-400" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
             <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1">
-              <Headset className="h-4 w-4" />
+              <FontAwesomeIcon icon={faHeadset} className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
           </div>
@@ -195,7 +196,7 @@ export default function Team() {
                 {/* Invite Collaborator Form */}
                 <Card className="border-slate-100/80 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.01)] bg-white p-5 space-y-4">
                   <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <UserPlus className="h-4 w-4 text-[#22c55e]" />
+                    <FontAwesomeIcon icon={faUserPlus} className="h-4 w-4 text-[#22c55e]" />
                     Invite Collaborator
                   </h3>
 
@@ -203,7 +204,7 @@ export default function Team() {
                     <div className="space-y-1.5">
                       <Label className="text-[10px] font-bold text-slate-400 font-semibold">EMAIL ADDRESS</Label>
                       <div className="relative">
-                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                        <FontAwesomeIcon icon={faEnvelope} className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
                         <Input 
                           type="email" 
                           placeholder="colleague@company.com" 
@@ -281,7 +282,7 @@ export default function Team() {
                       <div>
                         <p className="text-[11.5px] font-bold text-slate-700 leading-tight flex items-center gap-1">
                           Enforce SSO/MFA
-                          <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
+                          <FontAwesomeIcon icon={faStar} className="h-3 w-3 text-amber-500 fill-amber-500" />
                         </p>
                         <p className="text-[10px] text-slate-400 mt-0.5 font-semibold">Require multi-factor login for all members.</p>
                       </div>
@@ -307,7 +308,7 @@ export default function Team() {
                 <Card className="border-slate-100/80 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white overflow-hidden">
                   <div className="p-5 border-b border-slate-100 flex items-center justify-between">
                     <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-2">
-                      <Users className="h-4.5 w-4.5 text-[#22c55e]" />
+                      <FontAwesomeIcon icon={faUsers} className="h-4.5 w-4.5 text-[#22c55e]" />
                       Active Workspace Members ({teamMembers.length})
                     </h3>
                     <span className="text-[10px] font-bold text-slate-450 bg-slate-50 border border-slate-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
@@ -384,7 +385,7 @@ export default function Team() {
                   <Card className="border-slate-100/80 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white overflow-hidden">
                     <div className="p-5 border-b border-slate-100">
                       <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-2">
-                        <Clock className="h-4.5 w-4.5 text-amber-500" />
+                        <FontAwesomeIcon icon={faClock} className="h-4.5 w-4.5 text-amber-500" />
                         Pending Collaborator Invitations ({pendingInvites.length})
                       </h3>
                     </div>

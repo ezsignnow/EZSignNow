@@ -1,24 +1,25 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  ArrowLeft,
-  Phone,
-  Mail,
-  MessageSquare,
-  Clock,
-  CheckCircle2,
-  ChevronDown,
-  ChevronUp,
-  Loader2,
-  ShieldCheck,
-  Zap,
-  BookOpen,
-  FileQuestion,
-  AlertCircle,
-  Send,
-  HeadphonesIcon,
-} from "lucide-react";
+  faArrowLeft,
+  faPhone,
+  faEnvelope,
+  faCommentDots,
+  faClock,
+  faCircleCheck,
+  faChevronDown,
+  faChevronUp,
+  faSpinner,
+  faShieldHalved,
+  faBolt,
+  faBookOpen,
+  faFileCircleQuestion,
+  faCircleExclamation,
+  faPaperPlane,
+  faHeadphones,
+} from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@/components/ui/button";
 
 const CATEGORIES = [
@@ -111,13 +112,13 @@ export default function Support() {
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-800 transition-colors"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
             Back
           </button>
 
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-xl bg-emerald-600 flex items-center justify-center shadow">
-              <HeadphonesIcon className="h-4 w-4 text-white" />
+              <FontAwesomeIcon icon={faHeadphones} className="h-4 w-4 text-white" />
             </div>
             <span className="font-extrabold text-slate-800 text-[15px] tracking-tight">
               EZSignNow <span className="text-[#22c55e]">Support</span>
@@ -138,7 +139,7 @@ export default function Support() {
         {/* ── Hero ── */}
         <section className="text-center space-y-4 pt-4">
           <div className="inline-flex items-center gap-2 bg-[#22c55e]/10 border border-[#22c55e]/20 text-[#22c55e] text-xs font-bold px-4 py-1.5 rounded-full">
-            <ShieldCheck className="h-3.5 w-3.5" />
+            <FontAwesomeIcon icon={faShieldHalved} className="h-3.5 w-3.5" />
             Trusted Support · 4-Hour Response Guarantee
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
@@ -158,7 +159,7 @@ export default function Support() {
             className="group flex flex-col items-center gap-3 p-6 bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:border-[#22c55e]/40 hover:shadow-[0_4px_24px_rgba(37,143,251,0.08)] transition-all text-center"
           >
             <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-200 group-hover:scale-105 transition-transform">
-              <Phone className="h-5 w-5 text-white" />
+              <FontAwesomeIcon icon={faPhone} className="h-5 w-5 text-white" />
             </div>
             <div>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Call Us</p>
@@ -173,7 +174,7 @@ export default function Support() {
             className="group flex flex-col items-center gap-3 p-6 bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:border-[#22c55e]/40 hover:shadow-[0_4px_24px_rgba(37,143,251,0.08)] transition-all text-center"
           >
             <div className="h-12 w-12 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-blue-200 group-hover:scale-105 transition-transform">
-              <Mail className="h-5 w-5 text-white" />
+              <FontAwesomeIcon icon={faEnvelope} className="h-5 w-5 text-white" />
             </div>
             <div>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Email Us</p>
@@ -185,7 +186,7 @@ export default function Support() {
           {/* Response time */}
           <div className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-center">
             <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center shadow-lg shadow-violet-200">
-              <Clock className="h-5 w-5 text-white" />
+              <FontAwesomeIcon icon={faClock} className="h-5 w-5 text-white" />
             </div>
             <div>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Avg. Response</p>
@@ -202,7 +203,7 @@ export default function Support() {
           <div className="lg:col-span-3">
             <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.05)] overflow-hidden">
               <div className="bg-emerald-600 p-5 flex items-center gap-3">
-                <MessageSquare className="h-5 w-5 text-white" />
+                <FontAwesomeIcon icon={faCommentDots} className="h-5 w-5 text-white" />
                 <div>
                   <h2 className="font-extrabold text-white text-[15px]">Submit a Support Ticket</h2>
                   <p className="text-blue-100 text-[11px] mt-0.5">
@@ -214,7 +215,7 @@ export default function Support() {
               {submitted ? (
                 <div className="p-10 flex flex-col items-center gap-4 text-center">
                   <div className="h-16 w-16 rounded-full bg-emerald-50 border-2 border-emerald-200 flex items-center justify-center animate-in zoom-in duration-300">
-                    <CheckCircle2 className="h-8 w-8 text-emerald-500" />
+                    <FontAwesomeIcon icon={faCircleCheck} className="h-8 w-8 text-emerald-500" />
                   </div>
                   <div>
                     <h3 className="font-extrabold text-slate-800 text-lg">Ticket Received!</h3>
@@ -340,7 +341,7 @@ export default function Support() {
 
                   {/* Note */}
                   <div className="flex items-start gap-2.5 text-[11px] text-slate-400 bg-blue-50/60 border border-blue-100 rounded-xl p-3.5">
-                    <AlertCircle className="h-3.5 w-3.5 text-[#22c55e] shrink-0 mt-0.5" />
+                    <FontAwesomeIcon icon={faCircleExclamation} className="h-3.5 w-3.5 text-[#22c55e] shrink-0 mt-0.5" />
                     <span>
                       For urgent billing or legal issues, please also call us at{" "}
                       <a href="tel:4124445156" className="text-[#22c55e] font-bold hover:underline">
@@ -361,12 +362,12 @@ export default function Support() {
                   >
                     {submitting ? (
                       <>
-                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <FontAwesomeIcon icon={faSpinner} className="h-4 w-4 animate-spin" />
                         Submitting Ticket...
                       </>
                     ) : (
                       <>
-                        <Send className="h-4 w-4" />
+                        <FontAwesomeIcon icon={faPaperPlane} className="h-4 w-4" />
                         Submit Support Request
                       </>
                     )}
@@ -382,13 +383,13 @@ export default function Support() {
             {/* Quick Links */}
             <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-5 space-y-3">
               <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <Zap className="h-3.5 w-3.5 text-amber-500" />
+                <FontAwesomeIcon icon={faBolt} className="h-3.5 w-3.5 text-amber-500" />
                 Quick Resources
               </h3>
               {[
-                { icon: BookOpen, label: "Documentation & API Guides", href: "/blog", color: "text-[#22c55e] bg-blue-50" },
-                { icon: ShieldCheck, label: "Security & Compliance Center", href: "/security", color: "text-emerald-600 bg-emerald-50" },
-                { icon: FileQuestion, label: "Forms Library & Templates", href: "/forms", color: "text-violet-600 bg-violet-50" },
+                { icon: faBookOpen, label: "Documentation & API Guides", href: "/blog", color: "text-[#22c55e] bg-blue-50" },
+                { icon: faShieldHalved, label: "Security & Compliance Center", href: "/security", color: "text-emerald-600 bg-emerald-50" },
+                { icon: faFileCircleQuestion, label: "Forms Library & Templates", href: "/forms", color: "text-violet-600 bg-violet-50" },
               ].map(({ icon: Icon, label, href, color }) => (
                 <button
                   key={label}
@@ -396,7 +397,7 @@ export default function Support() {
                   className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 transition-colors text-left group"
                 >
                   <div className={`h-8 w-8 rounded-lg flex items-center justify-center shrink-0 ${color}`}>
-                    <Icon className="h-4 w-4" />
+                    <FontAwesomeIcon icon={Icon} className="h-4 w-4" />
                   </div>
                   <span className="text-[12.5px] font-semibold text-slate-700 group-hover:text-slate-900 transition-colors leading-tight">
                     {label}
@@ -409,7 +410,7 @@ export default function Support() {
             <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden">
               <div className="p-5 border-b border-slate-50">
                 <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                  <MessageSquare className="h-3.5 w-3.5 text-[#22c55e]" />
+                  <FontAwesomeIcon icon={faCommentDots} className="h-3.5 w-3.5 text-[#22c55e]" />
                   Frequently Asked Questions
                 </h3>
               </div>
@@ -424,9 +425,9 @@ export default function Support() {
                         {faq.q}
                       </span>
                       {openFaq === idx ? (
-                        <ChevronUp className="h-4 w-4 text-[#22c55e] shrink-0" />
+                        <FontAwesomeIcon icon={faChevronUp} className="h-4 w-4 text-[#22c55e] shrink-0" />
                       ) : (
-                        <ChevronDown className="h-4 w-4 text-slate-400 shrink-0" />
+                        <FontAwesomeIcon icon={faChevronDown} className="h-4 w-4 text-slate-400 shrink-0" />
                       )}
                     </button>
                     {openFaq === idx && (

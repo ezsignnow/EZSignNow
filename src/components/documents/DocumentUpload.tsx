@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, X, FileText, ChevronDown, Check, Upload, Sparkles, Mail, FileSpreadsheet } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner, faXmark, faFileLines, faChevronDown, faCheck, faUpload, faWandMagicSparkles, faEnvelope, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { logDocumentEvent } from "@/utils/auditLogger";
 
 
@@ -676,7 +677,7 @@ export function DocumentUpload() {
   if (checkingLimit) {
     return (
       <div className="w-full flex flex-col items-center justify-center gap-2.5 text-slate-400 dark:text-slate-500 py-20 min-h-[300px]">
-        <Loader2 className="h-8 w-8 animate-spin text-[#2563eb]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#2563eb]" />
         <p className="text-xs font-bold uppercase tracking-wider">Evaluating usage limits...</p>
       </div>
     );
@@ -686,7 +687,7 @@ export function DocumentUpload() {
     return (
       <div className="w-full max-w-[650px] mx-auto font-sans bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-8 text-center shadow-lg dark:shadow-slate-950/40 my-6 animate-in zoom-in-95 duration-300 transition-colors">
         <div className="mx-auto h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-950/30 flex items-center justify-center text-[#2563eb] shadow-[0_4px_12px_rgba(37,143,251,0.12)] mb-6">
-          <Sparkles className="h-6 w-6 text-[#2563eb]" />
+          <FontAwesomeIcon icon={faWandMagicSparkles} className="h-6 w-6 text-[#2563eb]" />
         </div>
         
         <div className="space-y-2 mb-6">
@@ -705,27 +706,27 @@ export function DocumentUpload() {
           </p>
           <div className="grid grid-cols-2 gap-3 text-xs font-semibold text-slate-600 dark:text-slate-300">
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-blue-500 shrink-0" />
+              <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-blue-500 shrink-0" />
               <span>Unlimited Requests</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-blue-500 shrink-0" />
+              <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-blue-500 shrink-0" />
               <span>Bulk Send Dispatch</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-blue-500 shrink-0" />
+              <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-blue-500 shrink-0" />
               <span>Reusable Templates</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-blue-500 shrink-0" />
+              <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-blue-500 shrink-0" />
               <span>Custom Branding logo</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-blue-500 shrink-0" />
+              <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-blue-500 shrink-0" />
               <span>Team Workspaces</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-blue-500 shrink-0" />
+              <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-blue-500 shrink-0" />
               <span>Priority Support 24/7</span>
             </div>
           </div>
@@ -757,7 +758,7 @@ export function DocumentUpload() {
       {isBulkSending && (
         <div className="absolute inset-0 bg-white/95 backdrop-blur-sm z-50 rounded-2xl p-8 flex flex-col items-center justify-center text-center space-y-6 animate-in fade-in duration-200">
           <div className="relative">
-            <Loader2 className="h-16 w-16 animate-spin text-[#2563eb] stroke-[2.5]" />
+            <FontAwesomeIcon icon={faSpinner} className="h-16 w-16 animate-spin text-[#2563eb]" />
             <span className="absolute inset-0 flex items-center justify-center text-xs font-extrabold text-slate-700 select-none">
               {bulkProgress}%
             </span>
@@ -825,7 +826,7 @@ export function DocumentUpload() {
               >
                 {file ? (
                   <div className="flex flex-col items-center justify-center gap-3 w-full animate-in zoom-in-95 duration-200">
-                    <FileText className="h-10 w-10 text-[#2563eb]" />
+                    <FontAwesomeIcon icon={faFileLines} className="h-10 w-10 text-[#2563eb]" />
                     <div className="text-center w-full truncate px-4">
                       <p className="font-semibold text-slate-800 truncate">{file.name}</p>
                       <p className="text-xs text-slate-500 mt-1">
@@ -842,7 +843,7 @@ export function DocumentUpload() {
                       }}
                       className="mt-2 h-8 text-xs text-destructive border-destructive/20 hover:bg-destructive/10 hover:border-destructive/30 rounded-full px-4"
                     >
-                      <X className="mr-1.5 h-3 w-3" />
+                      <FontAwesomeIcon icon={faXmark} className="mr-1.5 h-3 w-3" />
                       Remove
                     </Button>
                   </div>
@@ -933,7 +934,7 @@ export function DocumentUpload() {
                   <option value="contract">Independent Contractor Agreement</option>
                   <option value="w9">W-9 Form</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+                <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
               </div>
             </div>
 
@@ -948,7 +949,7 @@ export function DocumentUpload() {
             >
               {uploading ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />
                   Preparing...
                 </>
               ) : (
@@ -981,7 +982,7 @@ export function DocumentUpload() {
                 <option value="contract">Independent Contractor Agreement</option>
                 <option value="w9">W-9 Form</option>
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+              <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
             </div>
           </div>
 
@@ -999,7 +1000,7 @@ export function DocumentUpload() {
                 onClick={handleAutofillCsv}
                 className="text-[10px] bg-blue-500 hover:bg-blue-600 text-white font-bold px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm transition-all"
               >
-                <Sparkles className="h-3 w-3" />
+                <FontAwesomeIcon icon={faWandMagicSparkles} className="h-3 w-3" />
                 Autofill CSV Contacts
               </button>
             </div>
@@ -1018,7 +1019,7 @@ export function DocumentUpload() {
             >
               {csvFile ? (
                 <div className="flex flex-col items-center justify-center gap-2.5 w-full animate-in zoom-in-95 duration-200">
-                  <FileSpreadsheet className="h-9 w-9 text-blue-500" />
+                  <FontAwesomeIcon icon={faFileExcel} className="h-9 w-9 text-blue-500" />
                   <div className="text-center w-full px-4 space-y-1">
                     <p className="text-xs font-bold text-slate-800 truncate">{csvFile.name}</p>
                     <p className="text-[10px] font-semibold text-slate-400">
@@ -1046,7 +1047,7 @@ export function DocumentUpload() {
                     }}
                     className="mt-2.5 h-8 text-[11px] text-destructive border-destructive/20 hover:bg-destructive/10 hover:border-destructive/30 rounded-full px-4"
                   >
-                    <X className="mr-1.5 h-3 w-3" />
+                    <FontAwesomeIcon icon={faXmark} className="mr-1.5 h-3 w-3" />
                     Clear List
                   </Button>
                 </div>

@@ -4,22 +4,23 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
-import { 
-  BookOpen, 
-  Video, 
-  ArrowRight, 
-  Calendar, 
-  User, 
-  Clock, 
-  Search, 
-  Sparkles,
-  ChevronRight,
-  TrendingUp,
-  Youtube,
-  FileText,
-  Copy,
-  Check
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBookOpen,
+  faVideo,
+  faArrowRight,
+  faCalendarDays,
+  faUser,
+  faClock,
+  faMagnifyingGlass,
+  faWandMagicSparkles,
+  faChevronRight,
+  faArrowTrendUp,
+  faFileLines,
+  faCopy,
+  faCheck
+} from "@fortawesome/free-solid-svg-icons";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { toast } from "sonner";
 
 export default function Blog() {
@@ -166,7 +167,7 @@ The Verdict (7:00 - end)
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 border border-primary/20 text-primary-foreground">
-                <TrendingUp className="h-3.5 w-3.5 text-primary" />
+                <FontAwesomeIcon icon={faArrowTrendUp} className="h-3.5 w-3.5 text-primary" />
                 <span>Go-To-Market Center</span>
               </div>
               <h1 className="text-4xl sm:text-5xl font-black tracking-tight">
@@ -185,7 +186,7 @@ The Verdict (7:00 - end)
                   activeTab === "articles" ? "bg-primary text-white shadow-md" : "text-slate-300 hover:text-white"
                 }`}
               >
-                <BookOpen className="h-3.5 w-3.5" />
+                <FontAwesomeIcon icon={faBookOpen} className="h-3.5 w-3.5" />
                 Articles & Guides
               </button>
               <button
@@ -194,7 +195,7 @@ The Verdict (7:00 - end)
                   activeTab === "youtube" ? "bg-primary text-white shadow-md" : "text-slate-300 hover:text-white"
                 }`}
               >
-                <Video className="h-3.5 w-3.5" />
+                <FontAwesomeIcon icon={faVideo} className="h-3.5 w-3.5" />
                 GTM YouTube Scripts
               </button>
             </div>
@@ -210,7 +211,7 @@ The Verdict (7:00 - end)
             <div className="space-y-12">
               {/* Search Bar */}
               <div className="relative max-w-md bg-white dark:bg-card border border-border rounded-full shadow-sm">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <FontAwesomeIcon icon={faMagnifyingGlass} className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search comparison articles..."
@@ -248,22 +249,22 @@ The Verdict (7:00 - end)
                       <div className="pt-6 mt-6 border-t border-border/50 flex flex-col gap-4">
                         <div className="flex justify-between items-center text-[10px] text-muted-foreground font-semibold">
                           <span className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
+                            <FontAwesomeIcon icon={faCalendarDays} className="h-3 w-3" />
                             {post.date}
                           </span>
                           <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
+                            <FontAwesomeIcon icon={faClock} className="h-3 w-3" />
                             {post.readTime}
                           </span>
                         </div>
-                        
-                        <Button 
+
+                        <Button
                           onClick={() => setSelectedPost(post.id)}
                           size="sm"
                           className="w-full text-xs font-bold bg-slate-50 hover:bg-primary hover:text-white border border-border text-foreground transition-all"
                         >
                           Read Article
-                          <ChevronRight className="h-3.5 w-3.5 ml-1" />
+                          <FontAwesomeIcon icon={faChevronRight} className="h-3.5 w-3.5 ml-1" />
                         </Button>
                       </div>
                     </div>
@@ -271,7 +272,7 @@ The Verdict (7:00 - end)
 
                   {filteredPosts.length === 0 && (
                     <div className="col-span-3 text-center py-12 bg-white dark:bg-card border border-dashed border-border rounded-3xl">
-                      <FileText className="h-8 w-8 mx-auto text-muted-foreground mb-3" />
+                      <FontAwesomeIcon icon={faFileLines} className="h-8 w-8 mx-auto text-muted-foreground mb-3" />
                       <p className="text-sm font-bold text-foreground">No comparison articles found</p>
                       <p className="text-xs text-muted-foreground mt-1">Try expanding your search query.</p>
                     </div>
@@ -301,15 +302,15 @@ The Verdict (7:00 - end)
                         
                         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground font-semibold pt-2 border-y border-border/50 py-3">
                           <span className="flex items-center gap-1">
-                            <User className="h-3.5 w-3.5 text-primary" />
+                            <FontAwesomeIcon icon={faUser} className="h-3.5 w-3.5 text-primary" />
                             {post.author}
                           </span>
                           <span className="flex items-center gap-1">
-                            <Calendar className="h-3.5 w-3.5" />
+                            <FontAwesomeIcon icon={faCalendarDays} className="h-3.5 w-3.5" />
                             {post.date}
                           </span>
                           <span className="flex items-center gap-1">
-                            <Clock className="h-3.5 w-3.5" />
+                            <FontAwesomeIcon icon={faClock} className="h-3.5 w-3.5" />
                             {post.readTime}
                           </span>
                         </div>
@@ -327,7 +328,7 @@ The Verdict (7:00 - end)
                         <Button size="lg" className="bg-primary hover:bg-primary/95 text-white font-bold text-xs" asChild>
                           <Link to="/try-for-free">
                             Try EZSignNow Free
-                            <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                            <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5 ml-1.5" />
                           </Link>
                         </Button>
                       </div>
@@ -341,7 +342,7 @@ The Verdict (7:00 - end)
             <div className="space-y-12 animate-[fadeIn_0.3s_ease-out]">
               <div className="text-left max-w-3xl">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-extrabold bg-[#e21a22]/10 text-[#e21a22] uppercase tracking-wider mb-2">
-                  <Youtube className="h-3 w-3 text-[#e21a22] fill-[#e21a22]" />
+                  <FontAwesomeIcon icon={faYoutube} className="h-3 w-3 text-[#e21a22] fill-[#e21a22]" />
                   Youtube GTM Scripts Playbook
                 </span>
                 <h2 className="text-2xl font-extrabold text-foreground">YouTube Comparison Review Scripts</h2>
@@ -387,7 +388,7 @@ The Verdict (7:00 - end)
                         size="sm"
                         className="bg-primary hover:bg-primary/90 text-white text-[10px] font-bold h-8 px-4 flex items-center gap-1 shadow"
                       >
-                        <Copy className="h-3 w-3" />
+                        <FontAwesomeIcon icon={faCopy} className="h-3 w-3" />
                         Copy Script
                       </Button>
                     </div>

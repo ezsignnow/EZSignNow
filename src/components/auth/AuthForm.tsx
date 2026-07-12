@@ -7,13 +7,15 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { getAbsoluteUrl } from "@/utils/url";
-import { 
-  FileSignature, 
-  Loader2, 
-  CheckCircle2, 
-  Sparkles, 
-  ArrowLeft 
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileSignature,
+  faSpinner,
+  faCircleCheck,
+  faWandMagicSparkles,
+  faArrowLeft,
+  faCheck
+} from "@fortawesome/free-solid-svg-icons";
 
 import { BrandLogo } from "@/components/layout/BrandLogo";
 
@@ -27,6 +29,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   
   // reCAPTCHA States
   const [captchaChecked, setCaptchaChecked] = useState(false);
@@ -125,7 +128,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <span className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
           !emailSent ? "bg-blue-600 text-white shadow shadow-blue-600/20" : "bg-blue-100 text-blue-800"
         }`}>
-          {emailSent ? <Check className="h-3 w-3" /> : "1"}
+          {emailSent ? <FontAwesomeIcon icon={faCheck} className="h-3 w-3" /> : "1"}
         </span>
         <span className={!emailSent ? "text-slate-900 font-bold" : "text-slate-500"}>Create an account</span>
       </div>
@@ -224,9 +227,9 @@ export function AuthForm({ mode }: AuthFormProps) {
                         }`}
                       >
                         {captchaLoading ? (
-                          <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-600" />
+                          <FontAwesomeIcon icon={faSpinner} className="h-3.5 w-3.5 animate-spin text-blue-600" />
                         ) : captchaChecked ? (
-                          <Check className="h-4 w-4 text-blue-600 font-bold" />
+                          <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-blue-600 font-bold" />
                         ) : null}
                       </button>
                       <span className="text-xs font-medium text-slate-700">I'm not a robot</span>
@@ -240,7 +243,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                 
                 <div className="pt-2">
                   <Button type="submit" className="w-full h-11 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white">
-                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {loading && <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />}
                     {mode === "login" ? "Sign In" : "Create account"}
                   </Button>
                 </div>

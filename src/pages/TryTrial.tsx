@@ -5,22 +5,23 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { format, addDays } from "date-fns";
 import { getAbsoluteUrl } from "@/utils/url";
-import { 
-  FileSignature, 
-  Check, 
-  Headset, 
-  ChevronDown, 
-  LogOut, 
-  Loader2, 
-  CreditCard,
-  Lock,
-  ArrowRight,
-  Info,
-  User,
-  Briefcase,
-  Star,
-  PenTool
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileSignature,
+  faCheck,
+  faHeadset,
+  faChevronDown,
+  faRightFromBracket,
+  faSpinner,
+  faCreditCard,
+  faLock,
+  faArrowRight,
+  faCircleInfo,
+  faUser,
+  faBriefcase,
+  faStar,
+  faPenNib
+} from "@fortawesome/free-solid-svg-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -89,7 +90,7 @@ export default function TryTrial() {
     if (cardClean.startsWith("6")) {
       return <span className="text-[9px] font-black bg-emerald-500 text-white px-1.5 py-0.5 rounded italic leading-none select-none shrink-0 shadow-sm">DISC</span>;
     }
-    return <CreditCard className="h-4.5 w-4.5 text-slate-400 shrink-0" />;
+    return <FontAwesomeIcon icon={faCreditCard} className="h-4.5 w-4.5 text-slate-400 shrink-0" />;
   };
 
   const handleAutofill = () => {
@@ -154,7 +155,7 @@ export default function TryTrial() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
       </div>
     );
   }
@@ -194,31 +195,31 @@ export default function TryTrial() {
                   <span className="text-xs font-bold text-slate-600 hidden md:inline max-w-[120px] truncate">
                     {user.email ? user.email.split("@")[0] : "User"}
                   </span>
-                  <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                  <FontAwesomeIcon icon={faChevronDown} className="h-3.5 w-3.5 text-slate-400" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-popover w-52 p-1 border border-slate-100/80 shadow-md select-none">
-                
+
                 {/* 1. Company item */}
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => navigate("/dashboard?tab=team")}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer"
                 >
-                  <Briefcase className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faBriefcase} className="mr-3 h-4 w-4 text-slate-400" />
                   Company
                 </DropdownMenuItem>
 
                 {/* 2. Profile item */}
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => navigate("/dashboard?tab=settings")}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
                 >
-                  <User className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faUser} className="mr-3 h-4 w-4 text-slate-400" />
                   Profile
                 </DropdownMenuItem>
 
                 {/* 3. Edit Signature item */}
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => {
                     navigate("/dashboard?tab=settings");
                     setTimeout(() => {
@@ -227,28 +228,28 @@ export default function TryTrial() {
                   }}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
                 >
-                  <PenTool className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faPenNib} className="mr-3 h-4 w-4 text-slate-400" />
                   Edit Signature
                 </DropdownMenuItem>
 
                 {/* 4. Billing item */}
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => toast({ title: "Subscription Screen Active", description: "You are currently on the plan activation form." })}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
                 >
-                  <CreditCard className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faCreditCard} className="mr-3 h-4 w-4 text-slate-400" />
                   Billing
                 </DropdownMenuItem>
 
                 {/* 5. Share & Earn item */}
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => {
                     navigator.clipboard.writeText(getAbsoluteUrl("/signup?ref=meets"));
                     toast({ title: "Share & Earn Copied!", description: "Unique referral link copied to clipboard. Earn free requests!" });
                   }}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5"
                 >
-                  <Star className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faStar} className="mr-3 h-4 w-4 text-slate-400" />
                   Share & Earn
                 </DropdownMenuItem>
 
@@ -256,22 +257,22 @@ export default function TryTrial() {
                 <div className="border-t border-slate-100 my-1" />
 
                 {/* 6. Logout item */}
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={handleSignOut}
                   className="text-xs font-bold text-destructive hover:text-destructive/95 py-2.5 cursor-pointer"
                 >
-                  <LogOut className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faRightFromBracket} className="mr-3 h-4 w-4 text-slate-400" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
             {/* Help Button — opens Support page */}
-            <button 
+            <button
               onClick={() => navigate("/support")}
               className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
             >
-              <Headset className="h-4 w-4" />
+              <FontAwesomeIcon icon={faHeadset} className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
           </div>
@@ -305,7 +306,7 @@ export default function TryTrial() {
           </h1>
           <p className="text-sm font-semibold text-slate-500 flex items-center justify-center gap-1">
             You can cancel anytime before the free trial ends to avoid being billed.
-            <Info className="h-3.5 w-3.5 text-slate-400 cursor-pointer" onClick={() => toast({ title: "Billing Details", description: "Your trial lasts exactly 7 days. No charges will be incurred if cancelled." })} />
+            <FontAwesomeIcon icon={faCircleInfo} className="h-3.5 w-3.5 text-slate-400 cursor-pointer" onClick={() => toast({ title: "Billing Details", description: "Your trial lasts exactly 7 days. No charges will be incurred if cancelled." })} />
           </p>
         </div>
 
@@ -337,7 +338,7 @@ export default function TryTrial() {
                   ].map((feature) => (
                     <li key={feature} className="flex items-center gap-2.5 text-xs font-semibold text-slate-600">
                       <span className="h-4.5 w-4.5 rounded-full bg-[#22c55e]/10 text-[#22c55e] flex items-center justify-center shrink-0">
-                        <Check className="h-3 w-3" />
+                        <FontAwesomeIcon icon={faCheck} className="h-3 w-3" />
                       </span>
                       <span>{feature}</span>
                     </li>
@@ -364,7 +365,7 @@ export default function TryTrial() {
                 <div className="relative">
                   <div className="absolute inset-0 rounded-full bg-[#22c55e]/10 animate-ping" />
                   <div className="relative bg-white border border-slate-100 rounded-full p-4 shadow-md">
-                    <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
+                    <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
                   </div>
                 </div>
                 
@@ -397,7 +398,7 @@ export default function TryTrial() {
                             ✓
                           </span>
                         ) : isCurrent ? (
-                          <Loader2 className="h-5 w-5 animate-spin text-[#22c55e] shrink-0" />
+                          <FontAwesomeIcon icon={faSpinner} className="h-5 w-5 animate-spin text-[#22c55e] shrink-0" />
                         ) : (
                           <span className="h-5 w-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-[10px] font-bold shrink-0" />
                         )}
@@ -473,13 +474,13 @@ export default function TryTrial() {
                       required
                     />
                     
-                    <Lock className="h-3.5 w-3.5 text-slate-400 shrink-0" />
+                    <FontAwesomeIcon icon={faLock} className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                   </div>
                   
                   {/* Secure Payments Badge */}
                   <div className="flex items-center justify-between text-[9px] text-slate-400 font-bold select-none pt-1">
                     <span className="flex items-center gap-1">
-                      <Lock className="h-3 w-3 text-emerald-500" />
+                      <FontAwesomeIcon icon={faLock} className="h-3 w-3 text-emerald-500" />
                       Payments are secure and encrypted
                     </span>
                     <span className="flex items-center gap-0.5">
@@ -514,7 +515,7 @@ export default function TryTrial() {
                         <option value="welcome">WELCOME20 (20% OFF)</option>
                         <option value="annual">FREEONE (1 month free)</option>
                       </select>
-                      <ChevronDown className="absolute right-3 top-3 h-4 w-4 text-slate-400 pointer-events-none" />
+                      <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-3 h-4 w-4 text-slate-400 pointer-events-none" />
                     </div>
                   </div>
                 </div>
@@ -552,7 +553,7 @@ export default function TryTrial() {
                 {/* Milestone 1 */}
                 <div className="relative">
                   <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#22c55e] text-white flex items-center justify-center border-4 border-white shadow-sm">
-                    <Check className="h-2 w-2" />
+                    <FontAwesomeIcon icon={faCheck} className="h-2 w-2" />
                   </div>
                   <div>
                     <h4 className="text-[11px] font-bold text-[#22c55e] uppercase tracking-wide">Create An Account</h4>
@@ -563,7 +564,7 @@ export default function TryTrial() {
                 {/* Milestone 2 */}
                 <div className="relative">
                   <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#22c55e]/10 text-[#22c55e] flex items-center justify-center border-4 border-white shadow-sm">
-                    <Lock className="h-2 w-2" />
+                    <FontAwesomeIcon icon={faLock} className="h-2 w-2" />
                   </div>
                   <div>
                     <h4 className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Today: Get Instant Access</h4>
@@ -574,7 +575,7 @@ export default function TryTrial() {
                 {/* Milestone 3 */}
                 <div className="relative">
                   <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center border-4 border-white shadow-sm">
-                    <Info className="h-2 w-2" />
+                    <FontAwesomeIcon icon={faCircleInfo} className="h-2 w-2" />
                   </div>
                   <div>
                     <h4 className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Day 4: Trial Reminder ({reminderDate})</h4>
@@ -585,7 +586,7 @@ export default function TryTrial() {
                 {/* Milestone 4 */}
                 <div className="relative">
                   <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center border-4 border-white shadow-sm">
-                    <ArrowRight className="h-2 w-2" />
+                    <FontAwesomeIcon icon={faArrowRight} className="h-2 w-2" />
                   </div>
                   <div>
                     <h4 className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Day 7: Trial Ends ({billDate})</h4>

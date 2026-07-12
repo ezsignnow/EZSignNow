@@ -6,11 +6,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  ArrowLeft, Save, Loader2, Plus, Trash2, PenTool, 
-  Headset, User, Briefcase, CreditCard, Star, LogOut, ChevronDown, Info,
-  Settings, Copy, FileText, Move, X, AlertCircle, FileSignature
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft, faSave, faSpinner, faPlus, faTrashCan, faPenNib,
+  faHeadset, faUser, faBriefcase, faCreditCard, faStar, faRightFromBracket, faChevronDown, faCircleInfo,
+  faGear, faCopy, faFileLines, faArrowsUpDownLeftRight, faXmark, faCircleExclamation, faFileSignature
+} from "@fortawesome/free-solid-svg-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -333,7 +334,7 @@ export default function TemplateBuilder() {
   if (authLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
       </div>
     );
   }
@@ -362,28 +363,28 @@ export default function TemplateBuilder() {
                   <span className="text-xs font-bold text-slate-600 hidden md:inline max-w-[120px] truncate">
                     {user.email ? user.email.split("@")[0] : "User"}
                   </span>
-                  <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                  <FontAwesomeIcon icon={faChevronDown} className="h-3.5 w-3.5 text-slate-400" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-white w-52 p-1 border border-slate-100 shadow-md select-none">
                 <DropdownMenuItem onClick={() => navigate("/dashboard?tab=team")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer">
-                  <Briefcase className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faBriefcase} className="mr-3 h-4 w-4 text-slate-400" />
                   Company
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/dashboard?tab=settings")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <User className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faUser} className="mr-3 h-4 w-4 text-slate-400" />
                   Profile
                 </DropdownMenuItem>
                 <div className="border-t border-slate-100 my-1" />
                 <DropdownMenuItem onClick={handleSignOut} className="text-xs font-bold text-destructive hover:text-destructive/95 py-2.5 cursor-pointer">
-                  <LogOut className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faRightFromBracket} className="mr-3 h-4 w-4 text-slate-400" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
             <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1" title="Get Help">
-              <Headset className="h-4 w-4" />
+              <FontAwesomeIcon icon={faHeadset} className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
           </div>
@@ -399,11 +400,11 @@ export default function TemplateBuilder() {
               onClick={() => navigate("/dashboard?tab=templates")} 
               className="h-9 w-9 rounded-full border border-slate-100 hover:border-slate-200 bg-white shadow-sm flex items-center justify-center text-slate-500 hover:text-slate-700 transition-all focus:outline-none"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
             </button>
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-50/50 border border-blue-100 rounded-xl text-[#22c55e] shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-                <FileSignature className="h-5 w-5" />
+                <FontAwesomeIcon icon={faFileSignature} className="h-5 w-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2.5">
@@ -428,9 +429,9 @@ export default function TemplateBuilder() {
               className="rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all flex items-center gap-2"
             >
               {isSaving ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                <FontAwesomeIcon icon={faSpinner} className="h-3.5 w-3.5 animate-spin" />
               ) : (
-                <Save className="h-3.5 w-3.5" />
+                <FontAwesomeIcon icon={faSave} className="h-3.5 w-3.5" />
               )}
               {isSaving ? "Saving..." : "Save Template Layout"}
             </Button>
@@ -476,7 +477,7 @@ export default function TemplateBuilder() {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button className="text-slate-400 hover:text-slate-600 transition-colors focus:outline-none">
-                        <Info className="h-3.5 w-3.5" />
+                        <FontAwesomeIcon icon={faCircleInfo} className="h-3.5 w-3.5" />
                       </button>
                     </TooltipTrigger>
                     <TooltipContent className="bg-slate-800 text-white border-0 text-[10px] rounded-lg p-2 max-w-xs shadow-md">
@@ -509,7 +510,7 @@ export default function TemplateBuilder() {
                       </span>
                       {fieldOption.label}
                     </span>
-                    <Plus className="h-3.5 w-3.5 text-slate-400" />
+                    <FontAwesomeIcon icon={faPlus} className="h-3.5 w-3.5 text-slate-400" />
                   </button>
                 ))}
               </div>
@@ -610,7 +611,7 @@ export default function TemplateBuilder() {
                           onClick={(e) => { e.stopPropagation(); handleDeleteField(field.id); }}
                           className="p-0.5 text-slate-400 hover:text-rose-500 rounded hover:bg-slate-50 transition-colors"
                         >
-                          <X className="h-3 w-3" />
+                          <FontAwesomeIcon icon={faXmark} className="h-3 w-3" />
                         </button>
                       </div>
                     </div>
@@ -631,7 +632,7 @@ export default function TemplateBuilder() {
                   size="sm"
                   className="h-7 rounded-full text-[10px] font-extrabold px-3 flex items-center gap-1 border-slate-200"
                 >
-                  <Plus className="h-3 w-3" />
+                  <FontAwesomeIcon icon={faPlus} className="h-3 w-3" />
                   Add Role
                 </Button>
               </div>
@@ -667,7 +668,7 @@ export default function TemplateBuilder() {
                             onClick={(e) => { e.stopPropagation(); handleRemoveRole(role.id); }}
                             className="p-1 rounded text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-all shrink-0"
                           >
-                            <Trash2 className="h-3.5 w-3.5" />
+                            <FontAwesomeIcon icon={faTrashCan} className="h-3.5 w-3.5" />
                           </button>
                         )}
                       </div>
@@ -685,7 +686,7 @@ export default function TemplateBuilder() {
             {/* Instruction Banner */}
             <Card className="border-blue-100 bg-blue-50/20 rounded-2xl p-5 space-y-3">
               <div className="flex items-center gap-2 text-[#22c55e]">
-                <AlertCircle className="h-4.5 w-4.5 shrink-0" />
+                <FontAwesomeIcon icon={faCircleExclamation} className="h-4.5 w-4.5 shrink-0" />
                 <h4 className="text-xs font-extrabold">Builder Tip</h4>
               </div>
               <p className="text-[11px] leading-relaxed text-slate-500 font-semibold">

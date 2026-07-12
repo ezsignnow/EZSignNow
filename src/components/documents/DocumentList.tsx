@@ -6,21 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  FileText, 
-  Search, 
-  ChevronDown, 
-  FolderPlus, 
-  Eye, 
-  Edit3, 
-  Trash2, 
-  MoreHorizontal, 
-  Loader2,
-  Calendar,
-  Filter,
-  RefreshCw,
-  Laptop
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileLines,
+  faMagnifyingGlass,
+  faChevronDown,
+  faFolderPlus,
+  faEye,
+  faPenToSquare,
+  faTrashCan,
+  faEllipsis,
+  faSpinner,
+  faCalendarDays,
+  faFilter,
+  faArrowsRotate,
+  faLaptop
+} from "@fortawesome/free-solid-svg-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -265,7 +266,7 @@ export function DocumentList() {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-[#2563eb] stroke-[2.5]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#2563eb]" />
         <span className="text-xs font-semibold text-slate-400 mt-2">Loading documents...</span>
       </div>
     );
@@ -284,12 +285,12 @@ export function DocumentList() {
               <option>Templates</option>
               <option>Forms</option>
             </select>
-            <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-slate-400 pointer-events-none" />
+            <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-2.5 h-4 w-4 text-slate-400 pointer-events-none" />
           </div>
 
           {/* Live Search Input */}
           <div className="relative flex-1 max-w-[280px]">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+            <FontAwesomeIcon icon={faMagnifyingGlass} className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
             <input 
               type="text"
               placeholder="Search for Documents..."
@@ -315,7 +316,7 @@ export function DocumentList() {
               <option value="cancelled">Voided</option>
               <option value="draft">Draft</option>
             </select>
-            <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-slate-400 pointer-events-none" />
+            <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-2.5 h-4 w-4 text-slate-400 pointer-events-none" />
           </div>
 
           {/* Date Selector mock */}
@@ -329,7 +330,7 @@ export function DocumentList() {
               <option value="week">Last 7 days</option>
               <option value="month">Last 30 days</option>
             </select>
-            <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-slate-400 pointer-events-none" />
+            <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-2.5 h-4 w-4 text-slate-400 pointer-events-none" />
           </div>
         </div>
 
@@ -339,7 +340,7 @@ export function DocumentList() {
           onClick={() => toast({ title: "Folders Sandbox", description: "Created a new document collection folder." })}
           className="rounded-full h-9 border-[#2563eb] text-[#2563eb] hover:bg-[#2563eb]/5 font-bold text-xs shadow-sm shrink-0 self-start sm:self-center gap-1.5"
         >
-          <FolderPlus className="h-4 w-4" />
+          <FontAwesomeIcon icon={faFolderPlus} className="h-4 w-4" />
           Create Folder
         </Button>
       </div>
@@ -361,7 +362,7 @@ export function DocumentList() {
         <Card className="border-dashed border-slate-200 select-none">
           <CardContent className="flex flex-col items-center justify-center py-14 text-center space-y-4">
             <div className="h-12 w-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400">
-              <FileText className="h-6 w-6" />
+              <FontAwesomeIcon icon={faFileLines} className="h-6 w-6" />
             </div>
             <div className="space-y-1">
               <h3 className="font-bold text-slate-700 text-sm">No documents found</h3>
@@ -420,7 +421,7 @@ export function DocumentList() {
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div className="h-8.5 w-8.5 bg-[#2563eb]/5 rounded flex items-center justify-center shrink-0">
-                            <FileText className="h-4.5 w-4.5 text-[#2563eb]" />
+                            <FontAwesomeIcon icon={faFileLines} className="h-4.5 w-4.5 text-[#2563eb]" />
                           </div>
                           <div className="flex items-center gap-2.5 truncate">
                             <span className="text-[13px] font-bold text-slate-700 truncate max-w-[200px] md:max-w-[280px]">
@@ -459,7 +460,7 @@ export function DocumentList() {
                           <DropdownMenuTrigger asChild>
                             <button className="h-7 px-2 hover:bg-slate-50 border border-slate-100 rounded text-[10px] font-extrabold text-slate-500 hover:text-slate-700 bg-white transition-all flex items-center gap-1">
                               Options
-                              <ChevronDown className="h-3 w-3 text-slate-400" />
+                              <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3 text-slate-400" />
                             </button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="bg-popover w-48 p-1 border border-slate-100 shadow-md">
@@ -470,7 +471,7 @@ export function DocumentList() {
                                   onClick={() => navigate(`/document/${doc.id}/view`)}
                                   className="text-xs font-semibold text-slate-600 cursor-pointer"
                                 >
-                                  <Eye className="mr-2 h-4 w-4 text-slate-400" />
+                                  <FontAwesomeIcon icon={faEye} className="mr-2 h-4 w-4 text-slate-400" />
                                   View Audit Canvas
                                 </DropdownMenuItem>
                                 {doc.status === "pending" && (
@@ -478,7 +479,7 @@ export function DocumentList() {
                                     onClick={() => navigate(`/document/${doc.id}/view?kiosk=true`)}
                                     className="text-xs font-bold text-[#2563eb] cursor-pointer mt-0.5 focus:text-[#1d7ee6] focus:bg-[#2563eb]/5"
                                   >
-                                    <Laptop className="mr-2 h-4 w-4 text-[#2563eb]" />
+                                    <FontAwesomeIcon icon={faLaptop} className="mr-2 h-4 w-4 text-[#2563eb]" />
                                     Host In-Person Sign
                                   </DropdownMenuItem>
                                 )}
@@ -488,7 +489,7 @@ export function DocumentList() {
                                 onClick={() => navigate(`/document/${doc.id}/prepare`)}
                                 className="text-xs font-semibold text-[#2563eb] cursor-pointer"
                               >
-                                <Edit3 className="mr-2 h-4 w-4" />
+                                <FontAwesomeIcon icon={faPenToSquare} className="mr-2 h-4 w-4" />
                                 Prepare Document
                               </DropdownMenuItem>
                             )}
@@ -501,9 +502,9 @@ export function DocumentList() {
                                 className="text-xs font-semibold text-amber-600 cursor-pointer mt-0.5 focus:text-amber-700 focus:bg-amber-50"
                               >
                                 {resendingId === doc.id ? (
-                                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                  <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />
                                 ) : (
-                                  <RefreshCw className="mr-2 h-4 w-4" />
+                                  <FontAwesomeIcon icon={faArrowsRotate} className="mr-2 h-4 w-4" />
                                 )}
                                 {resendingId === doc.id ? "Resending..." : "Resend Invitations"}
                               </DropdownMenuItem>
@@ -513,7 +514,7 @@ export function DocumentList() {
                               onClick={() => setDocToDelete(doc.id)}
                               className="text-xs font-semibold text-destructive cursor-pointer mt-0.5"
                             >
-                              <Trash2 className="mr-2 h-4 w-4" />
+                              <FontAwesomeIcon icon={faTrashCan} className="mr-2 h-4 w-4" />
                               Delete File
                             </DropdownMenuItem>
                           </DropdownMenuContent>

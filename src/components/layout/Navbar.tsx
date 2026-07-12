@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogOut, User } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket, faUser } from "@fortawesome/free-solid-svg-icons";
 import { BrandLogo } from "./BrandLogo";
 import {
   DropdownMenu,
@@ -43,7 +44,7 @@ export function Navbar() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="icon">
-                    <User className="h-4 w-4" />
+                    <FontAwesomeIcon icon={faUser} className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="bg-popover">
@@ -51,7 +52,7 @@ export function Navbar() {
                     {user.email}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleSignOut} className="text-destructive">
-                    <LogOut className="mr-2 h-4 w-4" />
+                    <FontAwesomeIcon icon={faRightFromBracket} className="mr-2 h-4 w-4" />
                     Sign Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>

@@ -11,22 +11,23 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  ArrowLeft, 
-  FileText, 
-  CheckCircle2, 
-  Users,
-  PenLine,
-  Loader2,
-  History,
-  Lock,
-  ShieldCheck,
-  CreditCard,
-  Laptop,
-  Clock,
-  ChevronRight,
-  ArrowRight
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faFileLines,
+  faCircleCheck,
+  faUsers,
+  faPen,
+  faSpinner,
+  faHistory,
+  faLock,
+  faShieldHalved,
+  faCreditCard,
+  faLaptop,
+  faClock,
+  faChevronRight,
+  faArrowRight
+} from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
 import {
   Dialog,
@@ -517,7 +518,7 @@ export default function ViewDocument() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -563,7 +564,7 @@ export default function ViewDocument() {
           <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#2563eb] to-transparent" />
           <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
             <div className="mx-auto h-16 w-16 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(37,143,251,0.2)] animate-pulse">
-              <Clock className="h-8 w-8" />
+              <FontAwesomeIcon icon={faClock} className="h-8 w-8" />
             </div>
             <div className="space-y-2">
               <span className="text-[10px] font-extrabold text-[#2563eb] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
@@ -618,7 +619,7 @@ export default function ViewDocument() {
           <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#2563eb] to-transparent" />
           <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
             <div className="mx-auto h-16 w-16 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(37,143,251,0.2)] animate-bounce">
-              <Laptop className="h-8 w-8" />
+              <FontAwesomeIcon icon={faLaptop} className="h-8 w-8" />
             </div>
             <div className="space-y-2">
               <span className="text-[10px] font-extrabold text-[#2563eb] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
@@ -656,7 +657,7 @@ export default function ViewDocument() {
               className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
             >
               I am {nextKioskSigner.name}
-              <ArrowRight className="h-4 w-4" />
+              <FontAwesomeIcon icon={faArrowRight} className="h-4 w-4" />
             </Button>
           </CardContent>
         </Card>
@@ -674,7 +675,7 @@ export default function ViewDocument() {
           <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#10b981] to-transparent" />
           <CardContent className="text-center pt-10 pb-10 px-8 space-y-6">
             <div className="mx-auto h-16 w-16 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-              <CheckCircle2 className="h-8 w-8" />
+              <FontAwesomeIcon icon={faCircleCheck} className="h-8 w-8" />
             </div>
             <div className="space-y-2">
               <span className="text-[10px] font-extrabold text-[#10b981] tracking-wider uppercase bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
@@ -704,9 +705,9 @@ export default function ViewDocument() {
                 className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-500 hover:to-teal-500 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-1.5"
               >
                 {downloadingPdf ? (
-                  <Loader2 className="h-4 w-4 animate-spin text-white" />
+                  <FontAwesomeIcon icon={faSpinner} className="h-4 w-4 animate-spin text-white" />
                 ) : (
-                  <FileText className="h-4 w-4 text-white" />
+                  <FontAwesomeIcon icon={faFileLines} className="h-4 w-4 text-white" />
                 )}
                 {downloadingPdf ? "Generating Certified PDF..." : "Download Certified PDF"}
               </Button>
@@ -760,7 +761,7 @@ export default function ViewDocument() {
           
           <CardHeader className="text-center pt-8 pb-3 px-6">
             <div className="mx-auto h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(37,143,251,0.15)] mb-4">
-              <Lock className="h-5 w-5" />
+              <FontAwesomeIcon icon={faLock} className="h-5 w-5" />
             </div>
             <CardTitle className="text-xl font-bold tracking-tight text-white leading-snug">
               Secure Document Access
@@ -806,9 +807,9 @@ export default function ViewDocument() {
               className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-2"
             >
               {verifyingPasscode ? (
-                <Loader2 className="h-4 w-4 animate-spin text-white" />
+                <FontAwesomeIcon icon={faSpinner} className="h-4 w-4 animate-spin text-white" />
               ) : (
-                <ShieldCheck className="h-4 w-4 text-white/95" />
+                <FontAwesomeIcon icon={faShieldHalved} className="h-4 w-4 text-white/95" />
               )}
               {verifyingPasscode ? "Verifying..." : "Unlock Document"}
             </Button>
@@ -837,7 +838,7 @@ export default function ViewDocument() {
               </h1>
               <Button onClick={handleDownloadCertified} disabled={downloadingPdf} className="bg-[#1e0098] hover:bg-[#15006b] text-white rounded-full px-6 shadow-md transition-transform hover:scale-105">
                 {downloadingPdf ? (
-                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Generating PDF...</>
+                  <><FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" /> Generating PDF...</>
                 ) : (
                   "Download Document"
                 )}
@@ -984,7 +985,7 @@ export default function ViewDocument() {
                 {document.status === "pending" && (
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 shadow-lg">
                     <Button onClick={handleOpenSignDialog}>
-                      <PenLine className="mr-2 h-4 w-4" />
+                      <FontAwesomeIcon icon={faPen} className="mr-2 h-4 w-4" />
                       Sign Document
                     </Button>
                   </div>
@@ -993,7 +994,7 @@ export default function ViewDocument() {
             ) : (
               <CardContent className="flex h-full items-center justify-center p-8">
                 <div className="text-center">
-                  <FileText className="mx-auto h-16 w-16 text-muted-foreground" />
+                  <FontAwesomeIcon icon={faFileLines} className="mx-auto h-16 w-16 text-muted-foreground" />
                   <h3 className="mt-4 text-lg font-medium text-foreground">
                     {document.file_name}
                   </h3>
@@ -1002,7 +1003,7 @@ export default function ViewDocument() {
                   </p>
                   {document.status === "pending" && (
                     <Button className="mt-6" onClick={handleOpenSignDialog}>
-                      <PenLine className="mr-2 h-4 w-4" />
+                      <FontAwesomeIcon icon={faPen} className="mr-2 h-4 w-4" />
                       Sign Document
                     </Button>
                   )}
@@ -1021,7 +1022,7 @@ export default function ViewDocument() {
               <CardContent>
                 <div className="flex items-center gap-2">
                   {document.status === "completed" ? (
-                    <CheckCircle2 className="h-5 w-5 text-blue-500" />
+                    <FontAwesomeIcon icon={faCircleCheck} className="h-5 w-5 text-blue-500" />
                   ) : (
                     <div className="h-5 w-5 rounded-full border-2 border-amber-500" />
                   )}
@@ -1036,7 +1037,7 @@ export default function ViewDocument() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm flex items-center gap-2">
-                  <Users className="h-4 w-4" />
+                  <FontAwesomeIcon icon={faUsers} className="h-4 w-4" />
                   Signatories ({signatories.length})
                 </CardTitle>
               </CardHeader>
@@ -1051,7 +1052,7 @@ export default function ViewDocument() {
                       <p className="text-xs text-muted-foreground">{sig.email}</p>
                     </div>
                     {sig.status === "signed" ? (
-                      <CheckCircle2 className="h-5 w-5 text-blue-500" />
+                      <FontAwesomeIcon icon={faCircleCheck} className="h-5 w-5 text-blue-500" />
                     ) : (
                       <div className="rounded bg-amber-100 px-2 py-1 text-xs text-amber-800">
                         Pending
@@ -1088,7 +1089,7 @@ export default function ViewDocument() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm flex items-center gap-2">
-                  <History className="h-4 w-4 text-slate-500" />
+                  <FontAwesomeIcon icon={faHistory} className="h-4 w-4 text-slate-500" />
                   Audit Trail ({auditLogs.length})
                 </CardTitle>
               </CardHeader>
@@ -1139,9 +1140,9 @@ export default function ViewDocument() {
             </Button>
             <Button onClick={handleSign} disabled={signing}>
               {signing ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <PenLine className="mr-2 h-4 w-4" />
+                <FontAwesomeIcon icon={faPen} className="mr-2 h-4 w-4" />
               )}
               Sign Document
             </Button>
@@ -1155,7 +1156,7 @@ export default function ViewDocument() {
           <DialogHeader className="pb-3 border-b border-slate-50 dark:border-slate-800">
             <DialogTitle className="flex items-center gap-2.5 text-base font-extrabold text-slate-800 dark:text-slate-100">
               <div className="h-8 w-8 rounded-lg bg-slate-50 dark:bg-indigo-950/30 flex items-center justify-center border border-slate-100 dark:border-indigo-900 shrink-0 text-slate-600 dark:text-indigo-400">
-                <CreditCard className="h-4 w-4" />
+                <FontAwesomeIcon icon={faCreditCard} className="h-4 w-4" />
               </div>
               Secure Deposit Checkout
             </DialogTitle>
@@ -1323,12 +1324,12 @@ export default function ViewDocument() {
             >
               {stripeProcessing ? (
                 <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  <FontAwesomeIcon icon={faSpinner} className="h-3.5 w-3.5 animate-spin" />
                   Processing...
                 </>
               ) : (
                 <>
-                  <ShieldCheck className="h-3.5 w-3.5 text-white/90" />
+                  <FontAwesomeIcon icon={faShieldHalved} className="h-3.5 w-3.5 text-white/90" />
                   Pay ${parseFloat(depositFee || "0").toFixed(2)} & Sign
                 </>
               )}

@@ -4,22 +4,23 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
-import { 
-  FileText, 
-  Search, 
-  Sparkles, 
-  ArrowRight, 
-  Download, 
-  Eye, 
-  CheckCircle2, 
-  Clock, 
-  X,
-  FileSignature,
-  Scale,
-  Building,
-  UserCheck,
-  Coins
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileLines,
+  faMagnifyingGlass,
+  faWandMagicSparkles,
+  faArrowRight,
+  faDownload,
+  faEye,
+  faCircleCheck,
+  faClock,
+  faXmark,
+  faFileSignature,
+  faScaleBalanced,
+  faBuilding,
+  faUserCheck,
+  faCoins
+} from "@fortawesome/free-solid-svg-icons";
 import { toast } from "sonner";
 
 interface FormTemplate {
@@ -236,11 +237,11 @@ export default function FormsLibrary() {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case "legal": return <Scale className="h-4 w-4" />;
-      case "realestate": return <Building className="h-4 w-4" />;
-      case "hr": return <UserCheck className="h-4 w-4" />;
-      case "tax": return <Coins className="h-4 w-4" />;
-      default: return <FileText className="h-4 w-4" />;
+      case "legal": return <FontAwesomeIcon icon={faScaleBalanced} className="h-4 w-4" />;
+      case "realestate": return <FontAwesomeIcon icon={faBuilding} className="h-4 w-4" />;
+      case "hr": return <FontAwesomeIcon icon={faUserCheck} className="h-4 w-4" />;
+      case "tax": return <FontAwesomeIcon icon={faCoins} className="h-4 w-4" />;
+      default: return <FontAwesomeIcon icon={faFileLines} className="h-4 w-4" />;
     }
   };
 
@@ -269,7 +270,7 @@ export default function FormsLibrary() {
         <div className="container mx-auto px-4 max-w-6xl relative z-10 text-left">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 border border-primary/20 text-primary-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
+              <FontAwesomeIcon icon={faWandMagicSparkles} className="h-3.5 w-3.5 text-primary animate-pulse" />
               <span>Compliant & Ready-To-Sign Templates</span>
             </div>
             
@@ -295,11 +296,11 @@ export default function FormsLibrary() {
                 <h3 className="font-extrabold text-sm text-foreground uppercase tracking-wider mb-3">Browse Categories</h3>
                 <div className="flex flex-col gap-1.5">
                   {[
-                    { id: "all", label: "All Templates", icon: <FileText className="h-4 w-4" /> },
-                    { id: "legal", label: "Legal & Corporate", icon: <Scale className="h-4 w-4" /> },
-                    { id: "realestate", label: "Real Estate", icon: <Building className="h-4 w-4" /> },
-                    { id: "hr", label: "HR & Hiring", icon: <UserCheck className="h-4 w-4" /> },
-                    { id: "tax", label: "Tax & IRS", icon: <Coins className="h-4 w-4" /> }
+                    { id: "all", label: "All Templates", icon: <FontAwesomeIcon icon={faFileLines} className="h-4 w-4" /> },
+                    { id: "legal", label: "Legal & Corporate", icon: <FontAwesomeIcon icon={faScaleBalanced} className="h-4 w-4" /> },
+                    { id: "realestate", label: "Real Estate", icon: <FontAwesomeIcon icon={faBuilding} className="h-4 w-4" /> },
+                    { id: "hr", label: "HR & Hiring", icon: <FontAwesomeIcon icon={faUserCheck} className="h-4 w-4" /> },
+                    { id: "tax", label: "Tax & IRS", icon: <FontAwesomeIcon icon={faCoins} className="h-4 w-4" /> }
                   ].map((cat) => (
                     <button
                       key={cat.id}
@@ -320,7 +321,7 @@ export default function FormsLibrary() {
               <div className="pt-6 border-t border-border/60">
                 <div className="bg-slate-50 dark:bg-accent/15 rounded-2xl p-4 border border-border/50 text-xs">
                   <p className="font-extrabold text-foreground flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-500" />
+                    <FontAwesomeIcon icon={faCircleCheck} className="h-4 w-4 text-emerald-500" />
                     ESIGN & UETA Vetted
                   </p>
                   <p className="text-[10px] text-muted-foreground mt-2 leading-relaxed">
@@ -334,7 +335,7 @@ export default function FormsLibrary() {
             <div className="flex-grow w-full space-y-8">
               {/* Search Bar */}
               <div className="relative bg-white dark:bg-card border border-border/80 rounded-full shadow-sm">
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <FontAwesomeIcon icon={faMagnifyingGlass} className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search templates (e.g. W-9, NDA, lease, contract fields)..."
@@ -395,7 +396,7 @@ export default function FormsLibrary() {
                         size="sm"
                         className="text-xs font-bold h-9 border-border hover:bg-slate-50 dark:hover:bg-accent/10"
                       >
-                        <Eye className="h-3.5 w-3.5 mr-1" />
+                        <FontAwesomeIcon icon={faEye} className="h-3.5 w-3.5 mr-1" />
                         Preview
                       </Button>
                       <Button
@@ -403,7 +404,7 @@ export default function FormsLibrary() {
                         size="sm"
                         className="text-xs font-bold h-9 bg-primary hover:bg-primary/95 text-white"
                       >
-                        <FileSignature className="h-3.5 w-3.5 mr-1" />
+                        <FontAwesomeIcon icon={faFileSignature} className="h-3.5 w-3.5 mr-1" />
                         Use Form
                       </Button>
                     </div>
@@ -412,7 +413,7 @@ export default function FormsLibrary() {
 
                 {filteredForms.length === 0 && (
                   <div className="col-span-2 text-center py-16 bg-white dark:bg-card border border-dashed border-border rounded-3xl">
-                    <FileText className="h-8 w-8 mx-auto text-muted-foreground mb-3" />
+                    <FontAwesomeIcon icon={faFileLines} className="h-8 w-8 mx-auto text-muted-foreground mb-3" />
                     <p className="text-sm font-bold text-foreground">No template forms found</p>
                     <p className="text-xs text-muted-foreground mt-1">Try expanding your filters or search keywords.</p>
                   </div>
@@ -440,7 +441,7 @@ export default function FormsLibrary() {
                 onClick={() => setPreviewingForm(null)}
                 className="h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
               >
-                <X className="h-4 w-4" />
+                <FontAwesomeIcon icon={faXmark} className="h-4 w-4" />
               </button>
             </div>
 
@@ -489,7 +490,7 @@ export default function FormsLibrary() {
                   onClick={() => handleUseTemplate(previewingForm)}
                   className="w-full sm:w-auto h-10 px-6 text-xs font-bold bg-primary hover:bg-primary/95 text-white flex items-center justify-center gap-1.5 shadow-md shadow-primary/10"
                 >
-                  <FileSignature className="h-4 w-4" />
+                  <FontAwesomeIcon icon={faFileSignature} className="h-4 w-4" />
                   Use Form Template
                 </Button>
               </div>

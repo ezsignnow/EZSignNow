@@ -11,12 +11,13 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  ArrowLeft, Save, Send, Loader2, Copy, Check,
-  FileSignature, ChevronDown, Briefcase, User, PenTool,
-  CreditCard, Star, LogOut, Headset, FileText, Clock,
-  Sun, Moon, Laptop
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft, faSave, faPaperPlane, faSpinner, faCopy, faCheck,
+  faFileSignature, faChevronDown, faBriefcase, faUser, faPenNib,
+  faCreditCard, faStar, faRightFromBracket, faHeadset, faFileLines, faClock,
+  faSun, faMoon, faLaptop
+} from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "@/components/ui/switch";
 import {
   Dialog,
@@ -484,7 +485,7 @@ export default function PrepareDocument() {
   if (loading || authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950 transition-colors duration-250">
-        <Loader2 className="h-8 w-8 animate-spin text-[#2563eb]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#2563eb]" />
       </div>
     );
   }
@@ -561,7 +562,7 @@ export default function PrepareDocument() {
                   <span className="text-xs font-bold text-slate-600 dark:text-slate-300 hidden md:inline max-w-[120px] truncate">
                     {user.email ? user.email.split("@")[0] : "User"}
                   </span>
-                  <ChevronDown className="h-3.5 w-3.5 text-slate-400 dark:text-slate-550" />
+                  <FontAwesomeIcon icon={faChevronDown} className="h-3.5 w-3.5 text-slate-400 dark:text-slate-550" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-white dark:bg-slate-900 w-52 p-1 border border-slate-100/85 dark:border-slate-800 shadow-md dark:shadow-slate-950/80 select-none">
@@ -571,7 +572,7 @@ export default function PrepareDocument() {
                   onClick={() => navigate("/dashboard?tab=team")}
                   className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 py-2.5 cursor-pointer focus:outline-none"
                 >
-                  <Briefcase className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faBriefcase} className="mr-3 h-4 w-4 text-slate-400" />
                   Company
                 </DropdownMenuItem>
 
@@ -580,7 +581,7 @@ export default function PrepareDocument() {
                   onClick={() => navigate("/dashboard?tab=settings")}
                   className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 py-2.5 cursor-pointer mt-0.5 focus:outline-none"
                 >
-                  <User className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faUser} className="mr-3 h-4 w-4 text-slate-400" />
                   Profile
                 </DropdownMenuItem>
 
@@ -594,7 +595,7 @@ export default function PrepareDocument() {
                   }}
                   className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 py-2.5 cursor-pointer mt-0.5 focus:outline-none"
                 >
-                  <PenTool className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faPenNib} className="mr-3 h-4 w-4 text-slate-400" />
                   Edit Signature
                 </DropdownMenuItem>
 
@@ -603,7 +604,7 @@ export default function PrepareDocument() {
                   onClick={() => navigate("/try-trial")}
                   className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 py-2.5 cursor-pointer mt-0.5 focus:outline-none"
                 >
-                  <CreditCard className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faCreditCard} className="mr-3 h-4 w-4 text-slate-400" />
                   Billing
                 </DropdownMenuItem>
 
@@ -615,7 +616,7 @@ export default function PrepareDocument() {
                   }}
                   className="text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 py-2.5 cursor-pointer mt-0.5 focus:outline-none"
                 >
-                  <Star className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faStar} className="mr-3 h-4 w-4 text-slate-400" />
                   Share & Earn
                 </DropdownMenuItem>
 
@@ -627,7 +628,7 @@ export default function PrepareDocument() {
                   onClick={handleSignOut}
                   className="text-xs font-bold text-destructive hover:text-destructive/95 py-2.5 cursor-pointer focus:outline-none"
                 >
-                  <LogOut className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faRightFromBracket} className="mr-3 h-4 w-4 text-slate-400" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -640,9 +641,9 @@ export default function PrepareDocument() {
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
               {isDark ? (
-                <Sun className="h-4.5 w-4.5 text-amber-500" />
+                <FontAwesomeIcon icon={faSun} className="h-4.5 w-4.5 text-amber-500" />
               ) : (
-                <Moon className="h-4.5 w-4.5" />
+                <FontAwesomeIcon icon={faMoon} className="h-4.5 w-4.5" />
               )}
             </button>
 
@@ -651,7 +652,7 @@ export default function PrepareDocument() {
               onClick={() => navigate("/support")}
               className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 dark:bg-slate-500/10 hover:bg-slate-100 dark:hover:bg-slate-500/20 border border-slate-100 dark:border-indigo-500/20 text-slate-600 dark:text-indigo-400 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1"
             >
-              <Headset className="h-4 w-4" />
+              <FontAwesomeIcon icon={faHeadset} className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
           </div>
@@ -666,11 +667,11 @@ export default function PrepareDocument() {
               onClick={() => navigate("/dashboard")} 
               className="h-9 w-9 rounded-full border border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 bg-white dark:bg-slate-900 shadow-sm flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-all focus:outline-none focus:ring-1 focus:ring-slate-200 dark:focus:ring-slate-800"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
             </button>
             <div className="flex items-center gap-3">
               <div className="p-2 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl text-slate-500 dark:text-slate-400 shadow-[0_1px_2px_rgba(0,0,0,0.01)] hidden sm:block">
-                <FileText className="h-5 w-5" />
+                <FontAwesomeIcon icon={faFileLines} className="h-5 w-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2.5">
@@ -704,7 +705,7 @@ export default function PrepareDocument() {
               disabled={saving}
               className="rounded-full border-[#2563eb] text-[#2563eb] hover:bg-[#2563eb]/5 h-9.5 px-5 font-bold text-xs shadow-sm transition-all"
             >
-              {saving ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Save className="mr-2 h-3.5 w-3.5" />}
+              {saving ? <FontAwesomeIcon icon={faSpinner} className="mr-2 h-3.5 w-3.5 animate-spin" /> : <FontAwesomeIcon icon={faSave} className="mr-2 h-3.5 w-3.5" />}
               Save Draft
             </Button>
             {step < 3 ? (
@@ -720,7 +721,7 @@ export default function PrepareDocument() {
                 disabled={saving || sending}
                 className="rounded-full bg-[#2563eb] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
               >
-                {sending ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Send className="mr-2 h-3.5 w-3.5" />}
+                {sending ? <FontAwesomeIcon icon={faSpinner} className="mr-2 h-3.5 w-3.5 animate-spin" /> : <FontAwesomeIcon icon={faPaperPlane} className="mr-2 h-3.5 w-3.5" />}
                 {sending ? "Sending..." : "Send Document"}
               </Button>
             )}
@@ -808,7 +809,7 @@ export default function PrepareDocument() {
                   <Card className="border-slate-100/80 dark:border-slate-800 rounded-xl shadow-none bg-slate-50/50 dark:bg-slate-900/50">
                     <CardHeader className="pb-2 pt-4 px-4">
                       <CardTitle className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <Laptop className="h-3.5 w-3.5 text-[#2563eb]" />
+                        <FontAwesomeIcon icon={faLaptop} className="h-3.5 w-3.5 text-[#2563eb]" />
                         In-Person Kiosk Mode
                       </CardTitle>
                     </CardHeader>
@@ -829,7 +830,7 @@ export default function PrepareDocument() {
                   <Card className="border-slate-100/80 dark:border-slate-800 rounded-xl shadow-none bg-slate-50/50 dark:bg-slate-900/50">
                     <CardHeader className="pb-2 pt-4 px-4">
                       <CardTitle className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <CreditCard className="h-3.5 w-3.5 text-[#2563eb]" />
+                        <FontAwesomeIcon icon={faCreditCard} className="h-3.5 w-3.5 text-[#2563eb]" />
                         Require Payment
                       </CardTitle>
                     </CardHeader>
@@ -861,7 +862,7 @@ export default function PrepareDocument() {
         <DialogContent className="sm:max-w-md rounded-2xl border border-slate-100 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 p-6 transition-colors duration-250">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2.5 text-lg font-extrabold text-slate-800 dark:text-slate-100">
-              <Check className="h-6 w-6 text-blue-500 bg-blue-50 dark:bg-blue-950/30 rounded-full p-1 border border-blue-100 dark:border-blue-900 shrink-0" />
+              <FontAwesomeIcon icon={faCheck} className="h-6 w-6 text-blue-500 bg-blue-50 dark:bg-blue-950/30 rounded-full p-1 border border-blue-100 dark:border-blue-900 shrink-0" />
               Document Sent Successfully!
             </DialogTitle>
             <DialogDescription className="pt-2 text-xs text-slate-400 dark:text-slate-500 font-semibold leading-relaxed">
@@ -903,12 +904,12 @@ export default function PrepareDocument() {
                 >
                   {copied ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-blue-300" />
+                      <FontAwesomeIcon icon={faCheck} className="h-3.5 w-3.5 text-blue-300" />
                       Copied
                     </>
                   ) : (
                     <>
-                      <Copy className="h-3.5 w-3.5" />
+                      <FontAwesomeIcon icon={faCopy} className="h-3.5 w-3.5" />
                       Copy
                     </>
                   )}

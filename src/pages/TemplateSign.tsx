@@ -8,12 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { 
-  Lock, ShieldCheck, PenTool, CheckCircle2, 
-  Loader2, Calendar, Globe, MapPin, Check,
-  RefreshCw, FileText, ArrowLeft, Download, ExternalLink,
-  ChevronRight, Laptop, Award, KeyRound
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLock, faShieldHalved, faPenNib, faCircleCheck,
+  faSpinner, faCalendarDays, faGlobe, faMapPin, faCheck,
+  faArrowsRotate, faFileLines, faArrowLeft, faDownload, faArrowUpRightFromSquare,
+  faChevronRight, faLaptop, faAward, faKey
+} from "@fortawesome/free-solid-svg-icons";
 import { getAbsoluteUrl } from "@/utils/url";
 import { fallbackService } from "@/utils/fallbackService";
 
@@ -628,7 +629,7 @@ EZSignNow Certified Signature Seal:
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-950">
-        <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
       </div>
     );
   }
@@ -647,7 +648,7 @@ EZSignNow Certified Signature Seal:
           
           <CardContent className="p-8 text-center space-y-6">
             <div className="mx-auto h-16 w-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)] mb-2">
-              <Check className="h-8 w-8 stroke-[3]" />
+              <FontAwesomeIcon icon={faCheck} className="h-8 w-8" />
             </div>
 
             <div className="space-y-2">
@@ -663,7 +664,7 @@ EZSignNow Certified Signature Seal:
             <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5 text-left space-y-3.5 shadow-inner">
               <div className="flex justify-between items-center border-b border-slate-800 pb-2.5">
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                  <FontAwesomeIcon icon={faShieldHalved} className="h-3.5 w-3.5 text-emerald-400" />
                   Execution Certificate
                 </span>
                 <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full uppercase tracking-wider">
@@ -699,7 +700,7 @@ EZSignNow Certified Signature Seal:
                 onClick={handleDownloadReceipt}
                 className="flex-1 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 hover:text-white hover:bg-slate-800 font-bold h-11 text-xs transition-all flex items-center justify-center gap-2"
               >
-                <Download className="h-4 w-4" />
+                <FontAwesomeIcon icon={faDownload} className="h-4 w-4" />
                 Download Audit Receipt
               </Button>
               <Button
@@ -707,7 +708,7 @@ EZSignNow Certified Signature Seal:
                 className="flex-1 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-11 text-xs transition-all shadow-lg flex items-center justify-center gap-1.5"
               >
                 Return Home
-                <ChevronRight className="h-4 w-4" />
+                <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4" />
               </Button>
             </div>
             
@@ -736,7 +737,7 @@ EZSignNow Certified Signature Seal:
             <>
               <CardHeader className="text-center pt-8 pb-3 px-6">
                 <div className="mx-auto h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(37,143,251,0.15)] mb-4">
-                  <Lock className="h-5 w-5" />
+                  <FontAwesomeIcon icon={faLock} className="h-5 w-5" />
                 </div>
                 <CardTitle className="text-xl font-bold tracking-tight text-white leading-snug">
                   Secure Self-Service Signing
@@ -791,14 +792,14 @@ EZSignNow Certified Signature Seal:
                     type="submit"
                     className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-11 text-xs transition-all shadow-md flex items-center justify-center gap-2 mt-2"
                   >
-                    <ShieldCheck className="h-4 w-4 text-white/95" />
+                    <FontAwesomeIcon icon={faShieldHalved} className="h-4 w-4 text-white/95" />
                     Verify & Unlock Document
                   </Button>
                 </form>
 
                 <div className="mt-5 border-t border-slate-800/80 pt-4 text-center">
                   <span className="text-[9px] text-slate-500 font-semibold tracking-wide flex items-center justify-center gap-1">
-                    <Globe className="h-3 w-3" />
+                    <FontAwesomeIcon icon={faGlobe} className="h-3 w-3" />
                     Secure SSL Tunnel Active | Forensic Audit Log Activated
                   </span>
                 </div>
@@ -809,7 +810,7 @@ EZSignNow Certified Signature Seal:
             <CardContent className="p-10 flex flex-col items-center justify-center min-h-[350px] space-y-6">
               <div className="relative flex items-center justify-center">
                 <div className="h-16 w-16 rounded-full border-2 border-slate-800 border-t-[#22c55e] animate-spin" />
-                <Lock className="h-5 w-5 absolute text-[#22c55e]" />
+                <FontAwesomeIcon icon={faLock} className="h-5 w-5 absolute text-[#22c55e]" />
               </div>
               
               <div className="text-center space-y-2">
@@ -833,7 +834,7 @@ EZSignNow Certified Signature Seal:
       <header className="bg-slate-900 border-b border-slate-800 px-6 py-3.5 flex items-center justify-between shadow-sm shrink-0">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-blue-500/10 border border-blue-500/20 rounded-xl text-[#22c55e] shadow-[0_1px_2px_rgba(0,0,0,0.1)]">
-            <PenTool className="h-4 w-4 stroke-[2.5]" />
+            <FontAwesomeIcon icon={faPenNib} className="h-4 w-4" />
           </div>
           <div>
             <h1 className="text-xs font-black tracking-tight text-white leading-tight">EZSIGNNOW</h1>
@@ -868,9 +869,9 @@ EZSignNow Certified Signature Seal:
             }`}
           >
             {isFinalizing ? (
-              <Loader2 className="h-3 w-3 animate-spin text-white" />
+              <FontAwesomeIcon icon={faSpinner} className="h-3 w-3 animate-spin text-white" />
             ) : (
-              <Check className="h-3 w-3" />
+              <FontAwesomeIcon icon={faCheck} className="h-3 w-3" />
             )}
             {isFinalizing ? "Securing..." : "Finalize & Sign"}
           </Button>
@@ -896,20 +897,20 @@ EZSignNow Certified Signature Seal:
 
               {/* Navigation icons */}
               <div className="flex items-center gap-2 text-slate-600 hidden sm:flex shrink-0">
-                <ArrowLeft className="h-3.5 w-3.5" />
-                <ChevronRight className="h-3.5 w-3.5" />
-                <RefreshCw className="h-3 w-3 ml-1" />
+                <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" />
+                <FontAwesomeIcon icon={faChevronRight} className="h-3.5 w-3.5" />
+                <FontAwesomeIcon icon={faArrowsRotate} className="h-3 w-3 ml-1" />
               </div>
 
               {/* Dynamic Browser Tab */}
               <div className="bg-slate-900 border border-slate-800 text-slate-300 px-3 py-1 rounded-lg text-[10px] font-bold flex items-center gap-2 max-w-[150px] truncate select-none shadow-sm ml-2">
-                <FileText className="h-3 w-3 text-[#22c55e]" />
+                <FontAwesomeIcon icon={faFileLines} className="h-3 w-3 text-[#22c55e]" />
                 {template.title} Copy
               </div>
 
               {/* Address bar */}
               <div className="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-1 flex items-center gap-1.5 text-[11px] text-slate-400 select-all font-semibold shadow-inner leading-none truncate h-7 ml-2">
-                <Lock className="h-3 w-3 text-emerald-400" />
+                <FontAwesomeIcon icon={faLock} className="h-3 w-3 text-emerald-400" />
                 <span className="text-emerald-400 text-[10px] font-black uppercase tracking-wider mr-1 select-none">SECURE</span>
                 <span>https://ezsign.now/t/{id}/sign?signer={encodeURIComponent(signerEmail)}</span>
               </div>
@@ -1002,7 +1003,7 @@ EZSignNow Certified Signature Seal:
                               <img src={filledVal} alt="Signature Applied" className="max-h-full max-w-full object-contain" />
                             ) : (
                               <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-slate-600 group-hover:text-blue-600 transition-colors">
-                                <PenTool className="h-3.5 w-3.5 text-blue-500 animate-pulse" />
+                                <FontAwesomeIcon icon={faPenNib} className="h-3.5 w-3.5 text-blue-500 animate-pulse" />
                                 Click to Sign
                               </span>
                             )}
@@ -1053,16 +1054,16 @@ EZSignNow Certified Signature Seal:
             {/* Viewport Security footer */}
             <div className="bg-slate-900 px-5 py-3 border-t border-slate-800 text-[10px] text-slate-400 font-semibold flex flex-col sm:flex-row justify-between items-center gap-2">
               <span className="flex items-center gap-1">
-                <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+                <FontAwesomeIcon icon={faShieldHalved} className="h-3.5 w-3.5 text-emerald-400" />
                 Electronic Consent Verified Securely
               </span>
               <span className="flex items-center gap-3">
                 <span className="flex items-center gap-1">
-                  <Laptop className="h-3 w-3 text-slate-500" />
+                  <FontAwesomeIcon icon={faLaptop} className="h-3 w-3 text-slate-500" />
                   {securityData.device}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Globe className="h-3 w-3 text-slate-500" />
+                  <FontAwesomeIcon icon={faGlobe} className="h-3 w-3 text-slate-500" />
                   IP: {securityData.ip}
                 </span>
               </span>

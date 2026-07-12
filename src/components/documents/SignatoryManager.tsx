@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { UserPlus, X, GripVertical, Mail, Lock } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserPlus, faXmark, faGripVertical, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { Switch } from "@/components/ui/switch";
 
 export interface Signatory {
@@ -106,7 +107,7 @@ export function SignatoryManager({
                   }`}
                   onClick={() => onSelectSignatory(isSelected ? null : index)}
                 >
-                  <GripVertical className="h-4 w-4 text-slate-300 dark:text-slate-700 hover:text-slate-400 dark:hover:text-slate-550 shrink-0" />
+                  <FontAwesomeIcon icon={faGripVertical} className="h-4 w-4 text-slate-300 dark:text-slate-700 hover:text-slate-400 dark:hover:text-slate-550 shrink-0" />
                   
                   {/* Colorful Avatar Circle */}
                   <div
@@ -125,7 +126,7 @@ export function SignatoryManager({
                     </p>
                     {signatory.passcode && (
                       <div className="flex items-center gap-1.5 mt-1 bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded-md border border-amber-100/50 dark:border-amber-900/30 text-[9px] font-bold w-fit">
-                        <Lock className="h-2.5 w-2.5 shrink-0" />
+                        <FontAwesomeIcon icon={faLock} className="h-2.5 w-2.5 shrink-0" />
                         Passcode: {signatory.passcode}
                       </div>
                     )}
@@ -147,7 +148,7 @@ export function SignatoryManager({
                       onRemove(index);
                     }}
                   >
-                    <X className="h-3.5 w-3.5" />
+                    <FontAwesomeIcon icon={faXmark} className="h-3.5 w-3.5" />
                   </Button>
                 </div>
               );
@@ -189,7 +190,7 @@ export function SignatoryManager({
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="passcode" className="text-[11px] font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1">
-              <Lock className="h-3 w-3 text-slate-400" /> Access Passcode (Optional)
+              <FontAwesomeIcon icon={faLock} className="h-3 w-3 text-slate-400" /> Access Passcode (Optional)
             </Label>
             <Input
               id="passcode"
@@ -205,7 +206,7 @@ export function SignatoryManager({
             disabled={!name.trim() || !email.trim()}
             className="w-full rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] disabled:hover:bg-[#22c55e] text-white font-bold h-9.5 text-xs transition-all shadow-sm flex items-center justify-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-[#22c55e]/20 mt-1"
           >
-            <UserPlus className="h-3.5 w-3.5" />
+            <FontAwesomeIcon icon={faUserPlus} className="h-3.5 w-3.5" />
             Add Signatory
           </Button>
         </div>

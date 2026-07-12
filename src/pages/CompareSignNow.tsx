@@ -5,22 +5,23 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { SEO } from "@/components/SEO";
-import { 
-  Check, 
-  X, 
-  HelpCircle, 
-  ArrowRight, 
-  Sparkles, 
-  DollarSign, 
-  Users, 
-  ShieldCheck, 
-  Zap, 
-  Clock, 
-  Award,
-  ChevronRight,
-  Calculator,
-  Flame
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheck,
+  faXmark,
+  faCircleQuestion,
+  faArrowRight,
+  faWandMagicSparkles,
+  faDollarSign,
+  faUsers,
+  faShieldHalved,
+  faBolt,
+  faClock,
+  faAward,
+  faChevronRight,
+  faCalculator,
+  faFire
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function CompareSignNow() {
   // Slider states
@@ -108,7 +109,7 @@ export default function CompareSignNow() {
 
         <div className="container mx-auto px-4 max-w-7xl relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 border border-primary/20 text-primary-foreground mb-6 uppercase tracking-wider">
-            <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
+            <FontAwesomeIcon icon={faWandMagicSparkles} className="h-3.5 w-3.5 text-primary animate-pulse" />
             <span>The Smart Alternative for 2026</span>
           </div>
 
@@ -125,7 +126,7 @@ export default function CompareSignNow() {
             <Button size="lg" className="h-12 px-8 text-sm font-bold bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20" asChild>
               <Link to="/try-for-free">
                 Start Signing Free Now
-                <ArrowRight className="h-4 w-4 ml-2" />
+                <FontAwesomeIcon icon={faArrowRight} className="h-4 w-4 ml-2" />
               </Link>
             </Button>
             <Button size="lg" className="h-12 px-8 text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/10 backdrop-blur-md" asChild>
@@ -149,7 +150,7 @@ export default function CompareSignNow() {
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary uppercase tracking-wider">
-              <Calculator className="h-3.5 w-3.5" />
+              <FontAwesomeIcon icon={faCalculator} className="h-3.5 w-3.5" />
               ROI & Cost Comparison
             </span>
             <h2 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">
@@ -164,7 +165,7 @@ export default function CompareSignNow() {
             {/* Slider Control Column */}
             <div className="lg:col-span-7 bg-white dark:bg-card border border-border/80 rounded-3xl p-8 shadow-xl flex flex-col justify-between relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 bg-emerald-500/10 text-emerald-600 rounded-bl-3xl flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest">
-                <Flame className="h-3 w-3 fill-emerald-600" />
+                <FontAwesomeIcon icon={faFire} className="h-3 w-3 fill-emerald-600" />
                 75% Savings Rate
               </div>
 
@@ -208,7 +209,7 @@ export default function CompareSignNow() {
               </div>
 
               <div className="pt-8 text-xs text-muted-foreground italic flex items-center gap-1.5 justify-center">
-                <HelpCircle className="h-4 w-4 text-slate-400 shrink-0" />
+                <FontAwesomeIcon icon={faCircleQuestion} className="h-4 w-4 text-slate-400 shrink-0" />
                 <span>Calculations based on published signNow standard business tiers in 2026.</span>
               </div>
             </div>
@@ -259,7 +260,7 @@ export default function CompareSignNow() {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary uppercase tracking-wider">
-              <Award className="h-3.5 w-3.5" />
+              <FontAwesomeIcon icon={faAward} className="h-3.5 w-3.5" />
               Feature-by-Feature Showdown
             </span>
             <h2 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">
@@ -290,14 +291,14 @@ export default function CompareSignNow() {
                     </td>
                     <td className="p-6 text-center font-bold text-primary bg-primary/5 border-x border-primary/20">
                       <span className="inline-flex items-center gap-1.5 justify-center">
-                        <Check className="h-4 w-4 text-emerald-500" />
+                        <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-emerald-500" />
                         {item.ezSignNow}
                       </span>
                     </td>
                     <td className="p-6 text-center font-semibold text-muted-foreground">
                       <span className="inline-flex items-center gap-1.5 justify-center">
                         {item.signNow.includes("Enterprise") || item.signNow.includes("Restricted") ? (
-                          <X className="h-4 w-4 text-rose-500 shrink-0" />
+                          <FontAwesomeIcon icon={faXmark} className="h-4 w-4 text-rose-500 shrink-0" />
                         ) : null}
                         {item.signNow}
                       </span>
@@ -326,7 +327,7 @@ export default function CompareSignNow() {
                   <div className="bg-primary/5 rounded-xl p-3 border border-primary/10">
                     <span className="text-[10px] font-bold text-primary uppercase block mb-1">EZSIGNNOW</span>
                     <span className="text-xs font-bold text-foreground flex items-center gap-1">
-                      <Check className="h-3 w-3 text-emerald-500" />
+                      <FontAwesomeIcon icon={faCheck} className="h-3 w-3 text-emerald-500" />
                       {item.ezSignNow}
                     </span>
                   </div>
@@ -334,7 +335,7 @@ export default function CompareSignNow() {
                     <span className="text-[10px] font-bold text-muted-foreground uppercase block mb-1">SIGNNOW</span>
                     <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
                       {item.signNow.includes("Enterprise") || item.signNow.includes("Restricted") ? (
-                        <X className="h-3 w-3 text-rose-500" />
+                        <FontAwesomeIcon icon={faXmark} className="h-3 w-3 text-rose-500" />
                       ) : null}
                       {item.signNow}
                     </span>
@@ -361,7 +362,7 @@ export default function CompareSignNow() {
                 <Button size="lg" className="w-full md:w-auto h-12 px-8 bg-primary hover:bg-primary/95 text-white font-bold" asChild>
                   <Link to="/blog">
                     Read Migration Guide
-                    <ChevronRight className="h-4 w-4 ml-1.5" />
+                    <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4 ml-1.5" />
                   </Link>
                 </Button>
               </div>
@@ -376,7 +377,7 @@ export default function CompareSignNow() {
           <div className="grid gap-12 md:grid-cols-3">
             <div className="text-left space-y-3">
               <div className="h-10 w-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                <ShieldCheck className="h-5 w-5" />
+                <FontAwesomeIcon icon={faShieldHalved} className="h-5 w-5" />
               </div>
               <h4 className="font-extrabold text-foreground text-lg">100% Legally Compliant</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -385,7 +386,7 @@ export default function CompareSignNow() {
             </div>
             <div className="text-left space-y-3">
               <div className="h-10 w-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                <Zap className="h-5 w-5" />
+                <FontAwesomeIcon icon={faBolt} className="h-5 w-5" />
               </div>
               <h4 className="font-extrabold text-foreground text-lg">Blazing Fast Audits</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">
@@ -394,7 +395,7 @@ export default function CompareSignNow() {
             </div>
             <div className="text-left space-y-3">
               <div className="h-10 w-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
-                <Clock className="h-5 w-5" />
+                <FontAwesomeIcon icon={faClock} className="h-5 w-5" />
               </div>
               <h4 className="font-extrabold text-foreground text-lg">5-Min Support SLA</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">

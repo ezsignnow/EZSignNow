@@ -1,7 +1,8 @@
 import { useRef, forwardRef, useImperativeHandle } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { Button } from "@/components/ui/button";
-import { Eraser } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
 export interface SignaturePadRef {
   clear: () => void;
@@ -56,7 +57,7 @@ export const SignaturePad = forwardRef<SignaturePadRef, SignaturePadProps>(
           size="sm"
           onClick={() => sigCanvasRef.current?.clear()}
         >
-          <Eraser className="mr-2 h-4 w-4" />
+          <FontAwesomeIcon icon={faEraser} className="mr-2 h-4 w-4" />
           Clear
         </Button>
       </div>

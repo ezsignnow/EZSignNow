@@ -1,14 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  PenLine, 
-  TextCursorInput, 
-  Square,
-  Calendar,
-  Tag,
-  Info,
-  Paperclip,
-  Palette
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPen,
+  faICursor,
+  faSquare,
+  faCalendarDays,
+  faTag,
+  faCircleInfo,
+  faPaperclip,
+  faPalette
+} from "@fortawesome/free-solid-svg-icons";
 import {
   Tooltip,
   TooltipContent,
@@ -20,52 +21,52 @@ interface FieldPaletteProps {
 }
 
 const fieldTypes = [
-  { 
-    type: "signature", 
-    icon: PenLine, 
-    label: "Signature", 
+  {
+    type: "signature",
+    icon: faPen,
+    label: "Signature",
     description: "Draw or type signature",
     colorClass: "bg-blue-50 dark:bg-blue-950/30 text-blue-500 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 group-hover:text-blue-600 dark:group-hover:text-blue-300"
   },
-  { 
-    type: "text", 
-    icon: TextCursorInput, 
-    label: "Text Box", 
+  {
+    type: "text",
+    icon: faICursor,
+    label: "Text Box",
     description: "Text input field",
     colorClass: "bg-purple-50 dark:bg-purple-950/30 text-purple-500 dark:text-purple-400 group-hover:bg-purple-100 dark:group-hover:bg-purple-900/40 group-hover:text-purple-600 dark:group-hover:text-purple-300"
   },
-  { 
-    type: "checkbox", 
-    icon: Square, 
-    label: "Checkbox", 
+  {
+    type: "checkbox",
+    icon: faSquare,
+    label: "Checkbox",
     description: "Yes/No checkbox",
     colorClass: "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-500 dark:text-emerald-400 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/40 group-hover:text-emerald-600 dark:group-hover:text-emerald-300"
   },
-  { 
-    type: "date", 
-    icon: Calendar, 
-    label: "Date", 
+  {
+    type: "date",
+    icon: faCalendarDays,
+    label: "Date",
     description: "Date picker field",
     colorClass: "bg-amber-50 dark:bg-amber-950/30 text-amber-500 dark:text-amber-400 group-hover:bg-amber-100 dark:group-hover:bg-amber-900/40 group-hover:text-amber-600 dark:group-hover:text-amber-300"
   },
-  { 
-    type: "label", 
-    icon: Tag, 
-    label: "Label", 
+  {
+    type: "label",
+    icon: faTag,
+    label: "Label",
     description: "Static text label",
     colorClass: "bg-rose-50 dark:bg-rose-950/30 text-rose-500 dark:text-rose-400 group-hover:bg-rose-100 dark:group-hover:bg-rose-900/40 group-hover:text-rose-600 dark:group-hover:text-rose-300"
   },
-  { 
-    type: "attachment", 
-    icon: Paperclip, 
-    label: "Attachment", 
+  {
+    type: "attachment",
+    icon: faPaperclip,
+    label: "Attachment",
     description: "Upload supporting document",
     colorClass: "bg-cyan-50 dark:bg-cyan-950/30 text-cyan-500 dark:text-cyan-400 group-hover:bg-cyan-100 dark:group-hover:bg-cyan-900/40 group-hover:text-cyan-600 dark:group-hover:text-cyan-300"
   },
-  { 
-    type: "drawing", 
-    icon: Palette, 
-    label: "Drawing", 
+  {
+    type: "drawing",
+    icon: faPalette,
+    label: "Drawing",
     description: "Sketch or draw diagrams",
     colorClass: "bg-slate-50 dark:bg-indigo-950/30 text-indigo-500 dark:text-indigo-400 group-hover:bg-slate-100 dark:group-hover:bg-indigo-900/40 group-hover:text-slate-600 dark:group-hover:text-indigo-300"
   },
@@ -80,7 +81,7 @@ export function FieldPalette({ onAddField }: FieldPaletteProps) {
           <Tooltip>
             <TooltipTrigger asChild>
               <button className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-355 transition-colors focus:outline-none">
-                <Info className="h-3.5 w-3.5" />
+                <FontAwesomeIcon icon={faCircleInfo} className="h-3.5 w-3.5" />
               </button>
             </TooltipTrigger>
             <TooltipContent side="top" className="bg-slate-800 text-white border-0 text-xs px-2.5 py-1.5 rounded-lg shadow-md">
@@ -103,7 +104,7 @@ export function FieldPalette({ onAddField }: FieldPaletteProps) {
                 }}
               >
                 <div className={`flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200 shrink-0 ${colorClass}`}>
-                  <Icon className="h-4.5 w-4.5 group-hover:scale-115 transition-transform duration-200" />
+                  <FontAwesomeIcon icon={Icon} className="h-4.5 w-4.5 group-hover:scale-115 transition-transform duration-200" />
                 </div>
                 <div className="text-left min-w-0">
                   <p className="font-bold text-[13px] text-slate-700 dark:text-slate-200 leading-tight group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{label}</p>

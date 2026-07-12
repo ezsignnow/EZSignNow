@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { FileSignature } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileSignature } from "@fortawesome/free-solid-svg-icons";
 
 interface BrandLogoProps {
   className?: string;
@@ -64,7 +65,7 @@ export function BrandLogo({
         </div>
       ) : (
         <div className="bg-emerald-600 p-2 rounded-lg text-white shadow-md shadow-emerald-600/15 shrink-0 transform group-hover:scale-105 transition-all duration-300">
-          <FileSignature className={iconSize} />
+          <FontAwesomeIcon icon={faFileSignature} className={iconSize} />
         </div>
       )}
       

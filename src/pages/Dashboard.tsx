@@ -8,40 +8,41 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { getAbsoluteUrl } from "@/utils/url";
-import { 
-  PenTool, 
-  FileText, 
-  Copy, 
-  CheckSquare, 
-  Users, 
-  Layers, 
-  Settings,
-  Headset,
-  ChevronDown,
-  LogOut,
-  FileSignature,
-  Clock,
-  CheckCircle2,
-  Plus,
-  Loader2,
-  Mail,
-  UserPlus,
-  Save,
-  Check,
-  ArrowRight,
-  ExternalLink,
-  Laptop,
-  User,
-  Briefcase,
-  CreditCard,
-  Star,
-  Trash2,
-  Image,
-  Palette,
-  Sparkles,
-  RefreshCw,
-  Globe
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPenNib,
+  faFileLines,
+  faCopy,
+  faSquareCheck,
+  faUsers,
+  faLayerGroup,
+  faGear,
+  faHeadset,
+  faChevronDown,
+  faRightFromBracket,
+  faFileSignature,
+  faClock,
+  faCircleCheck,
+  faPlus,
+  faSpinner,
+  faEnvelope,
+  faUserPlus,
+  faSave,
+  faCheck,
+  faArrowRight,
+  faArrowUpRightFromSquare,
+  faLaptop,
+  faUser,
+  faBriefcase,
+  faCreditCard,
+  faStar,
+  faTrashCan,
+  faImage,
+  faPalette,
+  faWandMagicSparkles,
+  faArrowsRotate,
+  faGlobe
+} from "@fortawesome/free-solid-svg-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -591,7 +592,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-[#2563eb]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#2563eb]" />
       </div>
     );
   }
@@ -643,7 +644,7 @@ export default function Dashboard() {
                     <p className="text-sm text-slate-500 mt-1">Monitor, track status, and manage your electronic signatures.</p>
                   </div>
                   <Button onClick={() => setActiveTab("sign")} className="bg-[#2563eb] hover:bg-[#1a7ae0] font-bold text-xs h-9 rounded-full px-5 shadow-sm gap-2">
-                    <Plus className="h-4 w-4" />
+                    <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
                     New Document
                   </Button>
                 </div>
@@ -651,14 +652,14 @@ export default function Dashboard() {
                 {/* Dashboard stats cards */}
                 <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
                   {[
-                    { icon: FileText, label: "Total Documents", value: statsLoading ? "-" : stats.total.toString(), color: "bg-[#2563eb]/10 text-[#2563eb]" },
-                    { icon: Clock, label: "Pending Signatures", value: statsLoading ? "-" : stats.pending.toString(), color: "bg-amber-500/10 text-amber-500" },
-                    { icon: CheckCircle2, label: "Completed Signatures", value: statsLoading ? "-" : stats.completed.toString(), color: "bg-blue-500/10 text-blue-500" },
+                    { icon: faFileLines, label: "Total Documents", value: statsLoading ? "-" : stats.total.toString(), color: "bg-[#2563eb]/10 text-[#2563eb]" },
+                    { icon: faClock, label: "Pending Signatures", value: statsLoading ? "-" : stats.pending.toString(), color: "bg-amber-500/10 text-amber-500" },
+                    { icon: faCircleCheck, label: "Completed Signatures", value: statsLoading ? "-" : stats.completed.toString(), color: "bg-blue-500/10 text-blue-500" },
                   ].map((stat) => (
                     <Card key={stat.label} className="border-slate-100 shadow-[0_2px_4px_rgba(0,0,0,0.01)] hover:shadow-md transition-shadow">
                       <CardContent className="flex items-center gap-4.5 p-5">
                         <div className={`rounded-xl p-3 ${stat.color} shrink-0`}>
-                          <stat.icon className="h-6 w-6" />
+                          <FontAwesomeIcon icon={stat.icon} className="h-6 w-6" />
                         </div>
                         <div>
                           <p className="text-2xl font-extrabold text-slate-800 leading-tight">{stat.value}</p>
@@ -675,7 +676,7 @@ export default function Dashboard() {
                     <CardContent className="p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
                         <div className="h-10 w-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-[#2563eb]/10 shrink-0">
-                          <Laptop className="h-5 w-5" />
+                          <FontAwesomeIcon icon={faLaptop} className="h-5 w-5" />
                         </div>
                         <div>
                           <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-sm">Host In-Person Signing Kiosk</h3>
@@ -704,7 +705,7 @@ export default function Dashboard() {
                         className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-9 px-5 shadow-sm shrink-0 flex items-center gap-1.5 transition-all"
                       >
                         Launch Kiosk Mode
-                        <ArrowRight className="h-3.5 w-3.5" />
+                        <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5" />
                       </Button>
                     </CardContent>
                   </Card>
@@ -729,7 +730,7 @@ export default function Dashboard() {
                     onClick={() => navigate("/template/new")}
                     className="bg-[#2563eb] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm gap-2"
                   >
-                    <Plus className="h-4 w-4" />
+                    <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
                     Create New Template
                   </Button>
                 </div>
@@ -744,21 +745,21 @@ export default function Dashboard() {
                           className="p-1.5 rounded-lg bg-white border border-slate-100 text-slate-500 hover:text-slate-800 hover:shadow-sm transition-all focus:outline-none"
                           title="Edit Template"
                         >
-                          <Settings className="h-3.5 w-3.5" />
+                          <FontAwesomeIcon icon={faGear} className="h-3.5 w-3.5" />
                         </button>
                         <button
                           onClick={() => handleDeleteTemplate(item.id, item.title)}
                           className="p-1.5 rounded-lg bg-rose-50 border border-rose-100 text-rose-500 hover:text-rose-700 hover:shadow-sm transition-all focus:outline-none"
                           title="Delete Template"
                         >
-                          <Trash2 className="h-3.5 w-3.5" />
+                          <FontAwesomeIcon icon={faTrashCan} className="h-3.5 w-3.5" />
                         </button>
                       </div>
                       
                       <CardContent className="p-5 flex-1 flex flex-col justify-between">
                         <div className="space-y-2.5">
                           <div className="h-10 w-10 bg-blue-50/50 border border-blue-100 text-[#2563eb] rounded-xl flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
-                            <Copy className="h-5 w-5" />
+                            <FontAwesomeIcon icon={faCopy} className="h-5 w-5" />
                           </div>
                           <h3 className="font-extrabold text-slate-800 text-[14.5px] truncate pr-12">{item.title}</h3>
                           <p className="text-[11.5px] text-slate-400 leading-relaxed line-clamp-2">{item.desc || "No description provided."}</p>
@@ -770,7 +771,7 @@ export default function Dashboard() {
                             className="text-xs font-bold text-[#2563eb] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
-                            <ArrowRight className="h-3 w-3" />
+                            <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
                           </button>
                         </div>
                       </CardContent>
@@ -787,7 +788,7 @@ export default function Dashboard() {
                       <CardContent className="p-5 flex-1 flex flex-col justify-between">
                         <div className="space-y-2.5">
                           <div className="h-10 w-10 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl flex items-center justify-center">
-                            <Copy className="h-5 w-5" />
+                            <FontAwesomeIcon icon={faCopy} className="h-5 w-5" />
                           </div>
                           <h3 className="font-extrabold text-slate-800 text-[14.5px]">{item.title}</h3>
                           <p className="text-[11.5px] text-slate-400 leading-relaxed line-clamp-2">{item.desc}</p>
@@ -799,13 +800,13 @@ export default function Dashboard() {
                             className="text-xs font-bold text-[#2563eb] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
-                            <ArrowRight className="h-3 w-3" />
+                            <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
                           </button>
                         </div>
                       </CardContent>
                     </Card>
                   ))}
-                  
+
                   {/* Create Template layout */}
                   <Card 
                     onClick={() => navigate("/template/new")}
@@ -813,7 +814,7 @@ export default function Dashboard() {
                   >
                     <CardContent className="p-0 space-y-3.5">
                       <div className="h-11 w-11 rounded-full border-[1.5px] border-[#2563eb]/30 group-hover:border-[#2563eb] flex items-center justify-center mx-auto text-[#2563eb] transition-all bg-white shadow-sm">
-                        <Plus className="h-5 w-5" />
+                        <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
                       </div>
                       <div>
                         <h4 className="text-[13px] font-extrabold text-slate-700 group-hover:text-slate-900 transition-colors">Create New Template</h4>
@@ -854,7 +855,7 @@ export default function Dashboard() {
                           disabled={isCreatingForm}
                           className="w-full bg-[#2563eb] hover:bg-[#1a7ae0] rounded-[4px] h-[36px] font-bold text-xs shadow-md shadow-[#2563eb]/10"
                         >
-                          {isCreatingForm ? <Loader2 className="h-4 w-4 animate-spin" /> : "Publish Active Link"}
+                          {isCreatingForm ? <FontAwesomeIcon icon={faSpinner} className="h-4 w-4 animate-spin" /> : "Publish Active Link"}
                         </Button>
                       </form>
                     </CardContent>
@@ -890,7 +891,7 @@ export default function Dashboard() {
                                     className="text-xs text-[#2563eb] font-semibold hover:underline flex items-center gap-1.5"
                                   >
                                     {item.link}
-                                    <ExternalLink className="h-3 w-3" />
+                                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-3 w-3" />
                                   </button>
                                 </td>
                                 <td className="px-5 py-4 text-center">
@@ -1032,12 +1033,12 @@ export default function Dashboard() {
                             >
                               {isSavingSettings ? (
                                 <>
-                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                  <FontAwesomeIcon icon={faSpinner} className="h-4 w-4 animate-spin" />
                                   Saving Details...
                                 </>
                               ) : (
                                 <>
-                                  <Save className="h-4 w-4" />
+                                  <FontAwesomeIcon icon={faSave} className="h-4 w-4" />
                                   Save Changes
                                 </>
                               )}
@@ -1051,7 +1052,7 @@ export default function Dashboard() {
                     <Card className="border-slate-100 lg:col-span-1">
                       <CardContent className="p-5 space-y-4">
                         <h3 className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                          <Laptop className="h-4 w-4 text-[#2563eb]" />
+                          <FontAwesomeIcon icon={faLaptop} className="h-4 w-4 text-[#2563eb]" />
                           Environment Info
                         </h3>
                         <div className="space-y-2 text-xs font-semibold text-slate-400">
@@ -1066,7 +1067,7 @@ export default function Dashboard() {
                           <div className="flex items-center justify-between">
                             <span>OAuth Login</span>
                             <span className="text-blue-500 flex items-center gap-1 text-[10px]">
-                              <Check className="h-3 w-3" />
+                              <FontAwesomeIcon icon={faCheck} className="h-3 w-3" />
                               Active
                             </span>
                           </div>

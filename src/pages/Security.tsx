@@ -4,21 +4,22 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { SEO } from "@/components/SEO";
-import { 
-  ShieldCheck, 
-  Scale, 
-  Lock, 
-  MapPin, 
-  Server, 
-  CheckCircle2, 
-  FileSignature, 
-  Sparkles, 
-  ArrowRight,
-  Database,
-  Eye,
-  Activity,
-  AlertCircle
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faShieldHalved,
+  faScaleBalanced,
+  faLock,
+  faMapPin,
+  faServer,
+  faCircleCheck,
+  faFileSignature,
+  faWandMagicSparkles,
+  faArrowRight,
+  faDatabase,
+  faEye,
+  faHeartPulse,
+  faCircleExclamation
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Security() {
   const [activeTab, setActiveTab] = useState<"compliance" | "encryption" | "auditing">("compliance");
@@ -59,7 +60,7 @@ export default function Security() {
 
         <div className="container mx-auto px-4 max-w-6xl relative z-10 text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 border border-primary/20 text-primary-foreground mb-6 uppercase tracking-wider">
-            <ShieldCheck className="h-3.5 w-3.5 text-primary animate-pulse" />
+            <FontAwesomeIcon icon={faShieldHalved} className="h-3.5 w-3.5 text-primary animate-pulse" />
             <span>Bank-Grade Trust Standard</span>
           </div>
 
@@ -76,7 +77,7 @@ export default function Security() {
             <Button size="lg" className="h-12 px-8 text-sm font-bold bg-primary hover:bg-primary/90 text-white shadow-xl shadow-primary/20" asChild>
               <Link to="/try-for-free">
                 Create Free Account
-                <ArrowRight className="h-4 w-4 ml-2" />
+                <FontAwesomeIcon icon={faArrowRight} className="h-4 w-4 ml-2" />
               </Link>
             </Button>
             <Button size="lg" className="h-12 px-8 text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/10 backdrop-blur-md" asChild>
@@ -91,10 +92,10 @@ export default function Security() {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-85">
             <div className="text-xs font-bold uppercase tracking-widest text-slate-400">Vetted and Aligned with</div>
-            <div className="text-sm font-black tracking-tight flex items-center gap-1.5"><Scale className="h-4.5 w-4.5 text-primary" /> ESIGN Act</div>
-            <div className="text-sm font-black tracking-tight flex items-center gap-1.5"><CheckCircle2 className="h-4.5 w-4.5 text-emerald-500" /> UETA Compliant</div>
-            <div className="text-sm font-black tracking-tight flex items-center gap-1.5"><Lock className="h-4.5 w-4.5 text-indigo-500" /> eIDAS Compliant</div>
-            <div className="text-sm font-black tracking-tight flex items-center gap-1.5"><Server className="h-4.5 w-4.5 text-rose-500" /> HIPAA Aligned</div>
+            <div className="text-sm font-black tracking-tight flex items-center gap-1.5"><FontAwesomeIcon icon={faScaleBalanced} className="h-4.5 w-4.5 text-primary" /> ESIGN Act</div>
+            <div className="text-sm font-black tracking-tight flex items-center gap-1.5"><FontAwesomeIcon icon={faCircleCheck} className="h-4.5 w-4.5 text-emerald-500" /> UETA Compliant</div>
+            <div className="text-sm font-black tracking-tight flex items-center gap-1.5"><FontAwesomeIcon icon={faLock} className="h-4.5 w-4.5 text-indigo-500" /> eIDAS Compliant</div>
+            <div className="text-sm font-black tracking-tight flex items-center gap-1.5"><FontAwesomeIcon icon={faServer} className="h-4.5 w-4.5 text-rose-500" /> HIPAA Aligned</div>
           </div>
         </div>
       </section>
@@ -104,7 +105,7 @@ export default function Security() {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary uppercase tracking-wider">
-              <Sparkles className="h-3.5 w-3.5" />
+              <FontAwesomeIcon icon={faWandMagicSparkles} className="h-3.5 w-3.5" />
               Security Architecture
             </span>
             <h2 className="mt-3 text-3xl font-extrabold text-foreground sm:text-4xl">
@@ -117,9 +118,9 @@ export default function Security() {
             {/* Segmented Selector Tabs */}
             <div className="flex bg-white dark:bg-card border border-border rounded-full p-1 max-w-md mx-auto mt-8 shadow-sm justify-between">
               {[
-                { id: "compliance", label: "Legal Compliance", icon: <Scale className="h-4 w-4" /> },
-                { id: "encryption", label: "Data Encryption", icon: <Lock className="h-4 w-4" /> },
-                { id: "auditing", label: "Audit Tracking", icon: <MapPin className="h-4 w-4" /> }
+                { id: "compliance", label: "Legal Compliance", icon: <FontAwesomeIcon icon={faScaleBalanced} className="h-4 w-4" /> },
+                { id: "encryption", label: "Data Encryption", icon: <FontAwesomeIcon icon={faLock} className="h-4 w-4" /> },
+                { id: "auditing", label: "Audit Tracking", icon: <FontAwesomeIcon icon={faMapPin} className="h-4 w-4" /> }
               ].map((tab) => (
                 <button
                   key={tab.id}
@@ -154,7 +155,7 @@ export default function Security() {
                       { title: "eIDAS Compliance Standards", desc: "Satisfies Advanced Electronic Signature requirements across all EU member states." }
                     ].map((item, idx) => (
                       <div key={idx} className="flex gap-3 items-start">
-                        <CheckCircle2 className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
+                        <FontAwesomeIcon icon={faCircleCheck} className="h-4.5 w-4.5 text-emerald-500 shrink-0 mt-0.5" />
                         <div>
                           <p className="text-xs font-bold text-foreground">{item.title}</p>
                           <p className="text-[11px] text-muted-foreground mt-0.5">{item.desc}</p>
@@ -194,14 +195,14 @@ export default function Security() {
                   <div className="grid gap-4 sm:grid-cols-2 pt-2">
                     <div className="bg-slate-50 dark:bg-accent/5 border border-border rounded-xl p-4 text-left">
                       <div className="h-8 w-8 rounded-lg bg-slate-50 dark:bg-indigo-950/20 text-slate-600 flex items-center justify-center mb-3">
-                        <Lock className="h-4.5 w-4.5" />
+                        <FontAwesomeIcon icon={faLock} className="h-4.5 w-4.5" />
                       </div>
                       <p className="text-xs font-bold text-foreground">AES-256 Protection</p>
                       <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">All active contracts, databases, and logs are encrypted at rest using Advanced Encryption Standards.</p>
                     </div>
                     <div className="bg-slate-50 dark:bg-accent/5 border border-border rounded-xl p-4 text-left">
                       <div className="h-8 w-8 rounded-lg bg-cyan-50 dark:bg-cyan-950/20 text-cyan-600 flex items-center justify-center mb-3">
-                        <Database className="h-4.5 w-4.5" />
+                        <FontAwesomeIcon icon={faDatabase} className="h-4.5 w-4.5" />
                       </div>
                       <p className="text-xs font-bold text-foreground">SSL/TLS Transit</p>
                       <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">All data transfer between client browsers and server API nodes uses HTTPS TLS 1.3 cryptographic pipelines.</p>
@@ -212,7 +213,7 @@ export default function Security() {
                 <div className="md:col-span-5 bg-slate-900 text-white rounded-2xl p-6 space-y-4 shadow-lg border border-primary/10 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
                   <h4 className="font-extrabold text-xs uppercase text-slate-400 tracking-wider flex items-center gap-1.5">
-                    <Activity className="h-3.5 w-3.5 text-primary" />
+                    <FontAwesomeIcon icon={faHeartPulse} className="h-3.5 w-3.5 text-primary" />
                     Cryptographic Seal Verification
                   </h4>
                   <div className="space-y-3 font-mono text-[10px] text-slate-300">
@@ -225,7 +226,7 @@ export default function Security() {
                       <p className="break-all font-mono">f849cda99de720fc8f93f908ec2ee7334a4be71cd</p>
                     </div>
                     <div className="flex gap-2 items-center bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded-lg text-emerald-400 font-sans text-xs">
-                      <CheckCircle2 className="h-4 w-4 shrink-0" />
+                      <FontAwesomeIcon icon={faCircleCheck} className="h-4 w-4 shrink-0" />
                       <span>Integrity Verified: Untampered PDF Payload</span>
                     </div>
                   </div>
@@ -243,9 +244,9 @@ export default function Security() {
 
                   <div className="space-y-3 pt-2">
                     {[
-                      { icon: <MapPin className="h-4 w-4 text-rose-500" />, title: "IP Geolocation Resolving", desc: "Queries global network carrier coordinates to record the precise city and coordinates of the signatory." },
-                      { icon: <Activity className="h-4 w-4 text-cyan-500" />, title: "Atomic Timestamps", desc: "Every transaction step is logged securely down to the exact millisecond using NTP network servers." },
-                      { icon: <Eye className="h-4 w-4 text-emerald-500" />, title: "Forensic Metadata capturing", desc: "Logs signer operating systems, browser engines, network carriers, and reference paths." }
+                      { icon: <FontAwesomeIcon icon={faMapPin} className="h-4 w-4 text-rose-500" />, title: "IP Geolocation Resolving", desc: "Queries global network carrier coordinates to record the precise city and coordinates of the signatory." },
+                      { icon: <FontAwesomeIcon icon={faHeartPulse} className="h-4 w-4 text-cyan-500" />, title: "Atomic Timestamps", desc: "Every transaction step is logged securely down to the exact millisecond using NTP network servers." },
+                      { icon: <FontAwesomeIcon icon={faEye} className="h-4 w-4 text-emerald-500" />, title: "Forensic Metadata capturing", desc: "Logs signer operating systems, browser engines, network carriers, and reference paths." }
                     ].map((item, idx) => (
                       <div key={idx} className="flex gap-3 items-start">
                         <div className="h-8 w-8 rounded-lg bg-slate-50 dark:bg-accent/15 border border-border flex items-center justify-center shrink-0">
@@ -315,7 +316,7 @@ export default function Security() {
       <section className="pb-24 bg-slate-50 dark:bg-background">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="bg-red-500/5 border border-red-500/10 rounded-2xl p-6 flex gap-4 items-start text-left">
-            <AlertCircle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
+            <FontAwesomeIcon icon={faCircleExclamation} className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
             <div className="space-y-1.5">
               <h4 className="text-xs font-black uppercase text-red-500 tracking-wider">A Note on Legality</h4>
               <p className="text-[11px] leading-relaxed text-muted-foreground">

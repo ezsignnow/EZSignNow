@@ -1,14 +1,15 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { 
-  PenTool, 
-  FileText, 
-  Copy, 
-  CheckSquare, 
-  Users, 
-  Layers, 
-  Settings,
-  Briefcase
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPenNib,
+  faFileLines,
+  faCopy,
+  faSquareCheck,
+  faUsers,
+  faLayerGroup,
+  faGear,
+  faBriefcase
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function DashboardSidebar() {
   const navigate = useNavigate();
@@ -23,14 +24,14 @@ export default function DashboardSidebar() {
   }
 
   const sidebarItems = [
-    { id: "sign", label: "Sign", icon: PenTool },
-    { id: "documents", label: "Documents", icon: FileText },
-    { id: "templates", label: "Templates", icon: Copy },
-    { id: "forms", label: "Forms", icon: CheckSquare },
-    { id: "team", label: "Team", icon: Users },
-    { id: "company", label: "Company", icon: Briefcase },
-    { id: "integrations", label: "Integrations", icon: Layers },
-    { id: "settings", label: "Settings", icon: Settings },
+    { id: "sign", label: "Sign", icon: faPenNib },
+    { id: "documents", label: "Documents", icon: faFileLines },
+    { id: "templates", label: "Templates", icon: faCopy },
+    { id: "forms", label: "Forms", icon: faSquareCheck },
+    { id: "team", label: "Team", icon: faUsers },
+    { id: "company", label: "Company", icon: faBriefcase },
+    { id: "integrations", label: "Integrations", icon: faLayerGroup },
+    { id: "settings", label: "Settings", icon: faGear },
   ];
 
   const handleNavigate = (id: string) => {
@@ -63,7 +64,7 @@ export default function DashboardSidebar() {
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
               }`}
             >
-              <item.icon className={`h-4.5 w-4.5 ${itemActive ? "text-emerald-600" : "text-slate-400"}`} />
+              <FontAwesomeIcon icon={item.icon} className={`h-4.5 w-4.5 ${itemActive ? "text-emerald-600" : "text-slate-400"}`} />
               {item.label}
             </button>
             

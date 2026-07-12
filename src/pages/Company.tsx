@@ -6,11 +6,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  Briefcase, Save, Palette, FileSignature, LayoutTemplate, 
-  ChevronDown, LogOut, Headset, CreditCard, Star, User, PenTool, Image as ImageIcon,
-  RotateCcw, MousePointerClick, RefreshCw, X, Link as LinkIcon
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBriefcase, faSave, faPalette, faFileSignature, faTableCellsLarge,
+  faChevronDown, faRightFromBracket, faHeadset, faCreditCard, faStar, faUser, faPenNib, faImage as ImageIcon,
+  faRotateLeft, faArrowPointer, faArrowsRotate, faXmark, faLink as LinkIcon
+} from "@fortawesome/free-solid-svg-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -159,46 +160,46 @@ export default function Company() {
                   <span className="text-xs font-bold text-slate-600 hidden md:inline max-w-[120px] truncate">
                     {user?.email ? user.email.split("@")[0] : "User"}
                   </span>
-                  <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                  <FontAwesomeIcon icon={faChevronDown} className="h-3.5 w-3.5 text-slate-400" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-popover w-52 p-1 border border-slate-100/80 shadow-md select-none">
                 <DropdownMenuItem onClick={() => navigate("/company")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer">
-                  <Briefcase className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faBriefcase} className="mr-3 h-4 w-4 text-slate-400" />
                   Company
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/dashboard?tab=settings")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <User className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faUser} className="mr-3 h-4 w-4 text-slate-400" />
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => {
                   navigate("/dashboard?tab=settings");
                   setTimeout(() => toast({ title: "Edit Signature Active", description: "Select your default cursive script fonts below." }), 300);
                 }} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <PenTool className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faPenNib} className="mr-3 h-4 w-4 text-slate-400" />
                   Edit Signature
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/try-trial")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <CreditCard className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faCreditCard} className="mr-3 h-4 w-4 text-slate-400" />
                   Billing
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => {
                   navigator.clipboard.writeText(getAbsoluteUrl(`/signup?ref=${user?.email?.split("@")[0] || "ezsignnow"}`));
                   toast({ title: "Share & Earn Copied!", description: "Your unique referral link has been copied to clipboard!" });
                 }} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
-                  <Star className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faStar} className="mr-3 h-4 w-4 text-slate-400" />
                   Share & Earn
                 </DropdownMenuItem>
                 <div className="border-t border-slate-100 my-1" />
                 <DropdownMenuItem onClick={handleSignOut} className="text-xs font-bold text-destructive hover:text-destructive/95 py-2.5 cursor-pointer">
-                  <LogOut className="mr-3 h-4 w-4 text-slate-400" />
+                  <FontAwesomeIcon icon={faRightFromBracket} className="mr-3 h-4 w-4 text-slate-400" />
                   Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
             <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1">
-              <Headset className="h-4 w-4" />
+              <FontAwesomeIcon icon={faHeadset} className="h-4 w-4" />
               <span className="hidden sm:inline uppercase tracking-wider">Support</span>
             </button>
           </div>
@@ -221,7 +222,7 @@ export default function Company() {
               <div className="lg:col-span-1 space-y-6">
                 <Card className="border-slate-100/80 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.01)] bg-white p-5 space-y-4">
                   <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <Briefcase className="h-4 w-4 text-[#22c55e]" />
+                    <FontAwesomeIcon icon={faBriefcase} className="h-4 w-4 text-[#22c55e]" />
                     Workspace Profile
                   </h3>
                   
@@ -256,7 +257,7 @@ export default function Company() {
                       variant="outline"
                       className="w-full text-xs font-bold border-slate-200 h-9 rounded-lg flex items-center gap-1.5 hover:bg-slate-50"
                     >
-                      <Save className="h-3.5 w-3.5" />
+                      <FontAwesomeIcon icon={faSave} className="h-3.5 w-3.5" />
                       Apply Profile
                     </Button>
                   </form>
@@ -270,7 +271,7 @@ export default function Company() {
                   <Card className="border-slate-100/80 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-4">
                     <div className="space-y-1">
                       <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                        <FileSignature className="h-4 w-4 text-[#22c55e]" />
+                        <FontAwesomeIcon icon={faFileSignature} className="h-4 w-4 text-[#22c55e]" />
                         Brand Identity
                       </h3>
                       <p className="text-xs text-slate-400">These values appear in signing email headers, document footers, and client-facing signing flows.</p>
@@ -310,7 +311,7 @@ export default function Company() {
                   <Card className="border-slate-100/80 bg-white rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.01)] space-y-5">
                     <div className="space-y-1 border-b border-slate-100 pb-3">
                       <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
-                        <LayoutTemplate className="h-4 w-4 text-[#22c55e]" />
+                        <FontAwesomeIcon icon={faTableCellsLarge} className="h-4 w-4 text-[#22c55e]" />
                         Visual Aesthetics
                       </h3>
                       <p className="text-xs text-slate-400">Customize the colors and typography to match your corporate brand guidelines.</p>
@@ -323,7 +324,7 @@ export default function Company() {
                         
                         <div className="flex gap-2">
                           <div className="relative flex-1">
-                            <LinkIcon className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+                            <FontAwesomeIcon icon={LinkIcon} className="absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
                             <Input
                               type="url"
                               placeholder="https://example.com/logo.png"
@@ -357,12 +358,12 @@ export default function Company() {
                                 onClick={() => { setBrandLogoUrl(null); setBrandLogoUrlInput(""); }}
                                 className="absolute top-1 right-1 bg-white/80 p-1 rounded-full text-slate-400 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                               >
-                                <X className="h-3 w-3" />
+                                <FontAwesomeIcon icon={faXmark} className="h-3 w-3" />
                               </button>
                             </>
                           ) : (
                             <div className="flex flex-col items-center gap-1.5 text-slate-400">
-                              <ImageIcon className="h-5 w-5 opacity-40" />
+                              <FontAwesomeIcon icon={ImageIcon} className="h-5 w-5 opacity-40" />
                               <span className="text-[10px] font-bold uppercase tracking-wide">Logo Preview</span>
                             </div>
                           )}
@@ -434,7 +435,7 @@ export default function Company() {
                       onClick={handleResetBranding}
                       className="text-slate-500 hover:text-rose-600 hover:bg-rose-50 text-xs font-bold h-10 px-4 rounded-xl flex items-center gap-2 transition-colors"
                     >
-                      <RotateCcw className="h-4 w-4" />
+                      <FontAwesomeIcon icon={faRotateLeft} className="h-4 w-4" />
                       Reset Defaults
                     </Button>
                     
@@ -445,12 +446,12 @@ export default function Company() {
                     >
                       {isSavingBranding ? (
                         <>
-                          <RefreshCw className="h-4 w-4 animate-spin" />
+                          <FontAwesomeIcon icon={faArrowsRotate} className="h-4 w-4 animate-spin" />
                           Applying Layout...
                         </>
                       ) : (
                         <>
-                          <Save className="h-4 w-4" />
+                          <FontAwesomeIcon icon={faSave} className="h-4 w-4" />
                           Save Branding Layout
                         </>
                       )}

@@ -7,22 +7,23 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { 
-  PenLine, 
-  TextCursorInput, 
-  Square,
-  Calendar,
-  Tag,
-  X,
-  Move,
-  Info,
-  Loader2,
-  Paperclip,
-  Palette,
-  Upload,
-  FileText,
-  CheckCircle2
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPen,
+  faICursor,
+  faSquare,
+  faCalendarDays,
+  faTag,
+  faXmark,
+  faArrowsUpDownLeftRight,
+  faCircleInfo,
+  faSpinner,
+  faPaperclip,
+  faPalette,
+  faUpload,
+  faFileLines,
+  faCircleCheck
+} from "@fortawesome/free-solid-svg-icons";
 import { Signatory } from "./SignatoryManager";
 import * as pdfjsLib from "pdfjs-dist";
 
@@ -55,13 +56,13 @@ interface DocumentCanvasProps {
 }
 
 const fieldIcons: Record<string, any> = {
-  signature: PenLine,
-  text: TextCursorInput,
-  checkbox: Square,
-  date: Calendar,
-  label: Tag,
-  attachment: Paperclip,
-  drawing: Palette,
+  signature: faPen,
+  text: faICursor,
+  checkbox: faSquare,
+  date: faCalendarDays,
+  label: faTag,
+  attachment: faPaperclip,
+  drawing: faPalette,
 };
 
 export function DocumentCanvas({
@@ -264,7 +265,7 @@ export function DocumentCanvas({
       <div className="flex justify-center p-6 min-h-full">
         {loadingPdf ? (
           <div className="flex flex-col items-center justify-center gap-2.5 text-slate-400 dark:text-slate-500 self-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-[#22c55e]" />
+            <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
             <p className="text-xs font-bold uppercase tracking-wider">Rendering PDF pages...</p>
           </div>
         ) : fileUrl && pageImages.length > 0 ? (
@@ -284,7 +285,7 @@ export function DocumentCanvas({
 
             {/* Fields */}
             {fields.map((field) => {
-              const Icon = fieldIcons[field.type] || Tag;
+              const Icon = fieldIcons[field.type] || faTag;
               const signatory = field.signatoryIndex !== null ? signatories[field.signatoryIndex] : null;
               const borderColor = signatory?.color || "hsl(var(--border))";
               const isSigned = field.type === "signature" && signatory?.signature_data;
@@ -344,21 +345,21 @@ export function DocumentCanvas({
                       {field.value ? (
                         <div className="flex items-center gap-2 w-full h-full text-left overflow-hidden">
                           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 shrink-0 border border-emerald-100 dark:border-emerald-900/50">
-                            <FileText className="h-4 w-4" />
+                            <FontAwesomeIcon icon={faFileLines} className="h-4 w-4" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="text-xs font-bold text-slate-700 dark:text-slate-200 truncate leading-tight">
                               {field.value}
                             </p>
                             <span className="text-[9px] font-extrabold text-emerald-500 uppercase tracking-wide flex items-center gap-0.5 leading-none mt-0.5">
-                              <CheckCircle2 className="h-2.5 w-2.5" /> Uploaded
+                              <FontAwesomeIcon icon={faCircleCheck} className="h-2.5 w-2.5" /> Uploaded
                             </span>
                           </div>
                         </div>
                       ) : (
                         <div className="flex items-center gap-2 w-full h-full text-left">
                           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600 dark:text-cyan-400 shrink-0 border border-cyan-100 dark:border-cyan-900/50">
-                            <Upload className="h-3.5 w-3.5 animate-pulse" />
+                            <FontAwesomeIcon icon={faUpload} className="h-3.5 w-3.5 animate-pulse" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="text-[11.5px] font-bold text-slate-700 dark:text-slate-200 truncate leading-tight">
@@ -381,12 +382,12 @@ export function DocumentCanvas({
                             className="max-h-[85%] max-w-full object-contain"
                           />
                           <span className="text-[8px] font-extrabold text-indigo-500 uppercase tracking-wide flex items-center gap-0.5 mt-0.5 leading-none">
-                            <CheckCircle2 className="h-2.5 w-2.5" /> Sketch saved
+                            <FontAwesomeIcon icon={faCircleCheck} className="h-2.5 w-2.5" /> Sketch saved
                           </span>
                         </div>
                       ) : (
                         <div className="flex flex-col items-center justify-center w-full h-full border border-dashed border-slate-200 dark:border-slate-800 rounded-lg p-2 bg-slate-50/20 dark:bg-slate-900/20 text-center gap-1">
-                          <Palette className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                          <FontAwesomeIcon icon={faPalette} className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
                           <div className="min-w-0">
                             <p className="text-[11px] font-bold text-slate-700 dark:text-slate-200 leading-tight">
                               {field.label || "Drawing Canvas"}
@@ -404,7 +405,7 @@ export function DocumentCanvas({
                         <div
                           className="flex h-6 w-6 items-center justify-center rounded-lg flex-shrink-0 bg-white/90 dark:bg-slate-900/90 border border-slate-100 dark:border-slate-850 shadow-[0_1px_2px_rgba(0,0,0,0.02)] mr-2"
                         >
-                          <Icon className="h-3.5 w-3.5" style={{ color: borderColor }} />
+                          <FontAwesomeIcon icon={Icon} className="h-3.5 w-3.5" style={{ color: borderColor }} />
                         </div>
                       )}
                       
@@ -427,7 +428,7 @@ export function DocumentCanvas({
                                     : (field.label || field.type)}
                                 </span>
                                 {field.tooltip && (
-                                  <Info className="h-3 w-3 text-slate-400 dark:text-slate-550 flex-shrink-0" />
+                                  <FontAwesomeIcon icon={faCircleInfo} className="h-3 w-3 text-slate-400 dark:text-slate-550 flex-shrink-0" />
                                 )}
                               </div>
                             </TooltipTrigger>
@@ -449,7 +450,7 @@ export function DocumentCanvas({
 
                   {!readOnly && editingField !== field.id && (
                     <div className="flex gap-1 items-center shrink-0">
-                      <Move className="h-3 w-3 text-slate-300 dark:text-slate-700" />
+                      <FontAwesomeIcon icon={faArrowsUpDownLeftRight} className="h-3 w-3 text-slate-300 dark:text-slate-700" />
                       <button
                         className="text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 transition-colors rounded p-0.5 hover:bg-rose-50 dark:hover:bg-rose-950/20"
                         onClick={(e) => {
@@ -457,7 +458,7 @@ export function DocumentCanvas({
                           handleDelete(field.id);
                         }}
                       >
-                        <X className="h-3.5 w-3.5" />
+                        <FontAwesomeIcon icon={faXmark} className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   )}

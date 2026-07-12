@@ -9,22 +9,23 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { BrandLogo } from "@/components/layout/BrandLogo";
 import { getAbsoluteUrl } from "@/utils/url";
-import { 
-  FileSignature, 
-  Loader2, 
-  CheckCircle2, 
-  ShieldCheck, 
-  Sparkles, 
-  ArrowLeft, 
-  Check, 
-  Trash2,
-  PenTool,
-  Type,
-  Star,
-  HelpCircle,
-  Mail,
-  RefreshCw
-} from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileSignature,
+  faSpinner,
+  faCircleCheck,
+  faShieldHalved,
+  faWandMagicSparkles,
+  faArrowLeft,
+  faCheck,
+  faTrashCan,
+  faPenNib,
+  faFont,
+  faStar,
+  faCircleQuestion,
+  faEnvelope,
+  faArrowsRotate
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function TryForFree() {
   const [searchParams] = useSearchParams();
@@ -345,7 +346,7 @@ export default function TryForFree() {
             to="/" 
             className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-white transition-all bg-white/5 hover:bg-white/10 px-3 py-2 rounded-full backdrop-blur-sm"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
             Back to Homepage
           </Link>
         </div>
@@ -408,12 +409,12 @@ export default function TryForFree() {
           {/* G2 Verified Badge */}
           <div className="flex items-center justify-center gap-6 py-2 bg-white/5 rounded-2xl border border-white/5 text-xs text-slate-400">
             <span className="flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4 text-emerald-400" />
+              <FontAwesomeIcon icon={faShieldHalved} className="h-4 w-4 text-emerald-400" />
               Verified G2 Reviewer
             </span>
             <span className="h-3 w-[1px] bg-white/10" />
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="h-4 w-4 text-primary" />
+              <FontAwesomeIcon icon={faCircleCheck} className="h-4 w-4 text-primary" />
               Legally Compliant ESIGN & eIDAS
             </span>
           </div>
@@ -460,7 +461,7 @@ export default function TryForFree() {
             <BrandLogo />
           </Link>
           <div className="flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider select-none">
-            <Sparkles className="h-3 w-3 animate-spin" />
+            <FontAwesomeIcon icon={faWandMagicSparkles} className="h-3 w-3 animate-spin" />
             14-Day Pro Trial Active
           </div>
         </div>
@@ -473,7 +474,7 @@ export default function TryForFree() {
             <Card className="border border-border/60 shadow-xl bg-white dark:bg-card">
               <CardHeader className="text-center pb-4">
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Mail className="h-6 w-6" />
+                  <FontAwesomeIcon icon={faEnvelope} className="h-6 w-6" />
                 </div>
                 <CardTitle className="text-2xl font-extrabold text-foreground">
                   Confirm your email
@@ -498,7 +499,7 @@ export default function TryForFree() {
                   disabled={resending}
                   className="flex items-center justify-center gap-1.5 text-xs font-semibold text-primary hover:underline disabled:opacity-60"
                 >
-                  {resending ? <RefreshCw className="h-3 w-3 animate-spin" /> : null}
+                  {resending ? <FontAwesomeIcon icon={faArrowsRotate} className="h-3 w-3 animate-spin" /> : null}
                   Resend Verification Email
                 </button>
               </CardFooter>
@@ -529,7 +530,7 @@ export default function TryForFree() {
               <div className="bg-slate-50 dark:bg-accent/15 border border-border rounded-2xl p-5 space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs font-bold text-foreground flex items-center gap-1">
-                    <Sparkles className="h-3.5 w-3.5 text-primary" />
+                    <FontAwesomeIcon icon={faWandMagicSparkles} className="h-3.5 w-3.5 text-primary" />
                     Interactive Signature Playground
                   </h3>
                   
@@ -542,17 +543,17 @@ export default function TryForFree() {
                         signatureMode === "type" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      <Type className="h-3.5 w-3.5" />
+                      <FontAwesomeIcon icon={faFont} className="h-3.5 w-3.5" />
                       Type Name
                     </button>
-                    <button 
+                    <button
                       type="button"
                       onClick={() => setSignatureMode("draw")}
                       className={`flex items-center gap-1 px-3 py-1 rounded-md font-semibold transition-all ${
                         signatureMode === "draw" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      <PenTool className="h-3.5 w-3.5" />
+                      <FontAwesomeIcon icon={faPenNib} className="h-3.5 w-3.5" />
                       Draw Ink
                     </button>
                   </div>
@@ -594,7 +595,7 @@ export default function TryForFree() {
                           <div className={`h-4.5 w-4.5 rounded-full border flex items-center justify-center ${
                             selectedFont === idx ? "border-primary bg-primary text-white" : "border-slate-300"
                           }`}>
-                            {selectedFont === idx && <Check className="h-2.5 w-2.5 font-bold" />}
+                            {selectedFont === idx && <FontAwesomeIcon icon={faCheck} className="h-2.5 w-2.5 font-bold" />}
                           </div>
                         </div>
                       ))}
@@ -609,7 +610,7 @@ export default function TryForFree() {
                         onClick={clearCanvas}
                         className="text-[10px] font-bold text-red-600 hover:text-red-500 flex items-center gap-1 focus:outline-none"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <FontAwesomeIcon icon={faTrashCan} className="h-3 w-3" />
                         Clear Pad
                       </button>
                     </div>
@@ -629,7 +630,7 @@ export default function TryForFree() {
                       />
                       {isCanvasEmpty && (
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-300 dark:text-slate-700 pointer-events-none gap-1 select-none">
-                          <PenTool className="h-6 w-6 opacity-60 animate-bounce" />
+                          <FontAwesomeIcon icon={faPenNib} className="h-6 w-6 opacity-60 animate-bounce" />
                           <span className="text-[10px] font-semibold tracking-wider">Draw your signature here</span>
                         </div>
                       )}
@@ -699,9 +700,9 @@ export default function TryForFree() {
                         }`}
                       >
                         {captchaLoading ? (
-                          <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+                          <FontAwesomeIcon icon={faSpinner} className="h-3.5 w-3.5 animate-spin text-primary" />
                         ) : captchaChecked ? (
-                          <Check className="h-4 w-4 text-emerald-600 font-bold" />
+                          <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-emerald-600 font-bold" />
                         ) : null}
                       </button>
                       <span className="text-xs font-medium text-foreground/80">I'm not a robot</span>
@@ -714,7 +715,7 @@ export default function TryForFree() {
 
                   {/* Submit Button */}
                   <Button type="submit" disabled={loading} className="w-full h-11 text-xs font-bold shadow shadow-primary/20 mt-4">
-                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {loading && <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />}
                     Claim My Free Trial & Save Signature
                   </Button>
 
