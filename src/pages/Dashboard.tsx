@@ -600,9 +600,72 @@ export default function Dashboard() {
   if (!user) return null;
 
   return (
-    <div className="flex-1 bg-slate-50 p-6 md:p-8 lg:p-10 overflow-y-auto">
+    <>
+      <header className="h-[60px] bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0 z-10 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+        <div className="flex items-center gap-3">
+          <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 border-l border-slate-100 pl-4 ml-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#22c55e]/20">
+                  <div className="h-7 w-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-black shrink-0 border border-emerald-200">
+                    {user?.email ? user.email.slice(0, 2).toUpperCase() : "U"}
+                  </div>
+                  <span className="text-xs font-bold text-slate-600 hidden md:inline max-w-[120px] truncate">
+                    {user?.email ? user.email.split("@")[0] : "User"}
+                  </span>
+                  <FontAwesomeIcon icon={faChevronDown} className="h-3.5 w-3.5 text-slate-400" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-popover w-52 p-1 border border-slate-100/80 shadow-md select-none">
+                <DropdownMenuItem onClick={() => navigate("/company")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer">
+                  <FontAwesomeIcon icon={faBriefcase} className="mr-3 h-4 w-4 text-slate-400" />
+                  Company
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/dashboard?tab=settings")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
+                  <FontAwesomeIcon icon={faUser} className="mr-3 h-4 w-4 text-slate-400" />
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  navigate("/dashboard?tab=settings");
+                  setTimeout(() => toast({ title: "Edit Signature Active", description: "Select your default cursive script fonts below." }), 300);
+                }} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
+                  <FontAwesomeIcon icon={faPenNib} className="mr-3 h-4 w-4 text-slate-400" />
+                  Edit Signature
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/try-trial")} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
+                  <FontAwesomeIcon icon={faCreditCard} className="mr-3 h-4 w-4 text-slate-400" />
+                  Billing
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                  navigator.clipboard.writeText(getAbsoluteUrl(`/signup?ref=${user?.email?.split("@")[0] || "ezsignnow"}`));
+                  toast({ title: "Share & Earn Copied!", description: "Your unique referral link has been copied to clipboard!" });
+                }} className="text-xs font-bold text-slate-500 hover:text-slate-800 py-2.5 cursor-pointer mt-0.5">
+                  <FontAwesomeIcon icon={faStar} className="mr-3 h-4 w-4 text-slate-400" />
+                  Share & Earn
+                </DropdownMenuItem>
+                <div className="border-t border-slate-100 my-1" />
+                <DropdownMenuItem onClick={handleSignOut} className="text-xs font-bold text-destructive hover:text-destructive/95 py-2.5 cursor-pointer">
+                  <FontAwesomeIcon icon={faRightFromBracket} className="mr-3 h-4 w-4 text-slate-400" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <button onClick={() => navigate("/support")} className="h-[34px] flex items-center justify-center gap-1.5 px-3 rounded-full bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 font-bold text-[11px] shadow-sm transition-all focus:outline-none ml-1">
+              <FontAwesomeIcon icon={faHeadset} className="h-4 w-4" />
+              <span className="hidden sm:inline uppercase tracking-wider">Support</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 bg-slate-50 p-6 md:p-8 lg:p-10 overflow-y-auto">
       <div className="max-w-[1000px] mx-auto w-full">
-        
+
         {/* Top Trial Banner */}
         {isPremium ? (
           <div className="bg-blue-600 text-white py-2 px-4 rounded-md text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0 mb-6">
@@ -1081,6 +1144,7 @@ export default function Dashboard() {
 
           </div>
     </div>
+    </>
   );
 }
 
