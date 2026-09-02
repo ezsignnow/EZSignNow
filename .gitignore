@@ -31,3 +31,6 @@ dist-ssr
 
 # Deploy scripts that may contain tokens
 deploy-email-template.ps1
+.vercel
+.env*
+supabase/.temp

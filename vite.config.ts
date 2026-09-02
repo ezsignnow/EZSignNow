@@ -2,7 +2,32 @@ import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-import nodemailer from "nodemailer";
+
+async function sendViaResend(env: Record<string, string>, { to, subject, text, html }: { to: string; subject: string; text?: string; html?: string }) {
+  const senderName = env.SMTP_SENDER_NAME || "EZSignNow";
+  const senderEmail = env.SMTP_SENDER_EMAIL || "support@ezsignnow.com";
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `${senderName} <${senderEmail}>`,
+      to,
+      subject,
+      text,
+      html,
+    }),
+  });
+
+  const data = (await response.json().catch(() => ({}))) as { message?: string };
+  if (!response.ok) {
+    throw new Error(data?.message || `Resend API error (${response.status})`);
+  }
+  return data;
+}
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -48,25 +73,6 @@ export default defineConfig(({ mode }) => {
                     res.end(JSON.stringify({ error: 'Missing signatories' }));
                     return;
                   }
-
-                  // Read credentials from env
-                  const smtpHost = env.SMTP_HOST || "smtppro.zoho.com";
-                  const smtpPort = Number(env.SMTP_PORT) || 587;
-                  const smtpUser = env.SMTP_USER || "support@ezsignnow.com";
-                  const smtpPass = env.SMTP_PASS || "Techl@der@2023";
-                  const smtpSenderName = env.SMTP_SENDER_NAME || "EZSignNow";
-                  const smtpSenderEmail = env.SMTP_SENDER_EMAIL || "support@ezsignnow.com";
-
-                  // Setup transporter
-                  const transporter = nodemailer.createTransport({
-                    host: smtpHost,
-                    port: smtpPort,
-                    secure: smtpPort === 465, // true for 465, false for 587
-                    auth: {
-                      user: smtpUser,
-                      pass: smtpPass,
-                    },
-                  });
 
                   // Dispatch email to each signatory
                   const emailPromises = signatories.map(async (sig: any) => {
@@ -124,8 +130,7 @@ export default defineConfig(({ mode }) => {
                       </div>
                     `;
 
-                    await transporter.sendMail({
-                      from: `"${smtpSenderName}" <${smtpSenderEmail}>`,
+                    await sendViaResend(env, {
                       to: sig.email,
                       subject: `Signature Request: ${documentTitle}`,
                       text: `Hello ${sig.name},\n\n${ownerEmail} has requested your signature on "${documentTitle}".\n\nReview and sign the document here: ${signUrl}\n\nThank you,\nEZSignNow Team`,
@@ -160,23 +165,6 @@ export default defineConfig(({ mode }) => {
                     return;
                   }
 
-                  const smtpHost = env.SMTP_HOST || "smtppro.zoho.com";
-                  const smtpPort = Number(env.SMTP_PORT) || 587;
-                  const smtpUser = env.SMTP_USER || "support@ezsignnow.com";
-                  const smtpPass = env.SMTP_PASS || "Techl@der@2023";
-                  const smtpSenderName = env.SMTP_SENDER_NAME || "EZSignNow";
-                  const smtpSenderEmail = env.SMTP_SENDER_EMAIL || "support@ezsignnow.com";
-
-                  const transporter = nodemailer.createTransport({
-                    host: smtpHost,
-                    port: smtpPort,
-                    secure: smtpPort === 465,
-                    auth: {
-                      user: smtpUser,
-                      pass: smtpPass,
-                    },
-                  });
-
                   const htmlContent = `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
                       <div style="background-color: #f1f5f9; padding: 12px; text-align: center; color: #0f172a; font-size: 13px; font-weight: 500;">
@@ -195,8 +183,7 @@ export default defineConfig(({ mode }) => {
                     </div>
                   `;
 
-                  await transporter.sendMail({
-                    from: `"${smtpSenderName}" <${smtpSenderEmail}>`,
+                  await sendViaResend(env, {
                     to: email,
                     subject: `Your EZSignNow Verification Code: ${code}`,
                     text: `Your device verification code is: ${code}`,
@@ -222,10 +209,56 @@ export default defineConfig(({ mode }) => {
             } else if (req.url === '/api/send-action-email' && req.method === 'POST') {
               let body = '';
               req.on('data', chunk => body += chunk);
-              req.on('end', () => {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({ success: true, mocked: true }));
+              req.on('end', async () => {
+                try {
+                  const data = JSON.parse(body);
+                  const { emails, documentTitle, actionType, actorName } = data;
+
+                  if (!emails || emails.length === 0) {
+                    res.statusCode = 400;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.end(JSON.stringify({ error: 'Missing recipients' }));
+                    return;
+                  }
+
+                  const title = actionType === 'completed' ? `Completed: ${documentTitle}` : `Document Signed by ${actorName}`;
+                  const heading = actionType === 'completed'
+                    ? `The document "${documentTitle}" has been fully executed.`
+                    : `${actorName} has signed the document "${documentTitle}".`;
+
+                  const htmlContent = `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+                      <div style="background-color: #f1f5f9; padding: 12px; text-align: center; color: #0f172a; font-size: 13px; font-weight: 500;">
+                        EZSignNow Document Services
+                      </div>
+                      <div style="text-align: center; padding: 30px 0;">
+                        <h1 style="color: #1e0098; font-size: 32px; margin: 0; font-weight: 800; letter-spacing: -1px;">
+                          <span style="color: #22c55e;">ez</span>signnow
+                        </h1>
+                      </div>
+                      <div style="background-color: #f8fafc; padding: 40px; text-align: center;">
+                        <div style="display: inline-block; background-color: #22c55e; color: white; width: 48px; height: 48px; border-radius: 24px; line-height: 48px; font-size: 24px; font-weight: bold; margin-bottom: 20px;">&#10003;</div>
+                        <h2 style="color: #0f172a; margin: 0 0 15px 0;">Update: ${documentTitle}</h2>
+                        <p style="color: #475569; font-size: 16px; line-height: 1.5; margin: 0;">${heading}</p>
+                      </div>
+                    </div>
+                  `;
+
+                  await Promise.all(emails.map((email: string) => sendViaResend(env, {
+                    to: email,
+                    subject: title,
+                    html: htmlContent,
+                  })));
+
+                  res.statusCode = 200;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ success: true }));
+                } catch (err: any) {
+                  console.error('Error sending action email:', err);
+                  res.statusCode = 500;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ error: err.message || 'Internal server error' }));
+                }
               });
             } else {
               next();
