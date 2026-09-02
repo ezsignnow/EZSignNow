@@ -79,7 +79,7 @@ export default function Team() {
     
     toast({
       title: "Invitation Sent",
-      description: `Dynamic Zoho mail relay has sent an encrypted ${inviteRole} invite to ${inviteEmail}.`
+      description: `Dynamic Resend mail relay has sent an encrypted ${inviteRole} invite to ${inviteEmail}.`
     });
   };
 

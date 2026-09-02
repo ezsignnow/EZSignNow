@@ -490,7 +490,7 @@ export default function Dashboard() {
     
     toast({
       title: "Workspace Invite Dispatched",
-      description: `Dynamic Zoho mail relay has sent an active collaborator invite to ${inviteEmail} as "${inviteRole}".`
+      description: `Dynamic Resend mail relay has sent an active collaborator invite to ${inviteEmail} as "${inviteRole}".`
     });
   };
 

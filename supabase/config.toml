@@ -2,9 +2,9 @@ project_id = "clvafviwuzpjvmthrcpf"
 
 [auth.email.smtp]
 enabled = true
-host = "smtppro.zoho.com"
-port = 587
-user = "support@ezsignnow.com"
-pass = "Techl@der@2023"
+host = "smtp.resend.com"
+port = 465
+user = "resend"
+pass = "env(RESEND_API_KEY)"
 admin_email = "support@ezsignnow.com"
 sender_name = "EZSignNow"

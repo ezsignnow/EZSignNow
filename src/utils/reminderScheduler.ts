@@ -27,7 +27,7 @@ let schedulerIntervalId: any = null;
 
 export const reminderScheduler = {
   /**
-   * Scan all pending documents and dispatch Zoho SMTP reminder emails
+   * Scan all pending documents and dispatch Resend reminder emails
    * to signatories who have not yet signed.
    */
   async scanAndRemind(): Promise<{ dispatchedCount: number; checkedCount: number }> {
@@ -98,12 +98,12 @@ export const reminderScheduler = {
             }
           }
 
-          // Trigger Zoho SMTP email
+          // Trigger Resend email
           console.log(`[Reminder Scheduler] Triggering reminder email to ${sig.name} (${sig.email}) for document "${doc.title}"`);
           
           let emailDispatched = false;
           try {
-            // We use the same Zoho SMTP endpoint
+            // We use the same Resend-backed endpoint
             const response = await fetch("/api/send-signing-email", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -130,7 +130,7 @@ export const reminderScheduler = {
           await fallbackService.createAuditLog(
             doc.id,
             "reminder_sent",
-            `Automatic Zoho reminder sent to signatory: ${sig.name} (${sig.email}).`,
+            `Automatic reminder sent to signatory: ${sig.name} (${sig.email}).`,
             "127.0.0.1",
             "Automatic Cron Scheduler"
           );

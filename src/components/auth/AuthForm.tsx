@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { getAbsoluteUrl } from "@/utils/url";
@@ -14,7 +15,8 @@ import {
   faCircleCheck,
   faWandMagicSparkles,
   faArrowLeft,
-  faCheck
+  faCheck,
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 
 import { BrandLogo } from "@/components/layout/BrandLogo";
@@ -29,8 +31,14 @@ export function AuthForm({ mode }: AuthFormProps) {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Email verification (OTP) states — shown for new signups, and for
+  // existing accounts that try to sign in before confirming their email.
   const [emailSent, setEmailSent] = useState(false);
-  
+  const [otpCode, setOtpCode] = useState("");
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
+  const [resendingOtp, setResendingOtp] = useState(false);
+
   // reCAPTCHA States
   const [captchaChecked, setCaptchaChecked] = useState(false);
   const [captchaLoading, setCaptchaLoading] = useState(false);
@@ -40,10 +48,10 @@ export function AuthForm({ mode }: AuthFormProps) {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (!authLoading && user) {
+    if (!authLoading && user && !emailSent) {
       navigate("/dashboard", { replace: true });
     }
-  }, [user, authLoading, navigate]);
+  }, [user, authLoading, emailSent, navigate]);
 
   const handleCaptchaClick = () => {
     if (captchaChecked) {
@@ -93,16 +101,29 @@ export function AuthForm({ mode }: AuthFormProps) {
       if (mode === "signup") {
         const { error } = await signUp(email, password, fullName);
         if (error) throw error;
-        
+
+        // New accounts must verify their email with a 6-digit code before
+        // they're signed in — Supabase won't hand back an active session
+        // until the OTP is confirmed.
+        setEmailSent(true);
         toast({
-          title: "Account created!",
-          description: "Welcome to EZSignNow.",
+          title: "Verify your email",
+          description: `We've sent a 6-digit code to ${email}.`,
         });
-        navigate("/dashboard", { replace: true });
       } else {
         const { error } = await signIn(email, password);
-        if (error) throw error;
-        
+        if (error) {
+          if (error.message?.toLowerCase().includes("confirm") || error.message?.toLowerCase().includes("not confirmed")) {
+            setEmailSent(true);
+            toast({
+              title: "Email not verified",
+              description: `Enter the verification code sent to ${email}, or resend it below.`,
+            });
+            return;
+          }
+          throw error;
+        }
+
         toast({
           title: "Welcome back!",
           description: "You've successfully signed in.",
@@ -117,6 +138,62 @@ export function AuthForm({ mode }: AuthFormProps) {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otpCode.length !== 6) return;
+
+    setVerifyingOtp(true);
+    try {
+      const { error } = await supabase.auth.verifyOtp({
+        email,
+        token: otpCode,
+        type: "signup",
+      });
+      if (error) throw error;
+
+      toast({
+        title: "Email verified!",
+        description: "Welcome to EZSignNow.",
+      });
+      navigate("/dashboard", { replace: true });
+    } catch (error: any) {
+      toast({
+        title: "Verification failed",
+        description: error.message || "That code didn't work. Please try again or resend it.",
+        variant: "destructive",
+      });
+    } finally {
+      setVerifyingOtp(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setResendingOtp(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email,
+        options: {
+          emailRedirectTo: getAbsoluteUrl("/dashboard"),
+        },
+      });
+      if (error) throw error;
+
+      toast({
+        title: "Code resent",
+        description: `A new verification code was sent to ${email}.`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Couldn't resend code",
+        description: error.message || "Please try again in a moment.",
+        variant: "destructive",
+      });
+    } finally {
+      setResendingOtp(false);
     }
   };
 
@@ -158,9 +235,69 @@ export function AuthForm({ mode }: AuthFormProps) {
         </div>
 
         {/* Stepper (Only on Signup flow) */}
-        {mode === "signup" && stepperHeader}
+        {mode === "signup" && !emailSent && stepperHeader}
 
-        {/* Regular Form */}
+        {emailSent ? (
+          /* Email Verification (OTP) Card */
+          <div className="bg-white border border-slate-200 shadow-md rounded-md overflow-hidden">
+            <div className="p-6 text-center border-b border-slate-100">
+              <div className="mx-auto mb-3 h-12 w-12 rounded-full bg-blue-50 flex items-center justify-center">
+                <FontAwesomeIcon icon={faEnvelope} className="h-5 w-5 text-blue-600" />
+              </div>
+              <h2 className="text-2xl font-bold text-slate-900">Verify your email</h2>
+              <p className="text-xs text-slate-500 mt-2">
+                Enter the 6-digit code we sent to <span className="font-semibold text-slate-700">{email}</span>
+              </p>
+            </div>
+            <div className="p-6">
+              <form onSubmit={handleVerifyOtp} className="space-y-6">
+                <div className="flex justify-center">
+                  <InputOTP maxLength={6} value={otpCode} onChange={setOtpCode}>
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={otpCode.length !== 6 || verifyingOtp}
+                  className="w-full h-11 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  {verifyingOtp && <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />}
+                  Verify email
+                </Button>
+
+                <p className="text-center text-xs text-slate-600">
+                  Didn't get a code?{" "}
+                  <button
+                    type="button"
+                    onClick={handleResendOtp}
+                    disabled={resendingOtp}
+                    className="font-semibold text-blue-600 hover:underline disabled:opacity-50"
+                  >
+                    {resendingOtp && <FontAwesomeIcon icon={faSpinner} className="mr-1 h-3 w-3 animate-spin inline" />}
+                    Resend code
+                  </button>
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setEmailSent(false)}
+                  className="w-full flex items-center justify-center gap-1.5 text-xs text-slate-500 hover:text-slate-700"
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} className="h-3 w-3" />
+                  Back
+                </button>
+              </form>
+            </div>
+          </div>
+        ) : (
         <div className="bg-white border border-slate-200 shadow-md rounded-md overflow-hidden">
           <div className="p-6 text-center border-b border-slate-100">
             <h2 className="text-2xl font-bold text-slate-900">
@@ -303,6 +440,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               </form>
             </div>
           </div>
+        )}
 
         {/* Footer info */}
         <div className="text-center text-[10px] text-slate-500 mt-8">

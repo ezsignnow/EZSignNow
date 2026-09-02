@@ -119,7 +119,7 @@ export default function Index() {
         break;
       case "sms":
         newEvent.event = "OTP Verification Sent";
-        newEvent.details = "Secure 6-digit code routed via Zoho SMTP relay.";
+        newEvent.details = "Secure 6-digit code routed via Resend.";
         newEvent.type = "secure";
         break;
       case "sign":
@@ -583,7 +583,7 @@ export default function Index() {
               </p>
             </div>
 
-            {/* Integration 3: Zoho Mail */}
+            {/* Integration 3: Resend */}
             <div className="group rounded-2xl border border-border bg-white dark:bg-card p-8 shadow-sm hover:border-[#e21a22]/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
               <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[#e21a22]/10 text-[#e21a22] transition-colors group-hover:bg-[#e21a22] group-hover:text-white">
                 <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -591,11 +591,11 @@ export default function Index() {
                 </svg>
               </div>
               <span className="text-[10px] font-extrabold text-[#e21a22] bg-[#e21a22]/10 px-2.5 py-1 rounded-full uppercase tracking-wider mb-3.5 inline-block">
-                Zoho SMTP Relay
+                Resend Email API
               </span>
               <h3 className="mb-2 font-bold text-foreground text-xl">Verified Notifications</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Ensure maximum email deliverability. All signatory invitations and verification codes route seamlessly through custom Zoho Mail SMTP dispatch servers.
+                Ensure maximum email deliverability. All signatory invitations and verification codes route seamlessly through Resend's verified sending domain.
               </p>
             </div>
           </div>
