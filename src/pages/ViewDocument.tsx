@@ -247,7 +247,13 @@ export default function ViewDocument() {
     };
 
     fetchDocument();
-  }, [id, user, navigate, toast]);
+    // Depend on user?.id, not the user object — Supabase hands back a new
+    // user/session object on every token refresh, and depending on the
+    // whole object here would re-run this fetch (silently wiping out any
+    // signature/field values a signer had already filled in but not yet
+    // submitted) every time that fires in the background.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, user?.id, navigate]);
 
   const completeSignature = async (signatureData: string) => {
     setSigning(true);

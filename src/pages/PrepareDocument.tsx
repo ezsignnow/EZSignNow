@@ -260,7 +260,14 @@ export default function PrepareDocument() {
     };
 
     fetchDocument();
-  }, [id, user, navigate, toast]);
+    // Deliberately depend on user?.id (a stable primitive) rather than the
+    // user object itself — Supabase's onAuthStateChange hands back a new
+    // user/session object on every token refresh, and depending on the
+    // whole object here would re-run this fetch (and silently clobber any
+    // signatories/fields the user had just added but not yet saved) every
+    // time that fires in the background.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, user?.id, navigate]);
 
   const handleAddSignatory = async (signatory: Omit<Signatory, "id" | "status">) => {
     setSignatories([...signatories, signatory as Signatory]);
