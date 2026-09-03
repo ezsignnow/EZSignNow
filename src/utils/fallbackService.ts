@@ -1,6 +1,10 @@
 import { supabase } from "@/integrations/supabase/client";
 import { getGeolocationInfo } from "./geolocation";
 
+// Max number of audit log entries kept per document when falling back to
+// localStorage (no server-side cleanup exists for this fallback store).
+const AUDIT_LOG_FALLBACK_LIMIT = 200;
+
 export interface Template {
   id: string;
   title: string;
@@ -312,8 +316,18 @@ export const fallbackService = {
     } catch (err) {
       console.warn("Supabase audit_logs insert failed, saving to localStorage", err);
       const current = await this.fetchAuditLogs(documentId);
-      const updated = [...current, newLog];
-      localStorage.setItem(`ez_audit_logs_${documentId}`, JSON.stringify(updated));
+      // Cap the fallback log at the most recent entries — this list has no
+      // server-side cleanup, so writing it unbounded eventually exhausts the
+      // browser's localStorage quota for the whole origin, which in turn
+      // breaks Supabase's own auth token storage (surfaces as generic
+      // "Authentication Error" / sign-in failures unrelated to the actual
+      // audit log write that caused it).
+      const updated = [...current, newLog].slice(-AUDIT_LOG_FALLBACK_LIMIT);
+      try {
+        localStorage.setItem(`ez_audit_logs_${documentId}`, JSON.stringify(updated));
+      } catch (storageErr) {
+        console.error("localStorage quota exceeded while saving audit log fallback; dropping entry", storageErr);
+      }
       return newLog;
     }
   },
