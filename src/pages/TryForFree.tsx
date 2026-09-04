@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { BrandLogo } from "@/components/layout/BrandLogo";
 import { getAbsoluteUrl } from "@/utils/url";
+import { logoDevUrl, BRAND_DOMAINS } from "@/utils/logoDev";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileSignature,
@@ -430,22 +431,18 @@ export default function TryForFree() {
           {/* Scrolling infinite banner */}
           <div className="flex gap-8 whitespace-nowrap opacity-60 relative w-full overflow-hidden">
             <div className="flex gap-8 justify-around items-center min-w-full animate-[marquee_20s_linear_infinite] flex-shrink-0">
-              <span className="text-xs font-extrabold text-white tracking-tight">Chegg</span>
-              <span className="text-xs font-extrabold text-red-500 tracking-tight flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>StateFarm
-              </span>
+              <img src={logoDevUrl(BRAND_DOMAINS.chegg, 40)} alt="Chegg" className="h-5 w-auto object-contain" />
+              <img src={logoDevUrl(BRAND_DOMAINS.stateFarm, 40)} alt="State Farm" className="h-5 w-auto object-contain" />
               <span className="text-xs font-extrabold text-white tracking-tight">COMPASS</span>
-              <span className="text-xs font-extrabold text-white tracking-tight font-serif">HARVARD</span>
-              <span className="text-xs font-extrabold text-white tracking-tight font-sans">LERNER&ROWE</span>
+              <img src={logoDevUrl(BRAND_DOMAINS.harvard, 40)} alt="Harvard" className="h-5 w-auto object-contain" />
+              <img src={logoDevUrl(BRAND_DOMAINS.lernerRowe, 40)} alt="Lerner & Rowe" className="h-5 w-auto object-contain" />
             </div>
             <div className="flex gap-8 justify-around items-center min-w-full animate-[marquee_20s_linear_infinite] flex-shrink-0" aria-hidden="true">
-              <span className="text-xs font-extrabold text-white tracking-tight">Chegg</span>
-              <span className="text-xs font-extrabold text-red-500 tracking-tight flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-red-500"></span>StateFarm
-              </span>
+              <img src={logoDevUrl(BRAND_DOMAINS.chegg, 40)} alt="Chegg" className="h-5 w-auto object-contain" />
+              <img src={logoDevUrl(BRAND_DOMAINS.stateFarm, 40)} alt="State Farm" className="h-5 w-auto object-contain" />
               <span className="text-xs font-extrabold text-white tracking-tight">COMPASS</span>
-              <span className="text-xs font-extrabold text-white tracking-tight font-serif">HARVARD</span>
-              <span className="text-xs font-extrabold text-white tracking-tight font-sans">LERNER&ROWE</span>
+              <img src={logoDevUrl(BRAND_DOMAINS.harvard, 40)} alt="Harvard" className="h-5 w-auto object-contain" />
+              <img src={logoDevUrl(BRAND_DOMAINS.lernerRowe, 40)} alt="Lerner & Rowe" className="h-5 w-auto object-contain" />
             </div>
           </div>
         </div>
@@ -734,24 +731,7 @@ export default function TryForFree() {
                       onClick={triggerGoogleRedirect}
                       className="w-full h-11 border-slate-300 dark:border-border hover:bg-slate-50 dark:hover:bg-accent/40 font-semibold text-xs flex gap-2 items-center justify-center"
                     >
-                      <svg className="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24">
-                        <path
-                          fill="#EA4335"
-                          d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.327 2.682 1.486 6.582l3.78 3.183z"
-                        />
-                        <path
-                          fill="#4285F4"
-                          d="M23.49 12.273c0-.818-.073-1.609-.209-2.373H12v4.582h6.473a5.536 5.536 0 0 1-2.4 3.636l3.782 3.182c2.209-2.036 3.636-5.036 3.636-9.027z"
-                        />
-                        <path
-                          fill="#FBBC05"
-                          d="M5.266 14.235A7.077 7.077 0 0 1 4.909 12c0-.79.136-1.555.357-2.264l-3.78-3.182A11.905 11.905 0 0 0 0 12c0 2.055.518 4.009 1.486 5.764l3.78-3.529z"
-                        />
-                        <path
-                          fill="#34A853"
-                          d="M12 24c3.245 0 5.973-1.073 7.964-2.909l-3.782-3.182c-1.045.7-2.382 1.118-4.182 1.118-3.218 0-5.936-2.164-6.909-5.082l-3.782 3.527C3.327 21.318 7.33 24 12 24z"
-                        />
-                      </svg>
+                      <img src={logoDevUrl(BRAND_DOMAINS.google, 32)} alt="Google" className="h-4 w-4 flex-shrink-0 object-contain" />
                       Sign Up with Google
                     </Button>
                     <p className="text-[10px] text-muted-foreground text-center italic leading-relaxed">

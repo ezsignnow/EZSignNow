@@ -39,6 +39,7 @@ import {
   faFire
 } from "@fortawesome/free-solid-svg-icons";
 import heroImage from "@/assets/hero-esign.jpg";
+import { logoDevUrl, BRAND_DOMAINS } from "@/utils/logoDev";
 
 export default function Index() {
   const { user, loading } = useAuth();
@@ -477,22 +478,18 @@ export default function Index() {
                 </p>
                 <div className="flex gap-8 whitespace-nowrap opacity-75 relative w-full overflow-hidden">
                   <div className="flex gap-8 justify-around items-center min-w-full animate-[marquee_20s_linear_infinite] flex-shrink-0">
-                    <span className="text-xs font-extrabold text-foreground tracking-tight">Chegg</span>
-                    <span className="text-xs font-extrabold text-red-600 dark:text-red-500 tracking-tight flex items-center gap-1">
-                      <span className="h-2 w-2 rounded-full bg-red-600"></span>StateFarm
-                    </span>
+                    <img src={logoDevUrl(BRAND_DOMAINS.chegg, 40)} alt="Chegg" className="h-5 w-auto object-contain" />
+                    <img src={logoDevUrl(BRAND_DOMAINS.stateFarm, 40)} alt="State Farm" className="h-5 w-auto object-contain" />
                     <span className="text-xs font-extrabold text-slate-900 dark:text-white tracking-tight">COMPASS</span>
-                    <span className="text-xs font-extrabold text-slate-700 dark:text-slate-300 tracking-tight font-serif">HARVARD</span>
-                    <span className="text-xs font-extrabold text-slate-500 tracking-tight font-sans">LERNER&ROWE</span>
+                    <img src={logoDevUrl(BRAND_DOMAINS.harvard, 40)} alt="Harvard" className="h-5 w-auto object-contain" />
+                    <img src={logoDevUrl(BRAND_DOMAINS.lernerRowe, 40)} alt="Lerner & Rowe" className="h-5 w-auto object-contain" />
                   </div>
                   <div className="flex gap-8 justify-around items-center min-w-full animate-[marquee_20s_linear_infinite] flex-shrink-0" aria-hidden="true">
-                    <span className="text-xs font-extrabold text-foreground tracking-tight">Chegg</span>
-                    <span className="text-xs font-extrabold text-red-600 dark:text-red-500 tracking-tight flex items-center gap-1">
-                      <span className="h-2 w-2 rounded-full bg-red-600"></span>StateFarm
-                    </span>
+                    <img src={logoDevUrl(BRAND_DOMAINS.chegg, 40)} alt="Chegg" className="h-5 w-auto object-contain" />
+                    <img src={logoDevUrl(BRAND_DOMAINS.stateFarm, 40)} alt="State Farm" className="h-5 w-auto object-contain" />
                     <span className="text-xs font-extrabold text-slate-900 dark:text-white tracking-tight">COMPASS</span>
-                    <span className="text-xs font-extrabold text-slate-700 dark:text-slate-300 tracking-tight font-serif">HARVARD</span>
-                    <span className="text-xs font-extrabold text-slate-500 tracking-tight font-sans">LERNER&ROWE</span>
+                    <img src={logoDevUrl(BRAND_DOMAINS.harvard, 40)} alt="Harvard" className="h-5 w-auto object-contain" />
+                    <img src={logoDevUrl(BRAND_DOMAINS.lernerRowe, 40)} alt="Lerner & Rowe" className="h-5 w-auto object-contain" />
                   </div>
                 </div>
               </div>

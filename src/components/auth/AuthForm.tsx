@@ -8,6 +8,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { getAbsoluteUrl } from "@/utils/url";
+import { logoDevUrl, BRAND_DOMAINS } from "@/utils/logoDev";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileSignature,
@@ -399,24 +400,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                   onClick={triggerGoogleRedirect}
                   className="w-full h-11 border-slate-300 hover:bg-slate-50 font-medium text-xs flex gap-2 items-center justify-center text-slate-700"
                 >
-                  <svg className="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24">
-                    <path
-                      fill="#EA4335"
-                      d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.327 2.682 1.486 6.582l3.78 3.183z"
-                    />
-                    <path
-                      fill="#4285F4"
-                      d="M23.49 12.273c0-.818-.073-1.609-.209-2.373H12v4.582h6.473a5.536 5.536 0 0 1-2.4 3.636l3.782 3.182c2.209-2.036 3.636-5.036 3.636-9.027z"
-                    />
-                    <path
-                      fill="#FBBC05"
-                      d="M5.266 14.235A7.077 7.077 0 0 1 4.909 12c0-.79.136-1.555.357-2.264l-3.78-3.182A11.905 11.905 0 0 0 0 12c0 2.055.518 4.009 1.486 5.764l3.78-3.529z"
-                    />
-                    <path
-                      fill="#34A853"
-                      d="M12 24c3.245 0 5.973-1.073 7.964-2.909l-3.782-3.182c-1.045.7-2.382 1.118-4.182 1.118-3.218 0-5.936-2.164-6.909-5.082l-3.782 3.527C3.327 21.318 7.33 24 12 24z"
-                    />
-                  </svg>
+                  <img src={logoDevUrl(BRAND_DOMAINS.google, 32)} alt="Google" className="h-4 w-4 flex-shrink-0 object-contain" />
                   {mode === "login" ? "Sign In with Google" : "Sign Up with Google"}
                 </Button>
                 
