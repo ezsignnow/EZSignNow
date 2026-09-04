@@ -1,6 +1,7 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { format } from "date-fns";
 import { AuditLog } from "./auditLogger";
+import { CANVAS_PAGE_WIDTH, CANVAS_PAGE_HEIGHT, CANVAS_PAGE_STRIDE } from "./pdfCanvasLayout";
 
 export async function generateCertifiedPdf(
   originalPdfBytes: ArrayBuffer,
@@ -25,23 +26,24 @@ export async function generateCertifiedPdf(
     const htmlW = Number(field.width || 200);
     const htmlH = Number(field.height || 50);
 
-    // Account for vertical stacking with 16px page gaps (780px page height + 16px gap)
-    const pageHeightWithGap = 780 + 16;
-    const pageIndex = Math.floor(htmlY / pageHeightWithGap);
+    // Account for vertical stacking, using the exact page size/gap the
+    // canvas actually renders with (see pdfCanvasLayout.ts) — these must
+    // stay in sync or fields on page 2+ end up on the wrong page/position.
+    const pageIndex = Math.floor(htmlY / CANVAS_PAGE_STRIDE);
     const pageNumber = Math.min(Math.max(1, pageIndex + 1), pages.length);
     const page = pages[pageNumber - 1];
-    
+
     if (!page) continue;
     const { width: pdfWidth, height: pdfHeight } = page.getSize();
 
-    const scaleX = pdfWidth / 600;
-    const scaleY = pdfHeight / 780;
+    const scaleX = pdfWidth / CANVAS_PAGE_WIDTH;
+    const scaleY = pdfHeight / CANVAS_PAGE_HEIGHT;
 
     // Obtain coordinates relative to the specific target page
-    const pageRelativeHtmlY = htmlY % pageHeightWithGap;
+    const pageRelativeHtmlY = htmlY % CANVAS_PAGE_STRIDE;
 
     const x = htmlX * scaleX;
-    const y = (780 - pageRelativeHtmlY - htmlH) * scaleY;
+    const y = (CANVAS_PAGE_HEIGHT - pageRelativeHtmlY - htmlH) * scaleY;
     const width = htmlW * scaleX;
     const height = htmlH * scaleY;
 

@@ -26,6 +26,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Signatory } from "./SignatoryManager";
 import * as pdfjsLib from "pdfjs-dist";
+import { CANVAS_PAGE_HEIGHT, CANVAS_PAGE_GAP } from "@/utils/pdfCanvasLayout";
 
 // Configure standard PDF.js worker via local static public URL
 pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
@@ -242,9 +243,12 @@ export function DocumentCanvas({
     );
   };
 
-  const canvasHeight = pageImages.length > 0 
-    ? 780 * pageImages.length + 16 * (pageImages.length - 1)
-    : 780;
+  // Keep in sync with pdfCanvasLayout.ts — pdfGenerator.ts reverse-engineers
+  // each field's page/position from these exact same dimensions, so drift
+  // here silently misplaces fields on page 2+ in the final generated PDF.
+  const canvasHeight = pageImages.length > 0
+    ? CANVAS_PAGE_HEIGHT * pageImages.length + CANVAS_PAGE_GAP * (pageImages.length - 1)
+    : CANVAS_PAGE_HEIGHT;
 
   return (
     <Card
@@ -271,6 +275,9 @@ export function DocumentCanvas({
         ) : fileUrl && pageImages.length > 0 ? (
           <div
             ref={canvasRef}
+            // w-[600px] + gap-6 (24px) here must match CANVAS_PAGE_WIDTH /
+            // CANVAS_PAGE_GAP in @/utils/pdfCanvasLayout.ts — pdfGenerator.ts
+            // reverse-engineers each field's page from these exact values.
             className="relative w-[600px] select-none flex flex-col gap-6"
             style={{ height: `${canvasHeight}px` }}
           >
@@ -279,6 +286,7 @@ export function DocumentCanvas({
                 key={index}
                 src={src}
                 alt={`Page ${index + 1}`}
+                // h-[780px] here must match CANVAS_PAGE_HEIGHT in pdfCanvasLayout.ts
                 className="w-[600px] h-[780px] border border-slate-100/80 dark:border-slate-850 rounded-xl shadow-[0_12px_30px_-5px_rgba(0,0,0,0.04),0_8px_16px_-6px_rgba(0,0,0,0.04)] dark:shadow-[0_12px_30px_-5px_rgba(0,0,0,0.25),0_8px_16px_-6px_rgba(0,0,0,0.25)] bg-white dark:bg-slate-900 object-contain transition-all hover:shadow-[0_20px_40px_-5px_rgba(0,0,0,0.07),0_12px_20px_-8px_rgba(0,0,0,0.07)] duration-300"
               />
             ))}
