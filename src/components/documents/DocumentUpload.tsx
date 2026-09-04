@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faXmark, faFileLines, faChevronDown, faCheck, faUpload, faWandMagicSparkles, faEnvelope, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { logDocumentEvent } from "@/utils/auditLogger";
 import { logoDevUrl, BRAND_DOMAINS } from "@/utils/logoDev";
+import { BrandLogoImg } from "@/components/ui/brand-logo-img";
 
 
 export function DocumentUpload() {
@@ -648,21 +649,61 @@ export function DocumentUpload() {
     runStep();
   };
 
-  // Brand logos sourced from logo.dev by company domain
+  // Brand logos sourced from logo.dev by company domain, falling back to a
+  // hand-drawn SVG if the fetch is blocked (ad-blockers commonly flag
+  // domain-logo-lookup services) or otherwise fails.
   const GoogleDriveIcon = () => (
-    <img src={logoDevUrl(BRAND_DOMAINS.googleDrive, 56)} alt="Google Drive" className="h-7 w-7 shrink-0 object-contain" />
+    <BrandLogoImg
+      src={logoDevUrl(BRAND_DOMAINS.googleDrive, 56)}
+      alt="Google Drive"
+      className="h-7 w-7 shrink-0 object-contain"
+      fallback={
+        <svg viewBox="0 0 87.3 78" className="h-7 w-7 shrink-0">
+          <path d="M58.3 70.8L29.1 20.3 14.6 45.5l29.1 50.5c3.2-5.4 14.6-25.2 14.6-25.2z" fill="#00832d" />
+          <path d="M58.3 70.8L87.3 20.3H29.1l-14.5 25.2h58.2c-4.4 7.5-14.5 25.3-14.5 25.3z" fill="#0066da" />
+          <path d="M29.1 20.3L0 70.8h58.3l14.5-25.3H14.6c4.5-7.7 14.5-25.2 14.5-25.2z" fill="#ffba00" />
+        </svg>
+      }
+    />
   );
 
   const OneDriveIcon = () => (
-    <img src={logoDevUrl(BRAND_DOMAINS.oneDrive, 56)} alt="OneDrive" className="h-7 w-7 shrink-0 object-contain" />
+    <BrandLogoImg
+      src={logoDevUrl(BRAND_DOMAINS.oneDrive, 56)}
+      alt="OneDrive"
+      className="h-7 w-7 shrink-0 object-contain"
+      fallback={
+        <svg viewBox="0 0 256 256" className="h-7 w-7 shrink-0">
+          <path fill="#0364B8" d="M192.5 98.7c-2.3-37.4-33-66.9-70.5-66.9-24.1 0-45.5 12-58.2 30.5-1.5-.1-3-.2-4.5-.2-23.7 0-43.2 18-45.6 41C5.1 106.6 0 115.3 0 125c0 24.3 19.7 44 44 44h168c24.3 0 44-19.7 44-44 0-14.2-6.7-26.8-17.1-34.9-1.9-2.2-4.1-4.2-6.4-6.4z"/>
+        </svg>
+      }
+    />
   );
 
   const DropboxIcon = () => (
-    <img src={logoDevUrl(BRAND_DOMAINS.dropbox, 56)} alt="Dropbox" className="h-7 w-7 shrink-0 object-contain" />
+    <BrandLogoImg
+      src={logoDevUrl(BRAND_DOMAINS.dropbox, 56)}
+      alt="Dropbox"
+      className="h-7 w-7 shrink-0 object-contain"
+      fallback={
+        <svg viewBox="0 0 256 256" className="h-7 w-7 shrink-0">
+          <path fill="#0061FE" d="M128 171.1L30.6 112 128 52.9 225.4 112 128 171.1zM30.6 112L128 171.1 30.6 230.2 0 186.6 30.6 112zm194.8 0l-97.4 59.1 97.4 59.1 30.6-43.6-30.6-74.6zM128 52.9l-97.4-59.1L0 37.4 97.4 96.5 128 52.9zm0 0l97.4-59.1L256 37.4l-97.4 59.1-30.6-43.6z"/>
+        </svg>
+      }
+    />
   );
 
   const BoxIcon = () => (
-    <img src={logoDevUrl(BRAND_DOMAINS.box, 56)} alt="Box" className="h-7 w-7 shrink-0 object-contain" />
+    <BrandLogoImg
+      src={logoDevUrl(BRAND_DOMAINS.box, 56)}
+      alt="Box"
+      className="h-7 w-7 shrink-0 object-contain"
+      fallback={
+        <svg viewBox="0 0 256 256" className="h-7 w-7 shrink-0">
+          <path fill="#0061D5" d="M165.7 131.5c15.6-1.5 25.1-12.7 25.1-27.4 0-18.7-13.6-30.2-34.8-30.2H103v108.6h55c23.6 0 38.6-11.9 38.6-31 0-13.7-8.1-25.1-22.9-28.5L185 163h-25.6l-10-31.5h-10zm-42.9-42h11c11.1 0 16.5 5 16.5 14.8 0 9.7-5.4 14.6-16.5 14.6h-11v-29.4zm0 43.8h13.2c12.2 0 18.2 5.5 18.2 16.2 0 10.7-6 16.2-18.2 16.2h-13.2V133.3z"/>
+        </svg>
+      }
+    />
   );
 
   if (checkingLimit) {

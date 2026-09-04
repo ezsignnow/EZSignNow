@@ -23,6 +23,7 @@ import {
   faFire
 } from "@fortawesome/free-solid-svg-icons";
 import { logoDevUrl, BRAND_DOMAINS } from "@/utils/logoDev";
+import { BrandLogoImg } from "@/components/ui/brand-logo-img";
 
 export default function CompareSignNow() {
   // Slider states
@@ -138,10 +139,10 @@ export default function CompareSignNow() {
           {/* Social Proof */}
           <div className="mt-12 pt-10 border-t border-white/5 max-w-4xl mx-auto flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-75">
             <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Trusted by modern firms</div>
-            <img src={logoDevUrl(BRAND_DOMAINS.harvard, 40)} alt="Harvard" className="h-6 w-auto object-contain" />
-            <img src={logoDevUrl(BRAND_DOMAINS.stateFarm, 40)} alt="State Farm" className="h-6 w-auto object-contain" />
+            <BrandLogoImg src={logoDevUrl(BRAND_DOMAINS.harvard, 40)} alt="Harvard" className="h-6 w-auto object-contain" fallback={<div className="text-sm font-black tracking-tight">HARVARD Law Review</div>} />
+            <BrandLogoImg src={logoDevUrl(BRAND_DOMAINS.stateFarm, 40)} alt="State Farm" className="h-6 w-auto object-contain" fallback={<div className="text-sm font-black tracking-tight text-red-500">StateFarm Legal</div>} />
             <div className="text-sm font-black tracking-tight">COMPASS RE</div>
-            <img src={logoDevUrl(BRAND_DOMAINS.lernerRowe, 40)} alt="Lerner & Rowe" className="h-6 w-auto object-contain" />
+            <BrandLogoImg src={logoDevUrl(BRAND_DOMAINS.lernerRowe, 40)} alt="Lerner & Rowe" className="h-6 w-auto object-contain" fallback={<div className="text-sm font-black tracking-tight text-slate-300 font-serif">LERNER & ROWE</div>} />
           </div>
         </div>
       </section>
