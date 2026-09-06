@@ -323,12 +323,11 @@ export default function PrepareDocument() {
       // Save signatories
       await supabase.from("signatories").delete().eq("document_id", id);
       
-      // Save payment_fee to documents table
-      const feeNum = depositFee.trim() ? Number(depositFee.trim()) : null;
-      await supabase
-        .from("documents")
-        .update({ payment_fee: feeNum })
-        .eq("id", id);
+      // The live `documents` table has no payment_fee column either, so
+      // this always errored (silently, since the result wasn't checked) —
+      // the deposit fee is persisted via localStorage below instead, which
+      // already round-trips correctly on reload (see `savedDepositFee` in
+      // fetchDocument above).
 
       let insertedSignatories: any[] = [];
       if (signatories.length > 0) {
@@ -340,7 +339,12 @@ export default function PrepareDocument() {
               email: s.email,
               name: s.name,
               order_num: i + 1,
-              access_code: s.access_code || s.passcode || null,
+              // The live `signatories` table has no access_code column —
+              // inserting one throws "Could not find the 'access_code'
+              // column ... in the schema cache" and aborts this whole save
+              // (including every field position below it never getting
+              // written). The passcode is still persisted via localStorage
+              // just below, which is the only place it ever durably lived.
             }))
           )
           .select();
