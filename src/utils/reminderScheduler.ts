@@ -20,8 +20,12 @@ interface Document {
   payment_fee?: number | null;
 }
 
-// Cooldown interval for sending reminders (e.g., 2 minutes for sandbox testing)
-const REMINDER_COOLDOWN_MS = 2 * 60 * 1000; 
+// Minimum time between reminder emails to the same signatory. This was
+// previously 2 minutes ("for sandbox testing") but that leaked into
+// production — combined with running unconditionally for every visitor at
+// a 60s scan interval, it was sending real reminder emails often enough to
+// exhaust the Resend account's daily quota within hours.
+const REMINDER_COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 let schedulerIntervalId: any = null;
 
@@ -146,7 +150,7 @@ export const reminderScheduler = {
   /**
    * Start the scheduler interval to run every scanIntervalMs (default 45 seconds)
    */
-  start(scanIntervalMs: number = 45000) {
+  start(scanIntervalMs: number = 15 * 60 * 1000) {
     if (schedulerIntervalId) {
       console.log("[Reminder Scheduler] Already running.");
       return;

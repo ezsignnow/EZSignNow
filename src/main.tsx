@@ -1,10 +1,9 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { reminderScheduler } from "./utils/reminderScheduler";
 
-// Start background cron reminder scheduler
-reminderScheduler.start(60000); // scan every 60 seconds
+// The reminder scheduler is started/stopped from AuthContext based on
+// auth state, not unconditionally here — see the comment there for why.
 
 createRoot(document.getElementById("root")!).render(<App />);
 

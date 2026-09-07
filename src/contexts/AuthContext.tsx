@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { getAbsoluteUrl } from "@/utils/url";
+import { reminderScheduler } from "@/utils/reminderScheduler";
 
 interface AuthContextType {
   user: User | null;
@@ -36,6 +37,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  // Only run the reminder scheduler for an authenticated session — it was
+  // previously started unconditionally for every visitor (including
+  // anonymous marketing-page traffic) in main.tsx, which combined with a
+  // 60s scan interval and a 2-minute per-signatory cooldown was sending
+  // real reminder emails often enough to exhaust the daily send quota.
+  useEffect(() => {
+    if (user?.id) {
+      reminderScheduler.start();
+    } else {
+      reminderScheduler.stop();
+    }
+    return () => reminderScheduler.stop();
+  }, [user?.id]);
 
   const signUp = async (email: string, password: string, fullName: string) => {
     const { error } = await supabase.auth.signUp({

@@ -159,6 +159,7 @@ export function DocumentList() {
       }
 
       let emailDispatched = true;
+      let emailErrorMessage = "";
       try {
         const response = await fetch("/api/send-signing-email", {
           method: "POST",
@@ -182,8 +183,9 @@ export function DocumentList() {
           throw new Error(errorText);
         }
       } catch (emailErr: any) {
-        console.warn("SMTP relay not available in this environment. Falling back to manual link sharing:", emailErr);
+        console.warn("Email dispatch failed, falling back to manual link sharing:", emailErr);
         emailDispatched = false;
+        emailErrorMessage = emailErr?.message || "";
       }
 
       if (emailDispatched) {
@@ -193,8 +195,11 @@ export function DocumentList() {
         });
       } else {
         toast({
-          title: "Action required!",
-          description: "Since this site is hosted statically, automated emails are simulated. Please click Options -> Copy Direct Sign Link to share manually.",
+          title: "Couldn't send the email",
+          description: emailErrorMessage
+            ? `${emailErrorMessage} Use Options → Copy Direct Sign Link to share manually in the meantime.`
+            : "Something went wrong sending the email. Use Options → Copy Direct Sign Link to share manually.",
+          variant: "destructive",
         });
       }
     } catch (err: any) {

@@ -439,8 +439,9 @@ export default function PrepareDocument() {
 
       if (updateError) throw updateError;
 
-      // Dispatch real email via our local dev server SMTP relay
+      // Dispatch signing invitations via the Resend-backed API route
       let emailDispatched = true;
+      let emailErrorMessage = "";
       try {
         const response = await fetch("/api/send-signing-email", {
           method: "POST",
@@ -466,8 +467,9 @@ export default function PrepareDocument() {
           throw new Error(errorText);
         }
       } catch (emailErr: any) {
-        console.warn("SMTP relay endpoint not available in this environment. Falling back to direct link sharing:", emailErr);
+        console.warn("Email dispatch failed, falling back to direct link sharing:", emailErr);
         emailDispatched = false;
+        emailErrorMessage = emailErr?.message || "";
       }
 
       if (emailDispatched) {
@@ -477,8 +479,11 @@ export default function PrepareDocument() {
         });
       } else {
         toast({
-          title: "Document prepared!",
-          description: "Document successfully saved. Copy the direct sign link to invite signatories.",
+          title: "Document saved, but the email didn't send",
+          description: emailErrorMessage
+            ? `${emailErrorMessage} Copy the direct sign link to invite signatories in the meantime.`
+            : "Document successfully saved. Copy the direct sign link to invite signatories.",
+          variant: "destructive",
         });
       }
       setSentDialogOpen(true);
