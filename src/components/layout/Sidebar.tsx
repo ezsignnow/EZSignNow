@@ -1,5 +1,6 @@
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGaugeHigh,
@@ -26,12 +27,7 @@ export function Sidebar() {
     <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col h-screen fixed top-0 left-0">
       {/* Brand & Workspace */}
       <div className="h-16 flex items-center px-6 border-b border-slate-800">
-        <span className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
-          <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-            <span className="text-white text-xs font-bold leading-none">ES</span>
-          </div>
-          EZSignNow
-        </span>
+        <BrandLogo variant="dark" iconSize="h-4 w-4" />
       </div>
 
       <div className="px-6 py-4">

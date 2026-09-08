@@ -7,6 +7,15 @@ interface BrandLogoProps {
   subtitleClassName?: string;
   iconSize?: string;
   onClick?: () => void;
+  /**
+   * Text color for surfaces that are always dark regardless of the app's
+   * light/dark theme (e.g. a permanently navy sidebar or header) — not to
+   * be confused with the OS/theme-driven `dark:` variants used elsewhere
+   * in this component. Defaults to "light" (dark text, for light surfaces).
+   */
+  variant?: "light" | "dark";
+  /** Overrides the default tagline (e.g. a page-specific context label like "Template Portal") while keeping the same logo mark and typography everywhere. */
+  subtitle?: string;
 }
 
 export function BrandLogo({
@@ -14,6 +23,8 @@ export function BrandLogo({
   subtitleClassName = "",
   iconSize = "h-5.5 w-5.5",
   onClick,
+  variant = "light",
+  subtitle = "one stop solution for digital Signature",
 }: BrandLogoProps) {
   const [customLogo, setCustomLogo] = useState<string | null>(null);
 
@@ -73,14 +84,14 @@ export function BrandLogo({
       <div className="flex flex-col text-left justify-center">
         {/* Middle brand line: EZSignNow */}
         <div className="flex items-baseline leading-none">
-          <span className="text-xl font-bold text-slate-800 tracking-tight transition-colors">
+          <span className={`text-xl font-bold tracking-tight transition-colors ${variant === "dark" ? "text-white" : "text-slate-800"}`}>
             EZSignNow
           </span>
         </div>
-        
+
         {/* Bottom brand subtitle */}
-        <span className={`text-[8px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none mt-1.5 whitespace-nowrap ${subtitleClassName}`}>
-          one stop solution for digital Signature
+        <span className={`text-[8px] font-extrabold uppercase tracking-widest leading-none mt-1.5 whitespace-nowrap ${variant === "dark" ? "text-slate-400" : "text-slate-400 dark:text-slate-500"} ${subtitleClassName}`}>
+          {subtitle}
         </span>
       </div>
     </div>

@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { getAbsoluteUrl } from "@/utils/url";
 import { fallbackService } from "@/utils/fallbackService";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 
 // Predefined default templates fallback configurations
 const DEFAULT_TEMPLATES: Record<string, {
@@ -832,15 +833,7 @@ EZSignNow Certified Signature Seal:
       
       {/* Dynamic sticky header bar */}
       <header className="bg-slate-900 border-b border-slate-800 px-6 py-3.5 flex items-center justify-between shadow-sm shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-blue-500/10 border border-blue-500/20 rounded-xl text-[#22c55e] shadow-[0_1px_2px_rgba(0,0,0,0.1)]">
-            <FontAwesomeIcon icon={faPenNib} className="h-4 w-4" />
-          </div>
-          <div>
-            <h1 className="text-xs font-black tracking-tight text-white leading-tight">EZSIGNNOW</h1>
-            <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">Template Portal</p>
-          </div>
-        </div>
+        <BrandLogo variant="dark" iconSize="h-4 w-4" subtitle="Template Portal" />
 
         {/* Progress bar and counter */}
         <div className="flex items-center gap-4">
