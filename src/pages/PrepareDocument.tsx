@@ -53,6 +53,7 @@ export default function PrepareDocument() {
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState<string>("");
   const [sentDialogOpen, setSentDialogOpen] = useState(false);
+  const [lastEmailSent, setLastEmailSent] = useState(true);
   const [copied, setCopied] = useState(false);
   const [depositFee, setDepositFee] = useState("");
 
@@ -486,6 +487,7 @@ export default function PrepareDocument() {
           variant: "destructive",
         });
       }
+      setLastEmailSent(emailDispatched);
       setSentDialogOpen(true);
     } catch (err: any) {
       toast({
@@ -879,10 +881,12 @@ export default function PrepareDocument() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2.5 text-lg font-extrabold text-slate-800 dark:text-slate-100">
               <FontAwesomeIcon icon={faCheck} className="h-6 w-6 text-blue-500 bg-blue-50 dark:bg-blue-950/30 rounded-full p-1 border border-blue-100 dark:border-blue-900 shrink-0" />
-              Document Sent Successfully!
+              {lastEmailSent ? "Document Sent Successfully!" : "Document Saved"}
             </DialogTitle>
             <DialogDescription className="pt-2 text-xs text-slate-400 dark:text-slate-500 font-semibold leading-relaxed">
-              Real email dispatch is simulated in this sandbox environment. You can copy the signing link below to manually share or test the signing flow:
+              {lastEmailSent
+                ? "Signing invitations were emailed to the signatories below. You can also copy the direct link to share it manually:"
+                : "The document is saved, but the signing invitation emails couldn't be sent right now. Share the direct sign link below with your signatories manually in the meantime:"}
             </DialogDescription>
           </DialogHeader>
           
