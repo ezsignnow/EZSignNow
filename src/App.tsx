@@ -24,6 +24,7 @@ import Support from "./pages/Support";
 import Company from "./pages/Company";
 import Team from "./pages/Team";
 import { AppLayout } from "./components/layout/AppLayout";
+import { VisitorCounter } from "./components/VisitorCounter";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <VisitorCounter />
         <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes>
             <Route path="/" element={<Index />} />
