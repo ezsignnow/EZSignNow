@@ -24,14 +24,14 @@ interface Document {
 // previously 2 minutes ("for sandbox testing") but that leaked into
 // production — combined with running unconditionally for every visitor at
 // a 60s scan interval, it was sending real reminder emails often enough to
-// exhaust the Resend account's daily quota within hours.
+// exhaust the mail provider's daily send quota within hours.
 const REMINDER_COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 let schedulerIntervalId: any = null;
 
 export const reminderScheduler = {
   /**
-   * Scan all pending documents and dispatch Resend reminder emails
+   * Scan all pending documents and dispatch Zoho SMTP reminder emails
    * to signatories who have not yet signed.
    */
   async scanAndRemind(): Promise<{ dispatchedCount: number; checkedCount: number }> {
@@ -102,12 +102,12 @@ export const reminderScheduler = {
             }
           }
 
-          // Trigger Resend email
+          // Trigger Zoho SMTP email
           console.log(`[Reminder Scheduler] Triggering reminder email to ${sig.name} (${sig.email}) for document "${doc.title}"`);
           
           let emailDispatched = false;
           try {
-            // We use the same Resend-backed endpoint
+            // We use the same Zoho SMTP-backed endpoint
             const response = await fetch("/api/send-signing-email", {
               method: "POST",
               headers: { "Content-Type": "application/json" },

@@ -191,7 +191,7 @@ export function DocumentList() {
       if (emailDispatched) {
         toast({
           title: "Invitations resent!",
-          description: `Signing invitations re-dispatched to ${signatories.length} signatory(ies) via Resend.`,
+          description: `Signing invitations re-dispatched to ${signatories.length} signatory(ies) via Zoho Mail.`,
         });
       } else {
         toast({

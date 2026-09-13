@@ -440,7 +440,7 @@ export default function PrepareDocument() {
 
       if (updateError) throw updateError;
 
-      // Dispatch signing invitations via the Resend-backed API route
+      // Dispatch signing invitations via the Zoho SMTP-backed API route
       let emailDispatched = true;
       let emailErrorMessage = "";
       try {
@@ -476,7 +476,7 @@ export default function PrepareDocument() {
       if (emailDispatched) {
         toast({
           title: "Document sent!",
-          description: `Invitations successfully routed through Resend to ${signatories.length} signatory(ies).`,
+          description: `Invitations successfully routed through Zoho Mail to ${signatories.length} signatory(ies).`,
         });
       } else {
         toast({

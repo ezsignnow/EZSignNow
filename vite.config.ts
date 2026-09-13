@@ -2,31 +2,38 @@ import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import nodemailer from "nodemailer";
 
-async function sendViaResend(env: Record<string, string>, { to, subject, text, html }: { to: string; subject: string; text?: string; html?: string }) {
+let cachedTransporter: ReturnType<typeof nodemailer.createTransport> | null = null;
+
+function getSmtpTransporter(env: Record<string, string>) {
+  if (cachedTransporter) return cachedTransporter;
+
+  const port = Number(env.SMTP_PORT) || 465;
+  cachedTransporter = nodemailer.createTransport({
+    host: env.SMTP_HOST || "smtppro.zoho.com",
+    port,
+    // Zoho requires SSL (not STARTTLS) on port 465.
+    secure: env.SMTP_SECURE === "true" || port === 465,
+    auth: {
+      user: env.SMTP_USER,
+      pass: env.SMTP_PASS,
+    },
+  });
+  return cachedTransporter;
+}
+
+async function sendEmailViaSmtp(env: Record<string, string>, { to, subject, text, html }: { to: string; subject: string; text?: string; html?: string }) {
   const senderName = env.SMTP_SENDER_NAME || "EZSignNow";
   const senderEmail = env.SMTP_SENDER_EMAIL || "support@ezsignnow.com";
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: `${senderName} <${senderEmail}>`,
-      to,
-      subject,
-      text,
-      html,
-    }),
+  return getSmtpTransporter(env).sendMail({
+    from: `"${senderName}" <${senderEmail}>`,
+    to,
+    subject,
+    text,
+    html,
   });
-
-  const data = (await response.json().catch(() => ({}))) as { message?: string };
-  if (!response.ok) {
-    throw new Error(data?.message || `Resend API error (${response.status})`);
-  }
-  return data;
 }
 
 // https://vitejs.dev/config/
@@ -130,7 +137,7 @@ export default defineConfig(({ mode }) => {
                       </div>
                     `;
 
-                    await sendViaResend(env, {
+                    await sendEmailViaSmtp(env, {
                       to: sig.email,
                       subject: `Signature Request: ${documentTitle}`,
                       text: `Hello ${sig.name},\n\n${ownerEmail} has requested your signature on "${documentTitle}".\n\nReview and sign the document here: ${signUrl}\n\nThank you,\nEZSignNow Team`,
@@ -183,7 +190,7 @@ export default defineConfig(({ mode }) => {
                     </div>
                   `;
 
-                  await sendViaResend(env, {
+                  await sendEmailViaSmtp(env, {
                     to: email,
                     subject: `Your EZSignNow Verification Code: ${code}`,
                     text: `Your device verification code is: ${code}`,
@@ -244,7 +251,7 @@ export default defineConfig(({ mode }) => {
                     </div>
                   `;
 
-                  await Promise.all(emails.map((email: string) => sendViaResend(env, {
+                  await Promise.all(emails.map((email: string) => sendEmailViaSmtp(env, {
                     to: email,
                     subject: title,
                     html: htmlContent,
