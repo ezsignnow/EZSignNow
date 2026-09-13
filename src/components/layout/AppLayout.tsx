@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Sidebar } from "./Sidebar";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, isEmailVerified } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 
 interface LayoutProps {
@@ -19,7 +19,12 @@ export function AppLayout({ children, requireAuth = true }: LayoutProps) {
     );
   }
 
-  if (requireAuth && !user) {
+  // A session existing isn't enough — an unconfirmed account (mid email
+  // verification) must not reach the Dashboard or any other protected
+  // screen. Sending them to /login is deliberate: AuthForm itself checks
+  // confirmation status and shows the OTP screen for an unconfirmed
+  // session instead of bouncing back here, so this can't loop.
+  if (requireAuth && (!user || !isEmailVerified(user))) {
     return <Navigate to="/login" replace />;
   }
 

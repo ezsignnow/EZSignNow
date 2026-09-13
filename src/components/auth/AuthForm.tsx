@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth, isEmailVerified } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,8 +50,17 @@ export function AuthForm({ mode }: AuthFormProps) {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (!authLoading && user && !emailSent) {
-      navigate("/dashboard", { replace: true });
+    if (authLoading || !user) return;
+
+    if (isEmailVerified(user)) {
+      if (!emailSent) navigate("/dashboard", { replace: true });
+    } else {
+      // A session exists but the account isn't confirmed yet (shouldn't
+      // normally happen with email confirmation enabled — Supabase won't
+      // issue a session until confirmed — but if it ever does, show the
+      // verification screen instead of leaving them stuck or bouncing them
+      // toward a Dashboard that AppLayout will just redirect away from).
+      setEmailSent(true);
     }
   }, [user, authLoading, emailSent, navigate]);
 
@@ -101,17 +110,27 @@ export function AuthForm({ mode }: AuthFormProps) {
 
     try {
       if (mode === "signup") {
-        const { error } = await signUp(email, password, fullName);
+        const { data, error } = await signUp(email, password, fullName);
         if (error) throw error;
 
-        // New accounts must verify their email with a 6-digit code before
-        // they're signed in — Supabase won't hand back an active session
-        // until the OTP is confirmed.
-        setEmailSent(true);
-        toast({
-          title: "Verify your email",
-          description: `We've sent a 6-digit code to ${email}.`,
-        });
+        if (data.session) {
+          // Supabase didn't require confirmation for this project — the
+          // account is already usable, so skip the OTP screen entirely.
+          toast({
+            title: "Welcome to EZSignNow!",
+            description: "Your account is ready.",
+          });
+          navigate("/dashboard", { replace: true });
+        } else {
+          // New accounts must verify their email with a 6-digit code before
+          // they're signed in — Supabase won't hand back an active session
+          // until the OTP is confirmed.
+          setEmailSent(true);
+          toast({
+            title: "Verify your email",
+            description: `We've sent a 6-digit code to ${email}.`,
+          });
+        }
       } else {
         const { error } = await signIn(email, password);
         if (error) {

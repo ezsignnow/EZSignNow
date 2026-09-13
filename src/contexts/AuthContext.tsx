@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { User, Session } from "@supabase/supabase-js";
+import { User, Session, AuthResponse } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { getAbsoluteUrl } from "@/utils/url";
 import { reminderScheduler } from "@/utils/reminderScheduler";
@@ -8,9 +8,21 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: Error | null }>;
+  signUp: (email: string, password: string, fullName: string) => Promise<AuthResponse>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
+}
+
+/**
+ * A session existing isn't the same as the account being verified — with
+ * email confirmation enabled, Supabase won't issue a session until the user
+ * confirms, but this is still worth checking explicitly at every route guard
+ * rather than assuming `user` truthy implies confirmed (e.g. if email
+ * confirmation is ever disabled project-side, Supabase sets
+ * email_confirmed_at immediately, so this stays correct either way).
+ */
+export function isEmailVerified(user: User | null): boolean {
+  return !!user?.email_confirmed_at;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -53,7 +65,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user?.id]);
 
   const signUp = async (email: string, password: string, fullName: string) => {
-    const { error } = await supabase.auth.signUp({
+    // Returns the full response (not just { error }) so callers can check
+    // data.session — if it's already set, Supabase didn't require email
+    // confirmation for this project and the account is usable immediately;
+    // if it's null, confirmation is required and there's no session yet.
+    return supabase.auth.signUp({
       email,
       password,
       options: {
@@ -61,7 +77,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         data: { full_name: fullName },
       },
     });
-    return { error };
   };
 
   const signIn = async (email: string, password: string) => {
