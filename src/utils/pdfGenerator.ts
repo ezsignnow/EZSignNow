@@ -115,7 +115,10 @@ export async function generateCertifiedPdf(
         color: rgb(0.1, 0.1, 0.1),
       });
     } else if (field.field_type === "text" || field.field_type === "label" || field.field_type === "checkbox") {
-      const valStr = field.value || field.label || (field.field_type === "checkbox" ? "[✓]" : "");
+      // "X" rather than a checkmark glyph — Helvetica's WinAnsi encoding
+      // (the only encoding pdf-lib's standard fonts support) has no glyph
+      // for U+2713 and throws when asked to draw one.
+      const valStr = field.value || field.label || (field.field_type === "checkbox" ? "[X]" : "");
 
       page.drawText(valStr, {
         x: x + 6 * scaleX,
@@ -325,7 +328,9 @@ export async function generateCertifiedPdf(
       height: 14,
       color: successColor,
     });
-    certPage.drawText("✓", {
+    // "X" rather than a checkmark glyph — see the field-drawing loop above
+    // for why: WinAnsi has no U+2713 glyph and pdf-lib throws on encode.
+    certPage.drawText("X", {
       x: 54,
       y: currY - 24,
       size: 9,
