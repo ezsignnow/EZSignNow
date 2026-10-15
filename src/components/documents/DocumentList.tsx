@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { fallbackService } from "@/utils/fallbackService";
+import { generateCertifiedPdf } from "@/utils/pdfGenerator";
+import type { AuditLog } from "@/utils/auditLogger";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFileLines,
@@ -20,7 +23,8 @@ import {
   faCalendarDays,
   faFilter,
   faArrowsRotate,
-  faLaptop
+  faLaptop,
+  faDownload
 } from "@fortawesome/free-solid-svg-icons";
 import {
   DropdownMenu,
@@ -43,6 +47,7 @@ interface Document {
   id: string;
   title: string;
   file_name: string;
+  file_url: string;
   status: string;
   created_at: string;
   updated_at: string;
@@ -66,6 +71,7 @@ export function DocumentList() {
   const [selectedDocs, setSelectedDocs] = useState<string[]>([]);
   const [docToDelete, setDocToDelete] = useState<string | null>(null);
   const [resendingId, setResendingId] = useState<string | null>(null);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   // Sync statusFilter state with URL parameter changes
   useEffect(() => {
@@ -119,6 +125,70 @@ export function DocumentList() {
       };
     }
   }, [user]);
+
+  const handleDownloadFile = async (doc: Document) => {
+    setDownloadingId(doc.id);
+    try {
+      const path = doc.file_url?.split("/documents/")[1];
+      if (!path) throw new Error("Document storage path not found");
+
+      const { data: pdfBlob, error: downloadError } = await supabase.storage
+        .from("documents")
+        .download(path);
+
+      if (downloadError || !pdfBlob) throw downloadError || new Error("Failed to download PDF from storage");
+
+      let fileBytes: Uint8Array | Blob = pdfBlob;
+      let suffix = "";
+
+      // Completed documents get the full certified PDF (signatures +
+      // appended audit trail cover page), matching the download available
+      // from the document's own audit canvas — everything else just gets
+      // the original uploaded file, since there's nothing signed to certify.
+      if (doc.status === "completed") {
+        const { data: signatories } = await supabase
+          .from("signatories")
+          .select("*")
+          .eq("document_id", doc.id)
+          .order("order_num");
+
+        const { data: fields } = await supabase
+          .from("signature_fields")
+          .select("*")
+          .eq("document_id", doc.id);
+
+        const auditLogs = await fallbackService.fetchAuditLogs(doc.id);
+
+        const pdfBytes = await pdfBlob.arrayBuffer();
+        fileBytes = await generateCertifiedPdf(
+          pdfBytes,
+          doc,
+          signatories || [],
+          fields || [],
+          auditLogs as unknown as AuditLog[]
+        );
+        suffix = "_Signed_Certified";
+      }
+
+      const blob = fileBytes instanceof Blob ? fileBytes : new Blob([fileBytes], { type: "application/pdf" });
+      const link = window.document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${doc.title.replace(/\s+/g, "_")}${suffix}.pdf`;
+      window.document.body.appendChild(link);
+      link.click();
+      window.document.body.removeChild(link);
+
+      toast({ title: "Download complete!" });
+    } catch (err) {
+      toast({
+        title: "Failed to download file",
+        description: err instanceof Error ? err.message : "An unexpected error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   const handleDelete = async (id: string) => {
     try {
@@ -498,6 +568,19 @@ export function DocumentList() {
                                 Prepare Document
                               </DropdownMenuItem>
                             )}
+
+                            <DropdownMenuItem
+                              onClick={() => handleDownloadFile(doc)}
+                              disabled={downloadingId === doc.id}
+                              className="text-xs font-semibold text-slate-600 cursor-pointer mt-0.5"
+                            >
+                              {downloadingId === doc.id ? (
+                                <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />
+                              ) : (
+                                <FontAwesomeIcon icon={faDownload} className="mr-2 h-4 w-4 text-slate-400" />
+                              )}
+                              {downloadingId === doc.id ? "Downloading..." : "Download File"}
+                            </DropdownMenuItem>
 
                             {/* Resend option — only visible for pending documents */}
                             {doc.status === "pending" && (
