@@ -1,6 +1,9 @@
 import { sendMail } from "./_lib/mailer.js";
+import { applyCors, isAllowedOrigin } from "./_lib/cors.js";
 
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
+
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
@@ -13,7 +16,11 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Missing signatories" });
     }
 
-    const FRONTEND_URL = process.env.VITE_FRONTEND_URL || `https://${req.headers.host}`;
+    // Link signers back to the site that sent the request (the public domain),
+    // not to this API host, which may be an older Vercel copy of the app.
+    const FRONTEND_URL = isAllowedOrigin(req.headers.origin)
+      ? req.headers.origin
+      : process.env.VITE_FRONTEND_URL || "https://www.ezsignnow.com";
 
     const promises = signatories.map((sig) => {
       const signUrl = `${FRONTEND_URL}/document/${documentId}/view`;

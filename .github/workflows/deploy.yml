@@ -36,6 +36,8 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          # GitHub Pages can't run /api functions, so the app calls the Vercel deployment.
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://ez-sign-now.vercel.app' }}
         run: npm run build
 
       # SPA fix: GitHub Pages returns 404 for deep routes

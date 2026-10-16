@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/dialog";
 import { fallbackService, AuditLog } from "@/utils/fallbackService";
 import { generateCertifiedPdf } from "@/utils/pdfGenerator";
+import { apiUrl } from "@/lib/api";
 
 export default function ViewDocument() {
   const { id } = useParams<{ id: string }>();
@@ -372,7 +373,7 @@ export default function ViewDocument() {
       // Dispatch action emails
       try {
         if (allSigned) {
-          await fetch("/api/send-action-email", {
+          await fetch(apiUrl("/api/send-action-email"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -383,7 +384,7 @@ export default function ViewDocument() {
             }),
           });
         } else {
-          await fetch("/api/send-action-email", {
+          await fetch(apiUrl("/api/send-action-email"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -1134,7 +1135,7 @@ export default function ViewDocument() {
           <DialogHeader>
             <DialogTitle>Sign Document</DialogTitle>
             <DialogDescription>
-              Draw your signature below to sign this document.
+              Draw or type your signature below to sign this document.
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
@@ -1287,7 +1288,7 @@ export default function ViewDocument() {
                 // API Call to Express Backend
                 try {
                   toast({ title: "Stripe Checkout", description: "Connecting to secure payment gateway..." });
-                  const response = await fetch("/api/create-payment-intent", {
+                  const response = await fetch(apiUrl("/api/create-payment-intent"), {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",

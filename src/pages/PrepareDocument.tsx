@@ -33,6 +33,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import { apiUrl } from "@/lib/api";
 
 export default function PrepareDocument() {
   const { id } = useParams<{ id: string }>();
@@ -444,7 +445,7 @@ export default function PrepareDocument() {
       let emailDispatched = true;
       let emailErrorMessage = "";
       try {
-        const response = await fetch("/api/send-signing-email", {
+        const response = await fetch(apiUrl("/api/send-signing-email"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
