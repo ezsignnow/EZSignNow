@@ -8,7 +8,9 @@ import {
   faUsers,
   faLayerGroup,
   faGear,
-  faBriefcase
+  faBriefcase,
+  faFilePen,
+  faToolbox
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function DashboardSidebar() {
@@ -26,6 +28,8 @@ export default function DashboardSidebar() {
   const sidebarItems = [
     { id: "sign", label: "Sign", icon: faPenNib },
     { id: "documents", label: "Documents", icon: faFileLines },
+    { id: "edit", label: "Edit PDF", icon: faFilePen },
+    { id: "tools", label: "PDF Tools", icon: faToolbox },
     { id: "templates", label: "Templates", icon: faCopy },
     { id: "forms", label: "Forms", icon: faSquareCheck },
     { id: "team", label: "Team", icon: faUsers },
@@ -35,7 +39,11 @@ export default function DashboardSidebar() {
   ];
 
   const handleNavigate = (id: string) => {
-    if (id === "team") {
+    if (id === "edit") {
+      navigate("/edit");
+    } else if (id === "tools") {
+      navigate("/tools");
+    } else if (id === "team") {
       navigate("/team");
     } else if (id === "company") {
       navigate("/company");

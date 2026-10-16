@@ -14,6 +14,10 @@ import Upload from "./pages/Upload";
 import PrepareDocument from "./pages/PrepareDocument";
 import ViewDocument from "./pages/ViewDocument";
 import TemplateBuilder from "./pages/TemplateBuilder";
+import PdfEditor from "./pages/PdfEditor";
+import PdfTools from "./pages/PdfTools";
+import PdfToolRunner from "./pages/PdfToolRunner";
+import PdfWorkflows from "./pages/PdfWorkflows";
 import NotFound from "./pages/NotFound";
 import CompareSignNow from "./pages/CompareSignNow";
 import Blog from "./pages/Blog";
@@ -47,6 +51,11 @@ const App = () => (
             <Route path="/upload" element={<AppLayout><Upload /></AppLayout>} />
             <Route path="/document/:id/prepare" element={<AppLayout><PrepareDocument /></AppLayout>} />
             <Route path="/document/:id/view" element={<AppLayout><ViewDocument /></AppLayout>} />
+            <Route path="/document/:id/edit" element={<AppLayout><PdfEditor /></AppLayout>} />
+            <Route path="/edit" element={<AppLayout><PdfEditor /></AppLayout>} />
+            <Route path="/tools" element={<AppLayout><PdfTools /></AppLayout>} />
+            <Route path="/tools/workflows" element={<AppLayout><PdfWorkflows /></AppLayout>} />
+            <Route path="/tools/:toolId" element={<AppLayout><PdfToolRunner /></AppLayout>} />
             <Route path="/template/new" element={<AppLayout><TemplateBuilder /></AppLayout>} />
             <Route path="/template/:id/edit" element={<AppLayout><TemplateBuilder /></AppLayout>} />
             <Route path="/t/:id/sign" element={<TemplateSign />} />

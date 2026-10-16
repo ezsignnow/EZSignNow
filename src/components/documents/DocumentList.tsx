@@ -24,7 +24,8 @@ import {
   faFilter,
   faArrowsRotate,
   faLaptop,
-  faDownload
+  faDownload,
+  faFilePen
 } from "@fortawesome/free-solid-svg-icons";
 import {
   DropdownMenu,
@@ -42,6 +43,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { apiUrl } from "@/lib/api";
 
 interface Document {
   id: string;
@@ -231,7 +233,7 @@ export function DocumentList() {
       let emailDispatched = true;
       let emailErrorMessage = "";
       try {
-        const response = await fetch("/api/send-signing-email", {
+        const response = await fetch(apiUrl("/api/send-signing-email"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -568,6 +570,14 @@ export function DocumentList() {
                                 Prepare Document
                               </DropdownMenuItem>
                             )}
+
+                            <DropdownMenuItem
+                              onClick={() => navigate(`/document/${doc.id}/edit`)}
+                              className="text-xs font-semibold text-slate-600 cursor-pointer mt-0.5"
+                            >
+                              <FontAwesomeIcon icon={faFilePen} className="mr-2 h-4 w-4 text-slate-400" />
+                              Edit PDF
+                            </DropdownMenuItem>
 
                             <DropdownMenuItem
                               onClick={() => handleDownloadFile(doc)}

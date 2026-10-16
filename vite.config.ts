@@ -267,6 +267,20 @@ export default defineConfig(({ mode }) => {
                   res.end(JSON.stringify({ error: err.message || 'Internal server error' }));
                 }
               });
+            } else if (req.url?.startsWith('/api/fetch-url') && req.method === 'GET') {
+              // Same as the Vercel function api/fetch-url.js, for local development.
+              try {
+                const { fetchPublicHtml } = await import('./api/_lib/fetchUrl.js');
+                const target = new URL(req.url, 'http://localhost').searchParams.get('url') || '';
+                const { html } = await fetchPublicHtml(target);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'text/html; charset=utf-8');
+                res.end(html);
+              } catch (err: any) {
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ error: err.message || "Couldn't fetch that page" }));
+              }
             } else {
               next();
             }

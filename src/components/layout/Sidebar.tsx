@@ -7,7 +7,9 @@ import {
   faFileLines,
   faGear,
   faRightFromBracket,
-  faFolderOpen
+  faFolderOpen,
+  faFilePen,
+  faToolbox
 } from "@fortawesome/free-solid-svg-icons";
 
 export function Sidebar() {
@@ -19,6 +21,8 @@ export function Sidebar() {
   const navItems = [
     { name: "Dashboard", path: "/dashboard", icon: faGaugeHigh, tab: null },
     { name: "Documents", path: "/dashboard?tab=documents", icon: faFileLines, tab: "documents" },
+    { name: "Edit PDF", path: "/edit", icon: faFilePen, tab: null },
+    { name: "PDF Tools", path: "/tools", icon: faToolbox, tab: null },
     { name: "Templates", path: "/dashboard?tab=templates", icon: faFolderOpen, tab: "templates" },
     { name: "Settings", path: "/dashboard?tab=settings", icon: faGear, tab: "settings" },
   ];
@@ -46,7 +50,12 @@ export function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 px-4 py-2 space-y-1">
         {navItems.map((item) => {
-          const isActive = location.pathname === "/dashboard" && currentTab === item.tab;
+          const isActive =
+            item.path === "/edit"
+              ? /^\/(edit|document\/[^/]+\/edit)$/.test(location.pathname)
+              : item.path === "/tools"
+                ? location.pathname.startsWith("/tools")
+                : location.pathname === "/dashboard" && currentTab === item.tab;
           return (
             <Link
               key={item.name}
