@@ -399,9 +399,10 @@ export default function Index() {
   return (
     <div className="min-h-screen flex flex-col font-sans">
       <SEO 
-        title="EZSignNow | Super Simple Free Electronic Signatures"
-        description="Upload PDF documents to sign online in seconds. EZSignNow is the fastest, legally binding free e-signature tool complying with ESIGN, UETA, & eIDAS."
-        keywords="electronic signature, free e-signature, sign PDF online, digital signature, sign documents, online contract signature, e-sign tools"
+        title="Free Electronic Signature | Sign PDF Online | EZSignNow"
+        description="Sign PDFs and send documents for e-signature free. Legally binding under ESIGN, UETA and eIDAS, with signing order and an audit certificate. No signup to sign."
+        keywords="free electronic signature, e-signature, esign, sign PDF online, free PDF signer, online signature, digital signature, sign documents online, legally binding signature, DocuSign alternative, signNow alternative"
+        canonical="https://www.ezsignnow.com/"
         includeOrganization={true}
         includeWebSite={true}
         includeProductRating={true}

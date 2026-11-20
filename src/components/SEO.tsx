@@ -48,8 +48,8 @@ export const getOrgSchema = () => ({
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "EZSignNow",
-  "url": "https://ezsignnow.com",
-  "logo": "https://ezsignnow.com/logo.png",
+  "url": "https://www.ezsignnow.com",
+  "logo": "https://www.ezsignnow.com/favicon.svg",
   "description": "Secure, fast, and legally binding e-signature platform that scales with your business.",
   "sameAs": [
     "https://twitter.com/ezsignnow",
@@ -61,43 +61,44 @@ export const getWebSiteSchema = () => ({
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "EZSignNow",
-  "url": "https://ezsignnow.com",
+  "url": "https://www.ezsignnow.com",
   "potentialAction": {
     "@type": "SearchAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "https://ezsignnow.com/blog?search={search_term_string}"
+      "urlTemplate": "https://www.ezsignnow.com/blog?search={search_term_string}"
     },
     "query-input": "required name=search_term_string"
   }
 });
 
+// No aggregateRating here: Google treats review markup without real,
+// verifiable reviews as spam and can penalize the whole site.
 export const getProductSchema = () => ({
   "@context": "https://schema.org",
-  "@type": "Product",
+  "@type": "SoftwareApplication",
   "name": "EZSignNow",
-  "image": "https://ezsignnow.com/assets/hero-esign.jpg",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "url": "https://www.ezsignnow.com/",
+  "image": "https://www.ezsignnow.com/favicon.svg",
   "description": "Free forever for personal use. Electronic signatures with signing order, audit certificates and PDF tools; business plans from $4 per sender.",
-  "brand": {
-    "@type": "Brand",
-    "name": "EZSignNow"
-  },
-  "offers": {
-    "@type": "Offer",
-    "url": "https://ezsignnow.com/try-for-free",
-    "priceCurrency": "USD",
-    "price": "5.00",
-    "priceValidUntil": "2027-12-31",
-    "itemCondition": "https://schema.org/NewCondition",
-    "availability": "https://schema.org/InStock"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "bestRating": "5",
-    "worstRating": "1",
-    "ratingCount": "580"
-  }
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Personal",
+      "price": "0",
+      "priceCurrency": "USD",
+      "url": "https://www.ezsignnow.com/#pricing"
+    },
+    {
+      "@type": "Offer",
+      "name": "Small Business",
+      "price": "5.00",
+      "priceCurrency": "USD",
+      "url": "https://www.ezsignnow.com/#pricing"
+    }
+  ]
 });
 
 export const getFAQSchema = (faqs: FAQItem[]) => ({
@@ -169,7 +170,9 @@ export function SEO({
     }
 
     // 3. Canonical Link Injection
-    const canonicalUrl = canonical || window.location.href;
+    // Canonical is always the www host with no query string or hash, so
+    // ezsignnow.com and www.ezsignnow.com aren't indexed as duplicates.
+    const canonicalUrl = canonical || `https://www.ezsignnow.com${window.location.pathname}`;
     updateLinkTag("canonical", canonicalUrl);
     updateMetaTag("property", "og:url", canonicalUrl);
 
@@ -181,7 +184,7 @@ export function SEO({
 
     updateMetaTag("property", "og:type", ogType);
 
-    const imageUrl = ogImage || "https://ezsignnow.com/assets/hero-esign.jpg";
+    const imageUrl = ogImage || "https://www.ezsignnow.com/assets/hero-esign.jpg";
     updateMetaTag("property", "og:image", imageUrl);
     updateMetaTag("name", "twitter:image", imageUrl);
     updateMetaTag("name", "twitter:card", "summary_large_image");

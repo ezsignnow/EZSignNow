@@ -1,16 +1,12 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# Public marketing pages are indexable. Signed-in screens and signing links
+# are private: signing links in particular must never appear in search results.
 User-agent: *
 Allow: /
+Disallow: /dashboard
+Disallow: /document/
+Disallow: /t/
+Disallow: /upload
+Disallow: /template/
+Disallow: /try-trial
 
-Sitemap: https://ezsignnow.com/sitemap.xml
+Sitemap: https://www.ezsignnow.com/sitemap.xml

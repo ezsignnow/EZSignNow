@@ -38,6 +38,8 @@ jobs:
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
           # Publishable logo.dev key for brand logos (Dropbox, Box, ...); safe in client code.
           VITE_LOGO_DEV_TOKEN: ${{ secrets.VITE_LOGO_DEV_TOKEN }}
+          # Google Search Console HTML-tag verification code (public value).
+          VITE_GOOGLE_SITE_VERIFICATION: ${{ vars.VITE_GOOGLE_SITE_VERIFICATION }}
           # GitHub Pages can't run /api functions, so the app calls the Vercel deployment.
           VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'https://ez-sign-now.vercel.app' }}
         run: npm run build

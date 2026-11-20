@@ -58,6 +58,19 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      {
+        // Google Search Console verification. Set VITE_GOOGLE_SITE_VERIFICATION
+        // to the content value Search Console gives you (HTML tag method).
+        name: 'google-site-verification',
+        transformIndexHtml(html: string) {
+          const code = env.VITE_GOOGLE_SITE_VERIFICATION;
+          if (!code) return html;
+          return html.replace(
+            '<link rel="canonical"',
+            `<meta name="google-site-verification" content="${code.replace(/"/g, '')}" />\n    <link rel="canonical"`
+          );
+        },
+      },
       mode === "development" && componentTagger(),
       {
         name: 'email-api',
