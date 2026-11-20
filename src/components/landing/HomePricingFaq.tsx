@@ -3,44 +3,65 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const PLANS = [
+type Plan = {
+  title: string;
+  monthly: number | null; // null = custom pricing
+  annual: number | null;
+  desc: string;
+  features: string[];
+  cta: string;
+  to: string;
+  popular?: boolean;
+  badge?: string;
+};
+
+const PLANS: Plan[] = [
   {
-    title: "Free",
+    title: "Personal",
     monthly: 0,
     annual: 0,
-    desc: "For occasional agreements.",
-    features: ["3 documents a month", "1 sender", "All field types", "Audit trail and certificate", "PDF tools"],
-    cta: "Start free",
-  },
-  {
-    title: "Personal Pro",
-    monthly: 3,
-    annual: 2,
-    desc: "For freelancers and solo professionals.",
+    desc: "For your own documents. Free forever.",
     features: [
-      "Unlimited documents",
-      "1 sender",
+      "Unlimited documents for personal use",
       "Signing order and copy recipients",
-      "Templates with signing links",
-      "Access codes for signers",
-      "Collect payments with Stripe",
+      "All 9 field types",
+      "Audit trail and completion certificate",
+      "PDF editor and 40+ PDF tools",
     ],
-    cta: "Go Pro",
-    popular: true,
+    cta: "Start free",
+    to: "/try-for-free",
+    badge: "Free forever",
   },
   {
-    title: "Business",
+    title: "Small Business",
     monthly: 5,
     annual: 4,
-    desc: "For teams that send every week.",
+    desc: "For owners and small teams who send for work.",
     features: [
-      "Everything in Personal Pro",
+      "Everything in Personal, for business use",
       "Multiple senders",
-      "Shared team templates",
+      "Templates with signing links",
+      "Collect payments with Stripe",
       "Your company logo",
       "In-person kiosk signing",
     ],
-    cta: "Start free trial",
+    cta: "Start 7-day free trial",
+    to: "/try-trial",
+    popular: true,
+  },
+  {
+    title: "Enterprise",
+    monthly: null,
+    annual: null,
+    desc: "For larger organizations with their own requirements.",
+    features: [
+      "Everything in Small Business",
+      "Volume pricing for many senders",
+      "Onboarding and priority support",
+      "Help with security and compliance reviews",
+    ],
+    cta: "Contact sales",
+    to: "/support",
   },
 ];
 
@@ -52,9 +73,9 @@ export function HomePricing() {
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#5ba114]">Pricing</p>
           <h2 className="font-heading text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            Simple pricing, per sender
+            Free for personal use. Simple pricing for business.
           </h2>
-          <p className="mt-4 text-slate-600 dark:text-slate-300">Signers never pay and never need an account.</p>
+          <p className="mt-4 text-slate-600 dark:text-slate-300">Sign your own documents free, forever. Businesses pay per sender. Signers never pay and never need an account.</p>
 
           <div className="mx-auto mt-8 flex w-fit items-center rounded-xl border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-800 dark:bg-slate-900" role="radiogroup" aria-label="Billing period">
             {[
@@ -84,6 +105,7 @@ export function HomePricing() {
         <div className="grid gap-6 md:grid-cols-3">
           {PLANS.map((p) => {
             const price = annual ? p.annual : p.monthly;
+            const custom = price === null;
             return (
               <div
                 key={p.title}
@@ -93,20 +115,24 @@ export function HomePricing() {
                     : "border-slate-200 shadow-sm dark:border-slate-800"
                 }`}
               >
-                {p.popular && (
-                  <span className="absolute -top-3 left-8 rounded-full bg-[#5ba114] px-3 py-1 text-[11px] font-semibold text-white">
-                    Most popular
+                {(p.popular || p.badge) && (
+                  <span className={`absolute -top-3 left-8 rounded-full px-3 py-1 text-[11px] font-semibold ${p.popular ? "bg-[#5ba114] text-white" : "bg-[#e6f5d3] text-[#3a6215]"}`}>
+                    {p.popular ? "Most popular" : p.badge}
                   </span>
                 )}
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">{p.title}</h3>
                 <p className="mt-1 text-sm text-slate-500">{p.desc}</p>
                 <p className="mt-6 flex items-baseline gap-1">
-                  <span className="font-heading text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">${price}</span>
-                  <span className="text-sm text-slate-500">/ sender / month</span>
+                  <span className="font-heading text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                    {custom ? "Custom" : price === 0 ? "Free" : `$${price}`}
+                  </span>
+                  {!custom && price! > 0 && <span className="text-sm text-slate-500">/ sender / month</span>}
                 </p>
-                <p className="mt-1 h-4 text-xs text-slate-400">{price > 0 && annual ? "Billed yearly" : ""}</p>
+                <p className="mt-1 h-4 text-xs text-slate-400">
+                  {custom ? "Priced for your team" : price === 0 ? "No card, no time limit" : annual ? "Billed yearly" : "Billed monthly"}
+                </p>
                 <Link
-                  to="/try-for-free"
+                  to={p.to}
                   className={`mt-6 inline-flex h-11 items-center justify-center rounded-lg text-sm font-semibold transition ${
                     p.popular
                       ? "bg-[#5ba114] text-white hover:bg-[#477c13]"

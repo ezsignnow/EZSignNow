@@ -662,10 +662,10 @@ export default function PrepareDocument() {
             </div>
           ) : (
             <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-semibold select-none">
-              <span className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded-full text-[11px] font-bold">
-                {statsLoading ? "..." : stats.total} of 3
+              <span className="bg-[#e6f5d3] text-[#3a6215] px-2 py-0.5 rounded-full text-[11px] font-bold">
+                Free
               </span>
-              <span>signature requests this month</span>
+              <span>Personal plan · free forever</span>
             </div>
           )}
 

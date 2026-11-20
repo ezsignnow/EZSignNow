@@ -67,6 +67,11 @@ export function HomeHero() {
               <FontAwesomeIcon icon={faArrowRight} className="h-2.5 w-2.5" />
             </Link>
 
+            <p className="inline-flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+              <span className="rounded-md bg-[#5ba114] px-2 py-0.5 text-xs font-bold uppercase tracking-wide text-white">Free</span>
+              Free forever for personal use. Business plans from $4 per sender.
+            </p>
+
             <h1 className="font-heading text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-[64px]">
               Get documents signed,{" "}
               <span className="bg-gradient-to-r from-[#5ba114] to-[#8ccd45] bg-clip-text text-transparent">
@@ -76,7 +81,7 @@ export function HomeHero() {
 
             <p className="max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">
               Upload a PDF, place fields for each signer, and send. Signers sign from any device without an
-              account, and you keep the signed copy with its audit certificate.
+              account, and you keep the signed copy with its audit certificate. No card needed.
             </p>
 
             <form
@@ -104,7 +109,7 @@ export function HomeHero() {
                 type="submit"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#5ba114] px-6 text-sm font-semibold text-white shadow-sm transition hover:bg-[#477c13] focus:outline-none focus:ring-4 focus:ring-[#73c41d]/30"
               >
-                Start free
+                Start free, forever
                 <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5" />
               </button>
             </form>

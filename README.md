@@ -27,6 +27,8 @@
 
 **A record behind every signature.** Each signature is stored with the signer's IP address, location and time, and every view, consent, signature and decline goes into the audit trail. The signed PDF ends with a completion certificate.
 
+**Free for personal use.** Sign your own documents free, forever, with no card. Businesses pay per sender.
+
 **More than signatures.** A PDF editor and 40+ PDF tools come with every account: merge, split, compress, convert, OCR, protect, and chain them into workflows.
 
 ## Everything it takes to get a document signed
@@ -103,13 +105,13 @@ A PDF editor for text, images, shapes and annotations, and tools to merge, split
 
 ## What it costs
 
-Signers never pay. Plans are per sender:
+**EZSignNow is free forever for personal use.** Small businesses and enterprises pay per sender. Signers never pay.
 
 | Plan | Monthly | Billed yearly | For |
 | --- | --- | --- | --- |
-| **Free** | $0 | $0 | 3 documents a month, all field types, audit certificate, PDF tools |
-| **Personal Pro** | $3 | $2 a month | Unlimited documents, signing order, templates, access codes, payments |
-| **Business** | $5 | $4 a month | Everything in Pro, multiple senders, shared templates, your logo, kiosk signing |
+| **Personal** | Free | Free | Your own documents: unlimited documents, signing order, all field types, audit certificate, PDF tools |
+| **Small Business** | $5 per sender | $4 per sender a month | Business use: multiple senders, templates with signing links, Stripe payments, your logo, kiosk signing. 7-day free trial |
+| **Enterprise** | Custom | Custom | Volume pricing, onboarding and priority support, help with security reviews |
 
 ## Get started
 

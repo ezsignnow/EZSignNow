@@ -170,10 +170,10 @@ export default function TryTrial() {
 
         <div className="flex items-center gap-6">
           <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 font-semibold select-none">
-            <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-[11px] font-bold">
-              0 of 3
+            <span className="bg-[#e6f5d3] text-[#3a6215] px-2 py-0.5 rounded-full text-[11px] font-bold">
+              Free
             </span>
-            <span>signature requests this month</span>
+            <span>Personal plan · free forever</span>
           </div>
 
           <Button 

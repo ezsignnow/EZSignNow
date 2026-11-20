@@ -407,15 +407,11 @@ export default function Index() {
         includeProductRating={true}
         faqs={faqs.map(f => ({ question: f.q, answer: f.a }))}
       />
-      {/* Top GTM Promotion Bar */}
-      <div className="bg-gradient-to-r from-primary via-slate-900 to-secondary text-white py-2.5 px-4 text-center text-xs font-bold shadow-md relative z-50 flex items-center justify-center gap-2 select-none">
-        <span className="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider text-primary-foreground border border-white/10 animate-pulse">
-          Limited Deal
-        </span>
-        <span>Why pay $20/mo? Switch from signNow to EZSignNow for just $5/mo with unlimited envelopes!</span>
-        <Link to="/compare/signnow" className="underline hover:text-primary-foreground/90 inline-flex items-center gap-0.5 ml-1">
-          Learn More <span className="no-underline">→</span>
-        </Link>
+      {/* Top announcement bar */}
+      <div className="bg-[#172d07] text-[#e6f5d3] py-2.5 px-4 text-center text-sm relative z-50 flex items-center justify-center gap-2.5">
+        <span className="rounded-md bg-[#73c41d] px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-[#172d07]">Free</span>
+        <span>EZSignNow is free forever for personal use. Business plans from $4 per sender.</span>
+        <a href="#pricing" className="font-semibold text-white underline-offset-2 hover:underline">See pricing →</a>
       </div>
 
       <Navbar />

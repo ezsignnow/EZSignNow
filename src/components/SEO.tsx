@@ -77,7 +77,7 @@ export const getProductSchema = () => ({
   "@type": "Product",
   "name": "EZSignNow",
   "image": "https://ezsignnow.com/assets/hero-esign.jpg",
-  "description": "Super simple electronic signatures starting at just $5/mo with unlimited envelopes and legal-grade digital certificates.",
+  "description": "Free forever for personal use. Electronic signatures with signing order, audit certificates and PDF tools; business plans from $4 per sender.",
   "brand": {
     "@type": "Brand",
     "name": "EZSignNow"

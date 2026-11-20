@@ -649,35 +649,27 @@ export function DocumentUpload() {
     runStep();
   };
 
-  // Brand logos sourced from logo.dev by company domain, falling back to a
-  // hand-drawn SVG if the fetch is blocked (ad-blockers commonly flag
-  // domain-logo-lookup services) or otherwise fails.
+  // Dropbox and Box come from logo.dev by company domain. logo.dev only has
+  // the parent company's logo for Google Drive (Google's "G") and OneDrive
+  // (Microsoft's squares), so those two are drawn as their product icons.
   const GoogleDriveIcon = () => (
-    <BrandLogoImg
-      src={logoDevUrl(BRAND_DOMAINS.googleDrive, 56)}
-      alt="Google Drive"
-      className="h-7 w-7 shrink-0 object-contain"
-      fallback={
-        <svg viewBox="0 0 87.3 78" className="h-7 w-7 shrink-0">
-          <path d="M58.3 70.8L29.1 20.3 14.6 45.5l29.1 50.5c3.2-5.4 14.6-25.2 14.6-25.2z" fill="#00832d" />
-          <path d="M58.3 70.8L87.3 20.3H29.1l-14.5 25.2h58.2c-4.4 7.5-14.5 25.3-14.5 25.3z" fill="#0066da" />
-          <path d="M29.1 20.3L0 70.8h58.3l14.5-25.3H14.6c4.5-7.7 14.5-25.2 14.5-25.2z" fill="#ffba00" />
-        </svg>
-      }
-    />
+    <svg viewBox="0 0 87.3 78" className="h-7 w-7 shrink-0" role="img" aria-label="Google Drive">
+      <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da" />
+      <path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47" />
+      <path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335" />
+      <path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d" />
+      <path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc" />
+      <path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00" />
+    </svg>
   );
 
   const OneDriveIcon = () => (
-    <BrandLogoImg
-      src={logoDevUrl(BRAND_DOMAINS.oneDrive, 56)}
-      alt="OneDrive"
-      className="h-7 w-7 shrink-0 object-contain"
-      fallback={
-        <svg viewBox="0 0 256 256" className="h-7 w-7 shrink-0">
-          <path fill="#0364B8" d="M192.5 98.7c-2.3-37.4-33-66.9-70.5-66.9-24.1 0-45.5 12-58.2 30.5-1.5-.1-3-.2-4.5-.2-23.7 0-43.2 18-45.6 41C5.1 106.6 0 115.3 0 125c0 24.3 19.7 44 44 44h168c24.3 0 44-19.7 44-44 0-14.2-6.7-26.8-17.1-34.9-1.9-2.2-4.1-4.2-6.4-6.4z"/>
-        </svg>
-      }
-    />
+    <svg viewBox="0 0 64 40" className="h-7 w-8 shrink-0" role="img" aria-label="OneDrive">
+      <path d="M24.5 9.5A14 14 0 0 1 49.6 15a10.5 10.5 0 0 1 .4 21H22z" fill="#0364b8" />
+      <path d="M24.5 9.5c-6 0-11 4.3-12.3 10A9.5 9.5 0 0 0 13 38h24l9-18.5A14 14 0 0 0 24.5 9.5z" fill="#0078d4" />
+      <path d="M46 19.5 37 38h13a10 10 0 0 0 9.2-14 10.5 10.5 0 0 0-9.6-4.6c-1.2 0-2.4.1-3.6.1z" fill="#1490df" />
+      <path d="M13 38a9.5 9.5 0 0 1-.8-18.5l17.3 7.2L37 38z" fill="#28a8ea" />
+    </svg>
   );
 
   const DropboxIcon = () => (
