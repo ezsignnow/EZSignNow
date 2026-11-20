@@ -714,7 +714,7 @@ EZSignNow Certified Signature Seal:
             </div>
             
             <p className="text-[9px] text-slate-500 font-semibold leading-normal">
-              Need to collect signatures yourself? Join millions using <a href="/" className="text-[#73c41d] hover:underline font-bold">EZSignNow</a> for just $5/mo with unlimited envelopes!
+              Need to collect signatures yourself? Join millions using <a href="/" className="text-[#73c41d] hover:underline font-bold">EZSignNow</a> free forever for personal use.
             </p>
           </CardContent>
         </Card>

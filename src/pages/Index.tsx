@@ -379,6 +379,10 @@ export default function Index() {
 
   const faqs = [
     {
+      q: "Is EZSignNow really free?",
+      a: "Yes. EZSignNow is free forever for personal use, with no card and no time limit: send and sign your own documents, with signing order, every field type, the audit certificate and the PDF tools. Small businesses and enterprises pay per sender for business use, team features and support. Signers never pay."
+    },
+    {
       q: "Are electronic signatures legally binding on EZSignNow?",
       a: "Yes, absolutely. EZSignNow meets all conditions specified by the US Electronic Signatures in Global and National Commerce (ESIGN) Act, the Uniform Electronic Transactions Act (UETA), and European eIDAS regulations. Every transaction produces a legally binding document."
     },
@@ -392,7 +396,7 @@ export default function Index() {
     },
     {
       q: "Can I create custom team templates?",
-      a: "Yes, with our Business Enterprise plan, you can save custom signature field overlays as team templates. This enables any team member to send standard contracts in one click without manually placing the fields every time."
+      a: "Yes, with the Small Business plan you can save custom signature field overlays as team templates. This enables any team member to send standard contracts in one click without manually placing the fields every time."
     }
   ];
 

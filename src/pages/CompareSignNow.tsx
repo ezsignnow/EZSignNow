@@ -87,8 +87,8 @@ export default function CompareSignNow() {
   return (
     <div className="min-h-screen flex flex-col font-sans bg-slate-50 dark:bg-background">
       <SEO 
-        title="ezsignnow vs signNow: The Smart, Cheap $5/mo Alternative"
-        description="Why pay $20/mo per user for signNow? Switch to EZSignNow for just $5/mo. Get unlimited document envelopes, custom branding, and legal-grade digital certificates."
+        title="EZSignNow vs signNow: Free for Personal Use, $5 for Business"
+        description="EZSignNow is free forever for personal use, and business plans are $5 per sender. Compare it with signNow: envelopes, branding, audit certificates and more."
         keywords="signNow alternative, signNow competitor, cheap e-signature, signNow vs ezsignnow, free electronic signature templates"
         faqs={[
           {
@@ -121,7 +121,7 @@ export default function CompareSignNow() {
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Why pay <span className="font-extrabold text-white">$20/user/mo</span> for basic document signing? Switch your legal templates to EZSignNow for just <span className="font-extrabold text-primary">$5/mo</span> with unlimited envelopes, secure passcodes, and direct Stripe payments.
+            Why pay <span className="font-extrabold text-white">$20/user/mo</span> for basic document signing? EZSignNow is <span className="font-extrabold text-primary">free forever for personal use</span>, and business plans are $5 per sender, with secure passcodes and direct Stripe payments.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
@@ -249,7 +249,7 @@ export default function CompareSignNow() {
                 </p>
 
                 <Button className="w-full mt-6 bg-emerald-500 hover:bg-emerald-600 text-white font-bold h-11 text-xs" asChild>
-                  <Link to="/try-for-free">Claim Your $5/mo Seats Now</Link>
+                  <Link to="/try-for-free">Start free</Link>
                 </Button>
               </div>
             </div>
