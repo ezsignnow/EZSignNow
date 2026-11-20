@@ -26,7 +26,7 @@ export default async function handler(req, res) {
           <p style="color: #475569; font-size: 16px; line-height: 1.5;">You recently attempted to log in from an unrecognized device.</p>
           <p style="color: #475569; font-size: 16px; line-height: 1.5;">Your verification code is:</p>
           <div style="background-color: #f1f5f9; padding: 20px; text-align: center; border-radius: 6px; margin: 30px 0;">
-            <h1 style="color: #1e0098; font-size: 40px; letter-spacing: 5px; margin: 0;">${code}</h1>
+            <h1 style="color: #3a6215; font-size: 40px; letter-spacing: 5px; margin: 0;">${code}</h1>
           </div>
           <p style="color: #475569; font-size: 14px;">If you did not request this, please secure your account immediately.</p>
         </div>

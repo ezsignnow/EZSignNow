@@ -9,7 +9,9 @@ import {
   faRightFromBracket,
   faFolderOpen,
   faFilePen,
-  faToolbox
+  faToolbox,
+  faPlus,
+  faLifeRing,
 } from "@fortawesome/free-solid-svg-icons";
 
 export function Sidebar() {
@@ -18,70 +20,113 @@ export function Sidebar() {
   const [searchParams] = useSearchParams();
   const currentTab = searchParams.get("tab");
 
-  const navItems = [
-    { name: "Dashboard", path: "/dashboard", icon: faGaugeHigh, tab: null },
-    { name: "Documents", path: "/dashboard?tab=documents", icon: faFileLines, tab: "documents" },
-    { name: "Edit PDF", path: "/edit", icon: faFilePen, tab: null },
-    { name: "PDF Tools", path: "/tools", icon: faToolbox, tab: null },
-    { name: "Templates", path: "/dashboard?tab=templates", icon: faFolderOpen, tab: "templates" },
-    { name: "Settings", path: "/dashboard?tab=settings", icon: faGear, tab: "settings" },
+  const sections = [
+    {
+      label: "Signatures",
+      items: [
+        { name: "Home", path: "/dashboard", icon: faGaugeHigh, tab: null },
+        { name: "Documents", path: "/dashboard?tab=documents", icon: faFileLines, tab: "documents" },
+        { name: "Templates", path: "/dashboard?tab=templates", icon: faFolderOpen, tab: "templates" },
+      ],
+    },
+    {
+      label: "PDF",
+      items: [
+        { name: "Edit PDF", path: "/edit", icon: faFilePen, tab: null },
+        { name: "PDF tools", path: "/tools", icon: faToolbox, tab: null },
+      ],
+    },
+    {
+      label: "Account",
+      items: [{ name: "Settings", path: "/dashboard?tab=settings", icon: faGear, tab: "settings" }],
+    },
   ];
 
+  const isActive = (path: string, tab: string | null) =>
+    path === "/edit"
+      ? /^\/(edit|document\/[^/]+\/edit)$/.test(location.pathname)
+      : path === "/tools"
+        ? location.pathname.startsWith("/tools")
+        : location.pathname === "/dashboard" && currentTab === tab;
+
+  const name = user?.email?.split("@")[0] || "You";
+
   return (
-    <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col h-screen fixed top-0 left-0">
-      {/* Brand & Workspace */}
-      <div className="h-16 flex items-center px-6 border-b border-slate-800">
-        <BrandLogo variant="dark" iconSize="h-4 w-4" />
+    <aside className="fixed left-0 top-0 flex h-screen w-64 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
+      <div className="flex h-16 items-center border-b border-slate-100 px-5 dark:border-slate-800">
+        <Link to="/dashboard" aria-label="EZSignNow dashboard">
+          <BrandLogo />
+        </Link>
       </div>
 
-      <div className="px-6 py-4">
-        <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Workspace</div>
-        <div className="flex items-center gap-3 bg-slate-800/50 p-2 rounded border border-slate-800 cursor-pointer hover:bg-slate-800 transition-colors">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-            {user?.email?.charAt(0).toUpperCase() || 'U'}
-          </div>
-          <div className="flex flex-col truncate">
-            <span className="text-sm font-medium text-white truncate">{user?.email?.split('@')[0]}</span>
-            <span className="text-[10px] text-slate-400 truncate">{user?.email}</span>
-          </div>
-        </div>
+      <div className="px-4 pt-5">
+        <Link
+          to="/dashboard?tab=sign"
+          className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-[#5ba114] text-sm font-semibold text-white shadow-sm transition hover:bg-[#477c13]"
+        >
+          <FontAwesomeIcon icon={faPlus} className="h-3.5 w-3.5" />
+          New document
+        </Link>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-4 py-2 space-y-1">
-        {navItems.map((item) => {
-          const isActive =
-            item.path === "/edit"
-              ? /^\/(edit|document\/[^/]+\/edit)$/.test(location.pathname)
-              : item.path === "/tools"
-                ? location.pathname.startsWith("/tools")
-                : location.pathname === "/dashboard" && currentTab === item.tab;
-          return (
-            <Link
-              key={item.name}
-              to={item.path}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
-                isActive 
-                  ? "bg-blue-600 text-white" 
-                  : "hover:bg-slate-800 hover:text-white"
-              }`}
-            >
-              <FontAwesomeIcon icon={item.icon} className={`h-4 w-4 ${isActive ? "text-white" : "text-slate-400"}`} />
-              {item.name}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-6" aria-label="Main">
+        {sections.map((section) => (
+          <div key={section.label}>
+            <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400">{section.label}</p>
+            <ul className="space-y-0.5">
+              {section.items.map((item) => {
+                const active = isActive(item.path, item.tab);
+                return (
+                  <li key={item.name}>
+                    <Link
+                      to={item.path}
+                      aria-current={active ? "page" : undefined}
+                      className={`group relative flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                        active
+                          ? "bg-[#73c41d]/12 text-[#3a6215] dark:bg-[#73c41d]/15 dark:text-[#abdb74]"
+                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-900"
+                      }`}
+                    >
+                      {active && <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r bg-[#5ba114]" />}
+                      <FontAwesomeIcon
+                        icon={item.icon}
+                        className={`h-4 w-4 ${active ? "text-[#5ba114]" : "text-slate-400 group-hover:text-slate-600"}`}
+                      />
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </nav>
 
-      {/* Footer / Logout */}
-      <div className="p-4 border-t border-slate-800">
-        <button
-          onClick={signOut}
-          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-md text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+      <div className="space-y-1 border-t border-slate-100 p-3 dark:border-slate-800">
+        <Link
+          to="/support"
+          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-900"
         >
-          <FontAwesomeIcon icon={faRightFromBracket} className="h-4 w-4" />
-          Sign Out
-        </button>
+          <FontAwesomeIcon icon={faLifeRing} className="h-4 w-4 text-slate-400" />
+          Help and support
+        </Link>
+        <div className="flex items-center gap-3 rounded-lg px-3 py-2">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#73c41d]/20 text-sm font-bold text-[#3a6215] dark:text-[#abdb74]">
+            {name.charAt(0).toUpperCase()}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-medium text-slate-900 dark:text-white">{name}</p>
+            <p className="truncate text-[11px] text-slate-500">{user?.email}</p>
+          </div>
+          <button
+            onClick={signOut}
+            aria-label="Sign out"
+            title="Sign out"
+            className="rounded-md p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-900"
+          >
+            <FontAwesomeIcon icon={faRightFromBracket} className="h-4 w-4" />
+          </button>
+        </div>
       </div>
     </aside>
   );

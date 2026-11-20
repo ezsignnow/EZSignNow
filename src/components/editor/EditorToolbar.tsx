@@ -75,7 +75,7 @@ interface EditorToolbarProps {
 
 const btn =
   "flex items-center gap-1.5 px-3 py-1.5 text-[13px] text-blue-700 hover:bg-blue-50 border-r border-blue-300 last:border-r-0 whitespace-nowrap focus:outline-none focus-visible:bg-blue-100";
-const active = "bg-blue-100 text-blue-800 shadow-[inset_0_2px_4px_rgba(37,99,235,0.15)]";
+const active = "bg-blue-100 text-blue-800 shadow-[inset_0_2px_4px_rgba(91, 161, 20,0.15)]";
 
 function ToolIcon({ icon }: { icon: IconDefinition }) {
   return <FontAwesomeIcon icon={icon} className="h-3.5 w-3.5" />;

@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { fallbackService } from "./fallbackService";
 import { apiUrl } from "@/lib/api";
+import { signersWhoseTurn } from "@/lib/signing/workflow";
 
 interface Signatory {
   id: string;
@@ -84,8 +85,9 @@ export const reminderScheduler = {
           }
         }
 
-        // Filter signatories who haven't signed yet
-        const unsignedSigs = signatories.filter(s => s.status === "pending");
+        // Only remind signers whose turn it is: not copy recipients, not
+        // later signing steps, and nobody once someone has declined.
+        const unsignedSigs = signersWhoseTurn(signatories);
         if (unsignedSigs.length === 0) continue;
 
         console.log(`[Reminder Scheduler] Document "${doc.title}" has ${unsignedSigs.length} unsigned signatories.`);
@@ -113,7 +115,7 @@ export const reminderScheduler = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                signatories: [sig],
+                signatories: [{ name: sig.name, email: sig.email, signerId: sig.id }],
                 documentId: doc.id,
                 documentTitle: `[REMINDER] ${doc.title}`,
                 ownerEmail: "support@ezsignnow.com",

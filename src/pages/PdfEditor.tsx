@@ -149,7 +149,7 @@ export default function PdfEditor() {
     fontFamily: "Helvetica",
     fontSize: 12,
     textColor: "#000000",
-    inkColor: "#1d4ed8",
+    inkColor: "#477c13",
     inkWidth: 2,
     shapeColor: "#dc2626",
     shapeWidth: 2,

@@ -130,9 +130,9 @@ export default function Dashboard() {
   const [tagline, setTagline] = useState("Secure Document Signing");
   const [emailHeaderText, setEmailHeaderText] = useState("You have been invited to sign a document.");
   const [brandFont, setBrandFont] = useState("Inter");
-  const [primaryColor, setPrimaryColor] = useState("#2563eb");
+  const [primaryColor, setPrimaryColor] = useState("#5ba114");
   const [secondaryColor, setSecondaryColor] = useState("#0f172a");
-  const [accentColor, setAccentColor] = useState("#10b981");
+  const [accentColor, setAccentColor] = useState("#5ba114");
   const [isSavingBranding, setIsSavingBranding] = useState(false);
 
   // Expanded Team Workspace States
@@ -462,10 +462,10 @@ export default function Dashboard() {
     setTagline("Secure Document Signing");
     setEmailHeaderText("You have been invited to sign a document.");
     setBrandFont("Inter");
-    setPrimaryColor("#2563eb");
+    setPrimaryColor("#5ba114");
     setSecondaryColor("#0f172a");
-    setAccentColor("#10b981");
-    applyBrandingCssVars("#2563eb", "#0f172a", "#10b981");
+    setAccentColor("#5ba114");
+    applyBrandingCssVars("#5ba114", "#0f172a", "#5ba114");
     window.dispatchEvent(new Event("branding_updated"));
     toast({
       title: "Workspace Branding Reset",
@@ -617,7 +617,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#2563eb]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#5ba114]" />
       </div>
     );
   }
@@ -635,7 +635,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-3 border-l border-slate-100 pl-4 ml-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#22c55e]/20">
+                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#73c41d]/20">
                   <div className="h-7 w-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-black shrink-0 border border-emerald-200">
                     {user?.email ? user.email.slice(0, 2).toUpperCase() : "U"}
                   </div>
@@ -688,28 +688,28 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="flex-1 bg-slate-50 p-6 md:p-8 lg:p-10 overflow-y-auto">
-      <div className="max-w-[1000px] mx-auto w-full">
+      <div className="flex-1 bg-[#f7f9f5] dark:bg-slate-950 p-6 md:p-8 lg:p-10 overflow-y-auto">
+      <div className="max-w-[1100px] mx-auto w-full">
 
         {/* Top Trial Banner */}
         {isPremium ? (
-          <div className="bg-blue-600 text-white py-2 px-4 rounded-md text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0 mb-6">
-            <span>🌟 Business Trial Active. You have 7 days remaining on your trial.</span>
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-xl border border-[#73c41d]/30 bg-[#f4fbec] px-4 py-2.5 text-sm text-[#3a6215] dark:bg-[#73c41d]/10 dark:text-[#abdb74]">
+            <span><strong className="font-semibold">Business trial active.</strong> 7 days left.</span>
             <button 
               onClick={() => { 
                 localStorage.removeItem("is_premium"); 
                 setIsPremium(false); 
                 toast({ title: "Trial Deactivated", description: "Returned to the free sandbox plan." }); 
               }} 
-              className="underline hover:text-white/95 transition-all font-bold ml-1.5"
+              className="font-semibold underline-offset-2 hover:underline"
             >
-              Manage Plan
+              Manage plan
             </button>
           </div>
         ) : (
-          <div className="bg-blue-600 text-white py-2 px-4 rounded-md text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0 mb-6">
-            <span>You have a 7-day Free Business Trial.</span>
-            <button onClick={() => navigate("/try-trial")} className="underline hover:text-white/95 transition-all font-bold">Try now</button>
+          <div className="mb-6 flex items-center justify-between gap-3 rounded-xl border border-[#73c41d]/30 bg-[#f4fbec] px-4 py-2.5 text-sm text-[#3a6215] dark:bg-[#73c41d]/10 dark:text-[#abdb74]">
+            <span>Try every Business feature free for 7 days.</span>
+            <button onClick={() => navigate("/try-trial")} className="rounded-md bg-[#5ba114] px-3 py-1 text-xs font-semibold text-white hover:bg-[#477c13]">Start trial</button>
           </div>
         )}
             
@@ -717,8 +717,8 @@ export default function Dashboard() {
             {activeTab === "sign" && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 <div className="mb-4">
-                  <h1 className="text-2xl font-extrabold text-slate-800">Prepare & Sign Documents</h1>
-                  <p className="text-sm text-slate-500 mt-1">Upload a PDF or choose a template to add signers and fields.</p>
+                  <h1 className="font-heading text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Send a document for signature</h1>
+                  <p className="text-sm text-slate-500 mt-1">Upload a PDF, then add signers and place their fields.</p>
                 </div>
                 <DocumentUpload />
               </div>
@@ -728,30 +728,30 @@ export default function Dashboard() {
               <div className="space-y-8 animate-in fade-in duration-200">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <h1 className="text-2xl font-extrabold text-slate-800">Documents Dashboard</h1>
-                    <p className="text-sm text-slate-500 mt-1">Monitor, track status, and manage your electronic signatures.</p>
+                    <h1 className="font-heading text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Documents</h1>
+                    <p className="text-sm text-slate-500 mt-1">See where every document stands and who it's waiting on.</p>
                   </div>
-                  <Button onClick={() => setActiveTab("sign")} className="bg-[#2563eb] hover:bg-[#1a7ae0] font-bold text-xs h-9 rounded-full px-5 shadow-sm gap-2">
-                    <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
-                    New Document
+                  <Button onClick={() => setActiveTab("sign")} className="bg-[#5ba114] hover:bg-[#477c13] font-semibold text-sm h-10 rounded-lg px-5 shadow-sm gap-2">
+                    <FontAwesomeIcon icon={faPlus} className="h-3.5 w-3.5" />
+                    New document
                   </Button>
                 </div>
 
                 {/* Dashboard stats cards */}
                 <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
                   {[
-                    { icon: faFileLines, label: "Total Documents", value: statsLoading ? "-" : stats.total.toString(), color: "bg-[#2563eb]/10 text-[#2563eb]" },
-                    { icon: faClock, label: "Pending Signatures", value: statsLoading ? "-" : stats.pending.toString(), color: "bg-amber-500/10 text-amber-500" },
-                    { icon: faCircleCheck, label: "Completed Signatures", value: statsLoading ? "-" : stats.completed.toString(), color: "bg-blue-500/10 text-blue-500" },
+                    { icon: faFileLines, label: "All documents", value: statsLoading ? "–" : stats.total.toString(), color: "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300" },
+                    { icon: faClock, label: "Waiting for signatures", value: statsLoading ? "–" : stats.pending.toString(), color: "bg-amber-50 text-amber-600 dark:bg-amber-950/30" },
+                    { icon: faCircleCheck, label: "Completed", value: statsLoading ? "–" : stats.completed.toString(), color: "bg-[#73c41d]/15 text-[#477c13] dark:text-[#8ccd45]" },
                   ].map((stat) => (
-                    <Card key={stat.label} className="border-slate-100 shadow-[0_2px_4px_rgba(0,0,0,0.01)] hover:shadow-md transition-shadow">
-                      <CardContent className="flex items-center gap-4.5 p-5">
-                        <div className={`rounded-xl p-3 ${stat.color} shrink-0`}>
-                          <FontAwesomeIcon icon={stat.icon} className="h-6 w-6" />
-                        </div>
+                    <Card key={stat.label} className="rounded-xl border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
+                      <CardContent className="flex items-center justify-between p-5">
                         <div>
-                          <p className="text-2xl font-extrabold text-slate-800 leading-tight">{stat.value}</p>
-                          <p className="text-xs font-semibold text-slate-400 mt-0.5">{stat.label}</p>
+                          <p className="text-sm font-medium text-slate-500">{stat.label}</p>
+                          <p className="mt-1 font-heading text-3xl font-bold tracking-tight text-slate-900 tabular-nums dark:text-white">{stat.value}</p>
+                        </div>
+                        <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${stat.color} shrink-0`}>
+                          <FontAwesomeIcon icon={stat.icon} className="h-4.5 w-4.5" />
                         </div>
                       </CardContent>
                     </Card>
@@ -760,15 +760,15 @@ export default function Dashboard() {
 
                 {/* Kiosk Mode Quick-Launch Banner */}
                 {stats.pending > 0 && (
-                  <Card className="border border-[#2563eb]/20 bg-blue-50/30 dark:from-slate-900/40 dark:to-slate-950/20 rounded-2xl shadow-[0_2px_8px_rgba(37,143,251,0.01)] overflow-hidden select-none animate-in fade-in slide-in-from-top-1.5 duration-300 mb-6">
+                  <Card className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden dark:border-slate-800 dark:bg-slate-900">
                     <CardContent className="p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-[#2563eb]/10 shrink-0">
+                        <div className="h-10 w-10 rounded-lg bg-[#73c41d]/15 text-[#477c13] flex items-center justify-center shrink-0">
                           <FontAwesomeIcon icon={faLaptop} className="h-5 w-5" />
                         </div>
                         <div>
-                          <h3 className="font-extrabold text-slate-800 dark:text-slate-100 text-sm">Host In-Person Signing Kiosk</h3>
-                          <p className="text-xs text-slate-500 dark:text-slate-450 mt-0.5">You have {stats.pending} pending envelope(s) ready to sign in-person on this local device.</p>
+                          <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-sm">Sign in person on this device</h3>
+                          <p className="text-xs text-slate-500 mt-0.5">{stats.pending} document{stats.pending === 1 ? " is" : "s are"} waiting. Kiosk mode hands this screen from signer to signer.</p>
                         </div>
                       </div>
                       <Button
@@ -790,9 +790,10 @@ export default function Dashboard() {
                             console.error("Kiosk launch error:", err);
                           }
                         }}
-                        className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-9 px-5 shadow-sm shrink-0 flex items-center gap-1.5 transition-all"
+                        variant="outline"
+                        className="rounded-lg border-slate-300 text-slate-800 hover:border-[#5ba114] hover:text-[#477c13] font-semibold text-sm h-9 px-4 shrink-0 flex items-center gap-1.5"
                       >
-                        Launch Kiosk Mode
+                        Start kiosk mode
                         <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5" />
                       </Button>
                     </CardContent>
@@ -801,7 +802,7 @@ export default function Dashboard() {
 
                 {/* Your Documents listing */}
                 <div>
-                  <h2 className="mb-4 text-sm font-bold text-slate-700">Your Signature Pipeline</h2>
+                  <h2 className="mb-4 text-sm font-semibold text-slate-900 dark:text-white">Recent documents</h2>
                   <DocumentList />
                 </div>
               </div>
@@ -816,7 +817,7 @@ export default function Dashboard() {
                   </div>
                   <Button 
                     onClick={() => navigate("/template/new")}
-                    className="bg-[#2563eb] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm gap-2"
+                    className="bg-[#5ba114] hover:bg-[#477c13] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm gap-2"
                   >
                     <FontAwesomeIcon icon={faPlus} className="h-4 w-4" />
                     Create New Template
@@ -846,7 +847,7 @@ export default function Dashboard() {
                       
                       <CardContent className="p-5 flex-1 flex flex-col justify-between">
                         <div className="space-y-2.5">
-                          <div className="h-10 w-10 bg-blue-50/50 border border-blue-100 text-[#2563eb] rounded-xl flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                          <div className="h-10 w-10 bg-blue-50/50 border border-blue-100 text-[#5ba114] rounded-xl flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
                             <FontAwesomeIcon icon={faCopy} className="h-5 w-5" />
                           </div>
                           <h3 className="font-extrabold text-slate-800 text-[14.5px] truncate pr-12">{item.title}</h3>
@@ -856,7 +857,7 @@ export default function Dashboard() {
                           <span className="text-[10px] font-extrabold text-blue-600 bg-blue-50/50 border border-blue-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)] select-none">Custom Layout</span>
                           <button 
                             onClick={() => handleUseTemplate(item)}
-                            className="text-xs font-bold text-[#2563eb] flex items-center gap-1 group-hover:underline focus:outline-none"
+                            className="text-xs font-bold text-[#5ba114] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
                             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
@@ -885,7 +886,7 @@ export default function Dashboard() {
                           <span className="text-[10px] font-bold text-slate-400">{item.duration}</span>
                           <button 
                             onClick={() => handleUseTemplate(item)}
-                            className="text-xs font-bold text-[#2563eb] flex items-center gap-1 group-hover:underline focus:outline-none"
+                            className="text-xs font-bold text-[#5ba114] flex items-center gap-1 group-hover:underline focus:outline-none"
                           >
                             Use Layout
                             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
@@ -898,10 +899,10 @@ export default function Dashboard() {
                   {/* Create Template layout */}
                   <Card 
                     onClick={() => navigate("/template/new")}
-                    className="border-dashed border-slate-200 hover:border-[#2563eb]/55 hover:bg-blue-50/10 cursor-pointer flex flex-col items-center justify-center p-5 text-center min-h-[180px] bg-slate-50/20 transition-all group shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)]"
+                    className="border-dashed border-slate-200 hover:border-[#5ba114]/55 hover:bg-blue-50/10 cursor-pointer flex flex-col items-center justify-center p-5 text-center min-h-[180px] bg-slate-50/20 transition-all group shadow-[inset_0_1px_2px_rgba(0,0,0,0.01)]"
                   >
                     <CardContent className="p-0 space-y-3.5">
-                      <div className="h-11 w-11 rounded-full border-[1.5px] border-[#2563eb]/30 group-hover:border-[#2563eb] flex items-center justify-center mx-auto text-[#2563eb] transition-all bg-white shadow-sm">
+                      <div className="h-11 w-11 rounded-full border-[1.5px] border-[#5ba114]/30 group-hover:border-[#5ba114] flex items-center justify-center mx-auto text-[#5ba114] transition-all bg-white shadow-sm">
                         <FontAwesomeIcon icon={faPlus} className="h-5 w-5" />
                       </div>
                       <div>
@@ -934,14 +935,14 @@ export default function Dashboard() {
                             value={newFormName}
                             onChange={(e) => setNewFormName(e.target.value)}
                             placeholder="e.g. Guest Release Form"
-                            className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded focus:border-[#2563eb]/50 focus:outline-none"
+                            className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded focus:border-[#5ba114]/50 focus:outline-none"
                             required
                           />
                         </div>
                         <Button 
                           type="submit" 
                           disabled={isCreatingForm}
-                          className="w-full bg-[#2563eb] hover:bg-[#1a7ae0] rounded-[4px] h-[36px] font-bold text-xs shadow-md shadow-[#2563eb]/10"
+                          className="w-full bg-[#5ba114] hover:bg-[#477c13] rounded-[4px] h-[36px] font-bold text-xs shadow-md shadow-[#5ba114]/10"
                         >
                           {isCreatingForm ? <FontAwesomeIcon icon={faSpinner} className="h-4 w-4 animate-spin" /> : "Publish Active Link"}
                         </Button>
@@ -976,7 +977,7 @@ export default function Dashboard() {
                                       navigator.clipboard.writeText(`https://${item.link}`);
                                       toast({ title: "Link Copied", description: "Public URL loaded into clipboard." });
                                     }}
-                                    className="text-xs text-[#2563eb] font-semibold hover:underline flex items-center gap-1.5"
+                                    className="text-xs text-[#5ba114] font-semibold hover:underline flex items-center gap-1.5"
                                   >
                                     {item.link}
                                     <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-3 w-3" />
@@ -1065,7 +1066,7 @@ export default function Dashboard() {
                                 type="text"
                                 value={profileName}
                                 onChange={(e) => setProfileName(e.target.value)}
-                                className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded focus:border-[#2563eb]/50 focus:outline-none"
+                                className="w-full text-xs font-semibold px-3.5 py-2.5 border border-slate-200 rounded focus:border-[#5ba114]/50 focus:outline-none"
                                 required
                               />
                             </div>
@@ -1092,7 +1093,7 @@ export default function Dashboard() {
                                   setSigningFont(e.target.value);
                                   localStorage.setItem("signing_font", e.target.value);
                                 }}
-                                className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#2563eb]/50 focus:outline-none"
+                                className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#5ba114]/50 focus:outline-none"
                               >
                                 {FONT_OPTIONS.map((f) => (
                                   <option key={f.value} value={f.value}>{f.label}</option>
@@ -1117,7 +1118,7 @@ export default function Dashboard() {
                             <Button 
                               type="submit" 
                               disabled={isSavingSettings}
-                              className="bg-[#2563eb] hover:bg-[#1a7ae0] rounded-full h-[38px] px-6 font-bold text-xs shadow-md shadow-[#2563eb]/20 flex items-center gap-2"
+                              className="bg-[#5ba114] hover:bg-[#477c13] rounded-full h-[38px] px-6 font-bold text-xs shadow-md shadow-[#5ba114]/20 flex items-center gap-2"
                             >
                               {isSavingSettings ? (
                                 <>
@@ -1140,7 +1141,7 @@ export default function Dashboard() {
                     <Card className="border-slate-100 lg:col-span-1">
                       <CardContent className="p-5 space-y-4">
                         <h3 className="text-sm font-bold text-slate-700 flex items-center gap-1.5">
-                          <FontAwesomeIcon icon={faLaptop} className="h-4 w-4 text-[#2563eb]" />
+                          <FontAwesomeIcon icon={faLaptop} className="h-4 w-4 text-[#5ba114]" />
                           Environment Info
                         </h3>
                         <div className="space-y-2 text-xs font-semibold text-slate-400">

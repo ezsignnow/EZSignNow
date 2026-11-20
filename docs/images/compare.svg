@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 820" width="1280" height="820" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>What EZSignNow includes: every box in the everyday signing loop, plus PDF tools</title>
+  <defs>
+    <symbol id="yes" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#5ba114"/><path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+  <rect width="1280" height="820" rx="28" fill="#fff"/>
+  <text x="64" y="70" font-size="13" font-weight="700" fill="#5ba114" letter-spacing="2">WHAT'S INCLUDED</text>
+  <text x="64" y="112" font-size="36" font-weight="800" fill="#0f172a" letter-spacing="-1">Everything it takes to get a document signed</text>
+  <text x="64" y="144" font-size="16" fill="#64748b">All of this is in EZSignNow; a few rows need a paid plan. Signers never pay and never need an account.</text>
+
+  <rect x="840" y="176" width="200" height="600" rx="18" fill="#f4fbec" stroke="#cdeaa9"/>
+  <text x="940" y="212" text-anchor="middle" font-size="15" font-weight="800" fill="#0f172a">EZSign<tspan fill="#5ba114">Now</tspan></text>
+  <text x="940" y="232" text-anchor="middle" font-size="12" fill="#64748b">Included</text>
+
+  <g font-size="15">
+    <g transform="translate(64 262)">
+      <text y="0" font-weight="700" fill="#0f172a">Signing without an account</text><text y="20" font-size="13" fill="#64748b">Signers open a link from their email, on any device</text>
+      <use href="#yes" x="928" y="-12" width="24" height="24"/>
+    </g>
+    <line x1="64" y1="300" x2="1216" y2="300" stroke="#f1f5f9"/>
+    <g transform="translate(64 330)">
+      <text font-weight="700" fill="#0f172a">Signing order and copy recipients</text><text y="20" font-size="13" fill="#64748b">Up to 25 signers, in order, at the same time, or mixed</text>
+      <use href="#yes" x="928" y="-12" width="24" height="24"/>
+    </g>
+    <line x1="64" y1="368" x2="1216" y2="368" stroke="#f1f5f9"/>
+    <g transform="translate(64 398)">
+      <text font-weight="700" fill="#0f172a">9 field types</text><text y="20" font-size="13" fill="#64748b">Signature, initials, name, date, text, number, checkbox, dropdown, radio</text>
+      <use href="#yes" x="928" y="-12" width="24" height="24"/>
+    </g>
+    <line x1="64" y1="436" x2="1216" y2="436" stroke="#f1f5f9"/>
+    <g transform="translate(64 466)">
+      <text font-weight="700" fill="#0f172a">Consent to electronic records</text><text y="20" font-size="13" fill="#64748b">Signers agree before they sign, and it's written to the audit trail</text>
+      <use href="#yes" x="928" y="-12" width="24" height="24"/>
+    </g>
+    <line x1="64" y1="504" x2="1216" y2="504" stroke="#f1f5f9"/>
+    <g transform="translate(64 534)">
+      <text font-weight="700" fill="#0f172a">Decline with a reason</text><text y="20" font-size="13" fill="#64748b">The sender is told straight away</text>
+      <use href="#yes" x="928" y="-12" width="24" height="24"/>
+    </g>
+    <line x1="64" y1="572" x2="1216" y2="572" stroke="#f1f5f9"/>
+    <g transform="translate(64 602)">
+      <text font-weight="700" fill="#0f172a">Audit trail and completion certificate</text><text y="20" font-size="13" fill="#64748b">IP address, location and time for every signature</text>
+      <use href="#yes" x="928" y="-12" width="24" height="24"/>
+    </g>
+    <line x1="64" y1="640" x2="1216" y2="640" stroke="#f1f5f9"/>
+    <g transform="translate(64 670)">
+      <text font-weight="700" fill="#0f172a">Templates, payments and kiosk signing</text><text y="20" font-size="13" fill="#64748b">Template links, Stripe deposits, and in-person signing on one device</text>
+      <use href="#yes" x="928" y="-12" width="24" height="24"/>
+    </g>
+    <line x1="64" y1="708" x2="1216" y2="708" stroke="#f1f5f9"/>
+    <g transform="translate(64 738)">
+      <text font-weight="700" fill="#0f172a">PDF editor and 40+ PDF tools</text><text y="20" font-size="13" fill="#64748b">Merge, split, compress, convert, OCR, protect, and more</text>
+      <use href="#yes" x="928" y="-12" width="24" height="24"/>
+    </g>
+  </g>
+</svg>

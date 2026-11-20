@@ -118,7 +118,7 @@ function renderBody(
             }}
             onFocus={(e) => e.currentTarget.select()}
             spellCheck={false}
-            style={{ ...textStyle, width: "100%", height: "100%", minWidth: 20, border: "none", outline: "1px dashed #3b82f6", background: "rgba(255,255,255,0.6)", resize: "none", overflow: "hidden" }}
+            style={{ ...textStyle, width: "100%", height: "100%", minWidth: 20, border: "none", outline: "1px dashed #73c41d", background: "rgba(255,255,255,0.6)", resize: "none", overflow: "hidden" }}
           />
         );
       }

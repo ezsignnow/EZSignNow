@@ -47,8 +47,8 @@ interface TemplateField {
 }
 
 const colorPalette = [
-  "#22c55e", // Premium Blue
-  "#10b981", // Emerald Green
+  "#73c41d", // Premium Blue
+  "#5ba114", // Emerald Green
   "#8b5cf6", // Purple
   "#f59e0b", // Amber Yellow
   "#ec4899", // Rose Pink
@@ -64,8 +64,8 @@ export default function TemplateBuilder() {
   const [templateName, setTemplateName] = useState("Untitled Template");
   const [templateDesc, setTemplateDesc] = useState("Standard reusable document template.");
   const [roles, setRoles] = useState<TemplateRole[]>([
-    { id: "role-1", name: "Client Signer", color: "#22c55e" },
-    { id: "role-2", name: "Internal Admin", color: "#10b981" }
+    { id: "role-1", name: "Client Signer", color: "#73c41d" },
+    { id: "role-2", name: "Internal Admin", color: "#5ba114" }
   ]);
   const [fields, setFields] = useState<TemplateField[]>([]);
   const [selectedRole, setSelectedRole] = useState<string>("role-1");
@@ -334,7 +334,7 @@ export default function TemplateBuilder() {
   if (authLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#73c41d]" />
       </div>
     );
   }
@@ -357,7 +357,7 @@ export default function TemplateBuilder() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 hover:bg-slate-50/50 p-1.5 rounded-lg transition-all bg-white select-none focus:outline-none">
-                  <div className="h-7 w-7 rounded-full bg-[#10b981] border border-slate-100 flex items-center justify-center text-[10px] font-extrabold text-white shadow-sm shrink-0 uppercase">
+                  <div className="h-7 w-7 rounded-full bg-[#5ba114] border border-slate-100 flex items-center justify-center text-[10px] font-extrabold text-white shadow-sm shrink-0 uppercase">
                     {user.email ? user.email.slice(0, 2) : "US"}
                   </div>
                   <span className="text-xs font-bold text-slate-600 hidden md:inline max-w-[120px] truncate">
@@ -403,7 +403,7 @@ export default function TemplateBuilder() {
               <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
             </button>
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-50/50 border border-blue-100 rounded-xl text-[#22c55e] shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+              <div className="p-2 bg-blue-50/50 border border-blue-100 rounded-xl text-[#73c41d] shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
                 <FontAwesomeIcon icon={faFileSignature} className="h-5 w-5" />
               </div>
               <div>
@@ -411,7 +411,7 @@ export default function TemplateBuilder() {
                   <h1 className="text-base font-extrabold text-slate-800 tracking-tight leading-tight">
                     {templateName || "Untitled Template"}
                   </h1>
-                  <span className="bg-blue-50 text-[#22c55e] border border-blue-100 font-extrabold px-2.5 py-0.5 text-[9px] rounded-full uppercase select-none tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                  <span className="bg-blue-50 text-[#73c41d] border border-blue-100 font-extrabold px-2.5 py-0.5 text-[9px] rounded-full uppercase select-none tracking-wider shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
                     Reusable Layout
                   </span>
                 </div>
@@ -426,7 +426,7 @@ export default function TemplateBuilder() {
             <Button 
               onClick={handleSaveTemplate}
               disabled={isSaving}
-              className="rounded-full bg-[#22c55e] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all flex items-center gap-2"
+              className="rounded-full bg-[#73c41d] hover:bg-[#477c13] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all flex items-center gap-2"
             >
               {isSaving ? (
                 <FontAwesomeIcon icon={faSpinner} className="h-3.5 w-3.5 animate-spin" />
@@ -463,7 +463,7 @@ export default function TemplateBuilder() {
                     onChange={(e) => setTemplateDesc(e.target.value)}
                     placeholder="Describe when to use this template layout..."
                     rows={3}
-                    className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded-lg focus:border-[#22c55e]/50 focus:outline-none resize-none"
+                    className="w-full text-xs font-semibold px-3 py-2 border border-slate-200 rounded-lg focus:border-[#73c41d]/50 focus:outline-none resize-none"
                   />
                 </div>
               </div>
@@ -489,7 +489,7 @@ export default function TemplateBuilder() {
 
               <div className="grid grid-cols-1 gap-2.5">
                 {[
-                  { type: "signature", label: "Signature Field", color: "text-[#22c55e] bg-blue-50/50" },
+                  { type: "signature", label: "Signature Field", color: "text-[#73c41d] bg-blue-50/50" },
                   { type: "text", label: "Text Input Box", color: "text-purple-500 bg-purple-50/50" },
                   { type: "checkbox", label: "Checkbox Option", color: "text-emerald-500 bg-emerald-50/50" },
                   { type: "date", label: "Date Picker Box", color: "text-amber-500 bg-amber-50/50" },
@@ -650,7 +650,7 @@ export default function TemplateBuilder() {
                       onClick={() => setSelectedRole(role.id)}
                       className={`p-3.5 border rounded-2xl transition-all cursor-pointer space-y-2.5 ${
                         selectedRole === role.id 
-                          ? "border-[#22c55e] bg-blue-50/10 shadow-[0_4px_12px_rgba(37,143,251,0.02)]" 
+                          ? "border-[#73c41d] bg-blue-50/10 shadow-[0_4px_12px_rgba(91, 161, 20,0.02)]" 
                           : "border-slate-100 hover:border-slate-200 hover:bg-slate-50/20"
                       }`}
                     >
@@ -685,7 +685,7 @@ export default function TemplateBuilder() {
 
             {/* Instruction Banner */}
             <Card className="border-blue-100 bg-blue-50/20 rounded-2xl p-5 space-y-3">
-              <div className="flex items-center gap-2 text-[#22c55e]">
+              <div className="flex items-center gap-2 text-[#73c41d]">
                 <FontAwesomeIcon icon={faCircleExclamation} className="h-4.5 w-4.5 shrink-0" />
                 <h4 className="text-xs font-extrabold">Builder Tip</h4>
               </div>
