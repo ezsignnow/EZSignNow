@@ -1,5 +1,6 @@
 import { sendMail } from "./_lib/mailer.js";
 import { applyCors, isAllowedOrigin } from "./_lib/cors.js";
+import { signingEmail } from "./_lib/emailTemplates.js";
 
 export default async function handler(req, res) {
   if (applyCors(req, res)) return;
@@ -10,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { signatories, documentId, documentTitle, ownerEmail } = req.body || {};
+    const { signatories, documentId, documentTitle, ownerEmail, subject, message } = req.body || {};
 
     if (!signatories || signatories.length === 0) {
       return res.status(400).json({ error: "Missing signatories" });
@@ -22,64 +23,19 @@ export default async function handler(req, res) {
       ? req.headers.origin
       : process.env.VITE_FRONTEND_URL || "https://www.ezsignnow.com";
 
+    // Each signer gets their own link (?signer=<id>) so they land on their
+    // own fields; only the signers whose turn it is are sent here.
     const promises = signatories.map((sig) => {
-      const signUrl = `${FRONTEND_URL}/document/${documentId}/view`;
-
-      return sendMail({
-        to: sig.email,
-        subject: `Signature Request: ${documentTitle}`,
-        text: `Hello ${sig.name},\n\n${ownerEmail} has requested your signature on the document "${documentTitle}".\n\nPlease review and sign the document here: ${signUrl}\n\nThank you,\nEZSignNow Team`,
-        html: `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
-            <!-- Top Bar -->
-            <div style="background-color: #f1f5f9; padding: 12px; text-align: center; color: #0f172a; font-size: 13px; font-weight: 500;">
-              EZSignNow Document Services
-            </div>
-
-            <!-- Logo Section -->
-            <div style="text-align: center; padding: 30px 0;">
-              <h1 style="color: #1e0098; font-size: 32px; margin: 0; font-weight: 800; letter-spacing: -1px;">
-                <span style="color: #22c55e;">ez</span>signnow
-              </h1>
-              <p style="color: #64748b; font-size: 13px; margin: 5px 0 0 0;">Secure Document Portal</p>
-            </div>
-
-            <!-- Main Content Area -->
-            <div style="background-color: #f8fafc; padding: 40px;">
-              <p style="color: #0f172a; font-size: 16px; margin: 0 0 20px 0; line-height: 1.5;">
-                Hello <strong>${sig.name}</strong>,
-              </p>
-              <p style="color: #0f172a; font-size: 16px; margin: 0 0 20px 0; line-height: 1.5;">
-                <strong>${ownerEmail}</strong> has requested your signature on the document <strong>"${documentTitle}"</strong>. Please review and sign it below.
-              </p>
-
-              <div style="margin: 30px 0;">
-                <a href="${signUrl}" style="background-color: #1e0098; color: #ffffff; padding: 14px 32px; border-radius: 9999px; text-decoration: none; font-weight: 600; display: inline-block; font-size: 15px;">View Document</a>
-              </div>
-
-              <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;" />
-
-              <!-- Warning Section -->
-              <div>
-                <h4 style="margin: 0 0 8px 0; font-size: 16px; color: #0f172a; font-weight: 700;">Do Not Share This Email</h4>
-                <p style="margin: 0; font-size: 15px; color: #334155; line-height: 1.5;">To ensure the security of your data, do not share the links or forward this email to others.</p>
-              </div>
-            </div>
-
-            <!-- Footer Section -->
-            <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f1f5f9; padding: 25px 40px;">
-              <tr>
-                <td style="font-size: 13px; color: #0f172a; line-height: 1.5;">
-                  Processed by EZSignNow on behalf of ${ownerEmail}
-                </td>
-                <td align="right" width="100">
-                  <a href="mailto:${ownerEmail}" style="border: 1px solid #1e0098; color: #1e0098; padding: 8px 24px; border-radius: 9999px; text-decoration: none; font-size: 13px; font-weight: 600; display: inline-block;">Contact</a>
-                </td>
-              </tr>
-            </table>
-          </div>
-        `,
+      const email = signingEmail({
+        frontendUrl: FRONTEND_URL,
+        documentId,
+        documentTitle,
+        ownerEmail,
+        signer: sig,
+        subject,
+        message,
       });
+      return sendMail({ to: sig.email, ...email });
     });
 
     await Promise.all(promises);

@@ -42,8 +42,8 @@ const DEFAULT_TEMPLATES: Record<string, {
     title: "Standard NDA",
     desc: "Non-disclosure template with dual signature panels.",
     roles: [
-      { id: "role-1", name: "Client Signer", color: "#22c55e" },
-      { id: "role-2", name: "Internal Admin", color: "#10b981" }
+      { id: "role-1", name: "Client Signer", color: "#73c41d" },
+      { id: "role-2", name: "Internal Admin", color: "#5ba114" }
     ],
     fields: [
       { id: "f-1", type: "signature", x: 60, y: 550, width: 180, height: 40, label: "Client Signature", required: true, roleId: "role-1" },
@@ -65,7 +65,7 @@ const DEFAULT_TEMPLATES: Record<string, {
     desc: "Consulting agreement with scope milestones & payment fields.",
     roles: [
       { id: "role-1", name: "Contractor Signer", color: "#8b5cf6" },
-      { id: "role-2", name: "Client Approver", color: "#22c55e" }
+      { id: "role-2", name: "Client Approver", color: "#73c41d" }
     ],
     fields: [
       { id: "c-1", type: "signature", x: 60, y: 550, width: 180, height: 40, label: "Contractor Signature", required: true, roleId: "role-1" },
@@ -211,7 +211,7 @@ export default function TemplateSign() {
         setTemplate({
           title: "Standard NDA",
           desc: "Corporate mutual non-disclosure and confidentiality terms.",
-          roles: [{ id: "role-1", name: "Signer Role 1", color: "#22c55e" }],
+          roles: [{ id: "role-1", name: "Signer Role 1", color: "#73c41d" }],
           fields: [
             { id: "f-1", type: "signature", x: 80, y: 550, width: 200, height: 45, label: "Your Signature", required: true, roleId: "role-1" },
             { id: "f-2", type: "text", x: 80, y: 610, width: 200, height: 35, label: "Your Title", required: true, roleId: "role-1" }
@@ -279,7 +279,7 @@ export default function TemplateSign() {
     
     ctx.lineWidth = 3.5;
     ctx.lineCap = "round";
-    ctx.strokeStyle = "#22c55e"; // Premium blue signature color
+    ctx.strokeStyle = "#73c41d"; // Premium blue signature color
 
     // Handle touch vs mouse
     const rect = canvas.getBoundingClientRect();
@@ -630,7 +630,7 @@ EZSignNow Certified Signature Seal:
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-950">
-        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#73c41d]" />
       </div>
     );
   }
@@ -645,7 +645,7 @@ EZSignNow Certified Signature Seal:
         <div className="absolute -right-1/4 -bottom-1/4 w-[600px] h-[600px] rounded-full bg-violet-600/10 blur-[150px] pointer-events-none animate-pulse duration-[8000ms]" />
 
         <Card className="w-full max-w-xl relative z-10 border border-slate-800/80 bg-slate-900/60 backdrop-blur-2xl text-white rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
-          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#22c55e] via-indigo-500 to-transparent" />
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#73c41d] via-indigo-500 to-transparent" />
           
           <CardContent className="p-8 text-center space-y-6">
             <div className="mx-auto h-16 w-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.2)] mb-2">
@@ -684,7 +684,7 @@ EZSignNow Certified Signature Seal:
                 </div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">DIGITAL HASH ID</p>
-                  <p className="font-mono text-[9px] text-[#22c55e] truncate mt-0.5">{certifiedHash}</p>
+                  <p className="font-mono text-[9px] text-[#73c41d] truncate mt-0.5">{certifiedHash}</p>
                 </div>
                 <div>
                   <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">VERIFIED IP / GEO</p>
@@ -714,7 +714,7 @@ EZSignNow Certified Signature Seal:
             </div>
             
             <p className="text-[9px] text-slate-500 font-semibold leading-normal">
-              Need to collect signatures yourself? Join millions using <a href="/" className="text-[#22c55e] hover:underline font-bold">EZSignNow</a> for just $5/mo with unlimited envelopes!
+              Need to collect signatures yourself? Join millions using <a href="/" className="text-[#73c41d] hover:underline font-bold">EZSignNow</a> for just $5/mo with unlimited envelopes!
             </p>
           </CardContent>
         </Card>
@@ -732,12 +732,12 @@ EZSignNow Certified Signature Seal:
         <div className="absolute -right-1/4 -bottom-1/4 w-[550px] h-[550px] rounded-full bg-indigo-600/10 blur-[130px] pointer-events-none animate-pulse duration-[9000ms]" />
 
         <Card className="w-full max-w-md relative z-10 border border-slate-800/80 bg-slate-900/60 backdrop-blur-xl text-white rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-300">
-          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#22c55e] to-transparent" />
+          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#73c41d] to-transparent" />
           
           {gateStep === "form" ? (
             <>
               <CardHeader className="text-center pt-8 pb-3 px-6">
-                <div className="mx-auto h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(37,143,251,0.15)] mb-4">
+                <div className="mx-auto h-12 w-12 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(91, 161, 20,0.15)] mb-4">
                   <FontAwesomeIcon icon={faLock} className="h-5 w-5" />
                 </div>
                 <CardTitle className="text-xl font-bold tracking-tight text-white leading-snug">
@@ -758,7 +758,7 @@ EZSignNow Certified Signature Seal:
                       placeholder="e.g. Alexander Pierce"
                       value={signerName}
                       onChange={(e) => setSignerName(e.target.value)}
-                      className="rounded-xl border-slate-800 bg-slate-950/80 text-white placeholder:text-slate-655 focus-visible:ring-offset-0 focus-visible:ring-[#22c55e]/20 focus-visible:border-[#22c55e] transition-all h-10.5 text-xs font-semibold shadow-inner"
+                      className="rounded-xl border-slate-800 bg-slate-950/80 text-white placeholder:text-slate-655 focus-visible:ring-offset-0 focus-visible:ring-[#73c41d]/20 focus-visible:border-[#73c41d] transition-all h-10.5 text-xs font-semibold shadow-inner"
                       required
                     />
                   </div>
@@ -771,7 +771,7 @@ EZSignNow Certified Signature Seal:
                       placeholder="alexander@company.com"
                       value={signerEmail}
                       onChange={(e) => setSignerEmail(e.target.value)}
-                      className="rounded-xl border-slate-800 bg-slate-950/80 text-white placeholder:text-slate-655 focus-visible:ring-offset-0 focus-visible:ring-[#22c55e]/20 focus-visible:border-[#22c55e] transition-all h-10.5 text-xs font-semibold shadow-inner"
+                      className="rounded-xl border-slate-800 bg-slate-950/80 text-white placeholder:text-slate-655 focus-visible:ring-offset-0 focus-visible:ring-[#73c41d]/20 focus-visible:border-[#73c41d] transition-all h-10.5 text-xs font-semibold shadow-inner"
                       required
                     />
                   </div>
@@ -810,8 +810,8 @@ EZSignNow Certified Signature Seal:
             // Verification Loader
             <CardContent className="p-10 flex flex-col items-center justify-center min-h-[350px] space-y-6">
               <div className="relative flex items-center justify-center">
-                <div className="h-16 w-16 rounded-full border-2 border-slate-800 border-t-[#22c55e] animate-spin" />
-                <FontAwesomeIcon icon={faLock} className="h-5 w-5 absolute text-[#22c55e]" />
+                <div className="h-16 w-16 rounded-full border-2 border-slate-800 border-t-[#73c41d] animate-spin" />
+                <FontAwesomeIcon icon={faLock} className="h-5 w-5 absolute text-[#73c41d]" />
               </div>
               
               <div className="text-center space-y-2">
@@ -857,7 +857,7 @@ EZSignNow Certified Signature Seal:
             disabled={!allRequiredCompleted || isFinalizing}
             className={`rounded-full h-8 px-5 font-bold text-[11px] transition-all shadow-md ${
               allRequiredCompleted 
-                ? "bg-[#22c55e] hover:bg-[#1d7ee6] text-white" 
+                ? "bg-[#73c41d] hover:bg-[#477c13] text-white" 
                 : "bg-slate-800 text-slate-400 border border-slate-700 cursor-not-allowed"
             }`}
           >
@@ -897,7 +897,7 @@ EZSignNow Certified Signature Seal:
 
               {/* Dynamic Browser Tab */}
               <div className="bg-slate-900 border border-slate-800 text-slate-300 px-3 py-1 rounded-lg text-[10px] font-bold flex items-center gap-2 max-w-[150px] truncate select-none shadow-sm ml-2">
-                <FontAwesomeIcon icon={faFileLines} className="h-3 w-3 text-[#22c55e]" />
+                <FontAwesomeIcon icon={faFileLines} className="h-3 w-3 text-[#73c41d]" />
                 {template.title} Copy
               </div>
 
@@ -969,7 +969,7 @@ EZSignNow Certified Signature Seal:
                 {template.fields.map((field: any) => {
                   const isPrimaryField = field.roleId === primaryRole || !field.roleId;
                   const role = template.roles.find((r: any) => r.id === field.roleId);
-                  const roleColor = role?.color || "#22c55e";
+                  const roleColor = role?.color || "#73c41d";
                   const filledVal = fieldValues[field.id];
 
                   return (
@@ -981,7 +981,7 @@ EZSignNow Certified Signature Seal:
                         top: field.y,
                         width: field.width,
                         height: field.height,
-                        borderColor: isPrimaryField ? (filledVal ? "#10b981" : roleColor) : "#cbd5e1",
+                        borderColor: isPrimaryField ? (filledVal ? "#5ba114" : roleColor) : "#cbd5e1",
                         backgroundColor: isPrimaryField ? (filledVal ? "#f0fdf4" : `${roleColor}08`) : "#f8fafc"
                       }}
                     >
@@ -1070,7 +1070,7 @@ EZSignNow Certified Signature Seal:
       {signingFieldId && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
           <Card className="w-full max-w-lg border border-slate-800 bg-slate-900 text-white rounded-3xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
-            <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#22c55e] to-transparent" />
+            <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#73c41d] to-transparent" />
             
             <CardHeader className="pb-3 pt-6 px-6 flex flex-row items-center justify-between">
               <div>
@@ -1121,7 +1121,7 @@ EZSignNow Certified Signature Seal:
                       value={typedName}
                       onChange={(e) => setTypedName(e.target.value)}
                       placeholder="Type signature name..."
-                      className="rounded-xl border-slate-800 bg-slate-950 text-white placeholder:text-slate-700 focus-visible:ring-offset-0 focus-visible:ring-[#22c55e]/20 focus-visible:border-[#22c55e] h-10.5 text-xs font-bold shadow-inner"
+                      className="rounded-xl border-slate-800 bg-slate-950 text-white placeholder:text-slate-700 focus-visible:ring-offset-0 focus-visible:ring-[#73c41d]/20 focus-visible:border-[#73c41d] h-10.5 text-xs font-bold shadow-inner"
                     />
                   </div>
 
@@ -1140,7 +1140,7 @@ EZSignNow Certified Signature Seal:
                           onClick={() => setSelectedFont(fontOption.id)}
                           className={`p-3.5 border rounded-2xl transition-all text-center min-h-[64px] flex flex-col justify-center bg-slate-950/40 cursor-pointer ${
                             selectedFont === fontOption.id 
-                              ? "border-[#22c55e] shadow-[0_0_12px_rgba(37,143,251,0.05)]" 
+                              ? "border-[#73c41d] shadow-[0_0_12px_rgba(91, 161, 20,0.05)]" 
                               : "border-slate-800 hover:border-slate-750 hover:bg-slate-950/80"
                           }`}
                         >

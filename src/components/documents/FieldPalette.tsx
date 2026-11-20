@@ -8,7 +8,12 @@ import {
   faTag,
   faCircleInfo,
   faPaperclip,
-  faPalette
+  faPalette,
+  faFont,
+  faUser,
+  faHashtag,
+  faCaretDown,
+  faCircleDot
 } from "@fortawesome/free-solid-svg-icons";
 import {
   Tooltip,
@@ -29,6 +34,20 @@ const fieldTypes = [
     colorClass: "bg-blue-50 dark:bg-blue-950/30 text-blue-500 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 group-hover:text-blue-600 dark:group-hover:text-blue-300"
   },
   {
+    type: "initials",
+    icon: faFont,
+    label: "Initials",
+    description: "Signer's initials",
+    colorClass: "bg-sky-50 dark:bg-sky-950/30 text-sky-500 dark:text-sky-400 group-hover:bg-sky-100 dark:group-hover:bg-sky-900/40 group-hover:text-sky-600 dark:group-hover:text-sky-300"
+  },
+  {
+    type: "name",
+    icon: faUser,
+    label: "Full Name",
+    description: "Filled in with the signer's name",
+    colorClass: "bg-teal-50 dark:bg-teal-950/30 text-teal-500 dark:text-teal-400 group-hover:bg-teal-100 dark:group-hover:bg-teal-900/40 group-hover:text-teal-600 dark:group-hover:text-teal-300"
+  },
+  {
     type: "text",
     icon: faICursor,
     label: "Text Box",
@@ -43,10 +62,31 @@ const fieldTypes = [
     colorClass: "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-500 dark:text-emerald-400 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/40 group-hover:text-emerald-600 dark:group-hover:text-emerald-300"
   },
   {
+    type: "number",
+    icon: faHashtag,
+    label: "Number",
+    description: "Numbers only",
+    colorClass: "bg-violet-50 dark:bg-violet-950/30 text-violet-500 dark:text-violet-400 group-hover:bg-violet-100 dark:group-hover:bg-violet-900/40 group-hover:text-violet-600 dark:group-hover:text-violet-300"
+  },
+  {
+    type: "dropdown",
+    icon: faCaretDown,
+    label: "Dropdown",
+    description: "Pick one option from a list",
+    colorClass: "bg-orange-50 dark:bg-orange-950/30 text-orange-500 dark:text-orange-400 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/40 group-hover:text-orange-600 dark:group-hover:text-orange-300"
+  },
+  {
+    type: "radio",
+    icon: faCircleDot,
+    label: "Radio Buttons",
+    description: "Choose one of several options",
+    colorClass: "bg-fuchsia-50 dark:bg-fuchsia-950/30 text-fuchsia-500 dark:text-fuchsia-400 group-hover:bg-fuchsia-100 dark:group-hover:bg-fuchsia-900/40 group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-300"
+  },
+  {
     type: "date",
     icon: faCalendarDays,
-    label: "Date",
-    description: "Date picker field",
+    label: "Date Signed",
+    description: "Filled in with the signing date",
     colorClass: "bg-amber-50 dark:bg-amber-950/30 text-amber-500 dark:text-amber-400 group-hover:bg-amber-100 dark:group-hover:bg-amber-900/40 group-hover:text-amber-600 dark:group-hover:text-amber-300"
   },
   {
@@ -85,7 +125,7 @@ export function FieldPalette({ onAddField }: FieldPaletteProps) {
               </button>
             </TooltipTrigger>
             <TooltipContent side="top" className="bg-slate-800 text-white border-0 text-xs px-2.5 py-1.5 rounded-lg shadow-md">
-              <p className="font-semibold text-center leading-none">Click to add a field onto your document</p>
+              <p className="font-semibold text-center leading-none">Click or drag to add a field for the selected signer. Double-click a placed field to edit it.</p>
             </TooltipContent>
           </Tooltip>
         </CardTitle>

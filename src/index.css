@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
@@ -22,7 +22,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 217 33% 17%;
 
-    --primary: 221 83% 53%; /* Eversign Blue */
+    --primary: 89 78% 35%; /* Bamboo green #5ba114 */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 214 32% 91%;
@@ -39,20 +39,20 @@ All colors MUST be HSL.
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 221 83% 53%;
+    --ring: 89 78% 35%;
 
     --radius: 0.25rem;
 
     --sidebar-background: 222 47% 11%; /* Very dark blue/slate for sidebar */
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary: 89 78% 35%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 217 33% 17%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217 33% 17%;
-    --sidebar-ring: 221 83% 53%;
+    --sidebar-ring: 89 78% 35%;
 
-    --chart-1: 221 83% 53%;
+    --chart-1: 89 78% 35%;
     --chart-2: 217 33% 17%;
     --chart-3: 214 32% 91%;
     --chart-4: 215 16% 47%;
@@ -88,7 +88,7 @@ All colors MUST be HSL.
     --popover: 217 33% 17%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 221 83% 53%;
+    --primary: 89 78% 35%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 215 16% 47%;
@@ -105,18 +105,18 @@ All colors MUST be HSL.
 
     --border: 215 16% 47%;
     --input: 215 16% 47%;
-    --ring: 221 83% 53%;
+    --ring: 89 78% 35%;
 
     --sidebar-background: 217 33% 17%;
     --sidebar-foreground: 214 32% 91%;
-    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary: 89 78% 35%;
     --sidebar-primary-foreground: 210 40% 98%;
     --sidebar-accent: 215 16% 47%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 215 16% 47%;
-    --sidebar-ring: 142 71% 45%;
+    --sidebar-ring: 88 74% 44%;
     
-    --chart-1: 142 71% 45%;
+    --chart-1: 88 74% 44%;
     --chart-2: 210 40% 98%;
     --chart-3: 215 16% 47%;
     --chart-4: 214 32% 91%;
@@ -132,7 +132,13 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  /* Headings use Plus Jakarta Sans; interface text uses Inter. */
+  h1, h2, h3, h4 {
+    font-family: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.015em;
   }
 }
 

@@ -155,7 +155,7 @@ export default function TryTrial() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#73c41d]" />
       </div>
     );
   }
@@ -177,7 +177,7 @@ export default function TryTrial() {
           </div>
 
           <Button 
-            className="rounded-full h-[34px] px-5 border-[#22c55e] text-[#22c55e] bg-white border-[1.5px] hover:bg-[#22c55e]/5 font-bold text-xs shadow-sm transition-all cursor-not-allowed"
+            className="rounded-full h-[34px] px-5 border-[#73c41d] text-[#73c41d] bg-white border-[1.5px] hover:bg-[#73c41d]/5 font-bold text-xs shadow-sm transition-all cursor-not-allowed"
             disabled
           >
             Upgrade
@@ -189,7 +189,7 @@ export default function TryTrial() {
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 hover:bg-slate-50/50 p-1.5 rounded-lg transition-all bg-white select-none">
                   {/* User green logo avatar circle */}
-                  <div className="h-7 w-7 rounded-full bg-[#10b981] border border-slate-100 flex items-center justify-center text-[10px] font-extrabold text-white shadow-sm shrink-0 uppercase">
+                  <div className="h-7 w-7 rounded-full bg-[#5ba114] border border-slate-100 flex items-center justify-center text-[10px] font-extrabold text-white shadow-sm shrink-0 uppercase">
                     {user.email ? user.email.slice(0, 2) : "US"}
                   </div>
                   <span className="text-xs font-bold text-slate-600 hidden md:inline max-w-[120px] truncate">
@@ -285,14 +285,14 @@ export default function TryTrial() {
         {/* Step Timeline Indicator */}
         <div className="flex items-center gap-4 mb-6">
           <div className="flex items-center gap-2">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[10px] font-bold text-white">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#73c41d] text-[10px] font-bold text-white">
               ✓
             </span>
             <span className="text-xs font-bold text-slate-500">Create an account</span>
           </div>
           <div className="h-[2px] w-12 bg-slate-200" />
           <div className="flex items-center gap-2">
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#22c55e] text-[10px] font-bold text-white">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#73c41d] text-[10px] font-bold text-white">
               2
             </span>
             <span className="text-xs font-bold text-slate-700">Activate your trial</span>
@@ -337,7 +337,7 @@ export default function TryTrial() {
                     "Custom business branding"
                   ].map((feature) => (
                     <li key={feature} className="flex items-center gap-2.5 text-xs font-semibold text-slate-600">
-                      <span className="h-4.5 w-4.5 rounded-full bg-[#22c55e]/10 text-[#22c55e] flex items-center justify-center shrink-0">
+                      <span className="h-4.5 w-4.5 rounded-full bg-[#73c41d]/10 text-[#73c41d] flex items-center justify-center shrink-0">
                         <FontAwesomeIcon icon={faCheck} className="h-3 w-3" />
                       </span>
                       <span>{feature}</span>
@@ -363,9 +363,9 @@ export default function TryTrial() {
             {isSubmitting ? (
               <div className="py-8 flex flex-col items-center justify-center space-y-6">
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-full bg-[#22c55e]/10 animate-ping" />
+                  <div className="absolute inset-0 rounded-full bg-[#73c41d]/10 animate-ping" />
                   <div className="relative bg-white border border-slate-100 rounded-full p-4 shadow-md">
-                    <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#22c55e]" />
+                    <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#73c41d]" />
                   </div>
                 </div>
                 
@@ -398,7 +398,7 @@ export default function TryTrial() {
                             ✓
                           </span>
                         ) : isCurrent ? (
-                          <FontAwesomeIcon icon={faSpinner} className="h-5 w-5 animate-spin text-[#22c55e] shrink-0" />
+                          <FontAwesomeIcon icon={faSpinner} className="h-5 w-5 animate-spin text-[#73c41d] shrink-0" />
                         ) : (
                           <span className="h-5 w-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-[10px] font-bold shrink-0" />
                         )}
@@ -419,7 +419,7 @@ export default function TryTrial() {
                     value={nameOnCard} 
                     onChange={(e) => setNameOnCard(e.target.value)} 
                     placeholder="Your Name" 
-                    className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#22c55e]/50 focus:outline-none"
+                    className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#73c41d]/50 focus:outline-none"
                     required
                   />
                 </div>
@@ -437,7 +437,7 @@ export default function TryTrial() {
                   </div>
                   
                   {/* Stripe Element Unified Input Container */}
-                  <div className="flex items-center gap-2 w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-slate-50/50 focus-within:border-[#22c55e] focus-within:ring-1 focus-within:ring-[#22c55e]/20 transition-all select-none">
+                  <div className="flex items-center gap-2 w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-slate-50/50 focus-within:border-[#73c41d] focus-within:ring-1 focus-within:ring-[#73c41d]/20 transition-all select-none">
                     {getCardBrandIcon()}
                     
                     <input 
@@ -497,7 +497,7 @@ export default function TryTrial() {
                       value={zip} 
                       onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))} 
                       placeholder="00000" 
-                      className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#22c55e]/50 focus:outline-none"
+                      className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#73c41d]/50 focus:outline-none"
                       maxLength={6}
                       required
                     />
@@ -509,7 +509,7 @@ export default function TryTrial() {
                       <select 
                         value={coupon} 
                         onChange={(e) => setCoupon(e.target.value)}
-                        className="w-full appearance-none text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#22c55e]/50 focus:outline-none cursor-pointer text-slate-400"
+                        className="w-full appearance-none text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#73c41d]/50 focus:outline-none cursor-pointer text-slate-400"
                       >
                         <option value="">Apply Promo Code</option>
                         <option value="welcome">WELCOME20 (20% OFF)</option>
@@ -523,7 +523,7 @@ export default function TryTrial() {
                 <Button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full bg-[#22c55e] hover:bg-[#1a7ae0] h-[44px] rounded-lg text-xs font-bold text-white shadow-md shadow-[#22c55e]/20 mt-6"
+                  className="w-full bg-[#73c41d] hover:bg-[#477c13] h-[44px] rounded-lg text-xs font-bold text-white shadow-md shadow-[#73c41d]/20 mt-6"
                 >
                   Start My 7-day Free Trial
                 </Button>
@@ -552,18 +552,18 @@ export default function TryTrial() {
               <div className="relative pl-6 space-y-6 border-l border-slate-100 ml-3">
                 {/* Milestone 1 */}
                 <div className="relative">
-                  <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#22c55e] text-white flex items-center justify-center border-4 border-white shadow-sm">
+                  <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#73c41d] text-white flex items-center justify-center border-4 border-white shadow-sm">
                     <FontAwesomeIcon icon={faCheck} className="h-2 w-2" />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-bold text-[#22c55e] uppercase tracking-wide">Create An Account</h4>
+                    <h4 className="text-[11px] font-bold text-[#73c41d] uppercase tracking-wide">Create An Account</h4>
                     <p className="text-[11px] text-slate-400 mt-0.5 leading-normal">You successfully created your free account.</p>
                   </div>
                 </div>
 
                 {/* Milestone 2 */}
                 <div className="relative">
-                  <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#22c55e]/10 text-[#22c55e] flex items-center justify-center border-4 border-white shadow-sm">
+                  <div className="absolute -left-[31px] top-0 h-4.5 w-4.5 rounded-full bg-[#73c41d]/10 text-[#73c41d] flex items-center justify-center border-4 border-white shadow-sm">
                     <FontAwesomeIcon icon={faLock} className="h-2 w-2" />
                   </div>
                   <div>

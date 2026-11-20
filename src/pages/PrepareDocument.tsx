@@ -4,7 +4,18 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { getAbsoluteUrl } from "@/utils/url";
 import { FieldPalette } from "@/components/documents/FieldPalette";
-import { SignatoryManager, Signatory } from "@/components/documents/SignatoryManager";
+import { SignatoryManager, Signatory, signatoryColors, renumberSteps } from "@/components/documents/SignatoryManager";
+import {
+  CHOICE_FIELD_TYPES,
+  FIELD_TYPE_LABELS,
+  defaultFieldSize,
+  encodeSignerData,
+  insertFieldRows,
+  isCopyRecipient,
+  normalizeFieldRow,
+  signingPath,
+  stepCount,
+} from "@/lib/signing/workflow";
 import { DocumentCanvas, Field } from "@/components/documents/DocumentCanvas";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -46,7 +57,10 @@ export default function PrepareDocument() {
   const [signatories, setSignatories] = useState<Signatory[]>([]);
   const [fields, setFields] = useState<Field[]>([]);
   const [selectedSignatory, setSelectedSignatory] = useState<number | null>(null);
-  const [strictRouting, setStrictRouting] = useState(false);
+  const [signInOrder, setSignInOrder] = useState(false);
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [sentLinks, setSentLinks] = useState<Array<{ name: string; email: string; url: string; notified: boolean }>>([]);
   const [inPersonSigning, setInPersonSigning] = useState(false);
   const [saving, setSaving] = useState(false);
   const [sending, setSending] = useState(false);
@@ -55,7 +69,7 @@ export default function PrepareDocument() {
   const [pdfUrl, setPdfUrl] = useState<string>("");
   const [sentDialogOpen, setSentDialogOpen] = useState(false);
   const [lastEmailSent, setLastEmailSent] = useState(true);
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<string | false>(false);
   const [depositFee, setDepositFee] = useState("");
 
   const [isPremium, setIsPremium] = useState(localStorage.getItem("is_premium") === "true");
@@ -193,33 +207,33 @@ export default function PrepareDocument() {
 
       let loadedSignatories: Signatory[] = [];
       if (sigData) {
-        const colors = [
-          "hsl(200, 98%, 39%)",
-          "hsl(142, 76%, 36%)",
-          "hsl(262, 83%, 58%)",
-          "hsl(24, 100%, 50%)",
-          "hsl(340, 82%, 52%)",
-        ];
-        loadedSignatories = sigData.map((s, i) => {
+        loadedSignatories = sigData.map((s: any, i) => {
           const savedPasscode = localStorage.getItem(`signatory_passcode_${id}_${s.email}`) || "";
           const resolvedCode = s.access_code || savedPasscode || undefined;
           return {
             ...s,
-            color: colors[i % colors.length],
+            role: isCopyRecipient(s) ? "cc" : "signer",
+            color: signatoryColors[i % signatoryColors.length],
             access_code: resolvedCode,
             passcode: resolvedCode,
-          };
+          } as Signatory;
         });
+        // Copy recipients go last so the signing steps read top to bottom.
+        loadedSignatories.sort((a, b) => (a.role === "cc" ? 1 : 0) - (b.role === "cc" ? 1 : 0));
         setSignatories(loadedSignatories);
+        const firstSigner = loadedSignatories.findIndex((s) => s.role !== "cc");
+        setSelectedSignatory(firstSigner >= 0 ? firstSigner : null);
       }
 
       // Fetch existing deposit fee
       const savedDepositFee = data.payment_fee ? String(data.payment_fee) : (localStorage.getItem(`document_deposit_fee_${id}`) || "");
       setDepositFee(savedDepositFee);
 
-      // Fetch strict routing and in-person signing configuration
+      // Signing order is on when signers sit in more than one step. Documents
+      // from before signing steps existed kept the choice in localStorage.
       const savedStrictRouting = localStorage.getItem(`document_strict_routing_${id}`) === "true";
-      setStrictRouting(savedStrictRouting);
+      setSignInOrder(stepCount(loadedSignatories) > 1 || savedStrictRouting);
+      setEmailSubject(`Signature Request: ${data.title}`);
 
       const savedInPersonSigning = localStorage.getItem(`document_in_person_signing_${id}`) === "true";
       setInPersonSigning(savedInPersonSigning);
@@ -232,7 +246,8 @@ export default function PrepareDocument() {
 
       if (fieldData) {
         setFields(
-          fieldData.map((f) => {
+          fieldData.map((raw) => {
+            const f = normalizeFieldRow(raw);
             let signatoryIndex = f.signatory_id
               ? loadedSignatories.findIndex((s) => s.id === f.signatory_id)
               : -1;
@@ -253,6 +268,7 @@ export default function PrepareDocument() {
               required: f.required,
               signatoryIndex: signatoryIndex !== -1 ? signatoryIndex : null,
               value: f.value || undefined,
+              options: f.options,
             };
           })
         );
@@ -271,34 +287,64 @@ export default function PrepareDocument() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, user?.id, navigate]);
 
+  const signerIndexes = signatories
+    .map((s, i) => (s.role === "cc" ? -1 : i))
+    .filter((i) => i >= 0);
+
   const handleAddSignatory = async (signatory: Omit<Signatory, "id" | "status">) => {
-    setSignatories([...signatories, signatory as Signatory]);
+    const next = [...signatories, signatory as Signatory];
+    setSignatories(next);
+    if (selectedSignatory === null && signatory.role !== "cc") {
+      setSelectedSignatory(next.length - 1);
+    }
   };
 
   const handleRemoveSignatory = (index: number) => {
     setSignatories(signatories.filter((_, i) => i !== index));
+    // Keep each field pointing at the same person after the list shifts.
+    setFields(
+      fields.map((f) => {
+        if (f.signatoryIndex === null) return f;
+        if (f.signatoryIndex === index) return { ...f, signatoryIndex: null };
+        return f.signatoryIndex > index ? { ...f, signatoryIndex: f.signatoryIndex - 1 } : f;
+      })
+    );
     if (selectedSignatory === index) {
       setSelectedSignatory(null);
+    } else if (selectedSignatory !== null && selectedSignatory > index) {
+      setSelectedSignatory(selectedSignatory - 1);
     }
   };
 
+  const handleReorderSignatories = (next: Signatory[]) => {
+    // Rows can move, so remap field owners by identity rather than position.
+    const oldOwner = fields.map((f) => (f.signatoryIndex !== null ? signatories[f.signatoryIndex] : null));
+    setSignatories(next);
+    setFields(
+      fields.map((f, i) => {
+        const owner = oldOwner[i];
+        if (!owner) return f;
+        const newIndex = next.findIndex((s) => s.email === owner.email);
+        return { ...f, signatoryIndex: newIndex >= 0 ? newIndex : null };
+      })
+    );
+  };
+
+  const handleSignInOrderChange = (checked: boolean) => {
+    setSignInOrder(checked);
+    setSignatories(
+      checked
+        ? renumberSteps(signatories)
+        : signatories.map((s) => (s.role === "cc" ? s : { ...s, order_num: 1 }))
+    );
+  };
+
   const handleAddField = (type: string, x?: number, y?: number) => {
-    let width = 140;
-    let height = 36;
-    
-    if (type === "checkbox") {
-      width = 24;
-      height = 24;
-    } else if (type === "date" || type === "label") {
-      width = 120;
-      height = 36;
-    } else if (type === "attachment") {
-      width = 165;
-      height = 54;
-    } else if (type === "drawing") {
-      width = 185;
-      height = 110;
-    }
+    const { width, height } = defaultFieldSize(type);
+    const owner =
+      selectedSignatory !== null && signatories[selectedSignatory]?.role !== "cc"
+        ? selectedSignatory
+        : signerIndexes[0] ?? null;
 
     const newField: Field = {
       id: `field-${Date.now()}`,
@@ -307,46 +353,56 @@ export default function PrepareDocument() {
       y: y !== undefined ? y : 100 + Math.random() * 200,
       width,
       height,
-      required: true,
-      signatoryIndex: selectedSignatory,
+      required: type !== "label",
+      signatoryIndex: type === "label" ? null : owner,
+      label: type === "label" ? "Label" : undefined,
+      options: CHOICE_FIELD_TYPES.has(type) ? ["Option 1", "Option 2"] : undefined,
     };
     setFields([...fields, newField]);
   };
 
-  const handleSave = async () => {
-    if (!id) return;
+  /** Saves signers and fields. Returns the saved signer rows, or null when the save failed. */
+  const handleSave = async (opts: { quiet?: boolean } = {}): Promise<any[] | null> => {
+    if (!id) return null;
     setSaving(true);
 
-    // Save strict routing and in-person signing configuration
-    localStorage.setItem(`document_strict_routing_${id}`, String(strictRouting));
     localStorage.setItem(`document_in_person_signing_${id}`, String(inPersonSigning));
+    // Signing order now lives in each signer's step; drop the old toggle.
+    localStorage.removeItem(`document_strict_routing_${id}`);
 
     try {
       // Save signatories
       await supabase.from("signatories").delete().eq("document_id", id);
-      
-      // The live `documents` table has no payment_fee column either, so
-      // this always errored (silently, since the result wasn't checked) —
-      // the deposit fee is persisted via localStorage below instead, which
+
+      // The live `documents` table has no payment_fee column either, so the
+      // deposit fee is persisted via localStorage below instead, which
       // already round-trips correctly on reload (see `savedDepositFee` in
       // fetchDocument above).
+
+      // The sender's address rides along with each signer so a signer who
+      // declines (and has no access to the sender's profile) can notify them.
+      const senderData = encodeSignerData({
+        senderEmail: user?.email || undefined,
+        senderName: (user?.user_metadata as any)?.full_name || undefined,
+      });
 
       let insertedSignatories: any[] = [];
       if (signatories.length > 0) {
         const { data: sigData, error: sigError } = await supabase
           .from("signatories")
           .insert(
-            signatories.map((s, i) => ({
+            signatories.map((s) => ({
               document_id: id,
               email: s.email,
               name: s.name,
-              order_num: i + 1,
+              // Signing step; signers sharing a step sign at the same time.
+              // Copy recipients are stored as 0 (see lib/signing/workflow.ts).
+              order_num: s.role === "cc" ? 0 : signInOrder ? Math.max(1, s.order_num || 1) : 1,
+              signature_data: senderData,
               // The live `signatories` table has no access_code column —
               // inserting one throws "Could not find the 'access_code'
-              // column ... in the schema cache" and aborts this whole save
-              // (including every field position below it never getting
-              // written). The passcode is still persisted via localStorage
-              // just below, which is the only place it ever durably lived.
+              // column ... in the schema cache" and aborts this whole save.
+              // The passcode is persisted via localStorage just below.
             }))
           )
           .select();
@@ -373,48 +429,57 @@ export default function PrepareDocument() {
 
       // Save fields
       await supabase.from("signature_fields").delete().eq("document_id", id);
-      
-      if (fields.length > 0) {
-        const { error: fieldError } = await supabase.from("signature_fields").insert(
-          fields.map((f) => {
-            const signatoryId = f.signatoryIndex !== null && insertedSignatories[f.signatoryIndex]
-              ? insertedSignatories[f.signatoryIndex].id
-              : null;
 
+      if (fields.length > 0) {
+        const { error: fieldError } = await insertFieldRows(
+          supabase,
+          fields.map((f) => {
+            const owner = f.signatoryIndex !== null ? signatories[f.signatoryIndex] : null;
+            const saved = owner ? insertedSignatories.find((r) => r.email === owner.email) : null;
             return {
               document_id: id,
-              field_type: f.type,
               x_position: f.x,
               y_position: f.y,
               width: f.width,
               height: f.height,
               label: f.label,
-              tooltip: f.tooltip,
               required: f.required,
-              signatory_id: signatoryId,
+              signatory_id: owner?.role === "cc" ? null : saved?.id ?? null,
+              __meta: { type: f.type, tooltip: f.tooltip, options: f.options },
             };
           })
         );
         if (fieldError) throw fieldError;
       }
 
-      toast({ title: "Changes saved" });
+      // Pick up the new row ids so later saves and links stay consistent.
+      setSignatories((prev) =>
+        prev.map((s) => {
+          const saved = insertedSignatories.find((r) => r.email === s.email);
+          return saved ? { ...s, id: saved.id, status: saved.status } : s;
+        })
+      );
+
+      if (!opts.quiet) toast({ title: "Changes saved" });
+      return insertedSignatories;
     } catch (error: any) {
       toast({
         title: "Error saving",
         description: error.message,
         variant: "destructive",
       });
+      return null;
     } finally {
       setSaving(false);
     }
   };
 
   const handleSend = async () => {
-    if (signatories.length === 0) {
+    const signers = signatories.filter((s) => s.role !== "cc");
+    if (signers.length === 0) {
       toast({
-        title: "No signatories",
-        description: "Please add at least one signatory.",
+        title: "No signers",
+        description: "Add at least one person who needs to sign. Copy recipients only get the finished document.",
         variant: "destructive",
       });
       return;
@@ -429,9 +494,34 @@ export default function PrepareDocument() {
       return;
     }
 
+    const withoutFields = signers.filter(
+      (s) => !fields.some((f) => f.signatoryIndex !== null && signatories[f.signatoryIndex]?.email === s.email)
+    );
+    if (withoutFields.length > 0) {
+      toast({
+        title: "Some signers have no fields",
+        description: `Place at least one field for ${withoutFields.map((s) => s.name).join(", ")}.`,
+        variant: "destructive",
+      });
+      setStep(2);
+      return;
+    }
+
+    const emptyChoices = fields.filter((f) => CHOICE_FIELD_TYPES.has(f.type) && (f.options?.length || 0) < 2);
+    if (emptyChoices.length > 0) {
+      toast({
+        title: "Add choices",
+        description: `Each ${emptyChoices.map((f) => FIELD_TYPE_LABELS[f.type].toLowerCase()).join(" and ")} field needs at least two options. Double-click it to edit.`,
+        variant: "destructive",
+      });
+      setStep(2);
+      return;
+    }
+
     setSending(true);
     try {
-      await handleSave();
+      const saved = await handleSave({ quiet: true });
+      if (!saved) return;
 
       // Update document status
       const { error: updateError } = await supabase
@@ -441,7 +531,13 @@ export default function PrepareDocument() {
 
       if (updateError) throw updateError;
 
-      // Dispatch signing invitations via the Zoho SMTP-backed API route
+      // Only the first signing step is invited now; later steps are invited
+      // as each step finishes (see ViewDocument). Copy recipients are sent
+      // the finished document when everyone has signed.
+      const savedSigners = saved.filter((r) => !isCopyRecipient(r));
+      const firstStep = Math.min(...savedSigners.map((r) => Number(r.order_num)));
+      const invited = savedSigners.filter((r) => Number(r.order_num) === firstStep);
+
       let emailDispatched = true;
       let emailErrorMessage = "";
       try {
@@ -451,10 +547,12 @@ export default function PrepareDocument() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            signatories,
+            signatories: invited.map((r) => ({ name: r.name, email: r.email, signerId: r.id })),
             documentId: id,
             documentTitle: document?.title || "Untitled Document",
             ownerEmail: user?.email || "support@ezsignnow.com",
+            subject: emailSubject.trim() || undefined,
+            message: emailMessage.trim() || undefined,
           }),
         });
 
@@ -474,17 +572,31 @@ export default function PrepareDocument() {
         emailErrorMessage = emailErr?.message || "";
       }
 
+      setSentLinks(
+        savedSigners
+          .sort((a, b) => Number(a.order_num) - Number(b.order_num))
+          .map((r) => ({
+            name: r.name,
+            email: r.email,
+            url: getAbsoluteUrl(signingPath(id!, r.id)),
+            notified: emailDispatched && invited.some((i) => i.id === r.id),
+          }))
+      );
+
       if (emailDispatched) {
+        const waiting = savedSigners.length - invited.length;
         toast({
           title: "Document sent!",
-          description: `Invitations successfully routed through Zoho Mail to ${signatories.length} signatory(ies).`,
+          description:
+            `Invitations sent to ${invited.length} signer(s).` +
+            (waiting > 0 ? ` ${waiting} more will be invited when it's their turn.` : ""),
         });
       } else {
         toast({
           title: "Document saved, but the email didn't send",
           description: emailErrorMessage
-            ? `${emailErrorMessage} Copy the direct sign link to invite signatories in the meantime.`
-            : "Document successfully saved. Copy the direct sign link to invite signatories.",
+            ? `${emailErrorMessage} Copy each signer's link to invite them in the meantime.`
+            : "Document successfully saved. Copy each signer's link to invite them.",
           variant: "destructive",
         });
       }
@@ -504,7 +616,7 @@ export default function PrepareDocument() {
   if (loading || authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white dark:bg-slate-950 transition-colors duration-250">
-        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#2563eb]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#5ba114]" />
       </div>
     );
   }
@@ -512,10 +624,10 @@ export default function PrepareDocument() {
   if (!document) return null;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fdfdfd] dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-250 antialiased">
+    <div className="min-h-screen flex flex-col bg-[#f7f9f5] dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-250 antialiased">
       {/* Top Trial Banner */}
       {isPremium ? (
-        <div className="bg-blue-600 dark:bg-blue-700 text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
+        <div className="bg-[#f4fbec] text-[#3a6215] border-b border-[#73c41d]/25 py-2 px-4 text-center text-xs font-medium select-none flex items-center justify-center gap-1.5 shrink-0 dark:bg-[#73c41d]/10 dark:text-[#abdb74]">
           <span>🌟 Business Trial Active. You have 7 days remaining on your trial.</span>
           <button 
             onClick={() => { 
@@ -523,15 +635,15 @@ export default function PrepareDocument() {
               setIsPremium(false); 
               toast({ title: "Trial Deactivated", description: "Returned to the free sandbox plan." }); 
             }} 
-            className="underline hover:text-white/95 transition-all font-bold ml-1.5 focus:outline-none"
+            className="font-semibold underline underline-offset-2 ml-1.5 focus:outline-none"
           >
             Manage Plan
           </button>
         </div>
       ) : (
-        <div className="bg-[#2563eb] dark:bg-[#1d7ee6] text-white py-2 px-4 text-center text-xs font-semibold select-none flex items-center justify-center gap-1.5 shadow-sm shrink-0">
+        <div className="bg-[#f4fbec] text-[#3a6215] border-b border-[#73c41d]/25 py-2 px-4 text-center text-xs font-medium select-none flex items-center justify-center gap-1.5 shrink-0 dark:bg-[#73c41d]/10 dark:text-[#abdb74]">
           <span>You have a 7-day Free Business Trial.</span>
-          <button onClick={() => navigate("/try-trial")} className="underline hover:text-white/95 transition-all font-bold focus:outline-none">Try now</button>
+          <button onClick={() => navigate("/try-trial")} className="font-semibold underline underline-offset-2 focus:outline-none">Try now</button>
         </div>
       )}
 
@@ -563,7 +675,7 @@ export default function PrepareDocument() {
             className={`rounded-full h-[34px] px-5 font-bold text-xs shadow-sm transition-all border-[1.5px] bg-white dark:bg-slate-900 ${
               isPremium 
                 ? "border-blue-500 dark:border-blue-600 text-blue-500 dark:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-950/20" 
-                : "border-[#2563eb] text-[#2563eb] dark:text-blue-400 hover:bg-[#2563eb]/5 dark:hover:bg-blue-950/20"
+                : "border-[#5ba114] text-[#5ba114] dark:text-blue-400 hover:bg-[#5ba114]/5 dark:hover:bg-blue-950/20"
             }`}
           >
             {isPremium ? "Premium" : "Upgrade"}
@@ -575,7 +687,7 @@ export default function PrepareDocument() {
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 hover:bg-slate-50/50 dark:hover:bg-slate-800/50 p-1.5 rounded-lg transition-all bg-white dark:bg-slate-900 select-none focus:outline-none">
                   {/* User green logo avatar circle */}
-                  <div className="h-7 w-7 rounded-full bg-[#10b981] border border-slate-100 dark:border-slate-800 flex items-center justify-center text-[10px] font-extrabold text-white shadow-sm shrink-0 uppercase">
+                  <div className="h-7 w-7 rounded-full bg-[#5ba114] border border-slate-100 dark:border-slate-800 flex items-center justify-center text-[10px] font-extrabold text-white shadow-sm shrink-0 uppercase">
                     {user.email ? user.email.slice(0, 2) : "US"}
                   </div>
                   <span className="text-xs font-bold text-slate-600 dark:text-slate-300 hidden md:inline max-w-[120px] truncate">
@@ -699,11 +811,11 @@ export default function PrepareDocument() {
                   </h1>
                 </div>
                 <div className="flex items-center gap-2 mt-1.5">
-                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${step === 1 ? "bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 shadow-sm" : "text-slate-400"}`}>1. Signers</span>
+                  <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${step === 1 ? "bg-[#5ba114] text-white" : step > 1 ? "bg-[#73c41d]/15 text-[#3a6215] dark:text-[#abdb74]" : "text-slate-400"}`}>1. Recipients</span>
                   <span className="text-slate-300 dark:text-slate-600">/</span>
-                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${step === 2 ? "bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 shadow-sm" : "text-slate-400"}`}>2. Prepare</span>
+                  <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${step === 2 ? "bg-[#5ba114] text-white" : step > 2 ? "bg-[#73c41d]/15 text-[#3a6215] dark:text-[#abdb74]" : "text-slate-400"}`}>2. Fields</span>
                   <span className="text-slate-300 dark:text-slate-600">/</span>
-                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${step === 3 ? "bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 shadow-sm" : "text-slate-400"}`}>3. Send</span>
+                  <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${step === 3 ? "bg-[#5ba114] text-white" : step > 3 ? "bg-[#73c41d]/15 text-[#3a6215] dark:text-[#abdb74]" : "text-slate-400"}`}>3. Review and send</span>
                 </div>
               </div>
             </div>
@@ -713,24 +825,24 @@ export default function PrepareDocument() {
               <Button 
                 variant="outline" 
                 onClick={() => setStep(step - 1)} 
-                className="rounded-full border-slate-200 text-slate-600 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 bg-white dark:bg-slate-900 h-9.5 px-5 font-bold text-xs shadow-sm transition-all focus-visible:ring-1 focus-visible:ring-slate-200"
+                className="rounded-lg border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 bg-white dark:bg-slate-900 h-10 px-4 font-semibold text-sm"
               >
                 Back
               </Button>
             )}
             <Button 
               variant="outline" 
-              onClick={handleSave} 
+              onClick={() => handleSave()}
               disabled={saving}
-              className="rounded-full border-[#2563eb] text-[#2563eb] hover:bg-[#2563eb]/5 h-9.5 px-5 font-bold text-xs shadow-sm transition-all"
+              className="rounded-lg border-slate-300 text-slate-700 hover:border-[#5ba114] hover:text-[#477c13] bg-white h-10 px-4 font-semibold text-sm dark:bg-slate-900 dark:border-slate-700 dark:text-slate-200"
             >
               {saving ? <FontAwesomeIcon icon={faSpinner} className="mr-2 h-3.5 w-3.5 animate-spin" /> : <FontAwesomeIcon icon={faSave} className="mr-2 h-3.5 w-3.5" />}
-              Save Draft
+              Save draft
             </Button>
             {step < 3 ? (
               <Button 
                 onClick={() => setStep(step + 1)}
-                className="rounded-full bg-[#2563eb] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
+                className="rounded-lg bg-[#5ba114] hover:bg-[#477c13] text-white h-10 px-5 font-semibold text-sm shadow-sm"
               >
                 Next
               </Button>
@@ -738,10 +850,10 @@ export default function PrepareDocument() {
               <Button 
                 onClick={handleSend}
                 disabled={saving || sending}
-                className="rounded-full bg-[#2563eb] hover:bg-[#1d7ee6] text-white h-9.5 px-6 font-bold text-xs shadow-sm transition-all"
+                className="rounded-lg bg-[#5ba114] hover:bg-[#477c13] text-white h-10 px-5 font-semibold text-sm shadow-sm"
               >
                 {sending ? <FontAwesomeIcon icon={faSpinner} className="mr-2 h-3.5 w-3.5 animate-spin" /> : <FontAwesomeIcon icon={faPaperPlane} className="mr-2 h-3.5 w-3.5" />}
-                {sending ? "Sending..." : "Send Document"}
+                {sending ? "Sending…" : "Send"}
               </Button>
             )}
           </div>
@@ -751,18 +863,20 @@ export default function PrepareDocument() {
         {step === 1 && (
           <div className="max-w-4xl mx-auto space-y-6 mt-4">
             <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] border border-slate-100/80 dark:border-slate-800">
-              <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">Add Signers</h2>
-              <p className="text-xs font-semibold text-slate-500 mb-6">Who needs to sign this document? Add signers in the order they should sign.</p>
-              
+              <h2 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-2">Add Recipients</h2>
+              <p className="text-xs font-semibold text-slate-500 mb-6">
+                Add up to 25 people who need to sign, in the order they sign, and anyone who only needs a copy of the finished document.
+              </p>
+
               <SignatoryManager
                 signatories={signatories}
                 onAdd={handleAddSignatory}
                 onRemove={handleRemoveSignatory}
-                onReorder={setSignatories}
+                onReorder={handleReorderSignatories}
                 selectedSignatory={selectedSignatory}
                 onSelectSignatory={setSelectedSignatory}
-                strictRouting={strictRouting}
-                onStrictRoutingChange={setStrictRouting}
+                signInOrder={signInOrder}
+                onSignInOrderChange={handleSignInOrderChange}
               />
             </div>
           </div>
@@ -771,6 +885,40 @@ export default function PrepareDocument() {
         {step === 2 && (
           <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
             <div className="space-y-4 h-[calc(100vh-180px)] overflow-y-auto pr-2 custom-scrollbar">
+              {signerIndexes.length > 0 ? (
+                <div className="rounded-2xl border border-slate-100/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 space-y-2">
+                  <p className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Placing fields for</p>
+                  <div className="flex flex-col gap-1.5">
+                    {signerIndexes.map((i) => {
+                      const s = signatories[i];
+                      const active = selectedSignatory === i;
+                      const count = fields.filter((f) => f.signatoryIndex === i).length;
+                      return (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setSelectedSignatory(i)}
+                          aria-pressed={active}
+                          className={`flex items-center gap-2 rounded-xl border px-2.5 py-2 text-left transition-all ${
+                            active
+                              ? "border-[#73c41d] bg-[#73c41d]/[0.05]"
+                              : "border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700"
+                          }`}
+                        >
+                          <span className="h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: s.color }} />
+                          <span className="flex-1 min-w-0 text-xs font-bold text-slate-700 dark:text-slate-200 truncate">{s.name}</span>
+                          {signInOrder && <span className="text-[10px] font-bold text-slate-400">Step {s.order_num}</span>}
+                          <span className="text-[10px] font-bold text-slate-400">{count} field{count === 1 ? "" : "s"}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-xs font-semibold text-amber-600 bg-amber-50 dark:bg-amber-950/20 p-3 rounded-xl border border-amber-100 dark:border-amber-900/40">
+                  Add a signer in step 1 before placing fields.
+                </p>
+              )}
               <FieldPalette onAddField={handleAddField} />
             </div>
             <div className="bg-slate-100/50 dark:bg-slate-950/50 rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800 h-[calc(100vh-180px)] flex justify-center">
@@ -795,26 +943,46 @@ export default function PrepareDocument() {
                 <div>
                   <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Email Message</h3>
                   <div className="space-y-3">
-                    <Input placeholder="Email Subject" defaultValue={`Signature Request: ${document?.title}`} className="font-semibold text-sm h-11" />
-                    <textarea 
-                      className="w-full min-h-[120px] rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-sm font-medium text-slate-700 dark:text-slate-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2563eb] resize-y bg-white dark:bg-slate-900"
-                      placeholder="Please review and sign this document..."
+                    <Input
+                      placeholder="Email Subject"
+                      value={emailSubject}
+                      onChange={(e) => setEmailSubject(e.target.value)}
+                      maxLength={200}
+                      className="font-semibold text-sm h-11"
+                    />
+                    <textarea
+                      value={emailMessage}
+                      onChange={(e) => setEmailMessage(e.target.value)}
+                      maxLength={2000}
+                      className="w-full min-h-[120px] rounded-xl border border-slate-200 dark:border-slate-800 p-4 text-sm font-medium text-slate-700 dark:text-slate-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#5ba114] resize-y bg-white dark:bg-slate-900"
+                      placeholder="Add a note for your signers (optional)"
                     ></textarea>
                   </div>
                 </div>
 
                 <div className="border-t border-slate-100 dark:border-slate-800 pt-6">
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Recipients ({signatories.length})</h3>
+                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Recipients ({signatories.length})</h3>
+                  <p className="text-[11px] font-semibold text-slate-400 mb-3">
+                    {signInOrder
+                      ? "Signers in step 1 are emailed now. Each later step is emailed when the step before it is finished."
+                      : "All signers are emailed now and can sign in any order."}{" "}
+                    Copy recipients get the signed document when everyone has signed.
+                  </p>
                   <div className="space-y-2">
-                    {signatories.map((sig, idx) => (
+                    {[...signatories]
+                      .sort((a, b) => (a.role === "cc" ? 999 : a.order_num) - (b.role === "cc" ? 999 : b.order_num))
+                      .map((sig, idx) => (
                       <div key={idx} className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 rounded-xl p-3">
-                        <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 flex items-center justify-center font-bold text-xs shrink-0">
-                          {idx + 1}
+                        <div className="h-8 w-8 rounded-full bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-400 flex items-center justify-center font-bold text-[10px] shrink-0">
+                          {sig.role === "cc" ? "CC" : signInOrder ? sig.order_num : <FontAwesomeIcon icon={faFileSignature} className="h-3.5 w-3.5" />}
                         </div>
-                        <div>
+                        <div className="flex-1 min-w-0">
                           <p className="text-sm font-bold text-slate-700 dark:text-slate-200">{sig.name}</p>
                           <p className="text-xs font-semibold text-slate-500">{sig.email}</p>
                         </div>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                          {sig.role === "cc" ? "Gets a copy" : signInOrder ? `Step ${sig.order_num}` : "Signer"}
+                        </span>
                       </div>
                     ))}
                     {signatories.length === 0 && (
@@ -828,7 +996,7 @@ export default function PrepareDocument() {
                   <Card className="border-slate-100/80 dark:border-slate-800 rounded-xl shadow-none bg-slate-50/50 dark:bg-slate-900/50">
                     <CardHeader className="pb-2 pt-4 px-4">
                       <CardTitle className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <FontAwesomeIcon icon={faLaptop} className="h-3.5 w-3.5 text-[#2563eb]" />
+                        <FontAwesomeIcon icon={faLaptop} className="h-3.5 w-3.5 text-[#5ba114]" />
                         In-Person Kiosk Mode
                       </CardTitle>
                     </CardHeader>
@@ -849,7 +1017,7 @@ export default function PrepareDocument() {
                   <Card className="border-slate-100/80 dark:border-slate-800 rounded-xl shadow-none bg-slate-50/50 dark:bg-slate-900/50">
                     <CardHeader className="pb-2 pt-4 px-4">
                       <CardTitle className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                        <FontAwesomeIcon icon={faCreditCard} className="h-3.5 w-3.5 text-[#2563eb]" />
+                        <FontAwesomeIcon icon={faCreditCard} className="h-3.5 w-3.5 text-[#5ba114]" />
                         Require Payment
                       </CardTitle>
                     </CardHeader>
@@ -886,64 +1054,43 @@ export default function PrepareDocument() {
             </DialogTitle>
             <DialogDescription className="pt-2 text-xs text-slate-400 dark:text-slate-500 font-semibold leading-relaxed">
               {lastEmailSent
-                ? "Signing invitations were emailed to the signatories below. You can also copy the direct link to share it manually:"
-                : "The document is saved, but the signing invitation emails couldn't be sent right now. Share the direct sign link below with your signatories manually in the meantime:"}
+                ? "Invitations went to the signers whose turn it is. Each signer has their own link, which you can also copy and share yourself:"
+                : "The document is saved, but the invitation emails couldn't be sent right now. Share each signer's own link with them in the meantime:"}
             </DialogDescription>
           </DialogHeader>
-          
-          <div className="mt-4 space-y-4">
-            <div className="rounded-2xl border border-slate-100 dark:border-slate-800 p-4 bg-slate-50/50 dark:bg-slate-900/50 space-y-2.5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.01)]">
-              <p className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                Signatories
-              </p>
-              {signatories.map((sig, idx) => (
-                <div key={idx} className="flex flex-col gap-0.5 border-b border-slate-100/50 dark:border-slate-800/50 pb-2 last:border-0 last:pb-0">
-                  <span className="text-[13px] font-bold text-slate-700 dark:text-slate-300 leading-tight">{sig.name}</span>
-                  <span className="text-[11px] text-slate-400 dark:text-slate-500 leading-normal">{sig.email}</span>
-                </div>
-              ))}
-            </div>
 
-            <div className="space-y-2">
-              <label className="text-[10px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">Direct Sign Link</label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  readOnly
-                  value={getAbsoluteUrl(`/document/${id}/view`)}
-                  className="flex-1 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-3.5 py-2 text-xs text-slate-500 dark:text-slate-400 outline-none select-all font-semibold shadow-[inset_0_1.5px_3px_rgba(0,0,0,0.01)]"
-                />
+          <div className="mt-4 space-y-2 max-h-[320px] overflow-y-auto">
+            {sentLinks.map((link) => (
+              <div key={link.url} className="rounded-2xl border border-slate-100 dark:border-slate-800 p-3 bg-slate-50/50 dark:bg-slate-900/50 flex items-center gap-3">
+                <div className="flex-1 min-w-0">
+                  <p className="text-[13px] font-bold text-slate-700 dark:text-slate-300 leading-tight truncate">{link.name}</p>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500 leading-normal truncate">{link.email}</p>
+                  <p className={`text-[10px] font-bold mt-0.5 ${link.notified ? "text-emerald-600" : "text-slate-400"}`}>
+                    {link.notified ? "Emailed now" : lastEmailSent ? "Emailed when it's their turn" : "Not emailed"}
+                  </p>
+                </div>
                 <Button
                   size="sm"
                   onClick={() => {
-                    navigator.clipboard.writeText(getAbsoluteUrl(`/document/${id}/view`));
-                    setCopied(true);
-                    toast({ title: "Link copied to clipboard!" });
+                    navigator.clipboard.writeText(link.url);
+                    setCopied(link.url);
+                    toast({ title: `Link for ${link.name} copied` });
                     setTimeout(() => setCopied(false), 2000);
                   }}
-                  className="h-9.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1 bg-[#2563eb] hover:bg-[#1d7ee6] shadow-sm shrink-0"
+                  className="h-8 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1 bg-[#5ba114] hover:bg-[#477c13] shadow-sm shrink-0"
                 >
-                  {copied ? (
-                    <>
-                      <FontAwesomeIcon icon={faCheck} className="h-3.5 w-3.5 text-blue-300" />
-                      Copied
-                    </>
-                  ) : (
-                    <>
-                      <FontAwesomeIcon icon={faCopy} className="h-3.5 w-3.5" />
-                      Copy
-                    </>
-                  )}
+                  <FontAwesomeIcon icon={copied === link.url ? faCheck : faCopy} className="h-3.5 w-3.5" />
+                  {copied === link.url ? "Copied" : "Copy link"}
                 </Button>
               </div>
-            </div>
+            ))}
           </div>
 
           <div className="mt-6 flex justify-end">
             <Button onClick={() => {
               setSentDialogOpen(false);
               navigate("/dashboard");
-            }} className="w-full sm:w-auto rounded-full bg-[#2563eb] hover:bg-[#1d7ee6] font-bold text-xs h-9.5 shadow-sm px-6">
+            }} className="w-full sm:w-auto rounded-full bg-[#5ba114] hover:bg-[#477c13] font-bold text-xs h-9.5 shadow-sm px-6">
               Go to Dashboard
             </Button>
           </div>

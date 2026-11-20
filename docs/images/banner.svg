@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 520" width="1280" height="520" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>EZSignNow: get documents signed, in order and on record</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#172d07"/>
+      <stop offset="0.55" stop-color="#2f5115"/>
+      <stop offset="1" stop-color="#477c13"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.8" cy="0.1" r="0.6">
+      <stop offset="0" stop-color="#8ccd45" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#8ccd45" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8ccd45"/><stop offset="1" stop-color="#477c13"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#0b1703" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="520" rx="28" fill="url(#bg)"/>
+  <rect width="1280" height="520" rx="28" fill="url(#glow)"/>
+
+  <!-- brand -->
+  <g transform="translate(72 70)">
+    <g transform="scale(1)">
+      <rect width="48" height="48" rx="12" fill="url(#mark)"/>
+      <path d="M15 11h13l7 7v19a2 2 0 0 1-2 2H15a2 2 0 0 1-2-2V13a2 2 0 0 1 2-2z" fill="#fff" fill-opacity="0.96"/>
+      <path d="M28 11v5a2 2 0 0 0 2 2h5" fill="#cdeaa9"/>
+      <path d="M17 31c2.2-3.6 3.6-3.8 4.4-1.2.7 2.3 1.6 2.4 3-.2l2.4 2.6 5.2-6.2" fill="none" stroke="#3a6215" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="62" y="34" font-size="28" font-weight="800" fill="#fff">EZSign<tspan fill="#abdb74">Now</tspan></text>
+  </g>
+
+  <g transform="translate(72 150)">
+    <rect width="300" height="34" rx="17" fill="#ffffff" fill-opacity="0.1" stroke="#abdb74" stroke-opacity="0.4"/>
+    <circle cx="20" cy="17" r="5" fill="#8ccd45"/>
+    <text x="34" y="22" font-size="14" font-weight="600" fill="#e6f5d3">Legally binding: ESIGN, UETA, eIDAS</text>
+  </g>
+
+  <text x="72" y="250" font-size="54" font-weight="800" fill="#fff" letter-spacing="-1.5">Get documents signed,</text>
+  <text x="72" y="314" font-size="54" font-weight="800" fill="#8ccd45" letter-spacing="-1.5">in order and on record.</text>
+  <text x="72" y="362" font-size="19" fill="#e6f5d3" fill-opacity="0.9">Upload a PDF, place fields, send each signer their own link,</text>
+  <text x="72" y="390" font-size="19" fill="#e6f5d3" fill-opacity="0.9">and keep the signed copy with its audit certificate.</text>
+
+  <g transform="translate(72 428)" font-size="14" font-weight="700">
+    <rect width="168" height="40" rx="10" fill="#73c41d"/><text x="84" y="25" text-anchor="middle" fill="#172d07">Up to 25 signers</text>
+    <rect x="180" width="176" height="40" rx="10" fill="#fff" fill-opacity="0.1" stroke="#fff" stroke-opacity="0.25"/><text x="268" y="25" text-anchor="middle" fill="#fff">No signer accounts</text>
+    <rect x="368" width="150" height="40" rx="10" fill="#fff" fill-opacity="0.1" stroke="#fff" stroke-opacity="0.25"/><text x="443" y="25" text-anchor="middle" fill="#fff">PDF tools inside</text>
+  </g>
+
+  <!-- product card -->
+  <g transform="translate(760 70)" filter="url(#shadow)">
+    <rect width="450" height="380" rx="20" fill="#fff"/>
+    <rect width="450" height="64" rx="20" fill="#fff"/>
+    <rect x="22" y="16" width="34" height="34" rx="9" fill="#e6f5d3"/>
+    <path d="M33 25h8l4 4v12a1.5 1.5 0 0 1-1.5 1.5h-10.5a1.5 1.5 0 0 1-1.5-1.5v-14.5A1.5 1.5 0 0 1 33 25z" fill="#5ba114"/>
+    <text x="68" y="31" font-size="15" font-weight="700" fill="#0f172a">Master services agreement</text>
+    <text x="68" y="50" font-size="12" fill="#64748b">3 signers · sent today</text>
+    <rect x="330" y="21" width="98" height="24" rx="12" fill="#e6f5d3"/><text x="379" y="37" text-anchor="middle" font-size="12" font-weight="700" fill="#3a6215">2 of 3 signed</text>
+    <line x1="0" y1="64" x2="450" y2="64" stroke="#eef2ee"/>
+    <rect x="0" y="64" width="450" height="112" fill="#f7f9f5"/>
+    <rect x="28" y="84" width="260" height="8" rx="4" fill="#e2e8f0"/>
+    <rect x="28" y="100" width="380" height="8" rx="4" fill="#e2e8f0"/>
+    <rect x="28" y="116" width="320" height="8" rx="4" fill="#e2e8f0"/>
+    <rect x="28" y="136" width="186" height="30" rx="6" fill="#fff"/>
+    <path d="M42 156c8-13 12-13 15-4 3 8 6 8 11-1l7 8c5-10 9-12 13-5 3 5 7 4 12-2l8 6" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+    <rect x="236" y="136" width="186" height="30" rx="6" fill="#fff"/>
+    <path d="M250 156c6-10 10-12 14-4l6 6c4-8 8-10 12-3 4 6 9 4 13-3l6 5c4-6 8-5 11 0" fill="none" stroke="#0f172a" stroke-width="2" stroke-linecap="round"/>
+    <g font-size="14">
+      <circle cx="44" cy="212" r="16" fill="#f1f5f9"/><text x="44" y="217" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">MC</text>
+      <text x="72" y="208" font-weight="600" fill="#0f172a">Maya Chen</text><text x="72" y="225" font-size="11" fill="#64748b">Step 1</text>
+      <text x="420" y="216" text-anchor="end" font-size="12" font-weight="700" fill="#477c13">✓ Signed</text>
+      <line x1="22" y1="242" x2="428" y2="242" stroke="#f1f5f9"/>
+      <circle cx="44" cy="272" r="16" fill="#f1f5f9"/><text x="44" y="277" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">JL</text>
+      <text x="72" y="268" font-weight="600" fill="#0f172a">Jordan Lee</text><text x="72" y="285" font-size="11" fill="#64748b">Step 1</text>
+      <text x="420" y="276" text-anchor="end" font-size="12" font-weight="700" fill="#477c13">✓ Signed</text>
+      <line x1="22" y1="302" x2="428" y2="302" stroke="#f1f5f9"/>
+      <circle cx="44" cy="332" r="16" fill="#f1f5f9"/><text x="44" y="337" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">PR</text>
+      <text x="72" y="328" font-weight="600" fill="#0f172a">Priya Raman</text><text x="72" y="345" font-size="11" fill="#64748b">Step 2</text>
+      <text x="420" y="336" text-anchor="end" font-size="12" font-weight="700" fill="#b45309">Their turn</text>
+    </g>
+  </g>
+</svg>

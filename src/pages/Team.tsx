@@ -125,7 +125,7 @@ export default function Team() {
           <div className="flex items-center gap-3 border-l border-slate-100 pl-4 ml-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#22c55e]/20">
+                <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#73c41d]/20">
                   <div className="h-7 w-7 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-black shrink-0 border border-emerald-200">
                     {user?.email ? user.email.slice(0, 2).toUpperCase() : "U"}
                   </div>
@@ -196,7 +196,7 @@ export default function Team() {
                 {/* Invite Collaborator Form */}
                 <Card className="border-slate-100/80 rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.01)] bg-white p-5 space-y-4">
                   <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                    <FontAwesomeIcon icon={faUserPlus} className="h-4 w-4 text-[#22c55e]" />
+                    <FontAwesomeIcon icon={faUserPlus} className="h-4 w-4 text-[#73c41d]" />
                     Invite Collaborator
                   </h3>
 
@@ -232,7 +232,7 @@ export default function Team() {
 
                     <Button 
                       type="submit"
-                      className="w-full bg-[#22c55e] hover:bg-[#1a7ae0] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm"
+                      className="w-full bg-[#73c41d] hover:bg-[#477c13] font-bold text-xs h-9.5 rounded-full px-5 shadow-sm"
                     >
                       Send Invitation
                     </Button>
@@ -308,7 +308,7 @@ export default function Team() {
                 <Card className="border-slate-100/80 rounded-2xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.02)] bg-white overflow-hidden">
                   <div className="p-5 border-b border-slate-100 flex items-center justify-between">
                     <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wide flex items-center gap-2">
-                      <FontAwesomeIcon icon={faUsers} className="h-4.5 w-4.5 text-[#22c55e]" />
+                      <FontAwesomeIcon icon={faUsers} className="h-4.5 w-4.5 text-[#73c41d]" />
                       Active Workspace Members ({teamMembers.length})
                     </h3>
                     <span className="text-[10px] font-bold text-slate-450 bg-slate-50 border border-slate-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
@@ -331,7 +331,7 @@ export default function Team() {
                           <tr key={member.email} className="border-b border-slate-100/60 hover:bg-slate-50/10 transition-colors">
                             <td className="px-5 py-4">
                               <div className="flex items-center gap-3">
-                                <div className="h-8.5 w-8.5 bg-blue-50 border border-blue-100 text-[#22c55e] font-black rounded-full flex items-center justify-center text-xs shrink-0 shadow-sm uppercase">
+                                <div className="h-8.5 w-8.5 bg-blue-50 border border-blue-100 text-[#73c41d] font-black rounded-full flex items-center justify-center text-xs shrink-0 shadow-sm uppercase">
                                   {member.email.slice(0, 2)}
                                 </div>
                                 <div>
@@ -417,7 +417,7 @@ export default function Team() {
                               <td className="px-5 py-4 text-right flex justify-end gap-3.5">
                                 <button
                                   onClick={() => handleResendInvite(invite.email)}
-                                  className="text-xs font-bold text-[#22c55e] hover:text-[#1d7ee6] hover:underline cursor-pointer focus:outline-none"
+                                  className="text-xs font-bold text-[#73c41d] hover:text-[#477c13] hover:underline cursor-pointer focus:outline-none"
                                 >
                                   Resend Link
                                 </button>

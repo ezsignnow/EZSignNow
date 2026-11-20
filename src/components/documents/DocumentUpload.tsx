@@ -709,7 +709,7 @@ export function DocumentUpload() {
   if (checkingLimit) {
     return (
       <div className="w-full flex flex-col items-center justify-center gap-2.5 text-slate-400 dark:text-slate-500 py-20 min-h-[300px]">
-        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#2563eb]" />
+        <FontAwesomeIcon icon={faSpinner} className="h-8 w-8 animate-spin text-[#5ba114]" />
         <p className="text-xs font-bold uppercase tracking-wider">Evaluating usage limits...</p>
       </div>
     );
@@ -718,8 +718,8 @@ export function DocumentUpload() {
   if (isLimitExceeded) {
     return (
       <div className="w-full max-w-[650px] mx-auto font-sans bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-8 text-center shadow-lg dark:shadow-slate-950/40 my-6 animate-in zoom-in-95 duration-300 transition-colors">
-        <div className="mx-auto h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-950/30 flex items-center justify-center text-[#2563eb] shadow-[0_4px_12px_rgba(37,143,251,0.12)] mb-6">
-          <FontAwesomeIcon icon={faWandMagicSparkles} className="h-6 w-6 text-[#2563eb]" />
+        <div className="mx-auto h-14 w-14 rounded-full bg-blue-50 dark:bg-blue-950/30 flex items-center justify-center text-[#5ba114] shadow-[0_4px_12px_rgba(91, 161, 20,0.12)] mb-6">
+          <FontAwesomeIcon icon={faWandMagicSparkles} className="h-6 w-6 text-[#5ba114]" />
         </div>
         
         <div className="space-y-2 mb-6">
@@ -727,7 +727,7 @@ export function DocumentUpload() {
             Monthly Request Limit Reached
           </h2>
           <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 max-w-[420px] mx-auto leading-relaxed">
-            Your Free Sandbox account is limited to <strong className="text-slate-700 dark:text-slate-300">3 signature requests</strong>. You have already created <strong className="text-[#2563eb]">{docCount} documents</strong> this month.
+            Your Free Sandbox account is limited to <strong className="text-slate-700 dark:text-slate-300">3 signature requests</strong>. You have already created <strong className="text-[#5ba114]">{docCount} documents</strong> this month.
           </p>
         </div>
 
@@ -767,7 +767,7 @@ export function DocumentUpload() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
           <Button 
             onClick={() => navigate("/try-trial")}
-            className="w-full sm:w-auto rounded-full bg-[#2563eb] hover:bg-[#1a7ae0] text-white font-bold text-xs h-10 px-8 shadow-md shadow-[#2563eb]/20 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/20 animate-pulse"
+            className="w-full sm:w-auto rounded-full bg-[#5ba114] hover:bg-[#477c13] text-white font-bold text-xs h-10 px-8 shadow-md shadow-[#5ba114]/20 focus:outline-none focus:ring-2 focus:ring-[#5ba114]/20 animate-pulse"
           >
             Start 7-Day Business Trial
           </Button>
@@ -790,7 +790,7 @@ export function DocumentUpload() {
       {isBulkSending && (
         <div className="absolute inset-0 bg-white/95 backdrop-blur-sm z-50 rounded-2xl p-8 flex flex-col items-center justify-center text-center space-y-6 animate-in fade-in duration-200">
           <div className="relative">
-            <FontAwesomeIcon icon={faSpinner} className="h-16 w-16 animate-spin text-[#2563eb]" />
+            <FontAwesomeIcon icon={faSpinner} className="h-16 w-16 animate-spin text-[#5ba114]" />
             <span className="absolute inset-0 flex items-center justify-center text-xs font-extrabold text-slate-700 select-none">
               {bulkProgress}%
             </span>
@@ -806,7 +806,7 @@ export function DocumentUpload() {
           {/* Simple progress track */}
           <div className="w-full max-w-[320px] h-[6px] bg-slate-100 rounded-full overflow-hidden">
             <div 
-              className="h-full bg-[#2563eb] rounded-full transition-all duration-300"
+              className="h-full bg-[#5ba114] rounded-full transition-all duration-300"
               style={{ width: `${bulkProgress}%` }}
             />
           </div>
@@ -819,7 +819,7 @@ export function DocumentUpload() {
           onClick={() => setActiveTab("upload")}
           className={`pb-4 text-sm font-semibold transition-all ${
             activeTab === "upload" 
-              ? "text-[#2563eb] border-b-2 border-[#2563eb]" 
+              ? "text-[#5ba114] border-b-2 border-[#5ba114]" 
               : "text-slate-600 hover:text-slate-900"
           }`}
         >
@@ -829,7 +829,7 @@ export function DocumentUpload() {
           onClick={() => setActiveTab("bulk")}
           className={`pb-4 text-sm font-semibold transition-all ${
             activeTab === "bulk" 
-              ? "text-[#2563eb] border-b-2 border-[#2563eb]" 
+              ? "text-[#5ba114] border-b-2 border-[#5ba114]" 
               : "text-slate-600 hover:text-slate-900"
           }`}
         >
@@ -858,7 +858,7 @@ export function DocumentUpload() {
               >
                 {file ? (
                   <div className="flex flex-col items-center justify-center gap-3 w-full animate-in zoom-in-95 duration-200">
-                    <FontAwesomeIcon icon={faFileLines} className="h-10 w-10 text-[#2563eb]" />
+                    <FontAwesomeIcon icon={faFileLines} className="h-10 w-10 text-[#5ba114]" />
                     <div className="text-center w-full truncate px-4">
                       <p className="font-semibold text-slate-800 truncate">{file.name}</p>
                       <p className="text-xs text-slate-500 mt-1">
@@ -889,7 +889,7 @@ export function DocumentUpload() {
                     </p>
                     <Button 
                       variant="outline" 
-                      className="rounded-full h-9 px-8 border-[#2563eb]/30 text-[#2563eb] hover:bg-[#2563eb]/5 hover:text-[#2563eb] transition-all font-semibold text-[13px]"
+                      className="rounded-full h-9 px-8 border-[#5ba114]/30 text-[#5ba114] hover:bg-[#5ba114]/5 hover:text-[#5ba114] transition-all font-semibold text-[13px]"
                       onClick={() => document.getElementById("file-upload")?.click()}
                       disabled={uploading}
                     >
@@ -915,7 +915,7 @@ export function DocumentUpload() {
                 <button 
                   onClick={handleGoogleDriveImport}
                   disabled={uploading}
-                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#2563eb]/40 hover:shadow-sm transition-all"
+                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#5ba114]/40 hover:shadow-sm transition-all"
                 >
                   <GoogleDriveIcon />
                   <span className="text-[13px] font-semibold text-slate-600">Google Drive</span>
@@ -924,7 +924,7 @@ export function DocumentUpload() {
                 <button 
                   onClick={handleOneDriveImport}
                   disabled={uploading}
-                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#2563eb]/40 hover:shadow-sm transition-all"
+                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#5ba114]/40 hover:shadow-sm transition-all"
                 >
                   <OneDriveIcon />
                   <span className="text-[13px] font-semibold text-slate-600">One Drive</span>
@@ -933,7 +933,7 @@ export function DocumentUpload() {
                 <button 
                   onClick={handleDropboxImport}
                   disabled={uploading}
-                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#2563eb]/40 hover:shadow-sm transition-all"
+                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#5ba114]/40 hover:shadow-sm transition-all"
                 >
                   <DropboxIcon />
                   <span className="text-[13px] font-semibold text-slate-600">Dropbox</span>
@@ -942,7 +942,7 @@ export function DocumentUpload() {
                 <button 
                   onClick={() => simulateCloudImport("Box")}
                   disabled={uploading}
-                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#2563eb]/40 hover:shadow-sm transition-all"
+                  className="flex flex-col items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white p-4 hover:border-[#5ba114]/40 hover:shadow-sm transition-all"
                 >
                   <BoxIcon />
                   <span className="text-[13px] font-semibold text-slate-600">Box</span>
@@ -959,7 +959,7 @@ export function DocumentUpload() {
                 <select 
                   value={singleTemplate}
                   onChange={(e) => handleSingleTemplateChange(e.target.value)}
-                  className="w-full appearance-none rounded border border-slate-200 bg-white px-4 py-2.5 text-[13px] font-medium text-slate-400 outline-none focus:border-[#2563eb]/50 cursor-pointer"
+                  className="w-full appearance-none rounded border border-slate-200 bg-white px-4 py-2.5 text-[13px] font-medium text-slate-400 outline-none focus:border-[#5ba114]/50 cursor-pointer"
                 >
                   <option value="">Choose a Template</option>
                   <option value="nda">Non-Disclosure Agreement (NDA)</option>
@@ -976,7 +976,7 @@ export function DocumentUpload() {
               className={`h-[42px] px-6 rounded-[24px] font-bold text-[13px] transition-all w-auto min-w-[160px] ${
                 !file 
                   ? "bg-[#91a0b3] text-white hover:bg-[#91a0b3] opacity-100 cursor-not-allowed shadow-none" 
-                  : "bg-[#2563eb] hover:bg-[#1a7ae0] text-white shadow-md shadow-[#2563eb]/20"
+                  : "bg-[#5ba114] hover:bg-[#477c13] text-white shadow-md shadow-[#5ba114]/20"
               }`}
             >
               {uploading ? (
@@ -1007,7 +1007,7 @@ export function DocumentUpload() {
               <select 
                 value={selectedTemplate} 
                 onChange={(e) => setSelectedTemplate(e.target.value)}
-                className="w-full appearance-none rounded border border-slate-200 bg-white px-4 py-2.5 text-[13px] font-medium text-slate-600 outline-none focus:border-[#2563eb]/50 cursor-pointer"
+                className="w-full appearance-none rounded border border-slate-200 bg-white px-4 py-2.5 text-[13px] font-medium text-slate-600 outline-none focus:border-[#5ba114]/50 cursor-pointer"
               >
                 <option value="" disabled>Choose a Template</option>
                 <option value="nda">Non-Disclosure Agreement (NDA)</option>
@@ -1093,7 +1093,7 @@ export function DocumentUpload() {
                   </p>
                   <Button 
                     variant="outline" 
-                    className="rounded-full h-8 px-6 border-[#2563eb]/30 text-[#2563eb] hover:bg-[#2563eb]/5 hover:text-[#2563eb] transition-all font-bold text-xs"
+                    className="rounded-full h-8 px-6 border-[#5ba114]/30 text-[#5ba114] hover:bg-[#5ba114]/5 hover:text-[#5ba114] transition-all font-bold text-xs"
                     onClick={() => document.getElementById("csv-upload")?.click()}
                   >
                     Upload CSV
@@ -1118,7 +1118,7 @@ export function DocumentUpload() {
               value={bulkTitle} 
               onChange={(e) => setBulkTitle(e.target.value)} 
               placeholder="NDA Agreement for Signing" 
-              className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#2563eb]/50 focus:outline-none"
+              className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#5ba114]/50 focus:outline-none"
               required
             />
           </div>
@@ -1131,7 +1131,7 @@ export function DocumentUpload() {
               onChange={(e) => setBulkMessage(e.target.value)} 
               placeholder="Add an optional message for signers." 
               rows={4}
-              className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#2563eb]/50 focus:outline-none resize-none"
+              className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#5ba114]/50 focus:outline-none resize-none"
             />
           </div>
 
@@ -1143,7 +1143,7 @@ export function DocumentUpload() {
               className={`h-[42px] px-8 rounded-[24px] font-bold text-[13px] transition-all w-auto min-w-[180px] ${
                 (!selectedTemplate || !csvFile || !bulkTitle)
                   ? "bg-[#91a0b3] text-white hover:bg-[#91a0b3] opacity-100 cursor-not-allowed shadow-none" 
-                  : "bg-[#2563eb] hover:bg-[#1a7ae0] text-white shadow-md shadow-[#2563eb]/20"
+                  : "bg-[#5ba114] hover:bg-[#477c13] text-white shadow-md shadow-[#5ba114]/20"
               }`}
             >
               Bulk Send

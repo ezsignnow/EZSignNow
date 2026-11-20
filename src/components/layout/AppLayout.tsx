@@ -14,7 +14,7 @@ export function AppLayout({ children, requireAuth = true }: LayoutProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-slate-50">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#5ba114]"></div>
       </div>
     );
   }
@@ -30,7 +30,7 @@ export function AppLayout({ children, requireAuth = true }: LayoutProps) {
 
 
   return (
-    <div className="flex min-h-screen bg-slate-50 font-sans">
+    <div className="flex min-h-screen bg-[#f7f9f5] dark:bg-slate-950 font-sans">
       <Sidebar />
       <main className="flex-1 ml-64 min-w-0 flex flex-col">
         {children}

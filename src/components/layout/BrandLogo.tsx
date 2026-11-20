@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileSignature } from "@fortawesome/free-solid-svg-icons";
+import { BrandMark } from "./BrandMark";
 
 interface BrandLogoProps {
   className?: string;
@@ -75,17 +74,15 @@ export function BrandLogo({
           <img src={customLogo} alt="Workspace Logo" className="max-h-full max-w-full object-contain" />
         </div>
       ) : (
-        <div className="bg-emerald-600 p-2 rounded-lg text-white shadow-md shadow-emerald-600/15 shrink-0 transform group-hover:scale-105 transition-all duration-300">
-          <FontAwesomeIcon icon={faFileSignature} className={iconSize} />
-        </div>
+        <BrandMark className="h-9 w-9 shrink-0 drop-shadow-sm transform group-hover:scale-105 transition-transform duration-300" />
       )}
-      
+
       {/* Brand Text Stack */}
       <div className="flex flex-col text-left justify-center">
-        {/* Middle brand line: EZSignNow */}
-        <div className="flex items-baseline leading-none">
-          <span className={`text-xl font-bold tracking-tight transition-colors ${variant === "dark" ? "text-white" : "text-slate-800"}`}>
-            EZSignNow
+        {/* Wordmark: "EZSign" in ink, "Now" in brand green */}
+        <div className="flex items-baseline leading-none font-heading">
+          <span className={`text-xl font-extrabold tracking-tight transition-colors ${variant === "dark" ? "text-white" : "text-slate-900 dark:text-white"}`}>
+            EZSign<span className="text-[#5ba114] dark:text-[#8ccd45]">Now</span>
           </span>
         </div>
 

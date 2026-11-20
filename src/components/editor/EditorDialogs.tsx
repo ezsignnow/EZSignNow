@@ -186,7 +186,7 @@ export function SignatureDialog({
 
 export function StampDialog({ open, onOpenChange, onDone }: { open: boolean; onOpenChange: (o: boolean) => void; onDone: (label: string, color: string) => void }) {
   const [text, setText] = useState("RECEIVED");
-  const [color, setColor] = useState("#1d4ed8");
+  const [color, setColor] = useState("#477c13");
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-sm">

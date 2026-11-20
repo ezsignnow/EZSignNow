@@ -206,10 +206,10 @@ export interface PageImageBox {
 export const SYMBOLS = ["✓", "✔", "✗", "✘", "●", "○", "■", "□", "★", "➔"] as const;
 
 export const STAMP_PRESETS: { label: string; color: string }[] = [
-  { label: "APPROVED", color: "#15803d" },
-  { label: "PAID", color: "#15803d" },
+  { label: "APPROVED", color: "#477c13" },
+  { label: "PAID", color: "#477c13" },
   { label: "DRAFT", color: "#475569" },
-  { label: "FOR REVIEW", color: "#1d4ed8" },
+  { label: "FOR REVIEW", color: "#477c13" },
   { label: "CONFIDENTIAL", color: "#b91c1c" },
   { label: "REJECTED", color: "#b91c1c" },
   { label: "VOID", color: "#b91c1c" },

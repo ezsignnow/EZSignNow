@@ -68,7 +68,7 @@ export default function DashboardSidebar() {
               onClick={() => handleNavigate(item.id)}
               className={`w-full flex items-center gap-3.5 px-4.5 py-3 rounded-md text-xs font-semibold transition-all ${
                 itemActive
-                  ? "bg-emerald-50 text-emerald-600 shadow-[inset_3px_0_0_#22c55e]"
+                  ? "bg-emerald-50 text-emerald-600 shadow-[inset_3px_0_0_#73c41d]"
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
               }`}
             >

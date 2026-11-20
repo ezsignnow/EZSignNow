@@ -13,10 +13,19 @@ let cachedTransporter = null;
 export function getTransporter() {
   if (cachedTransporter) return cachedTransporter;
 
+  // Without credentials nodemailer silently falls back to localhost and the
+  // error ("connect ECONNREFUSED 127.0.0.1:465") hides the real problem.
+  const missing = ["SMTP_USER", "SMTP_PASS", "SMTP_SENDER_EMAIL"].filter((k) => !process.env[k]);
+  if (missing.length > 0) {
+    throw new Error(
+      `Email isn't set up on the server: add ${missing.join(", ")} to the Vercel project's environment variables and redeploy.`
+    );
+  }
+
   const port = Number(process.env.SMTP_PORT) || 465;
 
   cachedTransporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
+    host: process.env.SMTP_HOST || "smtppro.zoho.com",
     port,
     secure: process.env.SMTP_SECURE === "true" || port === 465,
     auth: {

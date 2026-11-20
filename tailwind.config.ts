@@ -14,6 +14,15 @@ export default {
   	},
   	extend: {
   		colors: {
+  			// BambooHR-style green; blue/indigo/sky/emerald classes all map to it.
+  			blue: { 50: '#f4fbec', 100: '#e6f5d3', 200: '#cdeaa9', 300: '#abdb74', 400: '#8ccd45', 500: '#73c41d', 600: '#5ba114', 700: '#477c13', 800: '#3a6215', 900: '#315316', 950: '#172d07' },
+  			indigo: { 50: '#f4fbec', 100: '#e6f5d3', 200: '#cdeaa9', 300: '#abdb74', 400: '#8ccd45', 500: '#73c41d', 600: '#5ba114', 700: '#477c13', 800: '#3a6215', 900: '#315316', 950: '#172d07' },
+  			sky: { 50: '#f4fbec', 100: '#e6f5d3', 200: '#cdeaa9', 300: '#abdb74', 400: '#8ccd45', 500: '#73c41d', 600: '#5ba114', 700: '#477c13', 800: '#3a6215', 900: '#315316', 950: '#172d07' },
+  			violet: { 50: '#f4fbec', 100: '#e6f5d3', 200: '#cdeaa9', 300: '#abdb74', 400: '#8ccd45', 500: '#73c41d', 600: '#5ba114', 700: '#477c13', 800: '#3a6215', 900: '#315316', 950: '#172d07' },
+  			purple: { 50: '#f4fbec', 100: '#e6f5d3', 200: '#cdeaa9', 300: '#abdb74', 400: '#8ccd45', 500: '#73c41d', 600: '#5ba114', 700: '#477c13', 800: '#3a6215', 900: '#315316', 950: '#172d07' },
+  			fuchsia: { 50: '#f4fbec', 100: '#e6f5d3', 200: '#cdeaa9', 300: '#abdb74', 400: '#8ccd45', 500: '#73c41d', 600: '#5ba114', 700: '#477c13', 800: '#3a6215', 900: '#315316', 950: '#172d07' },
+  			cyan: { 50: '#f4fbec', 100: '#e6f5d3', 200: '#cdeaa9', 300: '#abdb74', 400: '#8ccd45', 500: '#73c41d', 600: '#5ba114', 700: '#477c13', 800: '#3a6215', 900: '#315316', 950: '#172d07' },
+  			emerald: { 50: '#f4fbec', 100: '#e6f5d3', 200: '#cdeaa9', 300: '#abdb74', 400: '#8ccd45', 500: '#73c41d', 600: '#5ba114', 700: '#477c13', 800: '#3a6215', 900: '#315316', 950: '#172d07' },
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
@@ -86,8 +95,8 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		},
   		fontFamily: {
+  			heading: ['Plus Jakarta Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
   			sans: [
-  				'Outfit',
   				'Inter',
   				'ui-sans-serif',
   				'system-ui',
