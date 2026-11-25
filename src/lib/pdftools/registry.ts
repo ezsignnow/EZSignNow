@@ -6,6 +6,11 @@ import * as security from "./tools/security";
 import * as compressT from "./tools/compress";
 import * as convert from "./tools/convert";
 import * as scans from "./tools/scans";
+import * as officeToPdf from "./tools/officeToPdf";
+import * as scan from "./tools/scan";
+import * as pdfa from "./tools/pdfa";
+import * as review from "./tools/review";
+import * as intelligence from "./tools/intelligence";
 
 export const CATEGORIES: { id: ToolCategory; name: string }[] = [
   { id: "merge", name: "Merge" },
@@ -18,6 +23,7 @@ export const CATEGORIES: { id: ToolCategory; name: string }[] = [
   { id: "other", name: "Other" },
   { id: "scans", name: "Scans" },
   { id: "automate", name: "Automate" },
+  { id: "intelligence", name: "PDF Intelligence" },
 ];
 
 const pagesField = (label = "Pages", help = "For example 1-3, 5, 8- or odd / even. Leave empty for all pages."): OptionField => ({
@@ -47,7 +53,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     id: "merge",
-    name: "Merge",
+    name: "Merge PDF",
     category: "merge",
     description: "Combine several PDFs into one, in the order you choose, optionally using only some pages of each.",
     accept: "pdf",
@@ -62,7 +68,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     id: "organize",
-    name: "Organize",
+    name: "Organize PDF",
     category: "merge",
     description: "Reorder, rotate, duplicate, delete and insert pages — from one or several PDFs.",
     accept: "pdf",
@@ -85,7 +91,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     id: "split-by-pages",
-    name: "Split by pages",
+    name: "Split PDF",
     category: "split",
     description: "Split a PDF into several files: every N pages, after chosen pages, or by ranges.",
     accept: "pdf",
@@ -161,12 +167,12 @@ export const TOOLS: ToolDef[] = [
   },
 
   /* ── Edit & Sign ── */
-  { id: "edit", name: "Edit", category: "edit", description: "Add and edit text, images, links, shapes, annotations and more.", accept: "pdf", route: "/edit" },
-  { id: "fill-sign", name: "Fill & Sign", category: "edit", description: "Fill in PDF forms and add your signature.", accept: "pdf", route: "/edit?mode=fill" },
-  { id: "create-forms", name: "Create Forms", category: "edit", description: "Add fillable text fields, checkboxes, drop-downs, radio buttons and signature boxes.", accept: "pdf", route: "/edit?mode=forms" },
+  { id: "edit", name: "Edit PDF", category: "edit", description: "Add and edit text, images, links, shapes, annotations and more.", accept: "pdf", route: "/edit" },
+  { id: "fill-sign", name: "Sign PDF", category: "edit", description: "Sign yourself or fill in a form. To collect signatures from other people, start a new document instead.", accept: "pdf", route: "/edit?mode=fill" },
+  { id: "create-forms", name: "PDF Forms", category: "edit", description: "Fill in PDF forms, or add fillable text fields, checkboxes, drop-downs, radio buttons and signature boxes.", accept: "pdf", route: "/edit?mode=forms" },
   {
     id: "delete-pages",
-    name: "Delete Pages",
+    name: "Remove Pages",
     category: "edit",
     description: "Remove pages you don't need.",
     accept: "pdf",
@@ -179,7 +185,7 @@ export const TOOLS: ToolDef[] = [
   /* ── Compress ── */
   {
     id: "compress",
-    name: "Compress",
+    name: "Compress PDF",
     category: "compress",
     description: "Reduce file size by optimising images and removing unneeded data.",
     accept: "pdf",
@@ -206,7 +212,7 @@ export const TOOLS: ToolDef[] = [
   /* ── Security ── */
   {
     id: "protect",
-    name: "Protect",
+    name: "Protect PDF",
     category: "security",
     description: "Add a password and choose what others may do (AES-256 encryption).",
     accept: "pdf",
@@ -226,7 +232,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     id: "unlock",
-    name: "Unlock",
+    name: "Unlock PDF",
     category: "security",
     description: "Remove the password and restrictions from a PDF you have the password for.",
     accept: "pdf",
@@ -236,7 +242,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     id: "watermark",
-    name: "Watermark",
+    name: "Add Watermark",
     category: "security",
     description: "Stamp text or an image across pages.",
     accept: "pdf",
@@ -404,7 +410,7 @@ export const TOOLS: ToolDef[] = [
   { id: "create-bookmarks", name: "Create Bookmarks", category: "other", description: "Add a clickable table of contents (bookmarks / outline).", accept: "pdf", panel: "bookmarks", run: stamp.createBookmarks },
   {
     id: "crop",
-    name: "Crop",
+    name: "Crop PDF",
     category: "other",
     description: "Trim page edges — draw the area to keep, or remove white margins automatically.",
     accept: "pdf",
@@ -486,7 +492,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     id: "page-numbers",
-    name: "Page Numbers",
+    name: "Add Page Numbers",
     category: "other",
     description: "Number your pages, choosing position, style and where to start.",
     accept: "pdf",
@@ -532,7 +538,7 @@ export const TOOLS: ToolDef[] = [
     defaults: { setTitle: true },
     run: stamp.rename,
   },
-  { id: "repair", name: "Repair", category: "other", description: "Rebuild damaged or hard-to-open PDF files.", accept: "pdf", multiple: true, run: stamp.repair, workflow: true },
+  { id: "repair", name: "Repair PDF", category: "other", description: "Rebuild damaged or hard-to-open PDF files.", accept: "pdf", multiple: true, run: stamp.repair, workflow: true },
   {
     id: "resize",
     name: "Resize",
@@ -553,7 +559,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     id: "rotate",
-    name: "Rotate",
+    name: "Rotate PDF",
     category: "other",
     description: "Rotate some or all pages. Click pages below to rotate them one by one.",
     accept: "pdf",
@@ -584,6 +590,141 @@ export const TOOLS: ToolDef[] = [
     workflow: true,
   },
 
+
+  /* ── Convert to PDF (more) ── */
+  {
+    id: "powerpoint-to-pdf",
+    name: "PowerPoint to PDF",
+    category: "to-pdf",
+    description: "Turn PowerPoint slideshows (.pptx) into PDF, one slide per page.",
+    accept: "pptx",
+    multiple: true,
+    run: officeToPdf.pptxToPdf,
+  },
+  {
+    id: "excel-to-pdf",
+    name: "Excel to PDF",
+    category: "to-pdf",
+    description: "Turn Excel spreadsheets (.xlsx) into easy-to-read PDF tables.",
+    accept: "xlsx",
+    multiple: true,
+    options: [
+      { key: "pageSize", label: "Page size", type: "select", choices: PAGE_SIZE_CHOICES },
+      { key: "orientation", label: "Orientation", type: "select", choices: [{ value: "auto", label: "Automatic" }, { value: "portrait", label: "Portrait" }, { value: "landscape", label: "Landscape" }] },
+      { key: "fit", label: "Wide sheets", type: "select", choices: [{ value: "fit", label: "Shrink to fit the page width" }, { value: "none", label: "Keep size and continue on more pages" }] },
+      { key: "gridlines", label: "Draw cell borders", type: "checkbox" },
+      { key: "headerRow", label: "Treat the first row as a header and repeat it on every page", type: "checkbox" },
+    ],
+    defaults: { pageSize: "A4", orientation: "auto", fit: "fit", gridlines: true, headerRow: true },
+    run: officeToPdf.xlsxToPdf,
+  },
+  {
+    id: "scan-to-pdf",
+    name: "Scan to PDF",
+    category: "to-pdf",
+    description: "Photograph paper pages with your phone or camera and get a clean, scanner-style PDF.",
+    accept: "images",
+    multiple: true,
+    capture: true,
+    panel: "file-order",
+    options: [
+      { key: "filter", label: "Look", type: "select", choices: [{ value: "document", label: "Document - white paper, sharp text" }, { value: "grayscale", label: "Grayscale" }, { value: "bw", label: "Black and white" }, { value: "original", label: "Original colours" }] },
+      { key: "pageSize", label: "Page size", type: "select", choices: [{ value: "fit", label: "Same as photo" }, ...PAGE_SIZE_CHOICES] },
+      { key: "margin", label: "Margin", type: "select", choices: [{ value: "none", label: "None" }, { value: "small", label: "Small" }, { value: "large", label: "Large" }] },
+    ],
+    defaults: { filter: "document", pageSize: "A4", margin: "small" },
+    run: scan.scanToPdf,
+  },
+
+  /* ── Convert from PDF (more) ── */
+  {
+    id: "pdf-to-pdfa",
+    name: "PDF to PDF/A",
+    category: "from-pdf",
+    description: "Prepare a PDF for long-term archiving (PDF/A): colour profile, metadata and no scripts.",
+    accept: "pdf",
+    multiple: true,
+    options: [
+      { key: "part", label: "Version", type: "select", choices: [{ value: "2", label: "PDF/A-2b (recommended)" }, { value: "1", label: "PDF/A-1b" }, { value: "3", label: "PDF/A-3b" }] },
+      { key: "mode", label: "Fonts", type: "select", choices: [{ value: "auto", label: "Automatic - keep text unless fonts are missing" }, { value: "images", label: "Convert pages to images (most reliable, text not selectable)" }, { value: "keep", label: "Always keep the text" }] },
+    ],
+    defaults: { part: "2", mode: "auto" },
+    run: pdfa.pdfToPdfa,
+    workflow: true,
+  },
+  {
+    id: "pdf-to-markdown",
+    name: "PDF to Markdown",
+    category: "intelligence",
+    description: "Turn PDFs into Markdown for notes, docs and LLMs - headings, lists and tables kept.",
+    accept: "pdf",
+    multiple: true,
+    options: [{ key: "pageMarkers", label: "Mark where each page starts", type: "checkbox" }],
+    defaults: { pageMarkers: true },
+    run: intelligence.pdfToMarkdown,
+  },
+
+  /* ── Security (more) ── */
+  {
+    id: "redact",
+    name: "Redact PDF",
+    category: "security",
+    description: "Permanently black out text and areas - draw over them, or find names, numbers and emails automatically.",
+    accept: "pdf",
+    panel: "redact",
+    options: [
+      { key: "terms", label: "Find and redact this text (one per line)", type: "textarea", placeholder: "Jane Smith" },
+      { key: "preset_email", label: "Email addresses", type: "checkbox" },
+      { key: "preset_phone", label: "Phone numbers", type: "checkbox" },
+      { key: "preset_ssn", label: "Social Security numbers", type: "checkbox" },
+      { key: "preset_card", label: "Card numbers", type: "checkbox" },
+      { key: "matchCase", label: "Match case", type: "checkbox" },
+      pagesField("Search these pages", "Only applies to the text search. Leave empty for all pages."),
+      { key: "fill", label: "Cover with", type: "select", choices: [{ value: "black", label: "Black" }, { value: "white", label: "White" }] },
+    ],
+    defaults: { fill: "black" },
+    run: review.redact,
+  },
+  {
+    id: "compare",
+    name: "Compare PDF",
+    category: "security",
+    description: "Spot what changed between two versions of a document - in the text, or visually page by page.",
+    accept: "pdf",
+    multiple: true,
+    minFiles: 2,
+    panel: "file-order",
+    options: [{ key: "mode", label: "Compare", type: "select", choices: [{ value: "text", label: "Text - list of added and removed lines" }, { value: "visual", label: "Visual - pages overlaid, differences in red and green" }] }],
+    defaults: { mode: "text" },
+    run: review.comparePdfs,
+  },
+
+  /* ── PDF Intelligence ── */
+  {
+    id: "ai-summarizer",
+    name: "AI Summarizer",
+    category: "intelligence",
+    description: "Get a concise summary with the key points of long articles, reports and contracts in seconds.",
+    accept: "pdf",
+    options: [
+      { key: "length", label: "Length", type: "select", choices: [{ value: "short", label: "Short - about 3 sentences" }, { value: "medium", label: "Medium" }, { value: "long", label: "Detailed" }] },
+      { key: "style", label: "Format", type: "select", choices: [{ value: "paragraph", label: "Paragraphs" }, { value: "bullets", label: "Key points" }] },
+      { key: "language", label: "Write the summary in", type: "select", choices: [{ value: "same", label: "Same language as the document" }, ...intelligence.TRANSLATE_LANGUAGES.map((l) => ({ value: l, label: l }))] },
+    ],
+    defaults: { length: "medium", style: "paragraph", language: "same" },
+    run: intelligence.summarizePdf,
+  },
+  {
+    id: "translate-pdf",
+    name: "Translate PDF",
+    category: "intelligence",
+    description: "Translate a PDF into another language, keeping headings and paragraphs.",
+    accept: "pdf",
+    options: [{ key: "target", label: "Translate into", type: "select", choices: intelligence.TRANSLATE_LANGUAGES.map((l) => ({ value: l, label: l })) }],
+    defaults: { target: "Spanish" },
+    run: intelligence.translatePdf,
+  },
+
   /* ── Scans ── */
   {
     id: "deskew",
@@ -599,7 +740,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     id: "ocr",
-    name: "OCR",
+    name: "OCR PDF",
     category: "scans",
     description: "Make scanned PDFs searchable and selectable by recognising their text.",
     accept: "pdf",

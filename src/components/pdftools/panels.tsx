@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import type { InputFile, Options } from "@/lib/pdftools/core";
 import { parsePageRanges } from "@/lib/pdftools/core";
 import type { PlanItem, CropRect } from "@/lib/pdftools/tools/pages";
+import type { RedactBox } from "@/lib/pdftools/tools/review";
 import type { BookmarkEntry } from "@/lib/pdftools/tools/stamp";
 import { readMetadata } from "@/lib/pdftools/tools/stamp";
 import { bookmarkPages } from "@/lib/pdftools/tools/split";
@@ -468,6 +469,97 @@ export function MetadataPanel({ file, options, onOptions }: { file: InputFile; o
           <Input id={`meta-${f.key}`} type={f.type ?? "text"} value={String(options[f.key] ?? "")} onChange={(e) => onOptions({ ...options, [f.key]: e.target.value })} />
         </div>
       ))}
+    </div>
+  );
+}
+
+/* ───────────── Redact (draw areas to black out) ───────────── */
+
+export function RedactPanel({ file, options, onOptions }: { file: InputFile; options: Options; onOptions: (o: Options) => void }) {
+  const count = usePageCount(file.bytes) ?? 0;
+  const [pageIdx, setPageIdx] = useState(0);
+  const [img, setImg] = useState<{ url: string; w: number; h: number } | null>(null);
+  const [live, setLive] = useState<CropRect | null>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const start = useRef<{ x: number; y: number } | null>(null);
+  const boxes = (options.redactions as RedactBox[] | undefined) ?? [];
+  const onPage = boxes.filter((b) => b.page === pageIdx);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const doc = await pdfjsFor(file.bytes);
+      const page = await doc.getPage(pageIdx + 1);
+      const vp = page.getViewport({ scale: 1 });
+      const scale = Math.min(560 / vp.width, 640 / vp.height);
+      const c = await renderPageToCanvas(page, scale * 1.5);
+      if (alive) setImg({ url: c.toDataURL("image/jpeg", 0.85), w: vp.width * scale, h: vp.height * scale });
+    })().catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, [file.bytes, pageIdx]);
+
+  const frac = (e: React.PointerEvent) => {
+    const b = boxRef.current!.getBoundingClientRect();
+    return { x: Math.min(1, Math.max(0, (e.clientX - b.left) / b.width)), y: Math.min(1, Math.max(0, (e.clientY - b.top) / b.height)) };
+  };
+  const setBoxes = (next: RedactBox[]) => onOptions({ ...options, redactions: next.length ? next : undefined });
+
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-3 text-sm text-slate-600">
+        <Button size="icon" variant="outline" aria-label="Previous page" disabled={pageIdx === 0} onClick={() => setPageIdx((p) => p - 1)}><FontAwesomeIcon icon={faChevronLeft} /></Button>
+        Page {pageIdx + 1} of {Math.max(count, 1)}
+        <Button size="icon" variant="outline" aria-label="Next page" disabled={pageIdx >= count - 1} onClick={() => setPageIdx((p) => p + 1)}><FontAwesomeIcon icon={faChevronRight} /></Button>
+        <span className="text-slate-500">Drag over anything you want blacked out. You can add as many areas as you like.</span>
+      </div>
+      <div className="flex flex-wrap items-center gap-3 text-sm">
+        <span className="font-medium text-slate-700" data-redact-count>{boxes.length} area{boxes.length === 1 ? "" : "s"} marked{onPage.length ? ` (${onPage.length} on this page)` : ""}</span>
+        {onPage.length > 0 && <Button size="sm" variant="ghost" onClick={() => setBoxes(boxes.filter((b) => b.page !== pageIdx))}>Clear this page</Button>}
+        {boxes.length > 0 && <Button size="sm" variant="ghost" onClick={() => setBoxes([])}>Clear all</Button>}
+      </div>
+      {img && (
+        <div
+          ref={boxRef}
+          className="relative cursor-crosshair select-none bg-white shadow ring-1 ring-slate-200"
+          style={{ width: img.w, height: img.h, touchAction: "none" }}
+          data-redact-box
+          onPointerDown={(e) => {
+            (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+            start.current = frac(e);
+            setLive({ x: start.current.x, y: start.current.y, w: 0, h: 0 });
+          }}
+          onPointerMove={(e) => {
+            if (!start.current) return;
+            const p = frac(e);
+            const s = start.current;
+            setLive({ x: Math.min(s.x, p.x), y: Math.min(s.y, p.y), w: Math.abs(p.x - s.x), h: Math.abs(p.y - s.y) });
+          }}
+          onPointerUp={() => {
+            const r = live;
+            start.current = null;
+            setLive(null);
+            // Ignore stray clicks; a real area is at least ~1% of the page in both directions.
+            if (r && r.w > 0.01 && r.h > 0.01) setBoxes([...boxes, { page: pageIdx, ...r }]);
+          }}
+        >
+          <img src={img.url} alt="" draggable={false} className="h-full w-full" />
+          {onPage.map((b, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-label="Remove this area"
+              title="Click to remove this area"
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => setBoxes(boxes.filter((x) => x !== b))}
+              className="absolute bg-black/85 ring-1 ring-red-500 hover:bg-black/60"
+              style={{ left: `${b.x * 100}%`, top: `${b.y * 100}%`, width: `${b.w * 100}%`, height: `${b.h * 100}%` }}
+            />
+          ))}
+          {live && live.w > 0 && <div className="pointer-events-none absolute border-2 border-dashed border-red-500 bg-red-500/20" style={{ left: `${live.x * 100}%`, top: `${live.y * 100}%`, width: `${live.w * 100}%`, height: `${live.h * 100}%` }} />}
+        </div>
+      )}
     </div>
   );
 }

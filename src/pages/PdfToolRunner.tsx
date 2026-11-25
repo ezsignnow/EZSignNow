@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCloudArrowUp, faFolderOpen, faSpinner, faTriangleExclamation, faPlay, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCamera, faCloudArrowUp, faFolderOpen, faSpinner, faTriangleExclamation, faPlay, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@/components/ui/button";
 import { TOOL_BY_ID, CATEGORIES } from "@/lib/pdftools/registry";
 import { type InputFile, type Options, type OutputFile, ToolError, baseName } from "@/lib/pdftools/core";
@@ -10,22 +10,26 @@ import { OptionsForm } from "@/components/pdftools/OptionsForm";
 import { FileList } from "@/components/pdftools/FileList";
 import { Results } from "@/components/pdftools/Results";
 import { MyDocumentsDialog } from "@/components/pdftools/MyDocumentsDialog";
-import { BookmarksPanel, CropPanel, MetadataPanel, OrganizePanel, SelectPagesPanel, SplitPointsPanel } from "@/components/pdftools/panels";
+import { BookmarksPanel, CropPanel, MetadataPanel, OrganizePanel, RedactPanel, SelectPagesPanel, SplitPointsPanel } from "@/components/pdftools/panels";
 import { TOOL_ICONS, CATEGORY_STYLE } from "@/components/pdftools/icons";
 
 const ACCEPT: Record<string, string> = {
   pdf: "application/pdf,.pdf",
   images: "image/jpeg,image/png,image/gif,image/webp,image/bmp,.jpg,.jpeg,.png,.gif,.webp,.bmp",
   docx: ".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  pptx: ".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  xlsx: ".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   html: ".html,.htm,text/html",
 };
-const KIND_LABEL: Record<string, string> = { pdf: "PDF", images: "image", docx: "Word (.docx)", html: "HTML" };
+const KIND_LABEL: Record<string, string> = { pdf: "PDF", images: "image", docx: "Word (.docx)", pptx: "PowerPoint (.pptx)", xlsx: "Excel (.xlsx)", html: "HTML" };
 
 function matches(kind: string, f: File) {
   const n = f.name.toLowerCase();
   if (kind === "pdf") return f.type === "application/pdf" || n.endsWith(".pdf");
   if (kind === "images") return f.type.startsWith("image/") || /\.(jpe?g|png|gif|webp|bmp)$/.test(n);
   if (kind === "docx") return n.endsWith(".docx");
+  if (kind === "pptx") return n.endsWith(".pptx");
+  if (kind === "xlsx") return n.endsWith(".xlsx");
   if (kind === "html") return /\.html?$/.test(n) || f.type === "text/html";
   return true;
 }
@@ -44,6 +48,7 @@ export default function PdfToolRunner() {
   const [pickOpen, setPickOpen] = useState(false);
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setOptions({ ...(tool?.defaults ?? {}) });
@@ -160,6 +165,11 @@ export default function PdfToolRunner() {
                     <FontAwesomeIcon icon={faCloudArrowUp} className="mr-2" />
                     {files.length ? "Add more files" : `Upload ${KIND_LABEL[tool.accept]} file${tool.multiple ? "s" : ""}`}
                   </Button>
+                  {tool.capture && (
+                    <Button variant="outline" onClick={() => cameraRef.current?.click()}>
+                      <FontAwesomeIcon icon={faCamera} className="mr-2" /> Use camera
+                    </Button>
+                  )}
                   {tool.accept === "pdf" && (
                     <Button variant="outline" onClick={() => setPickOpen(true)}>
                       <FontAwesomeIcon icon={faFolderOpen} className="mr-2" /> From my documents
@@ -170,6 +180,7 @@ export default function PdfToolRunner() {
                   or drop {tool.multiple ? "files" : "a file"} here{tool.minFiles === 0 ? " (optional)" : ""}
                   {tool.minFiles && tool.minFiles > 1 ? ` — at least ${tool.minFiles} needed` : ""}
                 </span>
+                <input ref={cameraRef} type="file" className="hidden" accept="image/*" capture="environment" aria-label="Take a photo" onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.target.value = ""; }} />
                 <input ref={inputRef} type="file" className="hidden" accept={ACCEPT[tool.accept]} multiple={!!tool.multiple} onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.target.value = ""; }} />
               </div>
             )}
@@ -196,6 +207,7 @@ export default function PdfToolRunner() {
                 )}
                 {panel === "organize" && <OrganizePanel files={files} options={options} onOptions={setOptions} />}
                 {panel === "crop" && <CropPanel file={single} options={options} onOptions={setOptions} />}
+                {panel === "redact" && <RedactPanel file={single} options={options} onOptions={setOptions} />}
                 {panel === "split-points" && <SplitPointsPanel file={single} options={options} onOptions={setOptions} />}
                 {panel === "bookmarks" && <BookmarksPanel file={single} options={options} onOptions={setOptions} />}
                 {panel === "metadata" && <MetadataPanel key={single.id} file={single} options={options} onOptions={setOptions} />}

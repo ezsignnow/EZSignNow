@@ -42,12 +42,12 @@ export type OptionField =
   | (FieldBase & { type: "image" })
   | (FieldBase & { type: "date" });
 
-export type ToolCategory = "merge" | "split" | "edit" | "compress" | "security" | "from-pdf" | "to-pdf" | "other" | "scans" | "automate";
+export type ToolCategory = "merge" | "split" | "edit" | "compress" | "security" | "from-pdf" | "to-pdf" | "other" | "scans" | "automate" | "intelligence";
 
 /** Custom visual panels a tool can use alongside (or instead of) plain options. */
-export type ToolPanel = "organize" | "select-pages" | "crop" | "split-points" | "bookmarks" | "metadata" | "workflow" | "file-order";
+export type ToolPanel = "organize" | "select-pages" | "crop" | "split-points" | "bookmarks" | "metadata" | "workflow" | "file-order" | "redact";
 
-export type AcceptKind = "pdf" | "images" | "docx" | "html" | "none";
+export type AcceptKind = "pdf" | "images" | "docx" | "pptx" | "xlsx" | "html" | "none";
 
 export interface ToolDef {
   id: string;
@@ -62,6 +62,8 @@ export interface ToolDef {
   options?: OptionField[];
   defaults?: Options;
   panel?: ToolPanel;
+  /** Offer a "Use camera" button next to the upload button (phones and tablets). */
+  capture?: boolean;
   /** For tools that live elsewhere in the app (e.g. the editor). */
   route?: string;
   /** Runs the tool. Multi-file tools receive every file at once. */

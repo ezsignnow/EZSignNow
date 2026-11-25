@@ -72,7 +72,7 @@ export default defineConfig(({ mode }) => {
               req.on('end', async () => {
                 try {
                   const data = JSON.parse(body);
-                  const { signatories, documentId, documentTitle, ownerEmail, subject, message } = data;
+                  const { signatories, documentId, documentTitle, ownerEmail, ownerName, subject, message, reminder } = data;
 
                   if (!signatories || !Array.isArray(signatories) || signatories.length === 0) {
                     res.statusCode = 400;
@@ -87,7 +87,7 @@ export default defineConfig(({ mode }) => {
                   const emailPromises = signatories.map((sig: any) =>
                     sendEmailViaSmtp(env, {
                       to: sig.email,
-                      ...signingEmail({ frontendUrl: origin, documentId, documentTitle, ownerEmail, signer: sig, subject, message }),
+                      ...signingEmail({ frontendUrl: origin, documentId, documentTitle, ownerEmail, ownerName, signer: sig, subject, message, reminder }),
                     })
                   );
 
@@ -165,7 +165,7 @@ export default defineConfig(({ mode }) => {
               req.on('end', async () => {
                 try {
                   const data = JSON.parse(body);
-                  const { emails, documentTitle, actionType, actorName, reason } = data;
+                  const { emails, documentTitle, actionType, actorName, reason, documentId } = data;
 
                   if (!emails || emails.length === 0) {
                     res.statusCode = 400;
@@ -176,12 +176,14 @@ export default defineConfig(({ mode }) => {
 
                   // Same template as the Vercel function api/send-action-email.js.
                   const { actionEmail } = await import('./api/_lib/emailTemplates.js');
-                  const { subject: title, html: htmlContent } = actionEmail({ documentTitle, actionType, actorName, reason });
+                  const origin = req.headers.origin || 'https://www.ezsignnow.com';
+                  const { subject: title, html: htmlContent, text: textContent } = actionEmail({ documentTitle, actionType, actorName, reason, documentId, frontendUrl: origin });
 
                   await Promise.all(emails.map((email: string) => sendEmailViaSmtp(env, {
                     to: email,
                     subject: title,
                     html: htmlContent,
+                    text: textContent,
                   })));
 
                   res.statusCode = 200;
@@ -193,6 +195,28 @@ export default defineConfig(({ mode }) => {
                   res.setHeader('Content-Type', 'application/json');
                   res.end(JSON.stringify({ error: err.message || 'Internal server error' }));
                 }
+              });
+            } else if (req.url === '/api/ai-pdf' && req.method === 'POST') {
+              // Same handler as the Vercel function api/ai-pdf.js, for local development.
+              let body = '';
+              req.on('data', chunk => body += chunk);
+              req.on('end', async () => {
+                let status = 500;
+                let json: unknown = { error: 'Internal server error' };
+                try {
+                  const { handleAiPdf } = await import('./api/_lib/aiPdf.js');
+                  ({ status, json } = await handleAiPdf(JSON.parse(body || '{}'), req.headers.authorization, {
+                    ANTHROPIC_API_KEY: env.ANTHROPIC_API_KEY,
+                    ANTHROPIC_MODEL: env.ANTHROPIC_MODEL,
+                    SUPABASE_URL: env.VITE_SUPABASE_URL || 'https://tjsvkdvuspihphtcldot.supabase.co',
+                    SUPABASE_ANON_KEY: env.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_WgE6pWIOVhWvIc6VQpspvg_I70scyVl',
+                  }));
+                } catch (err: any) {
+                  console.error('Error in ai-pdf:', err);
+                }
+                res.statusCode = status;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(json));
               });
             } else if (req.url?.startsWith('/api/fetch-url') && req.method === 'GET') {
               // Same as the Vercel function api/fetch-url.js, for local development.

@@ -5,6 +5,7 @@ import {
   faFileExcel, faFileImage, faFilePowerpoint, faFileLines, faFileWord, faCode, faImages, faFilePen, faHashtag, faListOl,
   faCropSimple, faCircleInfo, faPhotoFilm, faLeftRight, faCircleHalfStroke, faHeading, faTableCells, faListOl as faNumbers,
   faICursor, faScrewdriverWrench, faExpand, faRotate, faEraser, faRulerCombined, faMagnifyingGlass, faRobot,
+  faCamera, faBoxArchive, faEyeSlash, faCodeCompare, faWandMagicSparkles, faLanguage, faFileCode,
 } from "@fortawesome/free-solid-svg-icons";
 import type { ToolCategory } from "@/lib/pdftools/core";
 
@@ -53,6 +54,15 @@ export const TOOL_ICONS: Record<string, IconDefinition> = {
   deskew: faRulerCombined,
   ocr: faMagnifyingGlass,
   workflows: faRobot,
+  "powerpoint-to-pdf": faFilePowerpoint,
+  "excel-to-pdf": faFileExcel,
+  "scan-to-pdf": faCamera,
+  "pdf-to-pdfa": faBoxArchive,
+  "pdf-to-markdown": faFileCode,
+  redact: faEyeSlash,
+  compare: faCodeCompare,
+  "ai-summarizer": faWandMagicSparkles,
+  "translate-pdf": faLanguage,
 };
 
 /** Background / foreground colours per category (Tailwind classes). */
@@ -67,4 +77,5 @@ export const CATEGORY_STYLE: Record<ToolCategory, string> = {
   other: "bg-pink-50 text-pink-600",
   scans: "bg-rose-50 text-rose-600",
   automate: "bg-slate-100 text-slate-700",
+  intelligence: "bg-purple-50 text-purple-600",
 };
