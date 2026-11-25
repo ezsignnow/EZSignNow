@@ -55,7 +55,7 @@ export function Sidebar() {
     <aside className="fixed left-0 top-0 flex h-screen w-64 flex-col border-r border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
       <div className="flex h-16 items-center border-b border-slate-100 px-5 dark:border-slate-800">
         <Link to="/dashboard" aria-label="EZSignNow dashboard">
-          <BrandLogo />
+          <BrandLogo subtitle="Digital signatures" />
         </Link>
       </div>
 

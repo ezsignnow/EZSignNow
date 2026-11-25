@@ -51,7 +51,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BrandLogo } from "@/components/layout/BrandLogo";
 import DashboardSidebar from "@/components/layout/DashboardSidebar";
 
 // Cloud and integration icons — sourced from logo.dev by company domain,
@@ -109,6 +108,14 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "sign";
+  const SECTION_LABELS: Record<string, string> = {
+    sign: "Home",
+    documents: "Documents",
+    templates: "Templates",
+    forms: "Forms",
+    integrations: "Integrations",
+    settings: "Settings",
+  };
   const { toast } = useToast();
   const [isPremium, setIsPremium] = useState(localStorage.getItem("is_premium") === "true");
 
@@ -627,9 +634,14 @@ export default function Dashboard() {
   return (
     <>
       <header className="h-[60px] bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0 z-10 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
-        <div className="flex items-center gap-3">
-          <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
-        </div>
+        {/* The brand lives in the sidebar; the header just says where you are. */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm">
+          <button onClick={() => navigate("/dashboard")} className="font-medium text-slate-400 transition-colors hover:text-slate-700">
+            Workspace
+          </button>
+          <span className="text-slate-300" aria-hidden="true">/</span>
+          <span className="font-semibold text-slate-800">{SECTION_LABELS[activeTab] ?? "Home"}</span>
+        </nav>
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 border-l border-slate-100 pl-4 ml-1">
