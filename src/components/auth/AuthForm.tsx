@@ -113,7 +113,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         const { data, error } = await signUp(email, password, fullName);
         if (error) throw error;
 
-        if (data.session) {
+        if (data?.session) {
           // Supabase didn't require confirmation for this project — the
           // account is already usable, so skip the OTP screen entirely.
           toast({

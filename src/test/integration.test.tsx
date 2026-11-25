@@ -61,7 +61,7 @@ describe("EZSignNow - Comprehensive Integration Tests", () => {
 
   describe("1. Email Verification Flow", () => {
     it("successfully displays signup form inputs, submits, and handles email verification card transitions", async () => {
-      mockSignUp.mockResolvedValue({ error: null });
+      mockSignUp.mockResolvedValue({ data: { user: { id: "new-user" }, session: null }, error: null });
 
       render(
         <MemoryRouter>
@@ -106,8 +106,10 @@ describe("EZSignNow - Comprehensive Integration Tests", () => {
 
       // Verify the Verification Sent screen details are presented to user
       expect(screen.getByText(/verify your email/i)).toBeInTheDocument();
-      expect(screen.getByText(/we've sent a verification link to/i)).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: /resend verification email/i })).toBeInTheDocument();
+      expect(screen.getByText(/enter the 6-digit code we sent to/i)).toBeInTheDocument();
+      expect(screen.getByText("test@EZSignNow.com")).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /resend code/i })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /verify email/i })).toBeInTheDocument();
     });
   });
 
@@ -247,7 +249,7 @@ describe("EZSignNow - Comprehensive Integration Tests", () => {
       vi.useRealTimers();
 
       // 4. Verify transitions into the interactive Simulated Viewport
-      expect(screen.getByRole("heading", { name: "EZSIGNNOW" })).toBeInTheDocument();
+      expect(screen.getByText("Template Portal")).toBeInTheDocument();
       expect(screen.getByText(/Template Portal/i)).toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "STANDARD NDA" })).toBeInTheDocument();
       expect(screen.getByText(/Click to Sign/i)).toBeInTheDocument();
