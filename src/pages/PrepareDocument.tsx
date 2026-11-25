@@ -551,6 +551,7 @@ export default function PrepareDocument() {
             documentId: id,
             documentTitle: document?.title || "Untitled Document",
             ownerEmail: user?.email || "support@ezsignnow.com",
+            ownerName: (user?.user_metadata?.full_name as string | undefined) || undefined,
             subject: emailSubject.trim() || undefined,
             message: emailMessage.trim() || undefined,
           }),

@@ -253,6 +253,7 @@ export function DocumentList() {
             documentId: doc.id,
             documentTitle: doc.title,
             ownerEmail: user?.email || "support@ezsignnow.com",
+            ownerName: (user?.user_metadata?.full_name as string | undefined) || undefined,
           }),
         });
 

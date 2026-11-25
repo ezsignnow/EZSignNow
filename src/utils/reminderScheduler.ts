@@ -41,6 +41,12 @@ export const reminderScheduler = {
     let checkedCount = 0;
     let dispatchedCount = 0;
 
+    // Reminders go out in the document owner's name, not a generic address.
+    const { data: sessionData } = await supabase.auth.getSession();
+    const sessionUser = sessionData.session?.user;
+    if (!sessionUser?.email) return { checkedCount, dispatchedCount };
+    const owner = { email: sessionUser.email, name: (sessionUser.user_metadata?.full_name as string | undefined) || undefined };
+
     try {
       // 1. Fetch pending documents
       let pendingDocs: Document[] = [];
@@ -117,8 +123,10 @@ export const reminderScheduler = {
               body: JSON.stringify({
                 signatories: [{ name: sig.name, email: sig.email, signerId: sig.id }],
                 documentId: doc.id,
-                documentTitle: `[REMINDER] ${doc.title}`,
-                ownerEmail: "support@ezsignnow.com",
+                documentTitle: doc.title,
+                reminder: true,
+                ownerEmail: owner.email,
+                ownerName: owner.name,
               }),
             });
 

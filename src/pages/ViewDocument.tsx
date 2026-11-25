@@ -371,7 +371,7 @@ export default function ViewDocument() {
       await fetch(apiUrl("/api/send-action-email"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ documentTitle: document?.title || document?.file_name || "Document", ...body }),
+        body: JSON.stringify({ documentTitle: document?.title || document?.file_name || "Document", documentId: id, ...body }),
       });
     } catch (err) {
       console.error("Failed to send action email:", err);
@@ -591,6 +591,7 @@ export default function ViewDocument() {
                 documentId: id,
                 documentTitle: document?.title || "Untitled Document",
                 ownerEmail: sender?.email || "support@ezsignnow.com",
+                ownerName: sender?.name || undefined,
               }),
             });
           } catch (err) {

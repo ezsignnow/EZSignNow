@@ -1,5 +1,5 @@
 import { sendMail } from "./_lib/mailer.js";
-import { applyCors } from "./_lib/cors.js";
+import { applyCors, isAllowedOrigin } from "./_lib/cors.js";
 import { actionEmail } from "./_lib/emailTemplates.js";
 
 /**
@@ -16,15 +16,17 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { emails, documentTitle, actionType, actorName, reason } = req.body || {};
+    const { emails, documentTitle, actionType, actorName, reason, documentId } = req.body || {};
 
     if (!emails || emails.length === 0) {
       return res.status(400).json({ error: "Missing recipients" });
     }
 
-    const { subject, html } = actionEmail({ documentTitle, actionType, actorName, reason });
+    // Links point back at the public site, not this API host.
+    const frontendUrl = isAllowedOrigin(req.headers.origin) ? req.headers.origin : process.env.VITE_FRONTEND_URL || "https://www.ezsignnow.com";
+    const { subject, html, text } = actionEmail({ documentTitle, actionType, actorName, reason, documentId, frontendUrl });
 
-    await Promise.all(emails.map((email) => sendMail({ to: email, subject, html })));
+    await Promise.all(emails.map((email) => sendMail({ to: email, subject, html, text })));
     res.json({ success: true, message: "Action emails dispatched" });
   } catch (error) {
     console.error("Error sending action email:", error);

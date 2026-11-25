@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { signatories, documentId, documentTitle, ownerEmail, subject, message } = req.body || {};
+    const { signatories, documentId, documentTitle, ownerEmail, ownerName, subject, message, reminder } = req.body || {};
 
     if (!signatories || signatories.length === 0) {
       return res.status(400).json({ error: "Missing signatories" });
@@ -31,9 +31,11 @@ export default async function handler(req, res) {
         documentId,
         documentTitle,
         ownerEmail,
+        ownerName,
         signer: sig,
         subject,
         message,
+        reminder,
       });
       return sendMail({ to: sig.email, ...email });
     });
