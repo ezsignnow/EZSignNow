@@ -56,7 +56,8 @@ export function VisitorCounter() {
     };
   }, []);
 
-  if (count === null) return null;
+  // Hidden on the private admin pages.
+  if (count === null || window.location.pathname.startsWith("/admin/")) return null;
 
   return (
     <div className="fixed bottom-3 right-3 z-40 pointer-events-none select-none">

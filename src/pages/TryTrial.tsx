@@ -37,6 +37,7 @@ import {
   readPendingPromo,
   redeemPromoCode,
 } from "@/lib/promotions";
+import { track } from "@/lib/analytics";
 
 export default function TryTrial() {
   const { user, loading, signOut } = useAuth();
@@ -66,6 +67,7 @@ export default function TryTrial() {
     if (result.ok) {
       setCoupon(result.promo.code);
       setAppliedPromo(result.promo);
+      track("promo_applied", { promoCode: result.promo.code, plan: result.promo.plan, metadata: { source: "link" } });
     } else {
       clearPendingPromo();
     }
@@ -77,6 +79,7 @@ export default function TryTrial() {
       setAppliedPromo(result.promo);
       setCoupon(result.promo.code);
       setCouponError("");
+      track("promo_applied", { promoCode: result.promo.code, plan: result.promo.plan });
       toast({
         title: `${result.promo.code} applied`,
         description: `Your ${result.promo.plan} plan is free for ${result.promo.freeMonths} months.`,
@@ -84,6 +87,7 @@ export default function TryTrial() {
     } else {
       setAppliedPromo(null);
       setCouponError(promoErrorMessage(result.reason));
+      if (coupon.trim()) track("promo_rejected", { promoCode: coupon.trim(), metadata: { reason: result.reason } });
     }
   };
 
@@ -107,6 +111,11 @@ export default function TryTrial() {
       navigate("/login");
     }
   }, [user, loading, navigate]);
+
+  // One checkout_view per signed-in visit to the checkout.
+  useEffect(() => {
+    if (!loading && user?.id) track("checkout_view", { plan: "Business" });
+  }, [loading, user?.id]);
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const clean = e.target.value.replace(/\D/g, "");
@@ -174,9 +183,11 @@ export default function TryTrial() {
       const result = redeemPromoCode(coupon);
       if (!result.ok) {
         setCouponError(promoErrorMessage(result.reason));
+        track("promo_rejected", { promoCode: coupon.trim(), metadata: { reason: result.reason } });
         return;
       }
       setAppliedPromo(result.promo);
+      track("promo_applied", { promoCode: result.promo.code, plan: result.promo.plan });
       toast({
         title: `${result.promo.code} applied`,
         description: `Your ${result.promo.plan} plan is free for ${result.promo.freeMonths} months. Press start to continue.`,
@@ -211,6 +222,11 @@ export default function TryTrial() {
         localStorage.removeItem("promo_code");
       }
       clearPendingPromo();
+      track("checkout_completed", {
+        plan: "Business",
+        promoCode: appliedPromo?.code ?? null,
+        metadata: { trial_days: trialDays, simulated: true },
+      });
       toast({
         title: "Stripe Subscription Activated!",
         description: appliedPromo
@@ -642,6 +658,7 @@ export default function TryTrial() {
                     type="button"
                     onClick={() => {
                       localStorage.setItem("is_premium", "false");
+                      track("free_plan_chosen", { plan: "Free" });
                       navigate("/dashboard");
                     }}
                     className="text-xs font-bold text-slate-500 hover:text-slate-800 underline transition-all"

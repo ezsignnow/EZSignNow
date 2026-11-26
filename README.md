@@ -137,6 +137,25 @@ The `.env` needs your Supabase URL and publishable key, the SMTP settings (`SMTP
 
 The site is a static Vite build (`npm run build`, output in `dist/`) and the email and payment endpoints are Vercel functions in `api/`. Deploy the repository to Vercel and add the same environment variables in the project's settings. Without the SMTP variables there, invitations can't be emailed.
 
+## Admin analytics
+
+A private analytics page at `/admin/analytics` shows visitors, page visits per page, referrers, devices, sign-ups, the checkout funnel, promo code use (including THANK180), recent checkouts, documents and signatures. It isn't linked anywhere, is marked `noindex`, and the admin pages themselves are never tracked. Tracking is first-party: page views and checkout steps are written to Supabase through `track_event()`, with no third-party script.
+
+Run `supabase/migrations/20261126_admin_analytics.sql`, then choose one or both ways in:
+
+```sql
+-- 1. Signed-in admin: open /admin/analytics while signed in with this (verified) email.
+insert into public.site_admins (email) values ('you@example.com');
+
+-- 2. Private link: works without signing in. Use a long random key, e.g. `openssl rand -hex 24`.
+insert into public.analytics_access_keys (label, key_hash)
+values ('my link', encode(sha256(convert_to('YOUR-KEY', 'UTF8')), 'hex'));
+-- then open /admin/analytics/YOUR-KEY
+-- revoke: delete from public.analytics_access_keys where label = 'my link';
+```
+
+Only a hash of the key is stored and the key never appears in the site's code, so the link can't be found by reading the JavaScript. The report is built by `get_admin_analytics()`, which refuses anyone who isn't a signed-in admin or holding a valid key; the raw events table can't be read through the API at all. Days are counted in UTC.
+
 ## Database
 
 Run the SQL files in `supabase/migrations` in order, in the Supabase SQL editor or with the Supabase CLI.

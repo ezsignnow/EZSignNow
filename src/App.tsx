@@ -29,6 +29,8 @@ import Company from "./pages/Company";
 import Team from "./pages/Team";
 import { AppLayout } from "./components/layout/AppLayout";
 import { VisitorCounter } from "./components/VisitorCounter";
+import { PageViewTracker } from "./components/analytics/PageViewTracker";
+import AdminAnalytics from "./pages/AdminAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +42,7 @@ const App = () => (
         <Sonner />
         <VisitorCounter />
         <BrowserRouter basename={import.meta.env.BASE_URL}>
+          <PageViewTracker />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
@@ -66,6 +69,9 @@ const App = () => (
             <Route path="/support" element={<Support />} />
             <Route path="/company" element={<Company />} />
             <Route path="/team" element={<Team />} />
+            {/* Admin-only, not linked anywhere. Access is checked by get_admin_analytics() in Supabase. */}
+            <Route path="/admin/analytics" element={<AdminAnalytics />} />
+            <Route path="/admin/analytics/:accessKey" element={<AdminAnalytics />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
