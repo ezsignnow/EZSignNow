@@ -45,10 +45,13 @@ import { BrandLogoImg } from "@/components/ui/brand-logo-img";
 import { HomeHero } from "@/components/landing/HomeHero";
 import { HomeSections } from "@/components/landing/HomeSections";
 import { HomePricing, HomeFaq, HomeCta } from "@/components/landing/HomePricingFaq";
+import { activePromo, promoLastDayLabel, savePendingPromo } from "@/lib/promotions";
 
 export default function Index() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+  const promo = activePromo();
+  const promoEndLabel = promo ? promoLastDayLabel(promo) : "";
   const [signupEmail, setSignupEmail] = useState("");
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("annual");
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -408,15 +411,35 @@ export default function Index() {
         faqs={faqs.map(f => ({ question: f.q, answer: f.a }))}
       />
       {/* Top GTM Promotion Bar */}
-      <div className="bg-gradient-to-r from-primary via-slate-900 to-secondary text-white py-2.5 px-4 text-center text-xs font-bold shadow-md relative z-50 flex items-center justify-center gap-2 select-none">
-        <span className="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider text-primary-foreground border border-white/10 animate-pulse">
-          Limited Deal
-        </span>
-        <span>Why pay $20/mo? Switch from signNow to EZSignNow for just $5/mo with unlimited envelopes!</span>
-        <Link to="/compare/signnow" className="underline hover:text-primary-foreground/90 inline-flex items-center gap-0.5 ml-1">
-          Learn More <span className="no-underline">→</span>
-        </Link>
-      </div>
+      {promo ? (
+        <div className="bg-gradient-to-r from-[#7c2d12] via-[#9a3412] to-[#b45309] text-white py-2.5 px-4 text-center text-xs font-bold shadow-md relative z-50 flex flex-wrap items-center justify-center gap-2 select-none">
+          <span className="inline-flex items-center gap-1 bg-white/15 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider border border-white/20">
+            Thanksgiving
+          </span>
+          <span>
+            Business plan free for {promo.freeMonths} months. Use code{" "}
+            <span className="rounded bg-white/15 px-1.5 py-0.5 font-mono tracking-wider">{promo.code}</span> by{" "}
+            {promoEndLabel}.
+          </span>
+          <Link
+            to={`/try-trial?promo=${promo.code}`}
+            onClick={() => savePendingPromo(promo.code)}
+            className="underline hover:text-white/90 inline-flex items-center gap-0.5 ml-1"
+          >
+            Claim offer <span className="no-underline">→</span>
+          </Link>
+        </div>
+      ) : (
+        <div className="bg-gradient-to-r from-primary via-slate-900 to-secondary text-white py-2.5 px-4 text-center text-xs font-bold shadow-md relative z-50 flex items-center justify-center gap-2 select-none">
+          <span className="inline-flex items-center gap-1 bg-white/10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider text-primary-foreground border border-white/10 animate-pulse">
+            Limited Deal
+          </span>
+          <span>Why pay $20/mo? Switch from signNow to EZSignNow for just $5/mo with unlimited envelopes!</span>
+          <Link to="/compare/signnow" className="underline hover:text-primary-foreground/90 inline-flex items-center gap-0.5 ml-1">
+            Learn More <span className="no-underline">→</span>
+          </Link>
+        </div>
+      )}
 
       <Navbar />
       

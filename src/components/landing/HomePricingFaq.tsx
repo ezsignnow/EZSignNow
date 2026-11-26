@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCheck, faChevronDown, faGift } from "@fortawesome/free-solid-svg-icons";
+import { activePromo, promoLastDayLabel, savePendingPromo } from "@/lib/promotions";
 
 const PLANS = [
   {
@@ -46,6 +47,7 @@ const PLANS = [
 
 export function HomePricing() {
   const [annual, setAnnual] = useState(true);
+  const promo = activePromo();
   return (
     <section id="pricing" className="border-t border-slate-200/70 bg-slate-50/60 py-24 dark:border-slate-800 dark:bg-slate-950/40">
       <div className="container mx-auto max-w-6xl px-4">
@@ -84,6 +86,7 @@ export function HomePricing() {
         <div className="grid gap-6 md:grid-cols-3">
           {PLANS.map((p) => {
             const price = annual ? p.annual : p.monthly;
+            const dealHere = promo && promo.plan === p.title ? promo : null;
             return (
               <div
                 key={p.title}
@@ -98,6 +101,12 @@ export function HomePricing() {
                     Most popular
                   </span>
                 )}
+                {dealHere && (
+                  <span className="absolute -top-3 left-8 inline-flex items-center gap-1.5 rounded-full bg-[#b45309] px-3 py-1 text-[11px] font-semibold text-white">
+                    <FontAwesomeIcon icon={faGift} className="h-3 w-3" />
+                    Thanksgiving: {dealHere.freeMonths} months free
+                  </span>
+                )}
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">{p.title}</h3>
                 <p className="mt-1 text-sm text-slate-500">{p.desc}</p>
                 <p className="mt-6 flex items-baseline gap-1">
@@ -105,15 +114,22 @@ export function HomePricing() {
                   <span className="text-sm text-slate-500">/ sender / month</span>
                 </p>
                 <p className="mt-1 h-4 text-xs text-slate-400">{price > 0 && annual ? "Billed yearly" : ""}</p>
+                {dealHere && (
+                  <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-200">
+                    Free for your first {dealHere.freeMonths} months with code{" "}
+                    <span className="font-mono font-bold tracking-wider">{dealHere.code}</span>. Offer ends {promoLastDayLabel(dealHere)}.
+                  </p>
+                )}
                 <Link
-                  to="/try-for-free"
+                  to={dealHere ? `/try-trial?promo=${dealHere.code}` : "/try-for-free"}
+                  onClick={dealHere ? () => savePendingPromo(dealHere.code) : undefined}
                   className={`mt-6 inline-flex h-11 items-center justify-center rounded-lg text-sm font-semibold transition ${
                     p.popular
                       ? "bg-[#5ba114] text-white hover:bg-[#477c13]"
                       : "border border-slate-300 text-slate-800 hover:border-[#5ba114] hover:text-[#477c13] dark:border-slate-700 dark:text-slate-100"
                   }`}
                 >
-                  {p.cta}
+                  {dealHere ? `Claim ${dealHere.freeMonths} months free` : p.cta}
                 </Link>
                 <ul className="mt-8 space-y-3 border-t border-slate-100 pt-6 dark:border-slate-800">
                   {p.features.map((f) => (
