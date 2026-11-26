@@ -9,13 +9,115 @@ import {
   faUserCheck,
   faFileContract,
   faLock,
+  faFileSignature,
+  faPaperPlane,
+  faListOl,
+  faPenNib,
+  faPaperclip,
+  faICursor,
+  faTableCellsLarge,
+  faLayerGroup,
+  faCloudArrowUp,
+  faFileCircleCheck,
+  faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 const SIGNERS = [
   { name: "Maya Chen", role: "Step 1", initials: "MC" },
   { name: "Jordan Lee", role: "Step 1", initials: "JL" },
   { name: "Priya Raman", role: "Step 2", initials: "PR" },
 ];
+
+type Tool = {
+  icon: IconDefinition;
+  title: string;
+  description: string;
+  href: string;
+  iconBg: string;
+  badge?: string;
+};
+
+/** Every tool, shown on the "All Tools" hero slide. Digital Signature comes first. */
+const TOOLS: Tool[] = [
+  {
+    icon: faFileSignature,
+    title: "Digital Signature",
+    description: "Sign any PDF online with a legally binding electronic signature. Draw, type or upload your signature.",
+    href: "/try-for-free?tool=signature",
+    iconBg: "bg-[#5ba114]",
+    badge: "Most popular",
+  },
+  {
+    icon: faPaperPlane,
+    title: "Request Signatures",
+    description: "Send a document to one or more people and get it signed from any device, no account needed for signers.",
+    href: "/try-for-free?tool=request",
+    iconBg: "bg-indigo-500",
+  },
+  {
+    icon: faListOl,
+    title: "Signing Order",
+    description: "Route a contract through several signers in a set order and see who has signed in real time.",
+    href: "/try-for-free?tool=signing-order",
+    iconBg: "bg-violet-500",
+  },
+  {
+    icon: faPenNib,
+    title: "Sign Yourself",
+    description: "Fill in and sign your own documents in seconds, then download the finished PDF.",
+    href: "/try-for-free?tool=self-sign",
+    iconBg: "bg-sky-500",
+  },
+  {
+    icon: faPaperclip,
+    title: "Attachment",
+    description: "Attach supporting files such as IDs, invoices or exhibits to your document and send them together.",
+    href: "/try-for-free?tool=attachment",
+    iconBg: "bg-amber-500",
+  },
+  {
+    icon: faICursor,
+    title: "Fillable Fields",
+    description: "Drag signature, date, text and checkbox fields onto your PDF and assign each one to a signer.",
+    href: "/try-for-free?tool=fields",
+    iconBg: "bg-teal-500",
+  },
+  {
+    icon: faTableCellsLarge,
+    title: "Templates",
+    description: "Save documents you send often as reusable templates and send them again in one click.",
+    href: "/try-for-free?tool=templates",
+    iconBg: "bg-emerald-500",
+  },
+  {
+    icon: faLayerGroup,
+    title: "Bulk Send",
+    description: "Upload a CSV of recipients and send the same document to everyone at once, each with their own copy.",
+    href: "/try-for-free?tool=bulk-send",
+    iconBg: "bg-orange-500",
+  },
+  {
+    icon: faCloudArrowUp,
+    title: "Import from Cloud",
+    description: "Bring in documents from your cloud storage instead of downloading and re-uploading them.",
+    href: "/try-for-free?tool=import",
+    iconBg: "bg-cyan-600",
+  },
+  {
+    icon: faFileCircleCheck,
+    title: "Audit Trail",
+    description: "Every signed document comes with a tamper-evident certificate showing who signed, when and from where.",
+    href: "/try-for-free?tool=audit-trail",
+    iconBg: "bg-rose-500",
+  },
+];
+
+const SLIDES = [
+  { label: "Digital Signature", icon: faFileSignature },
+  { label: "All Tools", icon: faTableCellsLarge },
+] as const;
 
 /** Cycles the mock envelope through "who has signed" so the hero shows the product working. */
 function useSigningProgress() {
@@ -37,6 +139,8 @@ export function HomeHero() {
   const [email, setEmail] = useState("");
   const signed = useSigningProgress();
   const done = signed === SIGNERS.length;
+  const [slide, setSlide] = useState<0 | 1>(0);
+  const toggleSlide = () => setSlide((s) => (s === 0 ? 1 : 0));
 
   return (
     <section className="relative overflow-hidden border-b border-border/50 bg-white dark:bg-background">
@@ -54,8 +158,93 @@ export function HomeHero() {
         />
       </div>
 
-      <div className="container relative mx-auto max-w-7xl px-4 pb-20 pt-24 lg:pb-28 lg:pt-32">
-        <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="container relative mx-auto max-w-7xl px-4 pb-20 pt-24 lg:pb-28 lg:pt-28">
+        {/* Slide switcher: eSignature hero / all tools */}
+        <div className="mb-10 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            aria-label="Previous slide"
+            onClick={toggleSlide}
+            className="hidden h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-400 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white sm:inline-flex"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} className="h-3.5 w-3.5" />
+          </button>
+          <div
+            role="tablist"
+            aria-label="Home slides"
+            className="inline-flex rounded-full border border-slate-200 bg-white p-1 shadow-sm dark:border-slate-700 dark:bg-slate-900"
+          >
+            {SLIDES.map((tab, i) => (
+              <button
+                key={tab.label}
+                type="button"
+                role="tab"
+                aria-selected={slide === i}
+                onClick={() => setSlide(i as 0 | 1)}
+                className={`inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-all ${
+                  slide === i
+                    ? "bg-[#5ba114] text-white shadow"
+                    : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+                }`}
+              >
+                <FontAwesomeIcon icon={tab.icon} className="h-3.5 w-3.5" />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            aria-label="Next slide"
+            onClick={toggleSlide}
+            className="hidden h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 transition-colors hover:border-slate-400 hover:text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 dark:hover:text-white sm:inline-flex"
+          >
+            <FontAwesomeIcon icon={faChevronRight} className="h-3.5 w-3.5" />
+          </button>
+        </div>
+
+        {slide === 1 ? (
+          /* Slide 2: all tools grid */
+          <div key="tools" className="animate-in fade-in slide-in-from-right-8 duration-500">
+            <div className="mb-10 text-center">
+              <h1 className="font-heading text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-900 dark:text-white sm:text-5xl">
+                Every tool you need to{" "}
+                <span className="bg-gradient-to-r from-[#5ba114] to-[#8ccd45] bg-clip-text text-transparent">
+                  get documents signed.
+                </span>
+              </h1>
+              <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+                Legally binding digital signatures, plus everything around them. All in one place, all online.
+              </p>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              {TOOLS.map((tool) => (
+                <Link
+                  key={tool.title}
+                  to={tool.href}
+                  className="group relative flex flex-col rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#73c41d]/50 hover:shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-[#73c41d]/30 dark:border-slate-800 dark:bg-slate-900"
+                >
+                  {tool.badge && (
+                    <span className="absolute right-4 top-4 rounded-full bg-[#73c41d]/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#3a6215] dark:text-[#abdb74]">
+                      {tool.badge}
+                    </span>
+                  )}
+                  <span
+                    className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl text-white shadow-md ${tool.iconBg}`}
+                  >
+                    <FontAwesomeIcon icon={tool.icon} className="h-5 w-5" />
+                  </span>
+                  <h3 className="mb-2 text-lg font-semibold text-slate-900 dark:text-white">{tool.title}</h3>
+                  <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">{tool.description}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ) : (
+        <div
+          key="hero"
+          className="grid gap-14 animate-in fade-in slide-in-from-left-8 duration-500 lg:grid-cols-[1.05fr_0.95fr] lg:items-center"
+        >
           {/* Copy */}
           <div className="space-y-7 text-left">
             <Link
@@ -213,6 +402,7 @@ export function HomeHero() {
             </div>
           </div>
         </div>
+        )}
       </div>
     </section>
   );
