@@ -22,6 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import { track } from "@/lib/analytics";
 
 interface AuthFormProps {
   mode: "login" | "signup";
@@ -112,6 +113,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       if (mode === "signup") {
         const { data, error } = await signUp(email, password, fullName);
         if (error) throw error;
+        track("signup");
 
         if (data?.session) {
           // Supabase didn't require confirmation for this project — the
