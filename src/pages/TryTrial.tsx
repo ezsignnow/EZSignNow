@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -29,11 +29,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import {
+  type Promotion,
+  STANDARD_TRIAL_DAYS,
+  clearPendingPromo,
+  promoErrorMessage,
+  readPendingPromo,
+  redeemPromoCode,
+} from "@/lib/promotions";
 
 export default function TryTrial() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
 
   const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_live_51Q5f0EIhTj2KRkKTTflSJKNMy6akBOOqx3wVMK5rPeLykUTEwlfNe4CyAyCHcOn1PzQ4HH4QUqFRHVCcqy45Qoiy00UitUqh8L";
 
@@ -46,11 +55,52 @@ export default function TryTrial() {
   const [coupon, setCoupon] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stripeStep, setStripeStep] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<Promotion | null>(null);
+  const [couponError, setCouponError] = useState("");
+
+  // A code from the promo banner (?promo=) or one saved before sign-in is applied automatically.
+  useEffect(() => {
+    const incoming = searchParams.get("promo") || readPendingPromo();
+    if (!incoming) return;
+    const result = redeemPromoCode(incoming);
+    if (result.ok) {
+      setCoupon(result.promo.code);
+      setAppliedPromo(result.promo);
+    } else {
+      clearPendingPromo();
+    }
+  }, [searchParams]);
+
+  const applyCoupon = () => {
+    const result = redeemPromoCode(coupon);
+    if (result.ok) {
+      setAppliedPromo(result.promo);
+      setCoupon(result.promo.code);
+      setCouponError("");
+      toast({
+        title: `${result.promo.code} applied`,
+        description: `Your ${result.promo.plan} plan is free for ${result.promo.freeMonths} months.`,
+      });
+    } else {
+      setAppliedPromo(null);
+      setCouponError(promoErrorMessage(result.reason));
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedPromo(null);
+    setCoupon("");
+    setCouponError("");
+    clearPendingPromo();
+  };
 
   // Dynamic Trial Dates
+  const trialDays = appliedPromo ? appliedPromo.freeDays : STANDARD_TRIAL_DAYS;
+  const trialLabel = appliedPromo ? `${appliedPromo.freeMonths}-month` : `${STANDARD_TRIAL_DAYS}-day`;
+  const trialEnd = addDays(new Date(), trialDays);
   const todayFormatted = format(new Date(), "MMMM d");
-  const reminderDate = format(addDays(new Date(), 4), "MMMM d");
-  const billDate = format(addDays(new Date(), 7), "MMMM d");
+  const reminderDate = format(addDays(trialEnd, -3), "MMMM d");
+  const billDate = format(trialEnd, appliedPromo ? "MMMM d, yyyy" : "MMMM d");
 
   useEffect(() => {
     if (!loading && !user) {
@@ -119,6 +169,21 @@ export default function TryTrial() {
       return;
     }
 
+    // A code typed but not applied yet is applied now, so it isn't silently dropped.
+    if (coupon.trim() && !appliedPromo) {
+      const result = redeemPromoCode(coupon);
+      if (!result.ok) {
+        setCouponError(promoErrorMessage(result.reason));
+        return;
+      }
+      setAppliedPromo(result.promo);
+      toast({
+        title: `${result.promo.code} applied`,
+        description: `Your ${result.promo.plan} plan is free for ${result.promo.freeMonths} months. Press start to continue.`,
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     const keyInfo = stripePublishableKey ? ` (${stripePublishableKey.slice(0, 12)}...)` : "";
     setStripeStep(`Connecting to Stripe API secure live servers${keyInfo}...`);
@@ -139,9 +204,18 @@ export default function TryTrial() {
     setTimeout(() => {
       setIsSubmitting(false);
       localStorage.setItem("is_premium", "true");
+      localStorage.setItem("trial_ends_at", trialEnd.toISOString());
+      if (appliedPromo) {
+        localStorage.setItem("promo_code", appliedPromo.code);
+      } else {
+        localStorage.removeItem("promo_code");
+      }
+      clearPendingPromo();
       toast({
         title: "Stripe Subscription Activated!",
-        description: "Welcome to EZSignNow Pro. Unlimited signature requests active!",
+        description: appliedPromo
+          ? `${appliedPromo.code} applied. Your ${appliedPromo.plan} plan is free until ${billDate}.`
+          : "Welcome to EZSignNow Pro. Unlimited signature requests active!",
       });
       navigate("/dashboard");
     }, 1800);
@@ -306,7 +380,7 @@ export default function TryTrial() {
           </h1>
           <p className="text-sm font-semibold text-slate-500 flex items-center justify-center gap-1">
             You can cancel anytime before the free trial ends to avoid being billed.
-            <FontAwesomeIcon icon={faCircleInfo} className="h-3.5 w-3.5 text-slate-400 cursor-pointer" onClick={() => toast({ title: "Billing Details", description: "Your trial lasts exactly 7 days. No charges will be incurred if cancelled." })} />
+            <FontAwesomeIcon icon={faCircleInfo} className="h-3.5 w-3.5 text-slate-400 cursor-pointer" onClick={() => toast({ title: "Billing Details", description: `Your trial lasts ${appliedPromo ? `${appliedPromo.freeMonths} months` : `${STANDARD_TRIAL_DAYS} days`}. No charges will be incurred if cancelled.` })} />
           </p>
         </div>
 
@@ -318,7 +392,16 @@ export default function TryTrial() {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">Your plan</h3>
-                <p className="text-lg font-extrabold text-slate-800 mt-1">7-day free trial, then $5/month</p>
+                <p className="text-lg font-extrabold text-slate-800 mt-1">
+                  {appliedPromo
+                    ? `${appliedPromo.plan} plan free for ${appliedPromo.freeMonths} months, then $5/month`
+                    : `${STANDARD_TRIAL_DAYS}-day free trial, then $5/month`}
+                </p>
+                {appliedPromo && (
+                  <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold text-amber-900">
+                    {appliedPromo.code} · Thanksgiving offer · first charge {billDate}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-3.5">
@@ -505,18 +588,44 @@ export default function TryTrial() {
 
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">COUPON (OPTIONAL)</label>
-                    <div className="relative">
-                      <select 
-                        value={coupon} 
-                        onChange={(e) => setCoupon(e.target.value)}
-                        className="w-full appearance-none text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded bg-white focus:border-[#73c41d]/50 focus:outline-none cursor-pointer text-slate-400"
-                      >
-                        <option value="">Apply Promo Code</option>
-                        <option value="welcome">WELCOME20 (20% OFF)</option>
-                        <option value="annual">FREEONE (1 month free)</option>
-                      </select>
-                      <FontAwesomeIcon icon={faChevronDown} className="absolute right-3 top-3 h-4 w-4 text-slate-400 pointer-events-none" />
-                    </div>
+                    {appliedPromo ? (
+                      <div className="flex items-center justify-between rounded border border-[#73c41d]/40 bg-[#73c41d]/5 px-3 py-2.5 text-xs font-semibold text-slate-700">
+                        <span>
+                          <span className="font-mono font-bold tracking-wider">{appliedPromo.code}</span> applied: {appliedPromo.freeMonths} months free
+                        </span>
+                        <button type="button" onClick={removeCoupon} className="text-[11px] font-bold text-slate-500 underline hover:text-slate-800">
+                          Remove
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={coupon}
+                          onChange={(e) => {
+                            setCoupon(e.target.value.toUpperCase());
+                            setCouponError("");
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              applyCoupon();
+                            }
+                          }}
+                          placeholder="Enter promo code"
+                          aria-label="Promo code"
+                          className="w-full text-xs font-semibold px-3 py-2.5 border border-slate-200 rounded focus:border-[#73c41d]/50 focus:outline-none uppercase"
+                        />
+                        <button
+                          type="button"
+                          onClick={applyCoupon}
+                          className="shrink-0 rounded border border-slate-200 px-3 text-xs font-bold text-slate-600 hover:border-[#73c41d] hover:text-[#477c13]"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    )}
+                    {couponError && <p className="text-[11px] font-semibold text-red-600">{couponError}</p>}
                   </div>
                 </div>
 
@@ -525,7 +634,7 @@ export default function TryTrial() {
                   disabled={isSubmitting}
                   className="w-full bg-[#73c41d] hover:bg-[#477c13] h-[44px] rounded-lg text-xs font-bold text-white shadow-md shadow-[#73c41d]/20 mt-6"
                 >
-                  Start My 7-day Free Trial
+                  Start My {trialLabel} Free Trial
                 </Button>
 
                 <div className="text-center mt-4">
@@ -578,7 +687,9 @@ export default function TryTrial() {
                     <FontAwesomeIcon icon={faCircleInfo} className="h-2 w-2" />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Day 4: Trial Reminder ({reminderDate})</h4>
+                    <h4 className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">
+                      {appliedPromo ? "Trial Reminder" : "Day 4: Trial Reminder"} ({reminderDate})
+                    </h4>
                     <p className="text-[11px] text-slate-400 mt-0.5 leading-normal">We'll send you an email/notification 3 days before billing. Cancel anytime.</p>
                   </div>
                 </div>
@@ -589,7 +700,9 @@ export default function TryTrial() {
                     <FontAwesomeIcon icon={faArrowRight} className="h-2 w-2" />
                   </div>
                   <div>
-                    <h4 className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Day 7: Trial Ends ({billDate})</h4>
+                    <h4 className="text-[11px] font-bold text-slate-700 uppercase tracking-wide">
+                      {appliedPromo ? `Month ${appliedPromo.freeMonths}: Trial Ends` : `Day ${STANDARD_TRIAL_DAYS}: Trial Ends`} ({billDate})
+                    </h4>
                     <p className="text-[11px] text-slate-400 mt-0.5 leading-normal">You will be billed for the Business monthly plan ($5/month) on {billDate}.</p>
                   </div>
                 </div>
