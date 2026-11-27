@@ -232,10 +232,10 @@ export default function AdminAnalytics() {
           <h1 className="text-lg font-bold text-slate-900 dark:text-slate-50">Analytics isn't available</h1>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             The report couldn't be loaded. If this is a new setup, run
-            <code className="mx-1 rounded bg-slate-200 px-1 dark:bg-slate-800">supabase/migrations/20261126_admin_analytics.sql</code>
+            <code className="mx-1 break-all rounded bg-slate-200 px-1 dark:bg-slate-800">supabase/migrations/20261126_admin_analytics.sql</code>
             in Supabase.
           </p>
-          <p className="mt-2 font-mono text-xs text-slate-500">{state.message}</p>
+          <p className="mt-2 break-words font-mono text-xs text-slate-500">{state.message}</p>
           <Button variant="outline" className="mt-4" onClick={load}>Try again</Button>
         </div>
       </div>
