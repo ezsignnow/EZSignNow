@@ -14,7 +14,8 @@ function Probe() {
       <span data-testid="text">{t("nav.signIn")}</span>
       <span data-testid="code">{language.code}</span>
       <button onClick={() => setLanguage("hi")}>hi</button>
-      <button onClick={() => setLanguage("ar")}>ar</button>
+      <button onClick={() => setLanguage("es")}>es</button>
+      <p data-testid="plain">Pricing</p>
       <button onClick={() => setLanguage("xx")}>bogus</button>
     </div>
   );
@@ -37,8 +38,9 @@ describe("language dictionaries", () => {
     }
   });
 
-  it("marks Arabic and Urdu as right-to-left and nothing else", () => {
-    expect(LANGUAGES.filter((l) => l.dir === "rtl").map((l) => l.code).sort()).toEqual(["ar", "ur"]);
+  it("offers only English, Spanish, French, Hindi and Tamil, all left-to-right", () => {
+    expect(LANGUAGES.map((l) => l.code).sort()).toEqual(["en", "es", "fr", "hi", "ta"]);
+    expect(LANGUAGES.every((l) => l.dir === "ltr")).toBe(true);
   });
 });
 
@@ -68,11 +70,12 @@ describe("LanguageProvider", () => {
     await waitFor(() => expect(screen.getByTestId("text").textContent).toBe("உள்நுழை"));
   });
 
-  it("flips the page to right-to-left for Arabic", async () => {
+  it("translates plain page text that isn't wired to t(), and restores English", async () => {
     render(<LanguageProvider><Probe /></LanguageProvider>);
-    act(() => screen.getByText("ar").click());
-    await waitFor(() => expect(document.documentElement.dir).toBe("rtl"));
-    expect(document.documentElement.lang).toBe("ar");
+    act(() => screen.getByText("es").click());
+    await waitFor(() => expect(screen.getByTestId("plain").textContent).toBe("Precios"));
+    act(() => screen.getByText("hi").click());
+    await waitFor(() => expect(screen.getByTestId("plain").textContent).toBe("मूल्य निर्धारण"));
   });
 
   it("ignores unknown language codes", () => {
@@ -101,8 +104,8 @@ describe("saved language", () => {
 
   it("uses a supported browser language on a first visit", () => {
     const orig = Object.getOwnPropertyDescriptor(window.navigator, "languages");
-    Object.defineProperty(window.navigator, "languages", { value: ["ml-IN", "en"], configurable: true });
-    expect(initialLanguage()).toBe("ml");
+    Object.defineProperty(window.navigator, "languages", { value: ["ta-IN", "en"], configurable: true });
+    expect(initialLanguage()).toBe("ta");
     Object.defineProperty(window.navigator, "languages", { value: ["sw-KE"], configurable: true });
     expect(initialLanguage()).toBe("en");
     if (orig) Object.defineProperty(window.navigator, "languages", orig);

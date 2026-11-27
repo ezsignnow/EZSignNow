@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import en, { type Dictionary, type TranslationKey } from "./locales/en";
 import { DEFAULT_LANGUAGE, findLanguage, type Language } from "./languages";
 import { initialLanguage, saveLanguage } from "./storage";
+import { PageTranslator, buildPhraseBook, type PhraseBook } from "./pageTranslator";
 
 // Each non-English dictionary is its own chunk, so a visitor only downloads the language they use.
 const loaders = import.meta.glob<{ default: Dictionary }>(["./locales/*.ts", "!./locales/en.ts"]);
@@ -11,6 +12,17 @@ async function loadDictionary(code: string): Promise<Dictionary> {
   const load = loaders[`./locales/${code}.ts`];
   if (!load) return en;
   return (await load()).default;
+}
+
+// Whole-page phrase books: strings/en.txt is the English list, strings/<lang>.txt the translations.
+const stringFiles = import.meta.glob<string>("./strings/*.txt", { query: "?raw", import: "default" });
+
+async function loadPhraseBook(code: string): Promise<PhraseBook> {
+  const enLoad = stringFiles["./strings/en.txt"];
+  const langLoad = stringFiles[`./strings/${code}.txt`];
+  if (code === DEFAULT_LANGUAGE || !enLoad || !langLoad) return new Map();
+  const [enRaw, langRaw] = await Promise.all([enLoad(), langLoad()]);
+  return buildPhraseBook(enRaw, langRaw);
 }
 
 type Vars = Record<string, string | number>;
@@ -45,6 +57,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [code, setCode] = useState<string>(() => initialLanguage());
   const [dict, setDict] = useState<Dictionary>(en);
   const language = findLanguage(code) ?? findLanguage(DEFAULT_LANGUAGE)!;
+  const [translator] = useState(() => new PageTranslator());
+
+  useEffect(() => {
+    translator.start(document.body);
+    return () => translator.stop();
+  }, [translator]);
 
   useEffect(() => {
     applyToDocument(language);
@@ -52,10 +70,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     loadDictionary(language.code).then((d) => {
       if (!cancelled) setDict(d);
     });
+    loadPhraseBook(language.code).then((book) => {
+      if (!cancelled) translator.setPhraseBook(book);
+    });
     return () => {
       cancelled = true;
     };
-  }, [language]);
+  }, [language, translator]);
 
   const setLanguage = useCallback((next: string) => {
     if (!findLanguage(next)) return;
