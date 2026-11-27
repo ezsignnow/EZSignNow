@@ -1,6 +1,7 @@
 import { sendMail } from "./_lib/mailer.js";
 import { applyCors, isAllowedOrigin } from "./_lib/cors.js";
 import { actionEmail } from "./_lib/emailTemplates.js";
+import { envelopeRecipients, allOnEnvelope } from "./_lib/documentRecipients.js";
 
 /**
  * Status notices: "signed" (to the sender), "completed" (to every signer,
@@ -18,8 +19,15 @@ export default async function handler(req, res) {
   try {
     const { emails, documentTitle, actionType, actorName, reason, documentId } = req.body || {};
 
-    if (!emails || emails.length === 0) {
+    if (!Array.isArray(emails) || emails.length === 0) {
       return res.status(400).json({ error: "Missing recipients" });
+    }
+
+    // Only people on the document's envelope (signers, copy recipients and
+    // the sender) can be notified.
+    const allowed = await envelopeRecipients(documentId, req.headers.authorization);
+    if (!allOnEnvelope(emails, allowed)) {
+      return res.status(403).json({ error: "Recipients must be on this document" });
     }
 
     // Links point back at the public site, not this API host.

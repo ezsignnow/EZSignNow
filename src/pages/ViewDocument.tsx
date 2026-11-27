@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, setSigningDocumentScope } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { BrandMark } from "@/components/layout/BrandMark";
 import { SignaturePad, SignaturePadRef } from "@/components/signature/SignaturePad";
@@ -42,7 +42,7 @@ import {
 } from "@/components/ui/dialog";
 import { fallbackService, AuditLog } from "@/utils/fallbackService";
 import { generateCertifiedPdf } from "@/utils/pdfGenerator";
-import { apiUrl } from "@/lib/api";
+import { apiUrl, apiJsonHeaders } from "@/lib/api";
 import {
   ELECTRONIC_RECORDS_DISCLOSURE,
   ELECTRONIC_RECORDS_DISCLOSURE_VERSION,
@@ -77,6 +77,10 @@ interface SignerDraft {
 
 export default function ViewDocument() {
   const { id } = useParams<{ id: string }>();
+  // Scope public signing access to this document before any query runs
+  // (set during render so the first effects already send it).
+  setSigningDocumentScope(id ?? null);
+  useEffect(() => () => setSigningDocumentScope(null), []);
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -370,7 +374,7 @@ export default function ViewDocument() {
     try {
       await fetch(apiUrl("/api/send-action-email"), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: await apiJsonHeaders(),
         body: JSON.stringify({ documentTitle: document?.title || document?.file_name || "Document", documentId: id, ...body }),
       });
     } catch (err) {
@@ -585,7 +589,7 @@ export default function ViewDocument() {
           try {
             await fetch(apiUrl("/api/send-signing-email"), {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: await apiJsonHeaders(),
               body: JSON.stringify({
                 signatories: next.map((s) => ({ name: s.name, email: s.email, signerId: s.id })),
                 documentId: id,

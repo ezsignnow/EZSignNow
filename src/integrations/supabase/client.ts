@@ -5,6 +5,23 @@ import type { Database } from './types';
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || "https://tjsvkdvuspihphtcldot.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_WgE6pWIOVhWvIc6VQpspvg_I70scyVl";
 
+// The signing page sets this to the document it shows. It is sent as the
+// `x-signing-document` header, which the public signing RLS policies require
+// (supabase/migrations/20261127_scope_public_signing_access.sql), so a signing
+// link can reach its own document and nothing else.
+let signingDocumentScope: string | null = null;
+
+export function setSigningDocumentScope(documentId: string | null) {
+  signingDocumentScope = documentId;
+}
+
+const scopedFetch: typeof fetch = (input, init) => {
+  if (!signingDocumentScope) return fetch(input, init);
+  const headers = new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined));
+  headers.set("x-signing-document", signingDocumentScope);
+  return fetch(input, { ...init, headers });
+};
+
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
@@ -18,6 +35,7 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     schema: 'public',
   },
   global: {
+    fetch: scopedFetch,
     headers: {
       'Accept-Profile': 'public',
       'Content-Profile': 'public',

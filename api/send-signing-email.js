@@ -1,6 +1,7 @@
 import { sendMail } from "./_lib/mailer.js";
 import { applyCors, isAllowedOrigin } from "./_lib/cors.js";
 import { signingEmail } from "./_lib/emailTemplates.js";
+import { envelopeRecipients, allOnEnvelope } from "./_lib/documentRecipients.js";
 
 export default async function handler(req, res) {
   if (applyCors(req, res)) return;
@@ -13,8 +14,14 @@ export default async function handler(req, res) {
   try {
     const { signatories, documentId, documentTitle, ownerEmail, ownerName, subject, message, reminder } = req.body || {};
 
-    if (!signatories || signatories.length === 0) {
+    if (!Array.isArray(signatories) || signatories.length === 0) {
       return res.status(400).json({ error: "Missing signatories" });
+    }
+
+    // Only the document's own signatories can be emailed.
+    const allowed = await envelopeRecipients(documentId, req.headers.authorization);
+    if (!allOnEnvelope(signatories.map((s) => s?.email), allowed)) {
+      return res.status(403).json({ error: "Recipients must be signatories of this document" });
     }
 
     // Link signers back to the site that sent the request (the public domain),

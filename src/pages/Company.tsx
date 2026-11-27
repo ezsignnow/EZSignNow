@@ -144,13 +144,13 @@ export default function Company() {
 
   return (
     <div className="min-h-screen bg-slate-50/50 flex flex-col font-sans">
-      <header className="h-[60px] bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0 z-10 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
+      <header className="h-[60px] bg-white border-b border-slate-100 flex items-center justify-between px-4 sm:px-6 shrink-0 z-10 shadow-[0_2px_10px_rgba(0,0,0,0.02)]">
         <div className="flex items-center gap-3">
-          <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
+          <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" subtitleClassName="hidden sm:block" />
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3 border-l border-slate-100 pl-4 ml-1">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-3 border-l border-slate-100 pl-2 sm:pl-4 ml-1">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 hover:bg-slate-50 py-1.5 px-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#73c41d]/20">

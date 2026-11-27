@@ -43,7 +43,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { apiUrl } from "@/lib/api";
+import { apiUrl, apiJsonHeaders } from "@/lib/api";
 import { displayStatus, signersWhoseTurn } from "@/lib/signing/workflow";
 
 interface Document {
@@ -247,7 +247,7 @@ export function DocumentList() {
       try {
         const response = await fetch(apiUrl("/api/send-signing-email"), {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: await apiJsonHeaders(),
           body: JSON.stringify({
             signatories: due.map((s) => ({ name: s.name, email: s.email, signerId: s.id })),
             documentId: doc.id,

@@ -23,9 +23,9 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-8">
+        <div className="flex min-w-0 items-center gap-4 md:gap-8">
           <Link to="/">
-            <BrandLogo />
+            <BrandLogo subtitleClassName="hidden sm:block" />
           </Link>
           <div className="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
             <Link to="/forms" className="text-muted-foreground hover:text-foreground transition-colors">Forms Library</Link>
@@ -35,7 +35,7 @@ export function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-4">
           {user ? (
             <>
               <Button variant="ghost" asChild>
@@ -60,10 +60,10 @@ export function Navbar() {
             </>
           ) : (
             <>
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" className="px-2 sm:px-4" asChild>
                 <Link to="/login">Sign In</Link>
               </Button>
-              <Button asChild>
+              <Button className="px-3 sm:px-4" asChild>
                 <Link to="/signup">Get Started</Link>
               </Button>
             </>
