@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, setSigningDocumentScope } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { BrandMark } from "@/components/layout/BrandMark";
 import { SignaturePad, SignaturePadRef } from "@/components/signature/SignaturePad";
@@ -77,6 +77,10 @@ interface SignerDraft {
 
 export default function ViewDocument() {
   const { id } = useParams<{ id: string }>();
+  // Scope public signing access to this document before any query runs
+  // (set during render so the first effects already send it).
+  setSigningDocumentScope(id ?? null);
+  useEffect(() => () => setSigningDocumentScope(null), []);
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
