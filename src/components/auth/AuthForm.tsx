@@ -22,6 +22,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { BrandLogo } from "@/components/layout/BrandLogo";
+import { LanguageSwitcher, useT } from "@/i18n";
 import { track } from "@/lib/analytics";
 
 interface AuthFormProps {
@@ -29,6 +30,7 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ mode }: AuthFormProps) {
+  const t = useT();
   const [searchParams] = useSearchParams();
   const [email, setEmail] = useState(searchParams.get("email") || "");
   const [password, setPassword] = useState("");
@@ -230,7 +232,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         }`}>
           {emailSent ? <FontAwesomeIcon icon={faCheck} className="h-3 w-3" /> : "1"}
         </span>
-        <span className={!emailSent ? "text-slate-900 font-bold" : "text-slate-500"}>Create an account</span>
+        <span className={!emailSent ? "text-slate-900 font-bold" : "text-slate-500"}>{t("auth.stepCreate")}</span>
       </div>
       <div className="h-[1px] w-8 bg-slate-200"></div>
       <div className="flex items-center gap-1">
@@ -239,7 +241,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         }`}>
           2
         </span>
-        <span className={emailSent ? "text-slate-900 font-bold" : "text-slate-500"}>Activate your trial</span>
+        <span className={emailSent ? "text-slate-900 font-bold" : "text-slate-500"}>{t("auth.stepActivate")}</span>
       </div>
     </div>
   );
@@ -251,10 +253,11 @@ export function AuthForm({ mode }: AuthFormProps) {
       <div className="w-full max-w-md">
         
         {/* Logo */}
-        <div className="flex items-center justify-center mb-8">
+        <div className="flex items-center justify-between mb-8">
           <Link to="/">
             <BrandLogo />
           </Link>
+          <LanguageSwitcher />
         </div>
 
         {/* Stepper (Only on Signup flow) */}
@@ -324,18 +327,18 @@ export function AuthForm({ mode }: AuthFormProps) {
         <div className="bg-white border border-slate-200 shadow-md rounded-md overflow-hidden">
           <div className="p-6 text-center border-b border-slate-100">
             <h2 className="text-2xl font-bold text-slate-900">
-              {mode === "login" ? "Sign in to account" : "Create free account"}
+              {mode === "login" ? t("auth.signInTitle") : t("auth.signUpTitle")}
             </h2>
           </div>
           <div className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
                 {mode === "signup" && (
                   <div className="space-y-2">
-                    <Label htmlFor="fullName" className="text-xs font-semibold text-slate-700">Name</Label>
+                    <Label htmlFor="fullName" className="text-xs font-semibold text-slate-700">{t("auth.name")}</Label>
                     <Input
                       id="fullName"
                       type="text"
-                      placeholder="Full Name"
+                      placeholder={t("auth.fullName")}
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       required
@@ -344,11 +347,11 @@ export function AuthForm({ mode }: AuthFormProps) {
                   </div>
                 )}
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-xs font-semibold text-slate-700">Email Address</Label>
+                  <Label htmlFor="email" className="text-xs font-semibold text-slate-700">{t("auth.email")}</Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Email Address"
+                    placeholder={t("auth.email")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -357,15 +360,15 @@ export function AuthForm({ mode }: AuthFormProps) {
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="password" className="text-xs font-semibold text-slate-700">Password</Label>
+                    <Label htmlFor="password" className="text-xs font-semibold text-slate-700">{t("auth.password")}</Label>
                     {mode === "login" && (
-                      <a href="#" className="text-xs text-blue-600 hover:underline">Forgot password?</a>
+                      <a href="#" className="text-xs text-blue-600 hover:underline">{t("auth.forgot")}</a>
                     )}
                   </div>
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Password"
+                    placeholder={t("auth.password")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -392,7 +395,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                           <FontAwesomeIcon icon={faCheck} className="h-4 w-4 text-blue-600 font-bold" />
                         ) : null}
                       </button>
-                      <span className="text-xs font-medium text-slate-700">I'm not a robot</span>
+                      <span className="text-xs font-medium text-slate-700">{t("auth.robot")}</span>
                     </div>
                     <div className="flex flex-col items-center gap-0.5 opacity-60">
                       <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="h-5 w-5 object-contain" />
@@ -404,14 +407,14 @@ export function AuthForm({ mode }: AuthFormProps) {
                 <div className="pt-2">
                   <Button type="submit" className="w-full h-11 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white">
                     {loading && <FontAwesomeIcon icon={faSpinner} className="mr-2 h-4 w-4 animate-spin" />}
-                    {mode === "login" ? "Sign In" : "Create account"}
+                    {mode === "login" ? t("nav.signIn") : t("footer.createAccount")}
                   </Button>
                 </div>
 
                 {/* OR Google Sign Up / Sign In divider */}
                 <div className="relative w-full flex py-2 items-center">
                   <div className="flex-grow border-t border-slate-200"></div>
-                  <span className="flex-shrink mx-4 text-slate-400 text-[10px] font-bold uppercase tracking-wider">OR</span>
+                  <span className="flex-shrink mx-4 text-slate-400 text-[10px] font-bold uppercase tracking-wider">{t("auth.or")}</span>
                   <div className="flex-grow border-t border-slate-200"></div>
                 </div>
 
@@ -435,7 +438,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                       </svg>
                     }
                   />
-                  {mode === "login" ? "Sign In with Google" : "Sign Up with Google"}
+                  {mode === "login" ? t("auth.googleSignIn") : t("auth.googleSignUp")}
                 </Button>
                 
                 <p className="text-center text-xs text-slate-600 mt-4">

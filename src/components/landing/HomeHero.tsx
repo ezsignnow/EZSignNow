@@ -23,6 +23,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { useT } from "@/i18n";
 
 const SIGNERS = [
   { name: "Maya Chen", role: "Step 1", initials: "MC" },
@@ -114,10 +115,10 @@ const TOOLS: Tool[] = [
   },
 ];
 
-const SLIDES = [
-  { label: "Digital Signature", icon: faFileSignature },
-  { label: "All Tools", icon: faTableCellsLarge },
-] as const;
+const SLIDES: { label: "hero.slideSignature" | "hero.slideTools"; icon: IconDefinition }[] = [
+  { label: "hero.slideSignature", icon: faFileSignature },
+  { label: "hero.slideTools", icon: faTableCellsLarge },
+];
 
 /** Cycles the mock envelope through "who has signed" so the hero shows the product working. */
 function useSigningProgress() {
@@ -136,6 +137,7 @@ function useSigningProgress() {
 
 export function HomeHero() {
   const navigate = useNavigate();
+  const t = useT();
   const [email, setEmail] = useState("");
   const signed = useSigningProgress();
   const done = signed === SIGNERS.length;
@@ -188,7 +190,7 @@ export function HomeHero() {
                 }`}
               >
                 <FontAwesomeIcon icon={tab.icon} className="h-3.5 w-3.5" />
-                {tab.label}
+                {t(tab.label)}
               </button>
             ))}
           </div>
@@ -207,13 +209,13 @@ export function HomeHero() {
           <div key="tools" className="animate-in fade-in slide-in-from-right-8 duration-500">
             <div className="mb-10 text-center">
               <h1 className="font-heading text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-900 dark:text-white sm:text-5xl">
-                Every tool you need to{" "}
+                {t("hero.toolsTitle1")}{" "}
                 <span className="bg-gradient-to-r from-[#5ba114] to-[#8ccd45] bg-clip-text text-transparent">
-                  get documents signed.
+                  {t("hero.toolsTitle2")}
                 </span>
               </h1>
               <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">
-                Legally binding digital signatures, plus everything around them. All in one place, all online.
+                {t("hero.toolsSubtitle")}
               </p>
             </div>
 
@@ -222,10 +224,10 @@ export function HomeHero() {
                 <Link
                   key={tool.title}
                   to={tool.href}
-                  className="group relative flex flex-col rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#73c41d]/50 hover:shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-[#73c41d]/30 dark:border-slate-800 dark:bg-slate-900"
+                  className="group relative flex flex-col rounded-2xl border border-slate-200 bg-white p-6 text-start shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#73c41d]/50 hover:shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-[#73c41d]/30 dark:border-slate-800 dark:bg-slate-900"
                 >
                   {tool.badge && (
-                    <span className="absolute right-4 top-4 rounded-full bg-[#73c41d]/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#3a6215] dark:text-[#abdb74]">
+                    <span className="absolute end-4 top-4 rounded-full bg-[#73c41d]/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#3a6215] dark:text-[#abdb74]">
                       {tool.badge}
                     </span>
                   )}
@@ -246,26 +248,25 @@ export function HomeHero() {
           className="grid gap-14 animate-in fade-in slide-in-from-left-8 duration-500 lg:grid-cols-[1.05fr_0.95fr] lg:items-center"
         >
           {/* Copy */}
-          <div className="space-y-7 text-left">
+          <div className="space-y-7 text-start">
             <Link
               to="/security"
               className="inline-flex items-center gap-2 rounded-full border border-[#73c41d]/30 bg-[#73c41d]/10 px-3 py-1 text-xs font-semibold text-[#3a6215] transition-colors hover:bg-[#73c41d]/15 dark:text-[#abdb74]"
             >
               <FontAwesomeIcon icon={faShieldHalved} className="h-3 w-3" />
-              Legally binding under ESIGN, UETA and eIDAS
-              <FontAwesomeIcon icon={faArrowRight} className="h-2.5 w-2.5" />
+              {t("hero.badge")}
+              <FontAwesomeIcon icon={faArrowRight} className="h-2.5 w-2.5 rtl:-scale-x-100" />
             </Link>
 
             <h1 className="font-heading text-4xl font-extrabold leading-[1.05] tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-[64px]">
-              Get documents signed,{" "}
+              {t("hero.title1")}{" "}
               <span className="bg-gradient-to-r from-[#5ba114] to-[#8ccd45] bg-clip-text text-transparent">
-                in order and on record.
+                {t("hero.title2")}
               </span>
             </h1>
 
             <p className="max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">
-              Upload a PDF, place fields for each signer, and send. Signers sign from any device without an
-              account, and you keep the signed copy with its audit certificate.
+              {t("hero.subtitle")}
             </p>
 
             <form
@@ -277,14 +278,14 @@ export function HomeHero() {
               className="flex w-full max-w-md flex-col gap-2 sm:flex-row"
             >
               <label htmlFor="hero-email" className="sr-only">
-                Work email
+                {t("hero.workEmail")}
               </label>
               <input
                 id="hero-email"
                 type="email"
                 required
                 autoComplete="email"
-                placeholder="Work email"
+                placeholder={t("hero.workEmail")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-12 flex-1 rounded-lg border border-slate-300 bg-white px-4 text-sm text-slate-900 shadow-sm outline-none transition focus:border-[#5ba114] focus:ring-4 focus:ring-[#73c41d]/20 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
@@ -293,17 +294,17 @@ export function HomeHero() {
                 type="submit"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#5ba114] px-6 text-sm font-semibold text-white shadow-sm transition hover:bg-[#477c13] focus:outline-none focus:ring-4 focus:ring-[#73c41d]/30"
               >
-                Start free
-                <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5" />
+                {t("hero.startFree")}
+                <FontAwesomeIcon icon={faArrowRight} className="h-3.5 w-3.5 rtl:-scale-x-100" />
               </button>
             </form>
 
             <ul className="grid max-w-xl grid-cols-1 gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
               {[
-                "No account needed to sign",
-                "Up to 25 signers, in order or at once",
-                "Audit trail and completion certificate",
-                "PDF tools and editor included",
+                t("hero.point1"),
+                t("hero.point2"),
+                t("hero.point3"),
+                t("hero.point4"),
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <FontAwesomeIcon icon={faCircleCheck} className="h-3.5 w-3.5 text-[#5ba114]" />

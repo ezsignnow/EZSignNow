@@ -32,7 +32,7 @@ export function AppLayout({ children, requireAuth = true }: LayoutProps) {
   return (
     <div className="flex min-h-screen bg-[#f7f9f5] dark:bg-slate-950 font-sans">
       <Sidebar />
-      <main className="flex-1 ml-64 min-w-0 flex flex-col">
+      <main className="flex-1 ms-64 min-w-0 flex flex-col">
         {children}
       </main>
     </div>

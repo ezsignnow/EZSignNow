@@ -12,11 +12,13 @@ import {
   faFilePen,
   faToolbox
 } from "@fortawesome/free-solid-svg-icons";
+import { useT } from "@/i18n";
 
 export default function DashboardSidebar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+  const t = useT();
 
   let activeTab = searchParams.get("tab") || "sign";
   if (location.pathname === "/team") {
@@ -26,16 +28,16 @@ export default function DashboardSidebar() {
   }
 
   const sidebarItems = [
-    { id: "sign", label: "Sign", icon: faPenNib },
-    { id: "documents", label: "Documents", icon: faFileLines },
-    { id: "edit", label: "Edit PDF", icon: faFilePen },
-    { id: "tools", label: "PDF Tools", icon: faToolbox },
-    { id: "templates", label: "Templates", icon: faCopy },
-    { id: "forms", label: "Forms", icon: faSquareCheck },
-    { id: "team", label: "Team", icon: faUsers },
-    { id: "company", label: "Company", icon: faBriefcase },
-    { id: "integrations", label: "Integrations", icon: faLayerGroup },
-    { id: "settings", label: "Settings", icon: faGear },
+    { id: "sign", label: t("dash.sign"), icon: faPenNib },
+    { id: "documents", label: t("side.documents"), icon: faFileLines },
+    { id: "edit", label: t("side.editPdf"), icon: faFilePen },
+    { id: "tools", label: t("side.pdfTools"), icon: faToolbox },
+    { id: "templates", label: t("side.templates"), icon: faCopy },
+    { id: "forms", label: t("dash.forms"), icon: faSquareCheck },
+    { id: "team", label: t("dash.team"), icon: faUsers },
+    { id: "company", label: t("dash.company"), icon: faBriefcase },
+    { id: "integrations", label: t("dash.integrations"), icon: faLayerGroup },
+    { id: "settings", label: t("side.settings"), icon: faGear },
   ];
 
   const handleNavigate = (id: string) => {
@@ -58,7 +60,7 @@ export default function DashboardSidebar() {
   const docStatus = searchParams.get("status") || "all";
 
   return (
-    <aside className="w-[200px] border-r border-slate-100 bg-white p-4 space-y-1 hidden md:block shrink-0 shadow-[1px_0_2px_rgba(0,0,0,0.01)]">
+    <aside className="w-[200px] border-e border-slate-100 bg-white p-4 space-y-1 hidden md:block shrink-0 shadow-[1px_0_2px_rgba(0,0,0,0.01)]">
       {sidebarItems.map((item) => {
         const itemActive = activeTab === item.id;
         
@@ -78,14 +80,14 @@ export default function DashboardSidebar() {
             
             {/* Nested sub-menu for Documents when active */}
             {isDocActive && item.id === "documents" && (
-              <div className="pl-6.5 py-1 space-y-1 select-none border-l-2 border-slate-100 ml-5.5 animate-in slide-in-from-top-1.5 duration-200">
+              <div className="ps-6.5 py-1 space-y-1 select-none border-s-2 border-slate-100 ms-5.5 animate-in slide-in-from-top-1.5 duration-200">
                 {[
-                  { id: "completed", label: "Completed", color: "bg-emerald-500" },
-                  { id: "pending", label: "Awaiting Signature", color: "bg-amber-500" },
-                  { id: "cancelled", label: "Voided", color: "bg-red-500" },
-                  { id: "draft", label: "Draft", color: "bg-slate-400" },
-                  { id: "received", label: "Received", color: "bg-emerald-600" },
-                  { id: "trash", label: "Trash", color: "bg-slate-300" },
+                  { id: "completed", label: t("dash.completed"), color: "bg-emerald-500" },
+                  { id: "pending", label: t("dash.awaiting"), color: "bg-amber-500" },
+                  { id: "cancelled", label: t("dash.voided"), color: "bg-red-500" },
+                  { id: "draft", label: t("dash.draft"), color: "bg-slate-400" },
+                  { id: "received", label: t("dash.received"), color: "bg-emerald-600" },
+                  { id: "trash", label: t("dash.trash"), color: "bg-slate-300" },
                 ].map((sub) => (
                   <button
                     key={sub.id}
