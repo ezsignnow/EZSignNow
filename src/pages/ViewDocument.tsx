@@ -42,7 +42,7 @@ import {
 } from "@/components/ui/dialog";
 import { fallbackService, AuditLog } from "@/utils/fallbackService";
 import { generateCertifiedPdf } from "@/utils/pdfGenerator";
-import { apiUrl } from "@/lib/api";
+import { apiUrl, apiJsonHeaders } from "@/lib/api";
 import {
   ELECTRONIC_RECORDS_DISCLOSURE,
   ELECTRONIC_RECORDS_DISCLOSURE_VERSION,
@@ -374,7 +374,7 @@ export default function ViewDocument() {
     try {
       await fetch(apiUrl("/api/send-action-email"), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: await apiJsonHeaders(),
         body: JSON.stringify({ documentTitle: document?.title || document?.file_name || "Document", documentId: id, ...body }),
       });
     } catch (err) {
@@ -589,7 +589,7 @@ export default function ViewDocument() {
           try {
             await fetch(apiUrl("/api/send-signing-email"), {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: await apiJsonHeaders(),
               body: JSON.stringify({
                 signatories: next.map((s) => ({ name: s.name, email: s.email, signerId: s.id })),
                 documentId: id,

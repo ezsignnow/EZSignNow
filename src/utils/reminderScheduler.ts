@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { fallbackService } from "./fallbackService";
-import { apiUrl } from "@/lib/api";
+import { apiUrl, apiJsonHeaders } from "@/lib/api";
 import { signersWhoseTurn } from "@/lib/signing/workflow";
 
 interface Signatory {
@@ -119,7 +119,7 @@ export const reminderScheduler = {
             // We use the same Zoho SMTP-backed endpoint
             const response = await fetch(apiUrl("/api/send-signing-email"), {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: await apiJsonHeaders(),
               body: JSON.stringify({
                 signatories: [{ name: sig.name, email: sig.email, signerId: sig.id }],
                 documentId: doc.id,
