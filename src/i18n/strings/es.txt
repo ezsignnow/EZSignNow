@@ -1233,7 +1233,6 @@
 1352	No hubo coincidencias, así que no se censuró nada. Revisa la ortografía o dibuja sobre la zona.
 1353	Nada que procesar.
 1354	Notificaciones y recordatorios
-1355	Ahora
 1356	Ahora añade firmantes y campos a tu documento.
 1357	Número
 1358	Número de usuarios activos / puestos del equipo

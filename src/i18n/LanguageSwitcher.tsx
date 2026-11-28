@@ -40,7 +40,7 @@ export function LanguageSwitcher({ className, variant = "full", align = "end", s
       >
         <FontAwesomeIcon icon={faGlobe} className="h-3.5 w-3.5 text-muted-foreground" />
         {variant === "full" ? (
-          <span className="truncate">{language.nativeName}</span>
+          <span translate="no" data-no-translate className="truncate">{language.nativeName}</span>
         ) : (
           <span className="uppercase">{language.code}</span>
         )}
@@ -60,10 +60,11 @@ export function LanguageSwitcher({ className, variant = "full", align = "end", s
                 className="cursor-pointer justify-between gap-3"
               >
                 <span className="flex min-w-0 flex-col">
-                  <span lang={l.code} dir={l.dir} className="truncate font-medium">
+                  <span lang={l.code} dir={l.dir} translate="no" data-no-translate className="truncate font-medium">
                     {l.nativeName}
                   </span>
-                  {l.nativeName !== l.englishName && (
+                  {/* Name in the reader's language (the page translator localises it); hidden for the current language, where it would repeat the native name. */}
+                  {l.code !== language.code && (
                     <span className="text-[11px] text-muted-foreground">{l.englishName}</span>
                   )}
                 </span>

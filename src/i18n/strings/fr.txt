@@ -1233,7 +1233,6 @@
 1352	Aucune correspondance, rien n'a été caviardé. Vérifiez l'orthographe ou dessinez plutôt sur la zone.
 1353	Rien à traiter.
 1354	Notifications et rappels
-1355	Maintenant
 1356	Ajoutez maintenant des signataires et des champs à votre document.
 1357	Nombre
 1358	Nombre d'utilisateurs actifs / postes
