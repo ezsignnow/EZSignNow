@@ -1,0 +1,2537 @@
+1	"{0}" has been permanently removed.
+2	"{0}" is now available in your reusable templates list.
+3	$20 / mo
+4	$20/user/mo
+5	$5 / mo
+6	$5/mo
+7	% smaller)
+8	%PDF-1.4 1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj 2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj 3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >> endobj 4 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj 5 0 obj << /Length 44 >> stream BT /F1 24 Tf 100 700 Td (Mocked Document) Tj ET endstream endobj xref 0 6 0000000000 65535 f 0000000009 00000 n 0000000058 00000 n 0000000115 00000 n 0000000219 00000 n 0000000307 00000 n trailer << /Size 6 /Root 1 0 R >> startxref 372 %%EOF
+9	& Sign
+10	'Courier New', Courier, 'Liberation Mono', monospace
+11	'Dancing Script', cursive
+12	'Great Vibes', cursive
+13	'Playball', cursive
+14	'Sacramento', cursive
+15	'Times New Roman', Times, 'Liberation Serif', serif
+16	(columns {0}–{1})
+17	(max-width: {0}px)
+18	({0} on this page)
+19	) to authorize transaction successfully.
+20	, navigate to
+21	, toggle
+22	, you sign in step
+23	--- Page {0} --- {1}
+24	0 of 3
+25	1 Signature | 1 Date | 1 Checkbox
+26	1 User
+27	1 min setup
+28	1 sender
+29	1. CONFIDENTIALITY AGREEMENT TERMS
+30	1. CORE ENGAGEMENT TERMS
+31	1. DEFINITION OF CONFIDENTIAL INFORMATION
+32	1. PURPOSE OF TRANSACTION AND INTERACTIVE AGREEMENT
+33	1. Recipients
+34	1. SERVICES TO BE PERFORMED
+35	100 Users
+36	100% Legally Compliant
+37	115K+ uses
+38	14-Day Pro Trial Active
+39	142K+ uses
+40	150 dpi (standard)
+41	2 Signatures | 2 Dates
+42	2 Signatures | 2 Text Boxes
+43	2 mins setup
+44	2. COMPLIANCE COVENANTS AND COOPERATIVE EXECUTION
+45	2. EXCLUSIONS FROM CONFIDENTIALITY
+46	2. EXECUTION & SIGNATURES
+47	2. Fields
+48	2. PAYMENT AND COMPENSATION
+49	2. REGULATORY ELECTRONIC COMPLIANCE
+50	25 Seats
+51	28px 'Playball', cursive
+52	3 documents a month
+53	3 mins setup
+54	3 signature requests
+55	3 signers · sent today
+56	3-5 Minutes
+57	3. OBLIGATIONS OF RECEIVING PARTY
+58	3. RELATIONSHIP OF PARTIES
+59	3. Review and send
+60	3. TERM AND MUTUAL INTEGRITY
+61	300 dpi (print)
+62	30px 'Dancing Script', cursive
+63	32px 'Great Vibes', cursive
+64	34px 'Sacramento', cursive
+65	4 Signatures | 4 Dates | 4 Names
+66	4 min read
+67	4.8/5 (340 reviews)
+68	4.8/5 Rated (580+ reviews)
+69	4.9/5 (210 reviews)
+70	5 mins setup
+71	5-Min Support SLA
+72	50 Seats
+73	56K+ uses
+74	6 min read
+75	64K+ uses
+76	7 days left.
+77	72 dpi (screen)
+78	75 Seats
+79	75% Savings Rate
+80	8 min read
+81	8-10 Minutes
+82	87K+ uses
+83	9 field types
+84	9.7/10 Rating
+85	9.8/10 Score
+86	9.9/10 Rating
+87	90° clockwise
+88	90° counter-clockwise
+89	98K+ uses
+90	<!-- Page {0} -->
+91	A Note on Legality
+92	A PDF can't be produced for {0} yet because it needs fonts that aren't built in — use the Word file, which you can save as PDF from Word.
+93	A PDF editor and 40+ tools, right in your browser: merge, split, compress, convert, OCR, watermark, protect and more. Chain them into workflows.
+94	A complete audit trail
+95	A document can have up to
+96	A few characters aren't supported by the built-in PDF fonts and were written as “?”.
+97	A new activation link has been sent to your email inbox.
+98	A new verification code was sent to {0}.
+99	A personal subject line and note on every invitation
+100	A template requires at least one signatory placeholder role.
+101	ACCESS ROLE
+102	ACTION
+103	ACTIONS
+104	ACTIVE FORM
+105	AES-256 Protection
+106	AI Summarizer
+107	AI isn't available right now.
+108	AMEX
+109	ANNUAL FINANCIAL IMPACT
+110	API & Developer
+111	ASSIGNED ROLE
+112	Absolutely. EZSignNow compiles fully with the US ESIGN Act, UETA, and European Union eIDAS standards, generating a legally binding audit trail with IP address and geolocation stamping.
+113	Access Code (Optional)
+114	Access Granted
+115	Access Passcode (Optional)
+116	Access codes for signers
+117	Access codes for signers who need more than an email link
+118	Access role for {0} is now configured as {1}.
+119	Account & Login
+120	Account Created successfully!
+121	Account Settings
+122	Action
+123	Actions
+124	Activate Onboarding
+125	Activate your trial
+126	Activation Link (Sandbox)
+127	Active
+128	Active Envelopes / Sending
+129	Active Workspace Members (
+130	Add Copy Recipient
+131	Add PDF files
+132	Add Page Numbers
+133	Add Recipients
+134	Add Role
+135	Add Signer
+136	Add Watermark
+137	Add a blank page after files with an odd page count (for double-sided printing)
+138	Add a clickable table of contents (bookmarks / outline).
+139	Add a note for your signers (optional)
+140	Add a password and choose what others may do (AES-256 encryption).
+141	Add a signer in step 1 before placing fields.
+142	Add an optional message for signers.
+143	Add and edit text, images, links, shapes, annotations and more.
+144	Add at least
+145	Add at least one bookmark.
+146	Add at least one image.
+147	Add at least one person who needs to sign. Copy recipients only get the finished document.
+148	Add at least two PDF files to merge.
+149	Add at least two PDF files to mix.
+150	Add bookmark
+151	Add choices
+152	Add exactly two PDFs: the original first, then the revised version.
+153	Add more files
+154	Add new form fields
+155	Add or edit text
+156	Add step
+157	Add text and symbols
+158	Add up to 25 people who need to sign, in the order they sign, and anyone who only needs a copy of the finished document.
+159	Add your initials
+160	Add your signature
+161	Add-on / High-Tier plan required
+162	Added {0} form field{1}
+163	Adding margins
+164	Adding {0}
+165	Additional features
+166	Admin
+167	Admin (Full administrative controls)
+168	Admin Signature
+169	Advanced Electronic Signatures
+170	After every even page
+171	After every odd page
+172	After specific pages
+173	After the page with the text
+174	Agree and continue
+175	Agree to sign electronically first
+176	Alice Vance
+177	All
+178	All Features Included:
+179	All PDF tools
+180	All Parties
+181	All Parties Have Signed!
+182	All Systems Operational
+183	All Templates
+184	All active contracts, databases, and logs are encrypted at rest using Advanced Encryption Standards.
+185	All data transfer between client browsers and server API nodes uses HTTPS TLS 1.3 cryptographic pipelines.
+186	All document fields dynamically align to legally binding, court-admissible standards natively.
+187	All documents
+188	All electronic records executed on this simulated viewport fulfill identical standards as local handwritten agreements under standard federal and state guidelines.
+189	All envelopes are completed or in draft status.
+190	All features
+191	All field types
+192	All left
+193	All pages
+194	All parties have signed. You can now download the certified PDF.
+195	All right
+196	All signers are emailed now and can sign in any order.
+197	All statuses
+198	Allow changes
+199	Allow comments and form filling
+200	Allow copying text and images
+201	Allow printing
+202	Allow public viewing of signature certificate hashes.
+203	Allura
+204	Allura Script
+205	Already Invited
+206	Already Member
+207	Already have an account?
+208	Already have templates inside signNow? Our automated team importer downloads your PDF layouts and maps their signature fields over in one click. No manual recreating required!
+209	Also set the document title
+210	Alternate & Mix
+211	Always keep the text
+212	An error occurred opening the OneDrive picker.
+213	An objective, exhaustive analysis of e-signing features. We break down the differences in geolocation verification accuracy, custom branding, API key generation, Stripe integration configurations, and cost structures to help you make an informed organizational decision.
+214	An unexpected error occurred
+215	An unexpected error occurred.
+216	Angle
+217	Animations, SmartArt and some effects aren't reproduced.
+218	Annot
+219	Annotate
+220	Annots
+221	Annual
+222	Any date
+223	Apply
+224	Apply Profile
+225	Apply Signature
+226	Apply changes
+227	Apply to pages
+228	Apply your corporate branding, colors, and logos on all client-facing sign pages.
+229	Applying Layout...
+230	Approving Signature
+231	Arabic
+232	Archived to {0}
+233	Are e-signatures created on EZSignNow court-admissible?
+234	Are electronic signatures legally binding on EZSignNow?
+235	Are forms in the EZSignNow Forms Library free to use?
+236	Are my signed documents legally binding?
+237	Are these electronic signature forms court-admissible?
+238	Arrow
+239	Articles & Guides
+240	Atomic Timestamps
+241	Attach files
+242	Attach supporting files such as IDs, invoices or exhibits to your document and send them together.
+243	Attachment
+244	Attachments
+245	Attorney-in-Fact Name
+246	Audit Tracking
+247	Audit Trail
+248	Audit Trail (
+249	Audit Trail Access
+250	Audit certificate
+251	Audit log and history
+252	Audit receipt downloaded!
+253	Audit trail and certificate
+254	Audit trail on
+255	Australia
+256	Authentication Error
+257	Author
+258	Authorization failed
+259	Authorized signatories only. Access logs and digital audits are captured for legal verification.
+260	Authorizing payment amount...
+261	Autofill CSV Contacts
+262	Autofill test card
+263	Autofilled CSV Contacts
+264	Automate
+265	Automatic
+266	Automatic - keep text unless fonts are missing
+267	Automatic Cron Scheduler
+268	Automatic extract (no AI)
+269	Automatic reminder sent to signatory: {0} ({1}).
+270	Avg. Response
+271	Awaiting Signature
+272	B2B pricing matrices usually hide actual costs. Drag the slider below to see how much your team saves by dumping signNow.
+273	B2B service agreement establishing freelance/consulting terms, scopes of work, ownership of IP assets, and payment triggers.
+274	Back
+275	Back to Dashboard
+276	Back to Homepage
+277	Bank-Grade Infrastructure & Data Seals
+278	Bank-Grade Trust Standard
+279	Bates Numbering
+280	Before the page with the text
+281	Before you sign,
+282	Behind the content
+283	Best Usability
+284	Billed yearly
+285	Billing
+286	Billing & Subscription
+287	Billing Details
+288	Billing Information
+289	Billing period
+290	Black
+291	Black and white
+292	Blank
+293	Blank page
+294	Blazing Fast Audits
+295	Bob Vance
+296	Bold
+297	Bold Script
+298	Bookmark level
+299	Bookmark {0} page
+300	Bookmark {0} title
+301	Bookmark “{0}” points to page {1}, but the document has {2} pages.
+302	Bottom
+303	Bottom center
+304	Bottom left
+305	Bottom right
+306	Box
+307	Box integration
+308	Brand Identity
+309	Brand Logo
+310	Brand Logo URL
+311	Brand Tagline
+312	Breadcrumb
+313	Brief summary of your issue...
+314	Bring in documents from your cloud storage instead of downloading and re-uploading them.
+315	British Telecom
+316	Browse Categories
+317	Browse free form templates
+318	Browser width
+319	Builder Tip
+320	Building page {0}
+321	Built-in / Standard
+322	Bulk Dispatch complete! Updating pipeline...
+323	Bulk Send
+324	Bulk Send Dispatch
+325	Business
+326	Business Entity Type
+327	Business Trial plan
+328	Business plan free for
+329	Business trial active.
+330	Buyer Company
+331	By filling the interactive fields and completing signatures placed on this document outline, all parties express legal binding consent. Any metadata recorded serves as a valid forensic audit trail.
+332	CARD DETAILS
+333	CHOOSE CALLIGRAPHY STYLE
+334	COLLABORATOR ROLE
+335	COMPASS
+336	COMPASS RE
+337	CONFIDENTIAL & SECURE
+338	COUPON (OPTIONAL)
+339	CSV File Loaded
+340	CTO, NextGen SaaS
+341	CVC
+342	Calculate Your Real Monthly Savings
+343	Calculations based on published signNow standard business tiers in 2026.
+344	Call Us
+345	Can I cancel my subscription at any time?
+346	Can I create custom team templates?
+347	Can't find what you need?
+348	Cancel
+349	Canceled pending invitation for {0}.
+350	Cancelled pending collaborator credentials for {0}.
+351	Canvas not available
+352	Capability / Feature
+353	Capture instant millisecond geolocations, public IP stamps, and cryptoseals with every signature event dynamically.
+354	Card Number
+355	Card number
+356	Card numbers
+357	Cardholder Name
+358	Caret
+359	Category
+360	Center
+361	Certification Signature
+362	Chain several tools and run them on many files in one go.
+363	Chain tools together and run them on many files at once. Workflows are saved on this device.
+364	Chain your favourite tools, run them on many files at once and reuse the recipe any time.
+365	Change existing form fields
+366	Change options and run again
+367	Change page size (e.g. to A4 or Letter) or add margins.
+368	Change the title, author, subject, keywords and dates.
+369	Changes saved
+370	Changing the page size
+371	Charles Vance
+372	Charts, images and merged-cell formatting aren't reproduced.
+373	Check
+374	Checkbox
+375	Checkbox Option
+376	Checking page {0}
+377	Checking page {0} of {1}
+378	Checking {0}
+379	Chegg
+380	Chinese (Simplified)
+381	Choices
+382	Choose Template
+383	Choose a Template
+384	Choose an image for the watermark.
+385	Choose an option
+386	Choose from my documents
+387	Choose one
+388	Choose one of several options
+389	Choose the pages to delete.
+390	Choose the pages to extract.
+391	Choose the template you would like to sign.
+392	Choose what to remove.
+393	Choose where this area of the page should take the reader.
+394	Circle
+395	Claim My Free Trial & Save Signature
+396	Claim Unlimited Envelopes
+397	Claim Your $5/mo Seats Now
+398	Claim offer
+399	Claim {0} months free
+400	Clarissa Vance, SaaS Analyst
+401	Classic
+402	Classic Script
+403	Clean up scans
+404	Cleaning up {0}
+405	Clear
+406	Clear Board
+407	Clear List
+408	Clear Pad
+409	Clear all
+410	Clear this page
+411	Click a page to turn it 90°. Pages you turn here are used instead of the settings above.
+412	Click an image outlined in red to remove it.
+413	Click anywhere to add text, or click existing text on the page to edit it.
+414	Click anywhere to type (Text), add ✓ marks from Forms, and use Sign to add your signature.
+415	Click elements in the left Field Types palette or add signatories on the right to prepare this document.
+416	Click on the page to add a comment note.
+417	Click on the page to place the form field.
+418	Click on the page to place the stamp.
+419	Click on the page to place the symbol.
+420	Click on the page where the image should go.
+421	Click or drag to add a field for the selected signer. Double-click a placed field to edit it.
+422	Click pages below or type, for example 1-3, 7.
+423	Click pages below or type, for example 2, 5-7.
+424	Click the scissors between pages to choose where to split. This makes
+425	Click to Sign
+426	Click to delete this image
+427	Click to draw / sketch
+428	Click to edit this text
+429	Click to remove this area
+430	Click to upload file
+431	Client Approver
+432	Client Name
+433	Client Signature
+434	Client Signer
+435	Client Title
+436	Client shall compensate Contractor in accordance with the payment milestones detailed in the compensation annex. Payments are net-15 terms upon verification of deliverables.
+437	Close
+438	Close Preview
+439	Close business deals faster. Outlines purchase orders, delivery details, pricing schedules, and terms of service.
+440	Cloud Integrations
+441	Cloud Storage Integration
+442	Code resent
+443	Collaboration Policies
+444	Collaborator Role Updated
+445	Collaborators Plan
+446	Collect payment
+447	Collect payments with Stripe
+448	Color
+449	ColorSpace
+450	Combine pages by taking them alternately from each file — ideal for scanned front and back sides.
+451	Combine several PDFs into one, in the order you choose, optionally using only some pages of each.
+452	Combining the parts
+453	Comma-separated
+454	Comment
+455	Comment text
+456	Comments, highlights, stamps and drawings
+457	Company
+458	Company / Brand Name
+459	Company A Representative
+460	Company B Representative
+461	Company Settings
+462	Compare
+463	Compare EZSignNow vs signNow Head-to-Head
+464	Compare PDF
+465	Compare Savings
+466	Compare Security Pricing
+467	Comparing page {0} of {1}
+468	Comparison Guide
+469	Compiling legal audit parameters...
+470	Completed
+471	Completion certificate
+472	Compliance Status Matrix
+473	Compliant & Ready-To-Sign Templates
+474	Compress
+475	Compress PDF
+476	Compression
+477	Confidential copy
+478	Configure VITE_DROPBOX_APP_KEY in your .env for production integration. Running sandbox simulation...
+479	Configure your corporate workspace details and custom branding themes.
+480	Configure your personal profile details and signature presets.
+481	Confirm your email
+482	Connect your workspace with third-party providers for unified file imports and cloud backup storage.
+483	Connected
+484	Connecting to Stripe API secure live servers{0}...
+485	Connecting to Stripe API secure servers...
+486	Connecting to secure payment gateway...
+487	Connecting to {0}...
+488	Connection error
+489	Consent recorded
+490	Consent to electronic records, recorded in the audit trail
+491	Consulting agreement with scope milestones & payment fields.
+492	Contact support
+493	Continue with
+494	Continue with the Free Plan for Now
+495	Contractor Full Name
+496	Contractor Name
+497	Contractor Signature
+498	Contractor Signer
+499	Contractor agrees to perform the consulting services and product development deliverables specified in the Statement of Work attached hereto.
+500	Conversion
+501	Convert
+502	Convert Word documents (.docx) to PDF.
+503	Convert colour pages to black and white, keeping text sharp.
+504	Convert from PDF
+505	Convert pages to images (most reliable, text not selectable)
+506	Convert to PDF
+507	Convert to an editable Word document (.docx).
+508	Converting page {0}
+509	Converting page {0} of {1}
+510	Copied
+511	Copy
+512	Copy Script
+513	Copy link
+514	Copy recipients get the signed document when everyone has signed.
+515	Copy recipients who just get the finished document
+516	Corporate mutual non-disclosure and confidentiality terms.
+517	Could not create the document
+518	Could not download the PDF
+519	Could not encode image
+520	Could not get a download URL from OneDrive. Please try again.
+521	Could not load the Dropbox Chooser library. Please try again.
+522	Couldn't create the PDF
+523	Couldn't load that page: {0}
+524	Couldn't open PDF
+525	Couldn't open document
+526	Couldn't reach the AI service. Check your connection and try again.
+527	Couldn't read this PDF: {0}
+528	Couldn't record your answer
+529	Couldn't resend code
+530	Couldn't save
+531	Couldn't send the email
+532	Courier
+533	Court-Admissible Legal Standings
+534	Cover with
+535	Create An Account
+536	Create Bookmarks
+537	Create Electronic Signature
+538	Create Free Account
+539	Create New Template
+540	Create Password
+541	Create a workflow
+542	Create an account
+543	Create free account
+544	Create workflow
+545	Created
+546	Created on
+547	Created on May 2, 2026
+548	Creating new document copy from "{0}"...
+549	Creator (application)
+550	Critical Issues
+551	Crop
+552	Crop PDF
+553	Cross
+554	Cryptographic Seal Verification
+555	Curated Presets
+556	Cursive Spec
+557	Custom Branding & Logos
+558	Custom Branding logo
+559	Custom Layout
+560	Custom business branding
+561	Custom stamp
+562	Custom stamp…
+563	Custom text
+564	Customize the colors and typography to match your corporate brand guidelines.
+565	Cut
+566	Cut each page into two — for scanned double-page spreads or A3 sheets.
+567	DATE SENT
+568	DEFAULT SIGNING FONT
+569	DESCRIPTION
+570	DIGITAL HASH ID
+571	DISC
+572	DOCUMENT CREATED
+573	DOCUMENT NAME
+574	DOCUMENT SEALED
+575	DRAW YOUR SIGNATURE BELOW
+576	Dancing Script Bold
+577	Dark
+578	Data
+579	Data Encryption
+580	Data Sovereignty
+581	Database Sync Error
+582	Date
+583	Date Picker Box
+584	Date Signed
+585	Date signed
+586	David Vance
+587	Day 4: Trial Reminder
+588	Day {0}: Trial Ends
+589	Decline to sign
+590	Decline to sign?
+591	Decline with a reason
+592	Declined
+593	DecodeParms
+594	Default Blue
+595	Default blue loaded.
+596	Define signatory placeholders and drag input fields onto the reusable layout canvas.
+597	Define the placeholder roles (e.g. Vendor, Approver) that need to fill signature fields.
+598	Delete
+599	Delete (Del)
+600	Delete File
+601	Delete Template
+602	Delete comments, highlights, drawings, links or form fields.
+603	Delete existing image
+604	Delete page
+605	Delete page {0}
+606	Delete this document?
+607	Delete {0}
+608	Deposit Amount
+609	Describe when to use this template layout...
+610	Design Signature
+611	Deskew
+612	Detailed
+613	Detect fields
+614	Detect fields looks for blank lines like ______ in the document text.
+615	Detect headings
+616	Developer Node
+617	Didn't get a code?
+618	Digital Audit Trail & Geolocation
+619	Digital Signature
+620	Digits
+621	Direct signing will launch a high-fidelity handoff gate between each sequential signatory on this screen.
+622	Disconnected
+623	Dispatched fresh verification token to {0} workspace link.
+624	Dispatched fresh verification token to {0}.
+625	Distance from edge
+626	Ditch
+627	Do signers need an EZSignNow account?
+628	DocOpen
+629	Document
+630	Document - white paper, sharp text
+631	Document Owner
+632	Document Preview Area
+633	Document Saved
+634	Document Sealed
+635	Document Sent Successfully!
+636	Document Signed & Secured
+637	Document Signed Successfully!
+638	Document Signing Issue
+639	Document Status
+640	Document Title
+641	Document Viewed
+642	Document comparison
+643	Document deleted
+644	Document file not found
+645	Document filled and legally signed self-service by {0} ({1}).
+646	Document fully signed and certified.
+647	Document generated via EZSignNow Cryptographic Seal Engine. Court-Admissible.
+648	Document language
+649	Document not found
+650	Document opened by owner ({0})
+651	Document opened for signing
+652	Document preview would appear here
+653	Document saved, but the email didn't send
+654	Document sent via EZSignNow Secure Portal
+655	Document sent!
+656	Document signed self-service by {0} ({1}). Verified secure transaction complete.
+657	Document storage path not found
+658	Document successfully saved. Copy each signer's link to invite them.
+659	Document title
+660	Document uploaded!
+661	Documentation & API Guides
+662	Documents
+663	Documents live in private storage and travel over encrypted connections.
+664	Don't have an account?
+665	Don't split these pages
+666	Done
+667	Done!
+668	Dot
+669	Download
+670	Download Audit Receipt
+671	Download Certified PDF
+672	Download Document
+673	Download File
+674	Download PDF
+675	Download all (ZIP)
+676	Download complete!
+677	Download failed
+678	Download the document before signing, or decline with a reason
+679	Download the document to read
+680	Download to read
+681	Downloading the page
+682	Draft
+683	Drag & Place Fields
+684	Drag and drop your PDF here
+685	Drag fields onto the canvas or click them to place them under the currently active role.
+686	Drag on the page to draw the shape.
+687	Drag on the page to mark the area to keep.
+688	Drag over an area of the page to turn it into a link.
+689	Drag over an area to make it a link
+690	Drag over anything you want blacked out. You can add as many areas as you like.
+691	Drag over the area to cover it.
+692	Drag over the text you want to mark.
+693	Drag pages to reorder.
+694	Drag signature, date, text and checkbox fields onto your PDF and assign each one to a signer.
+695	Drag to cover part of the page
+696	Drag your mouse or use your finger/stylus to sign securely on the pad.
+697	Draw
+698	Draw Ink
+699	Draw Signature
+700	Draw a border around each page
+701	Draw cell borders
+702	Draw on Pad with Mouse/Finger
+703	Draw or type signature
+704	Draw or type your signature below to sign this document.
+705	Draw or type your signature. It goes in every signature field that's yours.
+706	Draw over the areas to black out, or enter text to find and redact.
+707	Draw the area to keep
+708	Draw the area to keep on the page preview.
+709	Draw your signature
+710	Draw your signature here
+711	Draw, type or upload it, then click on the page where it should go.
+712	Drawing
+713	Drawing Canvas
+714	Drop CSV here
+715	Drop files here
+716	Drop-down choices
+717	Drop-down list
+718	Dropbox
+719	Dropbox Client (Sandbox Demo)
+720	Dropbox SDK failed to load
+721	Dropbox integration
+722	Dropdown
+723	Due Date
+724	Duplicate
+725	Duplicate page {0}
+726	Dutch
+727	Dynamic Zoho mail relay has sent an active collaborator invite to {0} as "{1}".
+728	Dynamic Zoho mail relay has sent an encrypted {0} invite to {1}.
+729	EIN or SSN
+730	EMAIL ADDRESS
+731	EMAIL ADDRESS (PRIMARY)
+732	ESIGN & UETA Vetted
+733	ESIGN Act
+734	ESIGN Act Disclosure
+735	ESIGN Certified
+736	ESIGN, UETA and eIDAS
+737	EZ-SIGN-NOW COMPLIANCE
+738	EZ-SIGN-NOW TEMPLATES
+739	EZ-Sign Agreement Execution Fee
+740	EZSIGNNOW
+741	EZSign
+742	EZSignNow
+743	EZSignNow (Enterprise)
+744	EZSignNow Blog | Digital Signature Guides & Comparisons
+745	EZSignNow Cost
+746	EZSignNow Customer Support ·
+747	EZSignNow Hub & Resources
+748	EZSignNow Pricing
+749	EZSignNow Wins
+750	EZSignNow dashboard
+751	EZSignNow does not charge expensive corporate overhead. We offer identical compliant signature security, unlimited templates, and geolocations for just $5/mo compared to signNow's $20/mo tiers.
+752	EZSignNow home
+753	EZSignNow is a game-changer! Its signature templates and playground saved our team 20+ hours a week.
+754	EZSignNow signatures are legally binding under the U.S. ESIGN Act and UETA and the EU's eIDAS regulation, with the record to back each one.
+755	EZSignNow |
+756	EZSignNow | Super Simple Free Electronic Signatures
+757	EZSignNow | bank-grade SSL data encryption | certified e-signatures
+758	EZSignNow.
+759	EZSignNow. All rights reserved.
+760	Each file goes through every step in order.
+761	Each signature is stored with the signer's IP address, location and time.
+762	Each signer is emailed when it's their turn. They agree to sign electronically, fill in their fields, and draw or type a signature. No account, no download.
+763	Each {0} field needs at least two options. Double-click it to edit.
+764	Easy for signers, on any device
+765	Edit
+766	Edit & Sign
+767	Edit Metadata
+768	Edit PDF
+769	Edit PDF files: add text, images, links, form fields, signatures and annotations.
+770	Edit Signature
+771	Edit Signature Active
+772	Edit Template
+773	Edit another PDF
+774	Edit in PDF editor
+775	Edit link
+776	Edit one of your documents instead
+777	Editable text (paragraphs and headings)
+778	Effective Date
+779	Electronic Consent Verified Securely
+780	Electronic records and signatures disclosure
+781	Electronic signature validity is universally court-admissible under ESIGN & UETA standards. However, local regulations may require physical signing (wet ink) for high-stakes filings like Wills, Trusts, Divorce Decrees, or Power of Attorney documentations. Always verify local state and county courthouse procedures.
+782	Elegant Script
+783	Elena Rostova
+784	Ellipse
+785	Email
+786	Email Address
+787	Email Header Message
+788	Email Message
+789	Email Resent
+790	Email Response
+791	Email Subject
+792	Email Us
+793	Email addresses
+794	Email not verified
+795	Email verified!
+796	Email when someone signs, declines, or everyone has finished
+797	Email:
+798	Emailed now
+799	Emailed when it's their turn
+800	EmbeddedFiles
+801	Enable Local Signing
+802	EncryptMetadata
+803	Encrypted Payload Digest
+804	Encrypting {0}
+805	Enforce SSO/MFA
+806	Enforcing corporate SSO requires a premium Antigravity enterprise contract.
+807	English
+808	Enter a full web address starting with http:// or https://
+809	Enter a number, like 42 or 1250.50.
+810	Enter a password to open the file, or an owner password for permissions.
+811	Enter a promo code.
+812	Enter a size greater than 0.
+813	Enter a web address, upload an HTML file or paste HTML.
+814	Enter access passcode
+815	Enter header or footer text.
+816	Enter page ranges, for example 1-3, 4-8, 9-.
+817	Enter promo code
+818	Enter the 6-digit code we sent to
+819	Enter the new file name.
+820	Enter the pages to split after (for example 2, 5).
+821	Enter the text to look for.
+822	Enter the verification code sent to {0}, or resend it below.
+823	Enter the watermark text.
+824	Enter your TIN in the appropriate box. The TIN provided must match the name given on line 1 to avoid backup withholding. For individuals, this is generally your social security number (SSN). However, for a resident alien, sole proprietor, or disregarded entity, see the Part I instructions.
+825	Enterprise Policy
+826	Enterprise tier only ($30+/mo)
+827	Envelope generated by owner meets@example.com
+828	Environment Info
+829	Error deleting document
+830	Error loading documents
+831	Error saving
+832	Error signing
+833	Est. Length:
+834	Establish standard operational rules, profit-sharing distributions, and management systems for your business.
+835	European Union eIDAS (No 910/2014)
+836	Evaluating usage limits...
+837	Even
+838	Every N pages
+839	Every signature captured on EZSignNow is court-admissible, fully encrypted at rest and in transit, and sealed with advanced cryptographic hashes to protect your contracts from tampering.
+840	Every signature request, document view, access gate authentication, and signature seal dispatches a permanent, immutable audit trail event. This ensures high court admissibility, capturing essential forensic metadata.
+841	Every signed document comes with a tamper-evident certificate showing who signed, when and from where.
+842	Every signed document has embedded tamper-proof SHA-256 digital signature certificates.
+843	Every transaction step is logged securely down to the exact millisecond using NTP network servers.
+844	Every view, consent, signature and decline is logged, in order.
+845	Everyone gets the link at once and can sign in any order.
+846	Everyone gets the signed copy
+847	Everything in Personal Pro
+848	Everything it takes to get a document signed
+849	Everything you need to work with PDFs. Files are processed in your browser and never uploaded.
+850	Evidence on every signature
+851	Exact look (like a screenshot)
+852	Excel
+853	Excel (.xlsx)
+854	Excel to PDF
+855	Exclusion Scope
+856	Execution Certificate
+857	Existing form fields
+858	Expert insights on e-signature cost optimization, YouTube reviews, migration strategies, and competitive comparison analyses.
+859	Expiration Date
+860	Explicit signer confirmation checkbox required prior to unlocking active document canvases.
+861	Explore PDF tools
+862	Expressive Handwriting
+863	External web address
+864	Extract Images
+865	Extract Pages
+866	Extract all the text into a plain .txt file.
+867	Extreme — convert pages to images (text no longer selectable)
+868	FAQ
+869	FOR REVIEW
+870	FORM NAME
+871	FULL NAME
+872	FULL NAME ON CARD
+873	Failed to communicate with payment gateway.
+874	Failed to create free account
+875	Failed to dispatch signing emails
+876	Failed to download PDF from storage
+877	Failed to download file
+878	Failed to download file from Dropbox
+879	Failed to download file from Google Drive
+880	Failed to download file from OneDrive
+881	Failed to generate certified PDF
+882	Failed to initialize Google login
+883	Failed to initialize Google login.
+884	Failed to initialize standard document template.
+885	Failed to initialize the Google file picker UI.
+886	Failed to prepare document
+887	Failed to resend emails
+888	Failed to retrieve the file from Dropbox.
+889	Failed to retrieve the file from Google Drive.
+890	Failed to retrieve the file from OneDrive.
+891	Feature-by-Feature Showdown
+892	Federal Admissibility
+893	Fetching "{0}" from Dropbox...
+894	Fetching "{0}" from Google Drive...
+895	Fetching "{0}" from OneDrive...
+896	Field
+897	Field Palette
+898	Field Types
+899	Field name
+900	Fields from other signers stay visible and locked
+901	Fields were placed over blank underscore lines. Adjust them as needed.
+902	File Uploader
+903	File name
+904	FileAttachment
+905	Files attached here are embedded inside the PDF.
+906	Fill
+907	Fill color
+908	Fill in PDF forms, or add fillable text fields, checkboxes, drop-downs, radio buttons and signature boxes.
+909	Fill in and sign your own documents in seconds, then download the finished PDF.
+910	Fill in {0} before you finish.
+911	Fillable Fields
+912	Filled in with the signer's name
+913	Filled in with the signing date
+914	Filter
+915	Filter tools
+916	Finalize & Sign
+917	Finalizing signature securely...
+918	Find
+919	Find and redact this text (one per line)
+920	Finding margins on page {0}
+921	Finish Signing
+922	First number
+923	Fit
+924	Flatten
+925	Flip
+926	Font
+927	Font size
+928	FontDescriptor
+929	Fonts
+930	Footer
+931	Footer alignment
+932	For example 1-3, 5, 8- or odd / even. Leave empty for all pages.
+933	For example 2- to skip a cover page.
+934	For freelancers and solo professionals.
+935	For occasional agreements.
+936	For purposes of this Agreement, 'Confidential Information' shall include all information or material that has or could have commercial value or other utility in the business in which Disclosing Party is engaged.
+937	For teams that send every week.
+938	For urgent billing or legal issues, please also call us at
+939	Forensic Metadata capturing
+940	Forensic details compiled successfully.
+941	Form Created
+942	Form edit mode
+943	Form fields
+944	Form fields and annotations
+945	Form fields only
+946	Format
+947	Formatting, images and layout aren't compared in this mode. Use “Visual” to compare how the pages look.
+948	Forms
+949	Forms Library
+950	Forms Library & Templates
+951	Found {0} heading{1}. Review them before saving.
+952	France
+953	Free
+954	Free E-Signable
+955	Free Signable PDF Forms Library & Templates | EZSignNow
+956	Free Trial
+957	Free for your first
+958	Free to start. No card required.
+959	FreeText
+960	Freehand draw
+961	French
+962	Frequently Asked Questions
+963	From my documents
+964	From the Dashboard, click 'New Document' → 'Import files from' and select your cloud provider. Google Drive uses OAuth 2.0, Dropbox uses the Chooser SDK, and OneDrive uses the OneDrive File Picker v7.2.
+965	Full Name
+966	Full compliance with the US ESIGN Act, UETA, and European Union eIDAS standards. Your contracts are fully court-admissible.
+967	Full name
+968	GEOLOCATION STAMPED
+969	GOCSPX-...e75Ky3
+970	GTM YouTube Scripts
+971	General Counsel, Helix Biotech
+972	General Power of Attorney (PoA)
+973	Generating Certified PDF...
+974	Generating PDF...
+975	German
+976	Get Help
+977	Get Your Template Signed by Many
+978	Get a concise summary with the key points of long articles, reports and contracts in seconds.
+979	Get full business capabilities without paying premium legacy markups.
+980	Gets a copy
+981	Give signers the same step and they sign at the same time
+982	Go Pro
+983	Go to Account Settings → Personal Profile and click 'Change Password'. A secure reset link will be sent to your registered email address within 60 seconds.
+984	Go to Dashboard
+985	Go to page {0}
+986	Go-To-Market Center
+987	Goes to page {0}
+988	Google
+989	Google API not loaded
+990	Google Auth Error
+991	Google Client Library not loaded
+992	Google Drive
+993	Google Drive integration
+994	Google authorization was unsuccessful.
+995	Google client API script is still loading. Please try again in a moment.
+996	Google provider is not enabled in your backend.
+997	Got it
+998	Granted Powers Scope
+999	Grayscale
+1000	Great Vibes Cursive
+1001	Group
+1002	GsGray
+1003	Guaranteed secure 256-bit SSL transaction processed via Stripe Gateway.
+1004	HARVARD
+1005	HARVARD Law Review
+1006	HIPAA & GDPR Privacy Protection
+1007	HIPAA Aligned
+1008	HIPAA Privacy Rule Alignment
+1009	HR & Employment
+1010	HR & Hiring
+1011	HTML to PDF
+1012	Hand one device from signer to signer
+1013	Harvard
+1014	Have an account?
+1015	Header
+1016	Header & Footer
+1017	Header alignment
+1018	Heavy check
+1019	Heavy cross
+1020	Height
+1021	Helvetica
+1022	Helvetica / Arial
+1023	Helvetica, Arial, 'Liberation Sans', sans-serif
+1024	Hi
+1025	Hide annotations
+1026	High Performer
+1027	Highlight
+1028	Hindi
+1029	Hold and drag to draw freehand.
+1030	Home
+1031	Home slides
+1032	Horizontally (mirror left–right)
+1033	Horizontally (top and bottom halves)
+1034	Hourly Rate / Fee
+1035	How can we help you?
+1036	How do I connect Google Drive, Dropbox, or OneDrive?
+1037	How do I reset my signing password?
+1038	How does EZSignNow ensure my documents cannot be tampered with?
+1039	How does the digital audit certificate work?
+1040	How long are signed documents stored?
+1041	How to migrate your active templates from signNow in under 5 minutes
+1042	How to split
+1043	How we keep documents safe
+1044	How your free trial works
+1045	I accept the
+1046	I agree to use electronic records and signatures for this document.
+1047	I am
+1048	I'm not a robot
+1049	IN WITNESS WHEREOF
+1050	IP Geolocation Resolving
+1051	IP Ownership Assignment
+1052	IP:
+1053	IP: 192.168.1.72 | New York, US
+1054	Image
+1055	Image too large
+1056	Image width (% of page)
+1057	Images
+1058	Import Error
+1059	Import Successful
+1060	Import failed
+1061	Import files from:
+1062	Import from Cloud
+1063	Importing "{0}" layout into active Template Builder...
+1064	Importing file...
+1065	In order or at once
+1066	In witness whereof, the placeholders placed below signify dynamic legal consent zones.
+1067	In-Person Kiosk Mode
+1068	In-Person Kiosk Session Complete
+1069	In-person kiosk signing
+1070	In-person signing on one device with kiosk mode
+1071	Included
+1072	Included ($5/mo plan)
+1073	Included Free
+1074	Incomplete Fields
+1075	Incorrect passcode. Please verify and try again.
+1076	Incredibly smooth mobile signatures. Our clients sign agreements in seconds on their smartphones.
+1077	Indent
+1078	Independent Contractor
+1079	Independent Contractor Agreement
+1080	Independent Contractor Agreement Loaded
+1081	Independent Contractor Agreement.pdf
+1082	Independent Contractor Contract
+1083	Indonesian
+1084	Initializing Document
+1085	Initials
+1086	Ink
+1087	InkList
+1088	Insert blank page after
+1089	Insert blank page after {0}
+1090	Insert page here
+1091	Instantiate Failed
+1092	Instantiating interactive document canvas...
+1093	Integrations
+1094	Integrity Verified: Untampered PDF Payload
+1095	Intent & Consent
+1096	Inter
+1097	Interactive Fields
+1098	Interactive Signature Playground
+1099	Interface style switched to {0} mode.
+1100	Internal Admin
+1101	Into page ranges
+1102	Invalid Email
+1103	Invalid Passcode
+1104	Invalid URL
+1105	Invalid file type
+1106	Invitation Re-sent
+1107	Invitation Resent
+1108	Invitation Revoked
+1109	Invitation Sent
+1110	Invitations resent!
+1111	Invitations sent to {0} signer(s).
+1112	Invitations went to the signers whose turn it is. Each signer has their own link, which you can also copy and share yourself:
+1113	Invite Collaborator
+1114	Invited via direct link
+1115	Is it easy to migrate my templates from signNow to EZSignNow?
+1116	Is my uploaded document secure?
+1117	It is understood by the parties that Contractor is an independent contractor with respect to the Client, and not an employee of the Client. Client will not provide fringe benefits, including health insurance benefits, paid vacation, or any other employee benefit, for the benefit of Contractor.
+1118	It isn't your turn to sign
+1119	Italian
+1120	Italic
+1121	JPG (smaller)
+1122	JPG quality
+1123	JPG to PDF
+1124	Jane Smith
+1125	Japan
+1126	Japanese
+1127	JavaScript
+1128	Joe Thomas
+1129	John Doe
+1130	Join lines into paragraphs
+1131	Jordan Lee
+1132	Julius Sterling, Legal Tech Lead
+1133	KB
+1134	Keep
+1135	Keep a border of
+1136	Keep exact layout (pages as pictures)
+1137	Keep size and continue on more pages
+1138	Keep the original lines
+1139	Keep {0}
+1140	Key points
+1141	Keywords (comma separated)
+1142	Kiosk Handoff Screen
+1143	Kiosk mode
+1144	Know where every document stands
+1145	Korean
+1146	LERNER & ROWE
+1147	LERNER&ROWE
+1148	LLC Operating Agreement
+1149	Label
+1150	Landlord Name
+1151	Landscape
+1152	Large
+1153	Largest tilt to correct
+1154	Last 30 days
+1155	Last 7 days
+1156	Last updated 1 week ago
+1157	Last updated 3 days ago
+1158	Last updated {0}
+1159	Lat: {0}, Lon: {1}
+1160	Layer
+1161	Laying out {0}
+1162	Layout Framework Loaded
+1163	Leader Spring 2026
+1164	Learn More
+1165	Learn about the legally binding electronic signature compliance, cryptographic document seals, bank-grade encryption, and secure geolocations auditing that powers EZSignNow.
+1166	Lease Term
+1167	Leave empty if the file opens without one but has restrictions.
+1168	Left
+1169	Left to right, then down
+1170	Legacy electronic signature suites have stopped innovating while raising prices. Legal firms are discovering that paying $20+/mo per seat for signNow is a massive operational drain, especially when alternatives like EZSignNow provide faster cryptoseals, unlimited envelopes, and identical compliance safeguards for just $5/mo.
+1171	Legal & Compliance
+1172	Legal & Corporate
+1173	Legal Compliance
+1174	Legal template delegating authority to a designated agent to manage financial affairs, real estate, and corporate signings.
+1175	Legally Compliant ESIGN & eIDAS
+1176	Legally binding mutual confidentiality contract for two organizations sharing proprietary business data, trade secrets, or code.
+1177	Legally binding signatures
+1178	Length
+1179	Lerner & Rowe
+1180	Let members view & use saved templates.
+1181	Lets you change permissions later. Defaults to the open password.
+1182	Light
+1183	Light Calligraphy
+1184	Light — best quality
+1185	Limited Deal
+1186	Line
+1187	Line Items & Total
+1188	Line breaks
+1189	Line width
+1190	Link
+1191	Link Copied
+1192	Link for {0} copied
+1193	Links
+1194	Live Audit Event Dispatcher
+1195	Live Mode Autopopulated
+1196	Live chat for Pro plans
+1197	Loaded 3 recipients from list.
+1198	Loaded {0} existing bookmark{1}.
+1199	Loading document preview...
+1200	Loading documents...
+1201	Loading the text recognition engine (first use downloads ~10 MB)
+1202	Loading…
+1203	Local Sandbox
+1204	Logged: Sydney, AU. IP: 202.14.152.12
+1205	Logo Preview
+1206	Logout
+1207	Logs signer operating systems, browser engines, network carriers, and reference paths.
+1208	London
+1209	Look
+1210	Looking for images on page {0}
+1211	Loved by teams that value
+1212	MB
+1213	MC
+1214	MIGRATION PROMISE
+1215	MM / YY
+1216	MMM d, yyyy
+1217	MMMM d
+1218	MMMM d, yyyy
+1219	MOCK SIGNATURE PREVIEW
+1220	Main
+1221	Make form fields and annotations part of the page so they can't be changed.
+1222	Make scanned PDFs searchable and selectable by recognising their text.
+1223	Manage Documents
+1224	Manage Plan
+1225	Manage plan
+1226	Manage team members, roles, and collaboration settings.
+1227	Manager
+1228	Manager (Review team records)
+1229	Marcus Thorne
+1230	Margin
+1231	Margin to add
+1232	Mark where each page starts
+1233	Market Analysis
+1234	Master services agreement
+1235	Match case
+1236	Mathematical Hash Alg
+1237	Matrix
+1238	Maximum size per file
+1239	May 15, 2026
+1240	May 20, 2026
+1241	May 24, 2026
+1242	Maya Chen
+1243	Measuring pages from {0}
+1244	Medium
+1245	Meets User
+1246	Member
+1247	Member (Create & send documents)
+1248	Member Removed
+1249	Member Terminated
+1250	Merge
+1251	Merge PDF
+1252	Message / Query Details
+1253	Message for Signers (Optional)
+1254	Metadata
+1255	Microsoft SDK is still loading. Running a sandbox simulation instead.
+1256	Migrate from signNow in Under 5 Minutes
+1257	Millisecond Cert & IP Track
+1258	Millisecond IP & Geolocation Auditing
+1259	Minimum 6 characters
+1260	Minimum role required
+1261	Mirror pages horizontally or vertically.
+1262	Missing Details
+1263	Missing fields
+1264	Mobile Device Safari
+1265	Modern
+1266	Modern Cursive
+1267	Modern Script
+1268	Modified
+1269	Month {0}: Trial Ends
+1270	Monthly
+1271	Monthly Cost (per user)
+1272	Monthly Rent Amount
+1273	Monthly Request Limit Reached
+1274	Monthly Saved
+1275	Mon–Fri · 9am – 6pm EST
+1276	More text tools
+1277	More than signatures
+1278	Most Implementable
+1279	Most popular
+1280	Move down
+1281	Move left
+1282	Move page {0} earlier
+1283	Move page {0} later
+1284	Move right
+1285	Move step down
+1286	Move step up
+1287	Move up
+1288	Move {0} down
+1289	Move {0} up
+1290	Multiple senders
+1291	Must be a valid HTTP URL
+1292	Mutual Non-Disclosure Agreement (NDA)
+1293	My workflow
+1294	NARRATIVE SCRIPTLINE
+1295	NDA Agreement for Signing
+1296	NDA Template Loaded
+1297	NTT Docomo
+1298	Name
+1299	Name files after the line containing the text
+1300	Name files after their number range
+1301	Name of {0}
+1302	Name,Email Alice Vance,alice.vance@corp.com Bob Vance,bob.vance@corp.com Charles Vance,charles.vance@EZSignNow.com
+1303	Names
+1304	NavLink
+1305	Need to collect signatures yourself? Join millions using
+1306	Needs to sign
+1307	Neither file has selectable text. Run OCR on them first, or choose the Visual comparison.
+1308	New
+1309	New York
+1310	New document
+1311	New image
+1312	New initials
+1313	New name
+1314	New signature
+1315	New stamp
+1316	Next
+1317	Next page
+1318	Next slide
+1319	No audit logs captured yet.
+1320	No blank lines found
+1321	No bookmarks yet. Add them one by one or detect headings automatically.
+1322	No comparison articles found
+1323	No copyright, use freely
+1324	No description provided.
+1325	No destination yet
+1326	No differences found in the text.
+1327	No documents found
+1328	No documents found.
+1329	No fields
+1330	No file was selected.
+1331	No files attached yet.
+1332	No headings were found (no text larger than the body text).
+1333	No images were found in this PDF.
+1334	No matches found.
+1335	No pending envelopes
+1336	No settings needed.
+1337	No signer accounts
+1338	No signers
+1339	No slides were found in {0}.
+1340	No template forms found
+1341	No text was found in this PDF. If it's a scan, run OCR first.
+1342	No. Signers receive a unique signing link via email and can complete the signature directly in their browser — no account or app download required.
+1343	Nobody on this document is waiting to sign.
+1344	Nobody to remind
+1345	Non-Disclosure Agreement (NDA)
+1346	Non-Disclosure Agreement (NDA).pdf
+1347	Non-disclosure template with dual signature panels.
+1348	None
+1349	Normal
+1350	Not emailed
+1351	Notary Seal
+1352	Nothing matched, so nothing was redacted. Check the spelling, or draw over the area instead.
+1353	Nothing to process.
+1354	Notifications and reminders
+1355	Now
+1356	Now add signatories and fields to your document.
+1357	Number
+1358	Number of Active Users / Team Seats
+1359	Number your pages, choosing position, style and where to start.
+1360	Numbers only
+1361	OAuth Login
+1362	OCR PDF
+1363	OR
+1364	OTP Verification Sent
+1365	ObjStm
+1366	OcrF
+1367	Odd
+1368	On
+1369	On every signed PDF
+1370	Onboarding Error
+1371	One Drive
+1372	One Drive integration
+1373	One PDF per image
+1374	OneDrive
+1375	OneDrive Cancelled
+1376	OneDrive Error
+1377	OneDrive SDK loading...
+1378	Online Forms
+1379	Online PDF editor
+1380	Only applies to the text search. Leave empty for all pages.
+1381	Oops! Page not found
+1382	Opacity
+1383	Open by showing a physical receipt with '$240/year' on it, then rip it up in front of the camera.
+1384	Open document
+1385	OpenAction
+1386	Opening document…
+1387	Operations Lead, Apex Digital
+1388	Optimising images ({0} of {1} objects)
+1389	Optimising {0}
+1390	Optimize PDF
+1391	Option 1
+1392	Option 2
+1393	Option 3
+1394	Option {0}
+1395	Optional
+1396	Options
+1397	Options, one per line Yes No
+1398	Or
+1399	Or click the scissors between pages below.
+1400	Or paste HTML
+1401	Or upload an .html file / paste HTML below.
+1402	Orange SA
+1403	Order
+1404	Organize PDF
+1405	Orientation
+1406	Original colours
+1407	Original: {0} ({1} page{2})
+1408	Other
+1409	Our Support SLA
+1410	Outdent
+1411	Outlines
+1412	Output
+1413	OutputIntent
+1414	Over the content
+1415	Owner
+1416	Owner password (optional)
+1417	PART I: TAXPAYER IDENTIFICATION NUMBER (TIN)
+1418	PART II: CERTIFICATION
+1419	PASSCODE VERIFIED
+1420	PDF Forms
+1421	PDF Intelligence
+1422	PDF Security
+1423	PDF copy securely mirrored in cloud storage slot.
+1424	PDF files are sealed with secure SHA-256 hash digests dynamically, locking modifications.
+1425	PDF to Excel
+1426	PDF to JPG
+1427	PDF to Markdown
+1428	PDF to PDF/A
+1429	PDF to PowerPoint
+1430	PDF to Text
+1431	PDF to Word
+1432	PDF tools
+1433	PDF/A-2b (recommended)
+1434	PENDING EMAIL
+1435	PNG (lossless)
+1436	PUBLIC SHARE LINK
+1437	Pacifico
+1438	Pacifico Regular
+1439	Page
+1440	Page 1
+1441	Page 1 of 1
+1442	Page 1 of 10
+1443	Page in this document
+1444	Page number (1–
+1445	Page overview
+1446	Page size
+1447	Page {0}
+1448	Page {0} is {1} MB on its own, so its file is over the limit. Compress the PDF first to make it smaller.
+1449	Page {0}: only in the original file
+1450	Page {0}: only in the revised file
+1451	Page {0}: {1}
+1452	Pages
+1453	Pages of {0}
+1454	Pages per file
+1455	Pages per sheet
+1456	Pages to delete
+1457	Pages to extract
+1458	Pages to number
+1459	Pages to take from each file per turn
+1460	Paid secure deposit of ${0}.
+1461	Palette Applied
+1462	Palette Colors
+1463	Paragraphs
+1464	Paris
+1465	Part {0}
+1466	Passcode successfully verified. Document unlocked.
+1467	Passcode:
+1468	Password
+1469	Password to open the file
+1470	Pay $
+1471	Payment Approved!
+1472	Payment processing failed
+1473	Payments are secure and encrypted
+1474	Pen width
+1475	Pending Collaborator Invitations (
+1476	Perfect for onboarding freelance developers, writers, or consultants. Outlines milestones, hourly rates, and IP rights.
+1477	Permanently black out text and areas - draw over them, or find names, numbers and emails automatically.
+1478	Perms
+1479	Personal Information
+1480	Personal Pro
+1481	Phone Support
+1482	Phone numbers
+1483	Photograph paper pages with your phone or camera and get a clean, scanner-style PDF.
+1484	Pick a PDF you've already uploaded to EZSignNow.
+1485	Pick one option from a list
+1486	Pick pages to copy into a new PDF.
+1487	Picker Error
+1488	PieceInfo
+1489	Pinyon Script
+1490	Place at least one field for {0}.
+1491	Place stamp
+1492	Placeholder
+1493	Placing fields for
+1494	Platform Uptime
+1495	Please add at least one field for signing.
+1496	Please add your initials
+1497	Please add your payment details to start the free trial.
+1498	Please check the reCAPTCHA box to confirm you are not a robot.
+1499	Please check the reCAPTCHA box to verify you are a human.
+1500	Please choose an image under 15 MB.
+1501	Please click the link inside the email to activate your account and access your dashboard.
+1502	Please complete all active required signature and input fields.
+1503	Please complete all billing fields.
+1504	Please confirm your email address via the link sent to your inbox.
+1505	Please describe your issue in detail — include any error messages, steps to reproduce, or screenshots links if available...
+1506	Please do not refresh or close this window.
+1507	Please draw or type your {0} first.
+1508	Please draw your signature in the canvas pad before completing signup.
+1509	Please draw your signature in the space provided.
+1510	Please enter a valid email address.
+1511	Please enter your name, email and accept ESIGN Act consent.
+1512	Please fill in all required fields before submitting.
+1513	Please fill out all payment details.
+1514	Please hand this device over to
+1515	Please place at least one signature or form field on the canvas.
+1516	Please provide a signature
+1517	Please select a template, upload a CSV list, and fill in the title.
+1518	Please sign in to use AI tools.
+1519	Please specify a name for this template.
+1520	Please try again in a moment.
+1521	Please type your signature name to preview and save.
+1522	Please upload a PDF file
+1523	Please upload a valid CSV list file
+1524	Polish
+1525	PolyLine
+1526	Polygon
+1527	Popup
+1528	Portrait
+1529	Portuguese
+1530	Position
+1531	PowerPoint
+1532	PowerPoint (.pptx)
+1533	PowerPoint to PDF
+1534	Powered by
+1535	Predictor
+1536	Prefix
+1537	Premium
+1538	Prepare Document
+1539	Prepare a PDF for long-term archiving (PDF/A): colour profile, metadata and no scripts.
+1540	Prepare for sharing
+1541	Preparing bulk distribution template...
+1542	Preparing...
+1543	Preview
+1544	Previous page
+1545	Previous slide
+1546	Pricing
+1547	Primary Color
+1548	Principal Name
+1549	Print several pages on one sheet (2, 4, 6, 8, 9 or 16 per sheet).
+1550	Priority
+1551	Priority Support 24/7
+1552	Private storage
+1553	Priya Raman
+1554	Proceed to Sign In
+1555	Processing Bulk Send Dispatch
+1556	Processing Subscription
+1557	Processing objects ({0} of {1})
+1558	Processing...
+1559	Producer
+1560	Professional billing template with signature sign-off fields for secure vendor approvals, payment confirmations, and auditing records.
+1561	Profile
+1562	Promo code
+1563	Property Address
+1564	Protect PDF
+1565	Protect sensitive intellectual property, client assets, and proprietary information before business discussions.
+1566	Protect sensitive legal documents with dynamic 6-digit access codes.
+1567	Protected Health Info (PHI)
+1568	Public URL loaded into clipboard.
+1569	Publish Active Link
+1570	Publish open links that anyone can visit, fill out details, and legally sign on their browser.
+1571	Pull tables and text into an Excel spreadsheet (.xlsx).
+1572	Put all pages on one sheet
+1573	QbjStm
+1574	QuadPoints
+1575	Queries global network carrier coordinates to record the precise city and coordinates of the signatory.
+1576	Questions, answered
+1577	Quick Form Generator
+1578	Quick Resources
+1579	RESPONSES
+1580	ROI & Cost Comparison
+1581	Radio
+1582	Radio Buttons
+1583	Radio button
+1584	Radio buttons
+1585	Radio group
+1586	Radio value
+1587	Ranges (one file each)
+1588	Reach our team by phone, email, or submit a support ticket below. We're here to ensure your signing experience is seamless.
+1589	Read Article
+1590	Read Migration Guide
+1591	Read expert guides on electronic signatures, legal tech compliance, and step-by-step tutorials to migrate your templates from signNow to EZSignNow.
+1592	Read the note on the right and tick the box to continue.
+1593	Reading CSV recipient contacts list...
+1594	Reading fields…
+1595	Reading page {0}
+1596	Reading page {0} of {1}
+1597	Reading tables on page {0}
+1598	Reading {0}
+1599	Reading {0}, page {1} of {2}
+1600	Ready to edit "{0}"
+1601	Ready to migrate but worried about rebuilding dozens of templates? This guide details how our automated PDF template layout engine ingests signNow structure files and recreates all signature field overlays in seconds, making your transition seamless.
+1602	Ready to put these features to the test?
+1603	Ready to sign or distribute?
+1604	Ready-to-record scripts for marketing reviews. Copy the outlines below to produce engaging, organic comparative reviews.
+1605	Real Estate
+1606	Real Estate & Rental
+1607	Real Estate Agent, Premium Properties
+1608	Reason for declining
+1609	Rebuild damaged or hard-to-open PDF files.
+1610	Rebuilding {0}
+1611	Rebuilding {0} from page images
+1612	Receives a copy
+1613	Receiving Party shall hold and maintain the Confidential Information in strictest confidence for the sole and exclusive benefit of the Disclosing Party. Receiving Party shall carefully restrict access to Confidential Information to employees, contractors, and third parties as is reasonably required.
+1614	Recent
+1615	Recent documents
+1616	Recipient
+1617	Recipients
+1618	Recipients (
+1619	Recognising text… {0}%
+1620	Recommended — good quality, smaller file
+1621	Rect
+1622	Rectangle
+1623	Redact
+1624	Redact PDF
+1625	Redacted {0} area{1} on {2} page{3}. Those pages are now pictures, so their text can't be selected — run OCR afterwards if you need that. Bookmarks and document properties were not carried over.
+1626	Redirecting to Dashboard...
+1627	Reduce file size by optimising images and removing unneeded data.
+1628	Registering Stripe Customer & Active Subscription...
+1629	Registering signatory credentials...
+1630	Relationship
+1631	Remember on this device
+1632	Remind the people whose turn it is with one click
+1633	Reminder sent to {0}.
+1634	Remove
+1635	Remove Pages
+1636	Remove annotations
+1637	Remove field
+1638	Remove hidden XMP metadata
+1639	Remove pages you don't need.
+1640	Remove saved signature
+1641	Remove step
+1642	Remove the password and restrictions from a PDF you have the password for.
+1643	Remove this area
+1644	Remove white margins automatically
+1645	Remove {0}
+1646	Removed {0} workspace authorization privileges.
+1647	Rename
+1648	Rename or remove the fillable fields this PDF already has.
+1649	Rendering PDF pages...
+1650	Rendering slide {0}
+1651	Rendering the page
+1652	Reorder, rotate, duplicate, delete and insert pages — from one or several PDFs.
+1653	Repair PDF
+1654	Repeat across the page
+1655	Repeat password
+1656	Replace all
+1657	Replace with
+1658	Replaced {0} match{1}.
+1659	Replaces matching text on every page. Each match is covered and rewritten in a similar font.
+1660	Request Signatures
+1661	Require Payment
+1662	Require multi-factor login for all members.
+1663	Required
+1664	Required Signatures Pending
+1665	Requires Integration Upgrades
+1666	Resend Invitations
+1667	Resend Link
+1668	Resend Verification Email
+1669	Resend code
+1670	Resend failed
+1671	Reset
+1672	Reset Defaults
+1673	Residential Lease Agreement
+1674	Resize
+1675	Resize by
+1676	Resolution
+1677	Response within 4 hours
+1678	Restricted / Volume Caps
+1679	Return Home
+1680	Return to Home
+1681	Returned to the classic EZSignNow brand colors and defaults.
+1682	Returned to the free sandbox plan.
+1683	Reusable Layout
+1684	Reusable Templates
+1685	Reverse
+1686	Reverse order
+1687	Review & Send
+1688	Revised: {0} ({1} page{2})
+1689	Revoke Invite
+1690	Right
+1691	Right half comes first (right-to-left books)
+1692	Role Fields
+1693	Role Updated
+1694	Role limit reached
+1695	Rotate
+1696	Rotate PDF
+1697	Rotate left
+1698	Rotate page {0} left
+1699	Rotate page {0} right
+1700	Rotate right
+1701	Rotate some or all pages. Click pages below to rotate them one by one.
+1702	Route a contract through several signers in a set order and see who has signed in real time.
+1703	Royal Purple
+1704	Royal purple loaded.
+1705	Run workflow
+1706	Russian
+1707	SCENE HOOK
+1708	SECURE
+1709	SHA-256 Cryptographic Digest
+1710	SHA-256 cryptographic seal applied dynamically
+1711	SIGNATORY EMAIL
+1712	SIGNNOW
+1713	SOC 2 Type II Security Standard
+1714	SSL/TLS Transit
+1715	STANDARD DIGITAL DOCUMENT
+1716	STANDARD TEMPLATE OUTLINE
+1717	STATUS
+1718	Sacramento
+1719	Sacramento Cursive
+1720	Sales Contract & Order Form
+1721	Same as image
+1722	Same as original
+1723	Same as photo
+1724	Same language as the document
+1725	Sandbox
+1726	Sarah Jenkins
+1727	Satisfies Advanced Electronic Signature requirements across all EU member states.
+1728	Saturation
+1729	Save
+1730	Save 20%
+1731	Save Branding Layout
+1732	Save Changes
+1733	Save Template Layout
+1734	Save a web page or HTML file as a PDF.
+1735	Save documents you send often as reusable templates and send them again in one click.
+1736	Save draft
+1737	Save each page as a separate file
+1738	Save every picture inside the PDF as an image file.
+1739	Save fields setup for repeat sends.
+1740	Save link
+1741	Save time by keeping reusable document forms with signature fields pre-configured.
+1742	Save to my documents
+1743	Save workflow
+1744	Saved initials
+1745	Saved signature
+1746	Saved to your documents
+1747	Saving Details...
+1748	Scan to PDF
+1749	Scans
+1750	Scope of Work Description
+1751	Script outline copied to clipboard!
+1752	Seamless payment gates and picker imports included with zero complex setups.
+1753	Search all PDF tools
+1754	Search and filter your documents
+1755	Search comparison articles...
+1756	Search documents
+1757	Search templates (e.g. W-9, NDA, lease, contract fields)...
+1758	Search these pages
+1759	Search tools
+1760	Search, preview, and sign dozens of standard IRS, legal, real estate, and HR templates online. Switch from signNow and sign contracts instantly.
+1761	Searching page {0}
+1762	Secondary Color
+1763	Secure 6-digit code routed via Zoho SMTP relay.
+1764	Secure Deposit Checkout
+1765	Secure Document Access
+1766	Secure Document Signing
+1767	Secure Keys
+1768	Secure Live Preview
+1769	Secure Passcode / SMS Access
+1770	Secure SSL Tunnel Active | Forensic Audit Log Activated
+1771	Secure SSL Upload | Max size 15MB
+1772	Secure Self-Service Signing
+1773	Secure Stripe Elements test card (4242) loaded.
+1774	Secured and audit-logged
+1775	Security
+1776	Security & Compliance Center
+1777	Security & Legal Compliance Standards | EZSignNow
+1778	Security Architecture
+1779	Security Gateway Authorization
+1780	Security Verification Required
+1781	Security, Trust, and
+1782	See how we compare
+1783	See how we provide a more compliant, modern, and cost-effective digital e-signing experience.
+1784	See where every document stands and who it's waiting on.
+1785	See whose turn it is and who has signed
+1786	See why operations, legal, and engineering teams switch to EZSignNow to sign and audit secure PDF agreements in seconds.
+1787	Select a category...
+1788	Select a role card above before dragging or clicking elements from the field palette. This assigns the newly placed field to that specific signatory placeholder automatically!
+1789	Select all
+1790	Select an item to move, resize or change it. Choose a tool above to add something new.
+1791	Select custom signature box, date picker, checkbox, or text field placeholders and map them to specific signatories with dynamic tint colors.
+1792	Select your default cursive script fonts below.
+1793	Select your method of electronic execution
+1794	Selectable text (simple layout)
+1795	Seller Company
+1796	Send
+1797	Send Invitation
+1798	Send a document for signature
+1799	Send a document to one or more people and get it signed from any device, no account needed for signers.
+1800	Send a signature request to a group of people all at once. Just upload a CSV file with names and email addresses.
+1801	Send as many signature requests as your legal business needs without overage fees.
+1802	Send for signature
+1803	Send your first document in minutes
+1804	Sending custom signature copy to Alice Vance (alice.vance@corp.com)...
+1805	Sending custom signature copy to Bob Vance (bob.vance@corp.com)...
+1806	Sending custom signature copy to Charles Vance (charles.vance@EZSignNow.com)...
+1807	Sent with EZSignNow
+1808	Set link
+1809	Set signing order
+1810	Sets up signature overlays dynamically on import.
+1811	Settings
+1812	Settings Saved ✅
+1813	Shapes
+1814	Share & Earn
+1815	Share & Earn Copied!
+1816	Share with others
+1817	Shared Library
+1818	Shared team templates
+1819	Sheet margin
+1820	Sheet size
+1821	Sheet {0}
+1822	Sheet “{0}”
+1823	Short - about 3 sentences
+1824	Show a close-up of a court-admissible Digital Audit Certificate on a dual screen setup.
+1825	Show annotations
+1826	Shrink to fit the page width
+1827	Sig
+1828	Sign
+1829	Sign & Download Certified PDF
+1830	Sign Document
+1831	Sign In
+1832	Sign In here
+1833	Sign PDF
+1834	Sign Up with Google
+1835	Sign Yourself
+1836	Sign any PDF online with a legally binding electronic signature. Draw, type or upload your signature.
+1837	Sign documents by yourself or send for signature. Unlimited # of documents.
+1838	Sign from any device
+1839	Sign here
+1840	Sign in
+1841	Sign in person
+1842	Sign in person on this device
+1843	Sign up
+1844	Sign up in seconds. No credit card required, unlimited sends.
+1845	Sign yourself or fill in a form. To collect signatures from other people, start a new document instead.
+1846	Signable Commercial Invoice
+1847	Signatories must pay this amount via Stripe to finalize signature.
+1848	Signatory Roles
+1849	Signatory authenticated successfully using 2FA OTP code
+1850	Signature
+1851	Signature Affixed
+1852	Signature Applied
+1853	Signature Config
+1854	Signature Field
+1855	Signature Name Required
+1856	Signature Place
+1857	Signature Request: {0}
+1858	Signature Required
+1859	Signature box
+1860	Signature drawing empty
+1861	Signature placed beautifully on the document canvas.
+1862	Signature preview
+1863	Signature recorded! Preparing for {0}...
+1864	Signature style
+1865	Signature ·
+1866	Signature, initials, name, date, text, number, checkbox, dropdown, radio
+1867	SignaturePad
+1868	Signatures
+1869	Signatures that hold up
+1870	Signed
+1871	Signed digitally. Fingerprint: {0}...
+1872	Signer
+1873	Signer Flow Progress
+1874	Signer Name
+1875	Signer Role
+1876	Signer Role 1
+1877	Signer Role {0}
+1878	Signer for this field
+1879	Signer opened doc. IP: {0} ({1})
+1880	Signer's initials
+1881	Signers draw their signature on any device. Once all parties complete, download a digitally certified PDF with legal geolocation metadata.
+1882	Signers get their own link
+1883	Signers go one step at a time. Give two signers the same step number to have them sign at the same time.
+1884	Signers in step 1 are emailed now. Each later step is emailed when the step before it is finished.
+1885	Signers never pay and never need an account.
+1886	Signing Order
+1887	Signing as
+1888	Signing as {0}
+1889	Signing in order
+1890	Signing order and copy recipients
+1891	Signing step for {0}
+1892	Signing that follows your process
+1893	Simple pricing, per sender
+1894	Simulated a file import from {0}.
+1895	Simulating a verification link re-sent to {0}.
+1896	Sketch or draw diagrams
+1897	Sketch saved
+1898	Skip images smaller than
+1899	Skip pages that already have text
+1900	Slide {0} of {1}
+1901	Small
+1902	Social Security Number / EIN
+1903	Social Security numbers
+1904	Some characters were replaced
+1905	Some signers have no fields
+1906	Something went wrong
+1907	Something went wrong sending the email. Use Options → Copy Direct Sign Link to share manually.
+1908	Something went wrong: {0}
+1909	Sound
+1910	Spanish
+1911	Split
+1912	Split PDF
+1913	Split a PDF into several files: every N pages, after chosen pages, or by ranges.
+1914	Split after pages
+1915	Split by bookmarks
+1916	Split by size
+1917	Split by text
+1918	Split in half
+1919	Split into files no bigger than a size limit (for email attachments).
+1920	Spot what changed between two versions of a document - in the text, or visually page by page.
+1921	Square
+1922	Squiggly
+1923	Stamp
+1924	Stamp color
+1925	Stamp sequential legal reference numbers across one or more documents.
+1926	Stamp text
+1927	Stamp text or an image across pages.
+1928	Standard
+1929	Standard IRS tax form used to certify a taxpayer identification number (TIN) for freelance contractors and vendors.
+1930	Standard NDA
+1931	Standard Trails
+1932	Standard corporate legal transaction agreement layout.
+1933	Standard real estate rental lease contract establishing tenancy conditions, monthly rental payments, and security deposits.
+1934	Standard self-service signature pipeline framework created under crypto-seal protection inside EZSignNow.
+1935	Standard tax identification form pre-arranged.
+1936	Standard templates support up to 5 signatory placeholder roles.
+1937	Star
+1938	Start 7-Day Business Trial
+1939	Start My
+1940	Start Signing Free Now
+1941	Start a new file at each bookmark (chapter) and name files after them.
+1942	Start a new file on every page containing some text, like “Invoice No.”
+1943	Start at
+1944	Start free
+1945	Start free trial
+1946	Start from:
+1947	Start kiosk mode
+1948	Start over
+1949	Start trial
+1950	State Farm
+1951	StateFarm
+1952	StateFarm Legal
+1953	Static text label
+1954	Status
+1955	Status for every document: draft, awaiting signature, declined, completed
+1956	Status:
+1957	Step
+1958	Step 1
+1959	Step 2
+1960	Step 2: Save Signature & Account Registration
+1961	Step {0}
+1962	StmF
+1963	Stop Overpaying signNow Today
+1964	Stop overpaying for standard document templates and cryptographic sealings. Invest this capital back into your business growth.
+1965	StrF
+1966	Straighten crooked scanned pages automatically.
+1967	Strict Protections for High-Stakes Operations
+1968	Strike out
+1969	StrikeOut
+1970	Stripe & App Integrations
+1971	Stripe Checkout
+1972	Stripe Live Connected
+1973	Stripe Payment Declined: Card invalid. Please use a card number starting with '4242' for test mode.
+1974	Stripe Subscription Activated!
+1975	Stripe live sandbox key loaded. Press start trial to execute live transaction.
+1976	Strong — smallest while keeping text
+1977	Style
+1978	Subject
+1979	Submit Another Ticket
+1980	Submit Support Request
+1981	Submit a Support Ticket
+1982	Submitting Ticket...
+1983	Subscription Screen Active
+1984	Successfully connected {0} in sandbox mode.
+1985	Successfully dispatched signature copies to 3 recipients.
+1986	Successfully imported "{0}" from Dropbox.
+1987	Successfully imported "{0}" from Google Drive.
+1988	Successfully imported "{0}" from OneDrive.
+1989	Successfully loaded "{0}" configuration. Ready for final signing send!
+1990	Successfully loaded pre-validated sandbox email list.
+1991	Suffix
+1992	Summarizing part {0} of {1}
+1993	Summarizing with AI
+1994	Summary of {0}
+1995	Supabase Dashboard
+1996	Support
+1997	Support ticket submitted! 🎉
+1998	Swedish
+1999	Switch & Save 75% Now
+2000	Switch to
+2001	Switch to Dark Mode
+2002	Switch to Light Mode
+2003	Switching from signNow?
+2004	Sydney
+2005	TEAM ALLOCATION
+2006	TEMPLATE TITLE
+2007	TRUSTED BY 2,000,000+ USERS WORLDWIDE
+2008	TYPE YOUR FULL NAME
+2009	Take a Stripe deposit as part of signing
+2010	Take a photo
+2011	Take or upload at least one photo.
+2012	Tamil
+2013	Tamper Evidence Protection
+2014	Tamper-evident cryptoseal locked. PDF compiled successfully!
+2015	Tax & IRS
+2016	Tax & IRS Forms
+2017	Taxpayer Name
+2018	Taxpayer Signature
+2019	Taxpayer Signer
+2020	Teal Emerald
+2021	Teal emerald loaded.
+2022	Team Management
+2023	Team Workspaces
+2024	Team management
+2025	Telstra Enterprise
+2026	Template Deleted
+2027	Template Loaded
+2028	Template Properties
+2029	Template Saved Successfully
+2030	Template form loaded. Click Prepare Document to continue.
+2031	Template must have only one signer with preparer.
+2032	Templates
+2033	Templates & Forms
+2034	Templates Library
+2035	Templates Studio
+2036	Templates with signing links
+2037	Tenant Name
+2038	Terms and Conditions
+2039	Test Card Populated
+2040	Text
+2041	Text - list of added and removed lines
+2042	Text Box
+2043	Text Input Box
+2044	Text Label Tag
+2045	Text input field
+2046	Text multiline
+2047	Text to look for
+2048	Text to show
+2049	Thank you,
+2050	Thanksgiving
+2051	Thanksgiving offer: Business plan free for 6 months
+2052	Thanksgiving:
+2053	That code didn't work. Please try again or resend it.
+2054	That password is incorrect.
+2055	That promo code isn't valid.
+2056	The AI service failed ({0}).
+2057	The Smart Alternative for 2026
+2058	The Verdict
+2059	The active signatory blocks verified securely below signify dynamic, legally-binding cryptographic consent zones.
+2060	The authentication helper is still loading. Please try again.
+2061	The digital audit certificate is incredibly detailed. Geolocation IP tags provide full regulatory compliance.
+2062	The document is now legally finalized and certified. We've compiled the secure digital signatures and audit logs.
+2063	The document is saved, but the invitation emails couldn't be sent right now. Share each signer's own link with them in the meantime:
+2064	The document is very long, so only the first {0}k characters were summarized.
+2065	The document you're looking for doesn't exist.
+2066	The files have different page counts ({0} and {1}).
+2067	The list was cut off after {0} changed lines.
+2068	The page couldn't be rendered.
+2069	The parties involved mutually acknowledge and agree to comply with the legal conditions pre-configured within this signature pipeline layout. All associated records and data inputs will execute under strict compliance standards.
+2070	The passcode you entered is incorrect. Please try again.
+2071	The passwords don't match.
+2072	The sender has been told. Nobody else can sign this document now.
+2073	The sender is told right away
+2074	The sender is told, with your reason, and nobody else can sign this document. This can't be undone.
+2075	The signed PDF ends with a certificate listing every signer and event.
+2076	The text is identical.
+2077	The translation keeps the text and headings but not the original page layout, images or tables.
+2078	The whole document is already smaller than that size.
+2079	Their own link, no account and no app
+2080	Their turn
+2081	There are no pages left to save.
+2082	These values appear in signing email headers, document footers, and client-facing signing flows.
+2083	They go in every initials field that's yours.
+2084	This PDF has no bookmarks to split by.
+2085	This PDF has no form fields. Use Forms → Add new form fields to create some.
+2086	This PDF has no selectable text (it may be a scan). Run OCR first, or choose “Keep exact layout”.
+2087	This PDF has {0} fillable field{1} — click them to fill them in. Use Sign to add your signature.
+2088	This PDF is already protected. Unlock it first.
+2089	This PDF needs a password to open. Enter it above.
+2090	This PDF uses certificate-based protection, which can't be removed with a password.
+2091	This action is permanent and cannot be undone. This will delete the signature record from your database dashboard.
+2092	This digital workspace canvas serves as your formal transaction pipeline.
+2093	This document is protected with access credentials. Enter your passcode below to unlock the secure signing space.
+2094	This document is waiting on someone else.
+2095	This document outline serves as a visual framework for your reusable layout. Drag and drop signature panels and form fields on behalf of your designated signing roles. When users instantiate this template, these placeholders will transform into signature-ready input regions.
+2096	This document was already sent — saving creates an edited copy.
+2097	This email already has an active pending workspace invitation.
+2098	This email is already an active member of this workspace.
+2099	This is a sandbox mock. Simulating a document import...
+2100	This isn't a valid Excel workbook.
+2101	This person is already on the list.
+2102	This promo code has expired.
+2103	This promo code isn't active yet.
+2104	This signing link may be invalid or the document has been removed.
+2105	This transaction remains active under cryptoseal encryption inside EZSignNow. Downloaded receipts are certified under legally compliant electronic signature practices.
+2106	Those settings don't split the document into more than one file.
+2107	Thumb
+2108	Ticket #ESN-{0} created. We'll respond to {1} within 4 hours.
+2109	Ticket Received!
+2110	Times
+2111	Times New Roman
+2112	Title
+2113	To resolve, open your
+2114	To view and keep this document you need a device with a current web browser and a PDF reader. You can download a copy before and after you sign.
+2115	Today: Get Instant Access
+2116	Tokenizing card details via Stripe Elements (tok_sandbox)...
+2117	Tokenizing card details via Stripe Elements ({0})...
+2118	Tokyo
+2119	Tooltip (optional)
+2120	Top
+2121	Top Choice
+2122	Top center
+2123	Top left
+2124	Top right
+2125	Top to bottom, then across
+2126	Total Signatures
+2127	Track
+2128	Transaction committed successfully to local fallback ledger.
+2129	Translate PDF
+2130	Translate a PDF into another language, keeping headings and paragraphs.
+2131	Translate into
+2132	Translating to {0}
+2133	Treat the first row as a header and repeat it on every page
+2134	Trial Deactivated
+2135	Trial Reminder
+2136	Trim page edges — draw the area to keep, or remove white margins automatically.
+2137	Trust Services Criteria
+2138	Trust and compliance
+2139	Trusted Support · 4-Hour Response Guarantee
+2140	Trusted by modern firms
+2141	Try EZSignNow Free
+2142	Try every Business feature free for 7 days.
+2143	Try expanding your filters or search keywords.
+2144	Try expanding your search query.
+2145	Try it free
+2146	Try now
+2147	Turkish
+2148	Turn Excel spreadsheets (.xlsx) into easy-to-read PDF tables.
+2149	Turn PDFs into Markdown for notes, docs and LLMs - headings, lists and tables kept.
+2150	Turn PowerPoint slideshows (.pptx) into PDF, one slide per page.
+2151	Turn each page into a JPG or PNG image.
+2152	Turn each page into a slide (.pptx).
+2153	Turn photos and images (JPG, PNG, GIF, WebP) into a PDF.
+2154	Tutorials & Guides
+2155	Type
+2156	Type Calligraphy
+2157	Type Name
+2158	Type Your Name to Design Signature
+2159	Type details...
+2160	Type here
+2161	Type signature name...
+2162	Type the stamp text and pick a color.
+2163	Type your full name
+2164	Typical response time: under 4 hours on business days
+2165	UETA Compliant
+2166	US ESIGN Act of 2000
+2167	US State Laws
+2168	USD
+2169	Ukrainian
+2170	Under the federal Electronic Signatures in Global and National Commerce Act (ESIGN) of 2000 and the Uniform Electronic Transactions Act (UETA) in 49 states, electronic signatures carry the identical legal weight and enforceability as standard hand-written signatures in all civil and criminal courts.
+2171	Underline
+2172	Undo
+2173	Undo (Ctrl+Z)
+2174	Uniform Electronic Transactions Act (UETA)
+2175	Unique referral link copied to clipboard. Earn free requests!
+2176	United Kingdom
+2177	United States
+2178	Unknown
+2179	Unlike legacy systems with long support lines, our legal agents respond to support tickets in minutes via live chat.
+2180	Unlimited
+2181	Unlimited Requests
+2182	Unlimited documents
+2183	Unlimited reusable templates
+2184	Unlimited signature requests
+2185	Unlinked {0} integration from your account.
+2186	Unlock Document
+2187	Unlock PDF
+2188	Unlock Pro Features:
+2189	Unlocking {0}
+2190	Unsupported image
+2191	Untitled Document
+2192	Untitled Template
+2193	Up to 25 signers
+2194	Up to 25 signers, in the order they sign
+2195	Upgrade
+2196	Upgrade your legal signature pipelines, lock in bank-grade cryptographic certificates, and pay a fraction of standard bills.
+2197	Upload & Configure
+2198	Upload CSV
+2199	Upload Document
+2200	Upload File
+2201	Upload PDF documents to sign online in seconds. EZSignNow is the fastest, legally binding free e-signature tool complying with ESIGN, UETA, & eIDAS.
+2202	Upload PDF file
+2203	Upload a CSV of recipients and send the same document to everyone at once, each with their own copy.
+2204	Upload a PDF from your computer, Google Drive, OneDrive, Dropbox or Box. Add signers, then drop signature, initials, date, text, checkbox, dropdown and radio fields for each one.
+2205	Upload a PDF, then add signers and place their fields.
+2206	Upload and place fields
+2207	Upload any standard PDF contract directly from your device. Our secure systems prepare the document in milliseconds.
+2208	Upload failed
+2209	Upload image
+2210	Upload supporting document
+2211	Upload {0} file{1}
+2212	Upload, sign, done
+2213	Uploaded
+2214	Upon signing completion, EZSignNow locks the PDF document payload with a mathematical SHA-256 cryptographic hash seal. Any subsequent edit, page insertion, or content modification immediately breaks the seal, rendering the digital audit certificate void.
+2215	Use
+2216	Use Form
+2217	Use Form Template
+2218	Use Forms in the toolbar to add text fields, checkboxes, drop-downs, radio buttons and signature boxes.
+2219	Use Layout
+2220	Use camera
+2221	Use these initials
+2222	Use this signature
+2223	Use your mouse, trackpad or finger to sign above.
+2224	User
+2225	VERIFIED IP / GEO
+2226	VISA
+2227	Validating Stripe token on server-side webhook...
+2228	Validation Error
+2229	Validation Incomplete
+2230	Value
+2231	Verification failed
+2232	Verification required
+2233	Verified G2 Reviewer
+2234	Verify & Unlock Document
+2235	Verify email
+2236	Verify your email
+2237	Verifying secure credentials...
+2238	Verifying secure signing link...
+2239	Verizon Fios
+2240	Version
+2241	Vertically (left and right halves)
+2242	Vertically (upside down mirror)
+2243	Vetted and Aligned with
+2244	Via:
+2245	Vibrant Pink
+2246	Vibrant pink loaded.
+2247	Video 1: The 'Why Pay 4x More?' Hook Review (For Solo Practitioners & Realtors)
+2248	Video 2: The Security Deep-Dive (For Law Firms & Corporate Legal Teams)
+2249	Vietnamese
+2250	Viewer
+2251	Viewer (Read-only access)
+2252	Vikram Mehta, Solution Engineer
+2253	Visual - pages overlaid, differences in red and green
+2254	Visual Aesthetics
+2255	Voided
+2256	W-9 Form
+2257	W-9 Form (2026)
+2258	W-9 Form (Request for Taxpayer ID & Certification)
+2259	W-9 Form.pdf
+2260	W-9 Template Loaded
+2261	WORKSPACE NAME
+2262	WORKSPACE URL SLUG
+2263	Waiting
+2264	Waiting for others
+2265	Waiting for signatures
+2266	Waiting on
+2267	Watermark
+2268	Watermarking {0}
+2269	We couldn't find any documents matching your active search filters.
+2270	We leverage bank-grade infrastructures, millisecond geo-audits, and decentralized cryptography to keep document pipelines secure.
+2271	We prioritize bank-grade security. All uploaded PDF contracts are stored securely inside private, isolated Supabase storage buckets. All data transfer is encrypted using advanced SSL/TLS encryption, ensuring that only authenticated document owners and assigned signers can ever view the contents.
+2272	We satisfy all key global parameters for medical, legal, and banking privacy mandates. Documents are fully sealed in transition and rest securely within your local sovereign partitions.
+2273	We switched from DocuSign and cut our software costs by 60% while contract execution speeds actually improved!
+2274	We treat your legal documents with absolute isolation. All PDF contracts are stored inside private, securely structured Supabase storage buckets protected by advanced row-level security (RLS) policies.
+2275	We'll send you an email/notification 3 days before billing. Cancel anytime.
+2276	We've sent a 6-digit code to {0}.
+2277	We've sent a confirmation to
+2278	We've sent a verification link to
+2279	Web address
+2280	Welcome Securely Verified
+2281	Welcome back!
+2282	Welcome to EZSignNow Pro. Unlimited signature requests active!
+2283	Welcome to EZSignNow!
+2284	Welcome to EZSignNow.
+2285	When a signatory places a signature, EZSignNow queries global geolocation APIs to capture their public IP address and physical city/country location. This data, alongside precise millisecond timestamps, is embedded directly inside the PDF in an elegant, certified certificate block underneath the signature.
+2286	When the last person signs, signers, copy recipients and you are emailed. The PDF has every signature in place and a completion certificate with the audit trail.
+2287	White
+2288	White margins will be detected separately on each page.
+2289	Whiteout
+2290	Why are you declining?
+2291	Why is EZSignNow cheaper than signNow?
+2292	Why legal agencies are dumping signNow in 2026
+2293	Why pay
+2294	Why pay $20/mo per user for signNow? Switch to EZSignNow for just $5/mo. Get unlimited document envelopes, custom branding, and legal-grade digital certificates.
+2295	Why pay $20/mo? Switch from signNow to EZSignNow for just $5/mo with unlimited envelopes!
+2296	Why rebuild basic templates? Search through our directory of standard IRS tax documents, NDAs, rental leases, and HR consulting agreements. Preview them instantly and send them to clients with secure geolocation auditing.
+2297	Wide sheets
+2298	Widget
+2299	Width
+2300	Windows Desktop (Chrome)
+2301	Witness Signatures
+2302	Word (.docx)
+2303	Word to PDF
+2304	Workflow name
+2305	Workflows
+2306	Workspace
+2307	Workspace Branding Reset
+2308	Workspace Invite Dispatched
+2309	Workspace Logo
+2310	Workspace Profile
+2311	Workspace Profile Applied
+2312	Workspace Saved
+2313	Workspace details updated to "{0}" ({1})
+2314	Workspace name and URL slug are required.
+2315	Workspace profile updated successfully. (Sandbox Mode)
+2316	Write the summary in
+2317	Writing file {0} of {1}
+2318	Written by AI
+2319	YEARLY RETAINED CAPITAL
+2320	Yes! All templates in our Forms Library (including IRS W-9s, NDAs, and Lease Agreements) can be previewed, edited, and sent for electronic signature completely free.
+2321	Yes, absolutely. EZSignNow meets all conditions specified by the US Electronic Signatures in Global and National Commerce (ESIGN) Act, the Uniform Electronic Transactions Act (UETA), and European eIDAS regulations. Every transaction produces a legally binding document.
+2322	Yes, our layout importer recreates all your signNow templates automatically in under 5 minutes, saving hours of manual field setup.
+2323	Yes, signatures captured on EZSignNow comply fully with the US ESIGN Act of 2000 and the Uniform Electronic Transactions Act (UETA). They hold the identical legal standing, weight, and enforceability as standard ink signatures.
+2324	Yes, with our Business Enterprise plan, you can save custom signature field overlays as team templates. This enables any team member to send standard contracts in one click without manually placing the fields every time.
+2325	Yes, you can cancel anytime from Dashboard → Settings → Billing. Your plan remains active until the end of the current billing cycle, and you'll never be charged again after cancellation.
+2326	Yes. All documents signed through EZSignNow are fully compliant with the U.S. ESIGN Act and UETA, as well as EU eIDAS regulations. Each document receives a tamper-evident SHA-256 seal with timestamp and geolocation.
+2327	Yes/No checkbox
+2328	You
+2329	You agree to receive this document and sign it electronically. Your electronic signature has the same effect as a handwritten one.
+2330	You are currently on the plan activation form.
+2331	You can ask the sender for a paper copy, and you can withdraw this consent before you sign by declining to sign.
+2332	You can cancel anytime before the free trial ends to avoid being billed.
+2333	You can't delete every page.
+2334	You declined to sign
+2335	You have a 7-day Free Business Trial.
+2336	You have been invited to sign
+2337	You have been invited to sign a document.
+2338	You haven't added any signers. You must add at least one signer to send.
+2339	You successfully created your free account.
+2340	You will be billed for the Business monthly plan ($5/month) on
+2341	You're receiving a copy of this document. Nothing for you to sign.
+2342	You've signed,
+2343	You've successfully signed in.
+2344	YouTube Comparison Review Scripts
+2345	Your Free Sandbox account is limited to
+2346	Your Full Name
+2347	Your Name
+2348	Your Signature
+2349	Your Title
+2350	Your Total Capital Retained
+2351	Your account is ready.
+2352	Your brand colors, logo and copy have been applied across all signing flows!
+2353	Your certified document and audit trail cover page have been downloaded successfully.
+2354	Your company logo
+2355	Your designed signature has been saved and is ready to load on your very first document!
+2356	Your electronic signature has been certified & secured!
+2357	Your email address will pre-activate your 14-day premium Pro trial.
+2358	Your fields (
+2359	Your file is ready.
+2360	Your plan
+2361	Your profile name, email, and signing font have been saved.
+2362	Your session is authenticated. You can now execute this document.
+2363	Your shareable web form is now active and ready for links!
+2364	Your signature has been recorded. We'll email you the finished document when everyone has signed.
+2365	Your signature preview appears here
+2366	Your trial lasts {0}. No charges will be incurred if cancelled.
+2367	Your unique referral link has been copied to clipboard!
+2368	Your {0} plan is free for {1} months.
+2369	Your {0} plan is free for {1} months. Press start to continue.
+2370	Youtube GTM Scripts Playbook
+2371	ZIP CODE
+2372	Zoom in
+2373	Zoom out
+2374	a file
+2375	a {0} file
+2376	an image
+2377	and consent to conduct this transaction electronically.
+2378	attached files
+2379	can't preview
+2380	declined to sign.
+2381	directly.
+2382	e.g. 1, last
+2383	e.g. ABC-
+2384	e.g. Acme Corp Workspace
+2385	e.g. Alexander Pierce
+2386	e.g. Guest Release Form
+2387	e.g. Invoice No.
+2388	e.g. John Doe
+2389	e.g. Mutual NDA
+2390	eIDAS Compliance Standards
+2391	eIDAS Compliant
+2392	encode failed
+2393	ez/ws/
+2394	ezsignnow vs signNow: The Head-to-Head Feature Showdown
+2395	ezsignnow vs signNow: The Smart, Cheap $5/mo Alternative
+2396	files.
+2397	for basic document signing? Switch your legal templates to EZSignNow for just
+2398	for just $5/mo with unlimited envelopes!
+2399	h-8 w-8 rounded-md border text-sm {0}
+2400	items selected
+2401	months free
+2402	months with code
+2403	months. Use code
+2404	no pages found
+2405	no visible change
+2406	of 3
+2407	one stop solution for digital Signature
+2408	or drop
+2409	or drop a PDF here
+2410	or email
+2411	or start with a blank document
+2412	original p. {0}
+2413	pages were converted to images as requested
+2414	recipients parsed
+2415	revised p. {0}
+2416	s are
+2417	sRGB IEC61966-2.1
+2418	signNow Cost
+2419	signNow Pricing
+2420	signature requests this month
+2421	signers.
+2422	the original
+2423	the revised file
+2424	this month.
+2425	to enabled, and insert your Client credentials.
+2426	to sign.
+2427	useAuth must be used within an AuthProvider
+2428	waiting. Kiosk mode hands this screen from signer to signer.
+2429	with unlimited envelopes, secure passcodes, and direct Stripe payments.
+2430	{0} (Self-Signed)
+2431	{0} (edited)
+2432	{0} ({1}) agreed to use electronic records and signatures (disclosure {2}).
+2433	{0} ({1}) declined to sign. Reason: {2}
+2434	{0} ({1}) signed the document.
+2435	{0} - Alice Vance
+2436	{0} - Bob Vance
+2437	{0} - Charles Vance
+2438	{0} A basic automatic extract was used instead — it picks key sentences rather than rewriting them.
+2439	{0} Connected
+2440	{0} Copy each signer's link to invite them in the meantime.
+2441	{0} Disconnected
+2442	{0} Mode Enabled
+2443	{0} Use Options → Copy Direct Sign Link to share manually in the meantime.
+2444	{0} applied
+2445	{0} applied. Your {1} plan is free until {2}.
+2446	{0} automatic action(s)
+2447	{0} cell(s) were too wide for their column and are shown cut off with “…”. Choose “Fit all columns on the page” off, or a larger page, to give columns more room.
+2448	{0} character(s) outside the Latin alphabet were shown as “?”.
+2449	{0} character(s) outside the Latin alphabet were shown as “?”. Slides with other scripts are best exported from PowerPoint.
+2450	{0} chart(s) can't be drawn yet and were left out.
+2451	{0} couldn't be read as an image.
+2452	{0} days
+2453	{0} didn't produce a PDF.
+2454	{0} files are ready.
+2455	{0} font(s) aren't stored in the file, so pages were converted to images to meet the standard
+2456	{0} has been revoked from the workspace.
+2457	{0} has no data to convert.
+2458	{0} has no selectable text to summarize. Run OCR on it first.
+2459	{0} has no selectable text to translate. Run OCR on it first.
+2460	{0} has no selectable text, so everything is reported as different. Run OCR on it, or use the Visual comparison.
+2461	{0} has no selectable text. Run OCR on it first.
+2462	{0} is already well optimised — it couldn't be made smaller at this level. Try a stronger setting.
+2463	{0} is now a {1}.
+2464	{0} is too long to translate in one go ({1}k characters). Split it into parts first.
+2465	{0} isn't a .docx file. Older .doc files must be saved as .docx in Word first.
+2466	{0} isn't a valid PowerPoint file.
+2467	{0} isn't a valid {1} file. Older formats must be saved in the newer format ({2}) first.
+2468	{0} isn't password-protected.
+2469	{0} line(s) removed, {1} line(s) added.
+2470	{0} line{1} removed, {2} line{3} added, {4} unchanged.
+2471	{0} months
+2472	{0} more will be invited when it's their turn.
+2473	{0} of {1} page{2} look different. Red = only in the original, green = only in the revised file, grey = unchanged.
+2474	{0} of {1} signed
+2475	{0} page{1} · {2}
+2476	{0} picture(s) in a format PDF can't hold directly (such as EMF, SVG or GIF) were left out.
+2477	{0} plan free for {1} months, then $5/month
+2478	{0} required field{1} left
+2479	{0} script(s)
+2480	{0}% of the page changed
+2481	{0}'s field
+2482	{0}-day free trial, then $5/month
+2483	{0}: no new text was added (pages already contain text, or no text was recognised).
+2484	{0}: no tilted pages were found.
+2485	{0}: recognised {1} words — the text is now searchable and selectable.
+2486	{0}: removed {1} because PDF/A doesn't allow them.
+2487	{0}: step {1}
+2488	{0}: step {1} of {2} — {3}
+2489	{0}: straightened {1} page{2}.
+2490	{0}: {1} font(s) aren't embedded; strict validators will reject this. Use “Convert pages to images” for a guaranteed result.
+2491	{0}: {1}. Text is no longer selectable — run OCR afterwards if you need that.
+2492	© 2026 EZSignNow | Terms and Conditions
+2493	· Thanksgiving offer · first charge
+2494	· add options
+2495	· file {0} p{1}
+2496	— at least {0} needed
+2497	“{0}” wasn't found in the document.
+2498	← Back to Articles
+2499	✅ Signature recorded!
+2500	✅ Workspace Branding Saved
+2501	✨ Ready to Finalize
+2502	🌟 Bulk Send Successful!
+2503	🌟 Business Trial Active. You have 7 days remaining on your trial.
+2504	🎉 Document Execution Finalized
+2505	🎉 Document Execution Secured
+2506	🎉 Document fully signed!
+2507	🔑 Code: {0}
+2508	🔒 Note: Use Stripe test card details (starts with
+2509	🔴 Urgent — Business blocked
+2510	🟠 High — Affecting my workflow
+2511	🟡 Normal — Need help soon
+2512	🟢 Low — General question
+2513	. Click each highlighted field to fill it in.
+2514	. Offer ends
+2515	. Our team will review your query and respond shortly.
+2516	. Please verify your details below to unlock your personalized document.
+2517	. We'll email you a link as soon as the people before you have signed.
+2518	. We'll email you the finished document when everyone has signed.
+2519	. You have already created
+2520	. Your electronic signature was securely recorded and appended to the document ledger.
+2521	/ mo
+2522	/ sender / month
+2523	/mo per user
+2524	Aligned
+2525	Compliant
+2526	Digital signatures
+2527	How it works
+2528	Pending
+2529	Template Portal
+2530	Three steps from a PDF on your desktop to a signed agreement everyone has a copy of.
+2531	digital signature blog, e-signature guide, how to sign PDF, legal tech compliance, signNow migration, ezsignnow blog
+2532	e-signature compliance, legally binding digital signature, ESIGN Act compliance, UETA digital signature, secure electronic contract, court admissible e-signature
+2533	electronic signature, free e-signature, sign PDF online, digital signature, sign documents, online contract signature, e-sign tools
+2534	free signable forms, IRS W-9 online, signable NDA template, lease contract electronic signature, free PDF templates, e-sign W-9 form
+2535	signNow alternative, signNow competitor, cheap e-signature, signNow vs ezsignnow, free electronic signature templates
+2536	xMidYMid meet
+2537	Features

@@ -78,7 +78,7 @@ export function BrandLogo({
       )}
 
       {/* Brand Text Stack */}
-      <div className="flex flex-col text-left justify-center">
+      <div className="flex flex-col text-start justify-center">
         {/* Wordmark: "EZSign" in ink, "Now" in brand green */}
         <div className="flex items-baseline leading-none font-heading">
           <span className={`text-xl font-extrabold tracking-tight transition-colors ${variant === "dark" ? "text-white" : "text-slate-900 dark:text-white"}`}>

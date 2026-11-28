@@ -1,0 +1,91 @@
+/**
+ * English strings. This is the source dictionary: every other locale must have the same keys
+ * (the type check and src/test/i18n.test.ts both enforce it). `{name}` placeholders are filled in by t().
+ */
+const en = {
+  "lang.label": "Language",
+  "lang.world": "World languages",
+  "lang.indian": "Indian languages",
+
+  "nav.forms": "Forms Library",
+  "nav.compare": "signNow Alternative",
+  "nav.security": "Security",
+  "nav.resources": "Resources",
+  "nav.dashboard": "Dashboard",
+  "nav.signIn": "Sign In",
+  "nav.signOut": "Sign Out",
+  "nav.getStarted": "Get Started",
+
+  "side.signatures": "Signatures",
+  "side.home": "Home",
+  "side.documents": "Documents",
+  "side.templates": "Templates",
+  "side.pdf": "PDF",
+  "side.editPdf": "Edit PDF",
+  "side.pdfTools": "PDF tools",
+  "side.account": "Account",
+  "side.settings": "Settings",
+  "side.newDocument": "New document",
+  "side.help": "Help and support",
+
+  "dash.sign": "Sign",
+  "dash.forms": "Forms",
+  "dash.team": "Team",
+  "dash.company": "Company",
+  "dash.integrations": "Integrations",
+  "dash.completed": "Completed",
+  "dash.awaiting": "Awaiting Signature",
+  "dash.voided": "Voided",
+  "dash.draft": "Draft",
+  "dash.received": "Received",
+  "dash.trash": "Trash",
+
+  "footer.tagline": "Send, sign and keep agreements, with an audit trail on every one.",
+  "footer.product": "Product",
+  "footer.features": "Features",
+  "footer.pricing": "Pricing",
+  "footer.pdfEditor": "PDF editor",
+  "footer.compare": "Compare",
+  "footer.vs": "EZSignNow vs signNow",
+  "footer.about": "About",
+  "footer.blog": "Blog",
+  "footer.support": "Support",
+  "footer.createAccount": "Create account",
+  "footer.rights": "All rights reserved.",
+  "footer.legal": "Legally binding e-signatures under ESIGN, UETA and eIDAS.",
+
+  "hero.badge": "Legally binding under ESIGN, UETA and eIDAS",
+  "hero.title1": "Get documents signed,",
+  "hero.title2": "in order and on record.",
+  "hero.subtitle":
+    "Upload a PDF, place fields for each signer, and send. Signers sign from any device without an account, and you keep the signed copy with its audit certificate.",
+  "hero.workEmail": "Work email",
+  "hero.startFree": "Start free",
+  "hero.point1": "No account needed to sign",
+  "hero.point2": "Up to 25 signers, in order or at once",
+  "hero.point3": "Audit trail and completion certificate",
+  "hero.point4": "PDF tools and editor included",
+  "hero.slideSignature": "Digital Signature",
+  "hero.slideTools": "All Tools",
+  "hero.toolsTitle1": "Every tool you need to",
+  "hero.toolsTitle2": "get documents signed.",
+  "hero.toolsSubtitle": "Legally binding digital signatures, plus everything around them. All in one place, all online.",
+
+  "auth.signInTitle": "Sign in to account",
+  "auth.signUpTitle": "Create free account",
+  "auth.name": "Name",
+  "auth.fullName": "Full Name",
+  "auth.email": "Email Address",
+  "auth.password": "Password",
+  "auth.forgot": "Forgot password?",
+  "auth.robot": "I'm not a robot",
+  "auth.or": "OR",
+  "auth.googleSignIn": "Sign In with Google",
+  "auth.googleSignUp": "Sign Up with Google",
+  "auth.stepCreate": "Create an account",
+  "auth.stepActivate": "Activate your trial",
+};
+
+export type Dictionary = typeof en;
+export type TranslationKey = keyof Dictionary;
+export default en;
