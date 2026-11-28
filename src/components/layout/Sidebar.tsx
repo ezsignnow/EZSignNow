@@ -15,7 +15,13 @@ import {
   faLifeRing,
 } from "@fortawesome/free-solid-svg-icons";
 
-export function Sidebar() {
+interface SidebarProps {
+  /** Phones only: whether the drawer is showing. From md up the sidebar is always visible. */
+  open?: boolean;
+  onClose?: () => void;
+}
+
+export function Sidebar({ open = false, onClose }: SidebarProps) {
   const { user, signOut } = useAuth();
   const location = useLocation();
   const [searchParams] = useSearchParams();
@@ -54,7 +60,15 @@ export function Sidebar() {
   const name = user?.email?.split("@")[0] || "You";
 
   return (
-    <aside className="fixed start-0 top-0 flex h-screen w-64 flex-col border-e border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
+    <>
+    {open && (
+      <div className="fixed inset-0 z-40 bg-slate-900/40 md:hidden" onClick={onClose} aria-hidden="true" data-testid="sidebar-backdrop" />
+    )}
+    <aside
+      className={`fixed start-0 top-0 z-50 flex h-screen w-64 flex-col border-e border-slate-200 bg-white transition-transform dark:border-slate-800 dark:bg-slate-950 md:z-auto md:translate-x-0 md:rtl:translate-x-0 ${
+        open ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
+      }`}
+    >
       <div className="flex h-16 items-center border-b border-slate-100 px-5 dark:border-slate-800">
         <Link to="/dashboard" aria-label="EZSignNow dashboard">
           <BrandLogo subtitle="Digital signatures" />
@@ -132,5 +146,6 @@ export function Sidebar() {
         </div>
       </div>
     </aside>
+    </>
   );
 }

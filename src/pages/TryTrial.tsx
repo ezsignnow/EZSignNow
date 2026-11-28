@@ -255,10 +255,10 @@ export default function TryTrial() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fbfcfd] antialiased">
       {/* Header matching Signaturely */}
-      <header className="border-b border-slate-100 bg-white px-6 py-4 flex items-center justify-between shadow-[0_1px_2px_rgba(0,0,0,0.015)] shrink-0">
-        <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
+      <header className="border-b border-slate-100 bg-white px-4 sm:px-6 py-4 flex items-center justify-between gap-3 shadow-[0_1px_2px_rgba(0,0,0,0.015)] shrink-0">
+        <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" subtitleClassName="hidden sm:block" />
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 font-semibold select-none">
             <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-[11px] font-bold">
               0 of 3
@@ -267,7 +267,7 @@ export default function TryTrial() {
           </div>
 
           <Button 
-            className="rounded-full h-[34px] px-5 border-[#73c41d] text-[#73c41d] bg-white border-[1.5px] hover:bg-[#73c41d]/5 font-bold text-xs shadow-sm transition-all cursor-not-allowed"
+            className="hidden sm:inline-flex rounded-full h-[34px] px-5 border-[#73c41d] text-[#73c41d] bg-white border-[1.5px] hover:bg-[#73c41d]/5 font-bold text-xs shadow-sm transition-all cursor-not-allowed"
             disabled
           >
             Upgrade

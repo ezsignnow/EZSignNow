@@ -55,7 +55,8 @@ const App = () => (
             <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
             <Route path="/upload" element={<AppLayout><Upload /></AppLayout>} />
             <Route path="/document/:id/prepare" element={<AppLayout><PrepareDocument /></AppLayout>} />
-            <Route path="/document/:id/view" element={<AppLayout><ViewDocument /></AppLayout>} />
+            {/* Signing links in emails open this page, and signers often have no account. */}
+            <Route path="/document/:id/view" element={<AppLayout requireAuth={false}><ViewDocument /></AppLayout>} />
             <Route path="/document/:id/edit" element={<AppLayout><PdfEditor /></AppLayout>} />
             <Route path="/edit" element={<AppLayout><PdfEditor /></AppLayout>} />
             <Route path="/tools" element={<AppLayout><PdfTools /></AppLayout>} />

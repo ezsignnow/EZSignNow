@@ -125,7 +125,7 @@ export default function Security() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
+                  className={`flex items-center gap-1.5 px-3 sm:px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
                     activeTab === tab.id 
                       ? "bg-primary text-white shadow" 
                       : "text-muted-foreground hover:text-foreground"
