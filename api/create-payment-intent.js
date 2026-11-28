@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { applyCors } from "./_lib/cors.js";
+import { parsePaymentIntentRequest } from "./_lib/paymentIntent.js";
 
 const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -11,17 +12,19 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
-    const { amount, currency } = req.body || {};
+  const parsed = parsePaymentIntentRequest(req.body);
+  if (parsed.error) return res.status(400).json({ error: parsed.error });
 
+  try {
     const paymentIntent = await stripeClient.paymentIntents.create({
-      amount: amount || 1000, // Default to $10.00 if not provided
-      currency: currency || "usd",
+      amount: parsed.amount,
+      currency: parsed.currency,
     });
 
     res.json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
+    // Stripe errors can name account settings and keys; keep them in the logs.
     console.error("Error creating payment intent:", error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Couldn't start the payment. Please try again." });
   }
 }

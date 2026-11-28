@@ -342,10 +342,10 @@ export default function TemplateBuilder() {
   return (
     <div className="min-h-screen flex flex-col bg-[#fcfdfe] antialiased">
       {/* Header bar matching Signaturely */}
-      <header className="border-b border-slate-100 bg-white px-6 py-4 flex items-center justify-between shadow-[0_1px_2px_rgba(0,0,0,0.02)] shrink-0 transition-colors">
-        <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" />
+      <header className="border-b border-slate-100 bg-white px-4 sm:px-6 py-4 flex items-center justify-between gap-3 shadow-[0_1px_2px_rgba(0,0,0,0.02)] shrink-0 transition-colors">
+        <BrandLogo onClick={() => navigate("/dashboard")} className="cursor-pointer" subtitleClassName="hidden sm:block" />
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <div className="hidden md:flex items-center gap-2 text-xs text-slate-500 font-semibold select-none">
             <span className="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-[11px] font-bold">
               Premium
